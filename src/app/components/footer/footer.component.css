@@ -1,0 +1,9 @@
+section {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;  
+    border-top: 1px solid #252525;
+}
