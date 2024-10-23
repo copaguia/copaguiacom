@@ -8,6 +8,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { provideIonicAngular } from '@ionic/angular/standalone';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }), 
@@ -16,5 +17,5 @@ export const appConfig: ApplicationConfig = {
     provideAuth(() => getAuth()), 
     provideAnalytics(() => getAnalytics()), ScreenTrackingService, UserTrackingService, 
     provideFirestore(() => getFirestore()), 
-    provideStorage(() => getStorage()), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync()]
+    provideStorage(() => getStorage()), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideAnimationsAsync(), provideIonicAngular({})]
 };
