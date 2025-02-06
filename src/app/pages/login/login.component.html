@@ -1,0 +1,58 @@
+<div class="login-container">
+    <h2>Iniciar Sesión</h2>
+    
+    <form [formGroup]="phoneForm" (ngSubmit)="onSubmitPhone()" *ngIf="!showVerification">
+      <div class="form-group">
+        <label for="phone">Número de Teléfono:</label>
+        <div class="phone-input">
+          <span class="prefix">+52</span>
+          <input 
+            type="tel" 
+            id="phone" 
+            formControlName="phone"
+            placeholder="1234567890"
+            maxlength="10"
+            [class.error]="phoneForm.get('phone')?.touched && phoneForm.get('phone')?.invalid"
+          >
+        </div>
+        <div class="error-message" *ngIf="phoneForm.get('phone')?.touched && phoneForm.get('phone')?.invalid">
+          Ingresa un número de teléfono válido (10 dígitos)
+        </div>
+      </div>
+
+      <div id="recaptcha-container"></div>
+
+      <button type="submit" [disabled]="phoneForm.invalid || isLoading">
+        {{ isLoading ? 'Enviando código...' : 'Enviar código SMS' }}
+      </button>
+    </form>
+
+    <form [formGroup]="verificationForm" (ngSubmit)="onSubmitCode()" *ngIf="showVerification">
+      <div class="form-group">
+        <label for="code">Código de verificación:</label>
+        <input 
+          type="text" 
+          id="code" 
+          formControlName="code"
+          placeholder="123456"
+          maxlength="6"
+          [class.error]="verificationForm.get('code')?.touched && verificationForm.get('code')?.invalid"
+        >
+        <div class="error-message" *ngIf="verificationForm.get('code')?.touched && verificationForm.get('code')?.invalid">
+          Ingresa el código de 6 dígitos
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="verificationForm.invalid || isLoading">
+        {{ isLoading ? 'Verificando...' : 'Verificar código' }}
+      </button>
+
+      <button type="button" class="secondary" (click)="showVerification = false">
+        Cambiar número
+      </button>
+    </form>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+  </div>

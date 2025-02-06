@@ -4,11 +4,21 @@ import { RegistarNegociosComponent } from './pages/registar-negocios/registar-ne
 import { IntroComponent } from './pages/intro/intro.component';
 import { ContactoComponent } from './pages/contacto/contacto.component';
 import { NavegacionComponent } from './pages/navegacion/navegacion.component';
+import { LoginComponent } from './pages/login/login.component';
 
 
 export const routes: Routes = [
+
+    { path: 'login', component: LoginComponent },
+    
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+
     {
-        path: '', component: IntroComponent
+        path: 'intro', component: IntroComponent
+    },
+
+    {
+        path: '', component: LoginComponent
     },
 
     {
@@ -21,7 +31,8 @@ export const routes: Routes = [
     },
 
     {
-        path:'nav', component: NavMenuComponent
+        path:'nav', component: NavMenuComponent,
+        //canActivate: [authGuard]
     },
     
     {
