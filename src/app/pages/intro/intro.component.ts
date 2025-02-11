@@ -4,11 +4,10 @@ import { RouterLink } from '@angular/router';
 import { FooterComponent } from '../../components/footer/footer.component';
 
 @Component({
-  selector: 'app-intro',
-  standalone: true,
-  imports: [MaterialModule, RouterLink, FooterComponent],
-  templateUrl: './intro.component.html',
-  styleUrl: './intro.component.css'
+    selector: 'app-intro',
+    imports: [MaterialModule, RouterLink, FooterComponent],
+    templateUrl: './intro.component.html',
+    styleUrl: './intro.component.css'
 })
 export class IntroComponent {
 

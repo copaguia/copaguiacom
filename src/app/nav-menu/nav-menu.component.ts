@@ -13,18 +13,17 @@ import { Firestore, collection, collectionData } from '@angular/fire/firestore';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-nav-menu',
-  templateUrl: './nav-menu.component.html',
-  styleUrl: './nav-menu.component.css',
-  standalone: true,
-  imports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe, RouterLink,RouterOutlet
-  ]
+    selector: 'app-nav-menu',
+    templateUrl: './nav-menu.component.html',
+    styleUrl: './nav-menu.component.css',
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe, RouterLink, RouterOutlet
+    ]
 })
 export class NavMenuComponent {
 
