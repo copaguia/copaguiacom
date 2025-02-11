@@ -4,16 +4,16 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar>Negocios</mat-toolbar>
     <mat-nav-list>
-      @for (categoria of categoria$ | async; track categoria.id) {
-        <a mat-list-item routerLink="{{categoria.path}}">{{categoria.nombre}}</a>
+      @for (item of categorias(); track $index) {
+        <a mat-list-item routerLink="{{ item.ruta }}">{{ item.nombre }}</a>
       }
       
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content class="container">
     <mat-toolbar color="primary">
       @if (isHandset$ | async) {
         <button
@@ -24,9 +24,11 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <span>myapp</span>
+      <span>Copaguia</span>
     </mat-toolbar>
     <!-- Add Content Here -->
+
+    <h5>navegacion</h5>
     <router-outlet />
   </mat-sidenav-content>
 

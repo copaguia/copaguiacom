@@ -1,14 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
-import { CardRComponent } from '../../components/card-r/card-r.component';
-import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/angular/standalone';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CategoriaInterface } from '../../interfaces/categoria-interface';
+import { botonesData } from '../../staticData/botonesData';
 
 @Component({
     selector: 'app-navegacion',
-    imports: [MaterialModule, CardRComponent],
+    imports: [ MaterialModule, RouterLink, RouterOutlet ],
     templateUrl: './navegacion.component.html',
     styleUrl: './navegacion.component.css'
 })
 export class NavegacionComponent {
+
+    categorias = signal<CategoriaInterface[]>([]);
+
+    constructor () {
+        const botonesCategorias = botonesData;
+        this.categorias.set(botonesCategorias);
+    }
 
 }
