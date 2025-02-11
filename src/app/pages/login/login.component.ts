@@ -7,6 +7,13 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import { environment } from '../../../environments/environment.development';
 
+
+// Es necesario habilitar API ReCaptCHA en google cloud
+//https://console.cloud.google.com/marketplace/product/google/recaptchaenterprise.googleapis.com?q=search&referrer=search&project=copaguia-53f7f
+
+
+// Clave API: AIzaSyAexR8t55jJ519Hrlo0JzLyqtigZ58_oIE
+
 @Component({
   selector: 'app-login',
   standalone: true,

@@ -11,15 +11,13 @@ export const routes: Routes = [
 
     { path: 'login', component: LoginComponent },
     
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: '', redirectTo: '/intro', pathMatch: 'full' },
 
     {
         path: 'intro', component: IntroComponent
     },
 
-    {
-        path: '', component: LoginComponent
-    },
+    
 
     {
         path: 'registro', component: RegistarNegociosComponent
@@ -41,6 +39,7 @@ export const routes: Routes = [
     {
         path: '', component: NavMenuComponent,
         children: [
+
         ]
     }
 ];
