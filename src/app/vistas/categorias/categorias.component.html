@@ -1,0 +1,32 @@
+<mat-toolbar>
+    <span>CATEGORIAS</span>
+  </mat-toolbar>
+  <mat-divider></mat-divider>
+
+  <mat-tab-group fitInkBarToContent>
+    <mat-tab label="Alimentos">
+      <h2>alimentos</h2>
+    </mat-tab>  
+
+    <mat-tab label="Servicios">
+      aqui
+    </mat-tab>
+
+    <mat-tab label="Alimentos">
+      <h2>alimentos</h2>
+    </mat-tab>  
+  </mat-tab-group>
+ 
+  
+
+<mat-grid-list cols="2" rowHeight="3,5:1">
+    @for (item of categorias(); track $index) {
+    <mat-grid-tile>        
+        <app-btn-categoria [conector]="item"></app-btn-categoria>
+    </mat-grid-tile>
+}    
+</mat-grid-list>
+  
+
+
+

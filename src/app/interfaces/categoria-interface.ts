@@ -1,5 +1,10 @@
 export interface CategoriaInterface {
-    icono: string;
+    nombre: string;
+    seccion?: SeccionInterface[];
+}
+
+export interface SeccionInterface {
     nombre: string;
     ruta: string;
+    icono: string;
 }

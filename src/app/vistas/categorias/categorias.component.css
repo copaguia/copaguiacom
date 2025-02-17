@@ -1,0 +1,11 @@
+mat-toolbar {
+    display: flex;
+    justify-content: center; /* Horizontally center content */
+    align-items: center;     /* Vertically center content (if needed) */
+  }
+
+  
+  span {
+    font-size: xx-large;
+    color: aqua;
+  }

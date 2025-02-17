@@ -63,6 +63,13 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+
+          "options": {
+            "headers": {
+              "Cross-Origin-Opener-Policy": "unsafe-none",
+              "Cross-Origin-Embedder-Policy": "unsafe-none"
+            }
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {

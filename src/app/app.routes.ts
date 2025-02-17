@@ -1,13 +1,17 @@
 import { Routes } from '@angular/router';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { RegistarNegociosComponent } from './pages/registar-negocios/registar-negocios.component';
-import { IntroComponent } from './pages/intro/intro.component';
-import { ContactoComponent } from './pages/contacto/contacto.component';
-import { NavegacionComponent } from './pages/navegacion/navegacion.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './vistas/login/login.component';
+import { IntroComponent } from './vistas/intro/intro.component';
+import { RegistarNegociosComponent } from './vistas/registar-negocios/registar-negocios.component';
+import { ContactoComponent } from './vistas/contacto/contacto.component';
+import { NavegacionComponent } from './vistas/navegacion/navegacion.component';
+import { LoginGComponent } from './login-g/login-g.component';
+import { CategoriasComponent } from './vistas/categorias/categorias.component';
 
 
 export const routes: Routes = [
+    
+    { path: 'loginG', component: LoginGComponent },
 
     { path: 'login', component: LoginComponent },
     
@@ -41,5 +45,8 @@ export const routes: Routes = [
         children: [
 
         ]
-    }
+    },
+    {
+        path:'categorias', component: CategoriasComponent
+    },
 ];

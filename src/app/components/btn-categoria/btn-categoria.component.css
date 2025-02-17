@@ -1,0 +1,18 @@
+img {
+    border-radius: 10px;
+}
+
+mat-icon {
+    width: 40px;
+    height: auto;
+}
+
+a {
+    
+    width: 190px;
+    font-size: large;
+    letter-spacing: 0.2px;
+    display: flex;
+    justify-content: left;
+}
+
