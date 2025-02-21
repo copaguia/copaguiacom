@@ -7,7 +7,7 @@
     <mat-toolbar>Negocios</mat-toolbar>
     <mat-nav-list>
       @for (item of categorias(); track $index) {
-        <a mat-list-item routerLink="{{ item.ruta }}">{{ item.nombre }}</a>
+        <a mat-list-item routerLink="{{ item.nombreCategoria }}">{{ item.nombreCategoria }}</a>
       }
       
     </mat-nav-list>

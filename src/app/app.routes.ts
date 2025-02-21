@@ -48,5 +48,5 @@ export const routes: Routes = [
     },
     {
         path:'categorias', component: CategoriasComponent
-    },
+    }
 ];

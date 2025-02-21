@@ -9,8 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { CategoriaInterface } from '../interfaces/categoria-interface';
-import { categoriaData } from '../staticData/categoriasData';
+import { CategoriasInterface, categoriaData } from '../data/categoriasData';
 
 @Component({
     selector: 'app-nav-menu',
@@ -27,7 +26,7 @@ import { categoriaData } from '../staticData/categoriasData';
 })
 export class NavMenuComponent {
 
-  categorias = signal<CategoriaInterface[]>([]);
+  categorias = signal<CategoriasInterface[]>([]);
   
   constructor() {
     const botonesCategorias = categoriaData;
