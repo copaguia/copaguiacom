@@ -1,18 +1,34 @@
 <mat-toolbar>
   <span>CATEGORIAS</span>
 </mat-toolbar>
+
 <mat-divider></mat-divider>
 
-<mat-tab-group fitInkBarToContent>
+<mat-tab-group fitInkBarToContent headerPosition="below" >
+  
   @for (categoria of categorias(); track $index) {
-  <mat-tab [label]="categoria.nombreCategoria">
-      <mat-grid-list cols="2" rowHeight="3,5:1">
-          @for (seccion of categoria.seccion; track $index) {
-          <mat-grid-tile>
-              <app-btn-categoria [conector]="seccion"></app-btn-categoria>
-          </mat-grid-tile>
-          }
-      </mat-grid-list>
+  <mat-tab [label]="categoria.ruta"> 
+    <app-carrusel></app-carrusel>
+    <mat-grid-list  [cols]="(isMobile ? 2 : 4)" rowHeight="65px">
+
+      @for (seccion of categoria.seccion; track $index) {
+      <mat-grid-tile>
+          <app-btn-categoria [conector]="seccion"></app-btn-categoria>
+      </mat-grid-tile>
+      }
+  </mat-grid-list>
+
   </mat-tab>
   }
 </mat-tab-group>
+
+
+<!--
+  En la Grid [cols]="(isMobile ? 2 : 4)" controla las columnas segun el dispositivo,
+  usando breakpointObserver, para presentar los botones según el ancho de la pantalla.
+  rowHeight la altura de cada fila
+  
+
+-->
+
+

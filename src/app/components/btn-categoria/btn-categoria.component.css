@@ -3,14 +3,14 @@ img {
 }
 
 mat-icon {
-    width: 40px;
+    width: 55px;
     height: auto;
 }
 
 a {
     
     width: 190px;
-    font-size: large;
+    font-size: medium;
     letter-spacing: 0.2px;
     display: flex;
     justify-content: left;

@@ -1,11 +1,22 @@
 mat-toolbar {
-    display: flex;
-    justify-content: center; /* Horizontally center content */
-    align-items: center;     /* Vertically center content (if needed) */
-  }
+  display: flex; /* Convierte el mat-toolbar en un contenedor flexible para organizar elementos */
+  justify-content: center; /* Centra horizontalmente el contenido dentro del toolbar */
+  align-items: center;     /* Centra verticalmente el contenido dentro del toolbar (si es necesario) */
+}
 
-  
-  span {
-    font-size: xx-large;
-    color: aqua;
-  }
+
+span {
+  font-size: xx-large; /* Establece el tamaño de la fuente de los elementos <span> a muy grande (xx-large) */
+  color: aqua; /* Define el color del texto de los elementos <span> como aguamarina (aqua) */
+}
+
+mat-tab-group {
+  position: fixed; /* Fija la posición del grupo de pestañas (tabs) en la ventana del navegador, sin importar el scroll */
+  bottom: 3px; /* Ubica el borde inferior del grupo de pestañas a 3 píxeles del borde inferior de la ventana */
+  width: 100%; /* Define el ancho del grupo de pestañas al 100% de su contenedor padre */
+  z-index: 1; /* Asegura que el grupo de pestañas se muestre por encima de otros elementos con z-index menor */
+}
+
+mat-grid-list {
+  margin-bottom: 10px; /* Agrega un margen inferior de 10 píxeles a las listas en cuadrícula (grid-list) */
+}

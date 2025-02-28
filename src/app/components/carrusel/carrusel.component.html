@@ -1,0 +1,20 @@
+<swiper-container class="mySwiper" effect="cards" grab-cursor="true">
+  <swiper-slide>
+    <img src="https://img.freepik.com/foto-gratis/concepto-material-madera-textura-papel-pintado-fondo_53876-42925.jpg?t=st=1740751108~exp=1740754708~hmac=4eca8c7863d50ba7f81f5739183d0beb9e1a28834b472cd98d1251eeec802120&w=1060" alt="">
+  </swiper-slide>
+
+  <swiper-slide>
+    <img src="https://img.freepik.com/foto-gratis/concepto-material-madera-textura-papel-pintado-fondo_53876-42925.jpg?t=st=1740751108~exp=1740754708~hmac=4eca8c7863d50ba7f81f5739183d0beb9e1a28834b472cd98d1251eeec802120&w=1060" alt="">
+  </swiper-slide>
+
+  <swiper-slide>
+    <img src="https://img.freepik.com/foto-gratis/concepto-material-madera-textura-papel-pintado-fondo_53876-42925.jpg?t=st=1740751108~exp=1740754708~hmac=4eca8c7863d50ba7f81f5739183d0beb9e1a28834b472cd98d1251eeec802120&w=1060" alt="">
+  </swiper-slide>
+
+  @for (item of conector; track $index) {
+    <swiper-slide>
+         <img src="{{item.url}}" alt="">        
+     </swiper-slide> 
+ } 
+</swiper-container>
+<br>

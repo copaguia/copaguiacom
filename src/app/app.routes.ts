@@ -7,6 +7,8 @@ import { ContactoComponent } from './vistas/contacto/contacto.component';
 import { NavegacionComponent } from './vistas/navegacion/navegacion.component';
 import { LoginGComponent } from './login-g/login-g.component';
 import { CategoriasComponent } from './vistas/categorias/categorias.component';
+import { SeccionPageComponent } from './components/seccion-page/seccion-page.component';
+import { CarruselComponent } from './components/carrusel/carrusel.component';
 
 
 export const routes: Routes = [
@@ -48,5 +50,14 @@ export const routes: Routes = [
     },
     {
         path:'categorias', component: CategoriasComponent
-    }
+    },
+    {
+        path:'seccion-page', component: SeccionPageComponent
+    },
+    {
+        path: 'seccion-page/:id', component: SeccionPageComponent                      
+    },
+    {
+        path: 'carrusel', component: CarruselComponent                      
+    },
 ];

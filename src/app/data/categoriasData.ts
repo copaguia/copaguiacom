@@ -6,11 +6,9 @@
 
 */
 
-import { Input } from "@angular/core";
 
 // Interface de las categorias
 export interface CategoriasInterface {
-    nombreCategoria: string;
     icono: string;
     ruta: string;
     seccion?: SeccionInterface[]; // No es estrictamente necesaria al usarlo colo como categoria.
@@ -19,142 +17,375 @@ export interface CategoriasInterface {
 
 // Interface para las Secciones dentro de las Categorias
 export interface SeccionInterface {
-    nombre: string;
     ruta: string;
     icono: string;
 }
 
 // Data estática para alimentar los botones de navegación de la app.
 export const categoriaData: CategoriasInterface[] = [
-    {         
-        nombreCategoria: 'Alimentos', 
-        icono: '',
-        ruta: '',
-        seccion: [  
-            { 
-                nombre: 'Comida Rapida', 
-                ruta:'comida-rapida', 
-                icono:'assets/iconos/ahorros.gif'
-            },
-            { 
-                nombre: 'Pizzerias', 
-                ruta:'carniceria', 
-                icono:''
-            } ,
-            { 
-                nombre: 'Comida Rápida', 
-                ruta:'legumbrerias', 
-                icono:''
-            }            
-          ],
-    },
-    {         
-        nombreCategoria: 'Salud', 
-        icono: '',
-        ruta: '',
-        seccion: [  
-            { 
-                nombre: 'Clinicas', 
-                ruta:'clinicas', 
-                icono:'assets/iconos/ahorros.gif'
-            },
-            { 
-                nombre: 'Droguerias', 
-                ruta:'droguerias', 
-                icono:''
-            } ,
-            { 
-                nombre: 'Odontólogos', 
-                ruta:'odontologos', 
-                icono:''
-            }            
-          ],
-    },
-    {         
-        nombreCategoria: 'Servicios', 
-        icono: 'https://firebasestorage.googleapis.com/v0/b/copaguia-53f7f.appspot.com/o/iconos%2Fbanco.gif?alt=media&token=127ae0a3-b283-411f-9c0d-55003c6b3374',
-        ruta: '',
-        seccion: [  
-            { 
-                nombre: 'Transporte', 
-                ruta:'transporte', 
-                icono:''
-            },
-            { 
-                nombre: 'Plomeros', 
-                ruta:'plomeros', 
-                icono:''
-            },
-            { 
-                nombre: 'Mecánicos', 
-                ruta:'mecanicos', 
-                icono:''
-            } ,
-            { 
-                nombre: 'Carpinteros', 
-                ruta:'carpinteros', 
-                icono:''
-            } ,
 
+
+
+    // . Alimentos
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Alimentos',
+        seccion: [  
+            { 
+                ruta:'Domicilios', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Comida Rápida', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Restaurante y Pizzas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Helados y postres', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cafés y Parva', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Supermercados', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Plaza de Mercado', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Carnicerias y Legumbrerias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },            
              
-          ],
-    },
-    {         
-        nombreCategoria: 'Entretenimiento', 
-        icono: 'https://firebasestorage.googleapis.com/v0/b/copaguia-53f7f.appspot.com/o/iconos%2Fbanco.gif?alt=media&token=127ae0a3-b283-411f-9c0d-55003c6b3374',
-        ruta: '',
-        seccion: [  
-            { 
-                nombre: 'Parques', 
-                ruta:'parques', 
-                icono:''
-            },
-            { 
-                nombre: 'Paseos', 
-                ruta:'paseos', 
-                icono:''
-            },
-            { 
-                nombre: 'Fincas', 
-                ruta:'fincas', 
-                icono:''
-            } ,
-            
-
-             
-          ],
-
+        ],
           
     },
 
-    {         
-        nombreCategoria: 'Comunidad', 
-        icono: 'https://firebasestorage.googleapis.com/v0/b/copaguia-53f7f.appspot.com/o/iconos%2Fbanco.gif?alt=media&token=127ae0a3-b283-411f-9c0d-55003c6b3374',
-        ruta: '',
+    // . Comercios
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Comercios',
         seccion: [  
             { 
-                nombre: 'Entes Públicos', 
-                ruta:'entes', 
-                icono:''
+                ruta:'Hogar', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            { 
-                nombre: 'Iglesias', 
-                ruta:'iglesias', 
-                icono:''
+            {  
+                ruta:'Celulares y PC', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            { 
-                nombre: 'Bomberos', 
-                ruta:'bomberos', 
-                icono:''
-            } ,
-            
-
+            {  
+                ruta:'Cosméticos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Moda y Calzado', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Papelerías y librerias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Regalos y joyas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Repuestos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Ferreterías y Agropecuarias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },            
              
-          ],
-
+        ],
           
     },
-    
+
+    // . Servicios
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Servicios',
+        seccion: [  
+            { 
+                ruta:'Transporte', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Hogar y oficina', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Construcción', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Automotrices', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Logística y eventos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Belleza y Spa', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                      
+             
+        ],
+          
+    },
+
+    // . Entretenimiento
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Entretenimiento',
+        seccion: [  
+            { 
+                ruta:'Día de Sol', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Parches y discotecas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Eventos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Fincas y salones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                    
+             
+        ],
+          
+    },
+
+    // . Salud
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Salud',
+        seccion: [  
+            { 
+                ruta:'Droguerías y opticas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'EPS y hospitales', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Médicos y Odontólogos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Naturistas y fisioterapias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                    
+             
+        ],
+          
+    },
+
+    // . Oportunidades
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Oportunidades',
+        seccion: [  
+            { 
+                ruta:'Ofertas y promociones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Clasificados', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Marketplace', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Ventas a Crédito', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                    
+             
+        ],
+          
+    },
+
+    // . Inmuebles
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Inmuebles',
+        seccion: [  
+            { 
+                ruta:'Casas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Apartamentos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Locales y Oficinas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Lotes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                    
+             
+        ],
+          
+    },
+
+    // . Comunidad
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Comunidad',
+        seccion: [  
+            { 
+                ruta:'Notificaciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cultura', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Instituciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Trámites', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Religión', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+             
+        ],
+          
+    },
+
+    // . Educación
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Educación',
+        seccion: [  
+            { 
+                ruta:'Bibliotecas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Colegios', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Universidades', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cursos y talleres', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Investigación ', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Teso IA', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+             
+        ],
+          
+    },
+
+
+
+
+    // . Pasatiempos
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Pasatiempos',
+        seccion: [  
+            { 
+                ruta:'Hróscopo', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Chistes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Sopa de Letras', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Crucigramas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Poesia', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Juegos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+             
+        ],
+          
+    },
+
+    // . Noticias
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Noticias',
+        seccion: [  
+            { 
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Politica', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Educación y Tecnologia', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Economia', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Entretenimiento', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Salud', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+             
+        ],
+          
+    },
 
 ];
 
