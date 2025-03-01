@@ -10,6 +10,13 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconModule } from '@angular/material/icon';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
 
+export interface Tile {
+  color: string;
+  cols: number;
+  rows: number;
+  text: string;
+}
+
 @Component({
   selector: 'app-categorias',
   imports: [MatTabsModule,MatIconModule, BtnCategoriaComponent, MatGridListModule, MatToolbarModule, MatDividerModule, CarruselComponent  ],
@@ -18,6 +25,13 @@ import { CarruselComponent } from '../../components/carrusel/carrusel.component'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriasComponent {
+
+  tiles: Tile[] = [
+    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
+    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
+    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
+    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
+  ];
 
 
   // Bloke que verifica si es Movile o pantalla escrotorio para presentar los botones de las categorias.

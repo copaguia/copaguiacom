@@ -6,13 +6,21 @@
 
 */
 
+import { BannerInterface } from "../components/carrusel/carrusel.component";
+
 
 // Interface de las categorias
 export interface CategoriasInterface {
     icono: string;
     ruta: string;
     seccion?: SeccionInterface[]; // No es estrictamente necesaria al usarlo colo como categoria.
+    tarjetas?: BannerInterface[];
 
+}
+
+export interface TarjetaInterface {
+    image: string;
+    patrocinador: string;
 }
 
 // Interface para las Secciones dentro de las Categorias
@@ -30,6 +38,14 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Alimentos',
+        tarjetas: [
+            {image: 'https://img.freepik.com/foto-gratis/vista-superior-surtido-piramide-alimentos-reales_23-2150238927.jpg?t=st=1740798804~exp=1740802404~hmac=68e778858fa838b50827871ecb0db79d593c8203fdc1306139825d216e9d85fb&w=1060', 
+                patrocinador: 'Copacarnes'},
+            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+                patrocinador: ''},
+            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+                patrocinador: ''}
+        ],
         seccion: [  
             { 
                 ruta:'Domicilios', 
@@ -72,6 +88,14 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comercios',
+        tarjetas: [
+            {image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060', 
+                patrocinador: 'Copacarnes'},
+            {image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060', 
+                patrocinador: ''},
+            {image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380', 
+                patrocinador: ''}
+        ],
         seccion: [  
             { 
                 ruta:'Hogar', 

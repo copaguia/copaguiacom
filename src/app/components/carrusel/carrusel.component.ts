@@ -11,7 +11,8 @@ register();
 //  CREMAMOS LA INTERFACE DEL BANNER
 export interface BannerInterface {
   id?: string;
-  url: string;
+  image: string;
+  patrocinador: string;
 }
 
 @Component({
