@@ -1,8 +1,24 @@
-<swiper-container effect="cards" grab-cursor="true">
+
+<swiper-container effect="cards" grab-cursor="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
   
   @for (item of conector; track $index) {
     <swiper-slide>
-         <img src="{{item.image}}" alt="">        
+
+     
+      
+      <mat-card class="example-card" appearance="outlined">
+
+        <img  
+          src="https://firebasestorage.googleapis.com/v0/b/copaguia-53f7f.appspot.com/o/BannersCategorias%2Ffajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.webp?alt=media&token=f38ac952-dd1e-4c7e-a8c7-1a5c9b5bfd1c" 
+          alt="Photo of a Shiba Inu">
+        
+        <mat-card-actions align="end">
+          <button mat-stroked-button>Whatsapp</button>
+          <button mat-stroked-button>LLamar</button>
+          
+        </mat-card-actions>
+      </mat-card>
+      
      </swiper-slide> 
  } 
 

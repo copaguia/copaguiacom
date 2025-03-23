@@ -1,4 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, Component, Input } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 // IMPORTAMOS SWIPER JS
 
@@ -17,7 +20,7 @@ export interface BannerInterface {
 
 @Component({
   selector: 'app-carrusel',
-  imports: [],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'

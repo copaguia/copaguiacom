@@ -1,14 +1,14 @@
 import { Component, signal, ChangeDetectionStrategy, HostListener } from '@angular/core';
-import { BtnCategoriaComponent } from '../../components/btn-categoria/btn-categoria.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDividerModule} from '@angular/material/divider';
-import { CategoriasInterface, SeccionInterface, categoriaData } from '../../data/categoriasData';
+import { categoriaData } from '../../data/categoriasData';
 import { MatTabsModule} from '@angular/material/tabs';
 
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconModule } from '@angular/material/icon';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
+import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';
 
 export interface Tile {
   color: string;
@@ -19,7 +19,7 @@ export interface Tile {
 
 @Component({
   selector: 'app-categorias',
-  imports: [MatTabsModule,MatIconModule, BtnCategoriaComponent, MatGridListModule, MatToolbarModule, MatDividerModule, CarruselComponent  ],
+  imports: [MatTabsModule,MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, CarruselComponent, ScrollBotonesComponent ],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -48,10 +48,15 @@ export class CategoriasComponent {
 
   // Bloke que presenta las categorias según la data.
 
-  // Signasl de Categorias.
+  // Signasl de Categorias. USANDO SOLO SIGNASL ME LEE LOS DATOS ESTATICOS
   categorias = signal(categoriaData); // Esta data podria pasar a ser dinamica si se implementa una coleccion de firestore y se hace un Get.
 
-  // Método para leer los datos
+
+
+
+
+
+  /*
   obtenerSecciones(ruta: string, signalSecciones: any) {
     const categoria = this.categorias().find(cat => cat.ruta === ruta);
     if (categoria) {
@@ -63,8 +68,7 @@ export class CategoriasComponent {
     } else {
       console.error(`La categoria ${ruta} no existe en los datos`);
     }
-  }
+  } */
 
 
 }
-

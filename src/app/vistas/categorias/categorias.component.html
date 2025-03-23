@@ -1,36 +1,38 @@
 
 
   <mat-toolbar>
-    <span>CATEGORIAS</span>
+    <span style="letter-spacing: 1px;">
+      <strong>CATEGORIAS</strong>
+    </span>
   </mat-toolbar>
   
   <mat-divider></mat-divider>
-
   
 
-  <mat-tab-group fitInkBarToContent headerPosition="below">
-
-    
+  <mat-tab-group fitInkBarToContent headerPosition="below">    
 
     @for (categoria of categorias(); track $index) {
       <mat-tab [label]="categoria.ruta">
+
+        
         
 
-          <div class="carrusel-content">            
+          <div class="carrusel-content">  
+                <h2>{{ categoria.ruta }}</h2>      
               <app-carrusel [conector]="categoria.tarjetas"></app-carrusel> 
           </div>
 
+          <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
+          <!--
           <div class="botones">
-          <mat-grid-list [cols]="(isMobile ? 2 : 4)" rowHeight="65px">
-            
-            @for (seccion of categoria.seccion; track $index) {
-              <mat-grid-tile>
-                <app-btn-categoria [conector]="seccion"></app-btn-categoria>
-              </mat-grid-tile>
-            }
-          </mat-grid-list>
-
-        </div>
+            <mat-grid-list [cols]="(isMobile ? 2 : 4)" rowHeight="65px">            
+              @for (seccion of categoria.seccion; track $index) {
+                <mat-grid-tile>
+                  <app-btn-categoria [conector]="seccion"></app-btn-categoria>
+                </mat-grid-tile>
+              }
+            </mat-grid-list>
+          </div>-->
 
       </mat-tab>
     }

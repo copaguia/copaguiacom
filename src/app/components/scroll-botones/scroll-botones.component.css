@@ -1,0 +1,192 @@
+/* --- Bloque de Estilos para Contenedores Flexbox --- */
+/* Estilos para el contenedor flexbox de ejemplo */
+.example-flex-container {
+  display: flex; /* Convierte el elemento en un contenedor flexbox */
+  text-align: center; /* Centra el texto dentro del contenedor (puede removerse para control con media queries) */
+}
+
+
+
+/* --- Bloque de Estilos para Componentes de Material Design --- */
+/* Estilos para el grupo de pestañas de Material Design */
+.mat-tab-group {
+  margin-bottom: 48px; /* Añade un margen inferior de 48px */
+}
+
+/* --- Bloque de Estilos para Contenedores Genéricos --- */
+/* Estilos para el contenedor genérico */
+.container {
+  display: flex; /* Convierte el elemento en un contenedor flexbox */
+  justify-content: center; /* Centra los elementos hijos horizontalmente */
+  align-items: center; /* Centra los elementos hijos verticalmente */
+  padding-left: 5px; /* Añade un padding izquierdo de 5px (considerar usar media queries para ajustar en pantallas pequeñas) */
+}
+
+/* Ocultar la barra de desplazamiento para Webkit (Chrome, Safari) */
+.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+/* --- Bloque de Estilos para Scroll Virtual --- */
+/* Estilos para la vista del scroll virtual */
+.cdk-virtual-scroll-data-source-example .example-viewport {
+  height: 50px; /* Establece una altura de 60px para la vista */
+  width: 100%; /* Establece un ancho del 100% del contenedor padre */
+}
+
+/* Estilos para el contenedor de contenido del scroll virtual */
+.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper {
+  display: flex; /* Convierte el contenedor en un flexbox */
+  flex-direction: row; /* Organiza los elementos en fila horizontal */
+  width: 100%; /* Ancho del 100% del contenedor padre */
+  height: 100%; /* Altura del 100% del contenedor padre */
+  overflow-x: auto; /* Permite el scroll horizontal cuando el contenido excede el ancho */
+  overflow-y: hidden; /* Oculta cualquier contenido que exceda la altura */
+  flex-wrap: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
+}
+
+
+
+
+
+
+/******+ --- Bloque de Estilos para la Barra de Scroll --- **********/
+
+
+/* Estilos para la barra de scroll (webkit) */
+body {
+  position: relative; /* Añadimos posición relativa al body */
+}
+
+body ::-webkit-scrollbar {
+  height: 5px; /* Groso de la barra Scroll */
+  width: 50%; /* Establece la anchura de la barra de desplazamiento al 100% de la anchura del contenedor */
+  position: absolute; /* posicionamos la barra scroll de forma absoluta */
+  left: 0; /* la posicionamos en el lado izquierdo del body */
+}
+
+body::-webkit-scrollbar {
+  height: 5px; /* Establece la altura de la barra de scroll a 3px */
+  width: 50%; /* Establece la anchura de la barra de desplazamiento a la mitad del ancho de la ventana gráfica */
+  position: absolute; /* posicionamos la barra scroll de forma absoluta */
+  top: 0; /* la posicionamos en la parte superior del body */
+  left: 0; /* la posicionamos en el lado izquierdo del body */
+}
+
+/* Estilos para el "pulgar" de la barra de scroll (webkit) */
+body ::-webkit-scrollbar-thumb {
+  color: transparent; /* Hace el color de fondo del pulgar transparente */
+  background: #003cff; /* Establece el color de fondo del pulgar a azul */
+  border-radius: 5px; /* Redondea las esquinas del pulgar con un radio de 5px */
+}
+
+/* Estilos para el "pulgar" de la barra de scroll al pasar el mouse (webkit) */
+body ::-webkit-scrollbar-thumb:hover {
+  background: #b4b2b2; /* Cambia el color de fondo del pulgar a gris claro al pasar el mouse */
+}
+
+/* --- Bloque de Estilos para Contenido Desplazable --- */
+/* Estilos para el contenido que puede ser desplazado */
+.cdk-scrollable {
+  display: flex; /* Convierte el elemento en un contenedor flexbox */
+  flex-direction: row; /* Organiza los elementos en fila horizontal */
+  overflow-x: auto; /* Permite el scroll horizontal */
+  flex-wrap: nowrap; /* Evita que los elementos se envuelvan a la siguiente línea */
+  padding-bottom: 0px; /* Espacio entre botones y barra scroll */
+  margin-bottom: 5px; /* Espacio entre barra scroll y tabs */
+}
+
+/* Estilos para los botones dentro del contenido desplazable */
+.cdk-scrollable button {
+  flex: 0 0 auto; /* Evita que los botones se estiren o encojan, manteniéndolos en su tamaño natural */
+  margin: 5px; /* Añade un margen horizontal de 5px a cada botón */
+}
+
+
+
+
+
+
+
+
+
+
+/* --- Bloque de Estilos para la Galería de Imágenes --- */
+/* Estilos para el contenedor de la galería */
+.contenedor-galeria {
+  position: relative; /* Permite posicionar los elementos absolutamente dentro */
+  width: 800px; /* Ancho de la galería */
+  height: 200px; /* Altura de la galería */
+  overflow: hidden; /* Oculta los elementos que se extiendan fuera de la galería */
+}
+
+/* Estilos para los banners dentro de la galería */
+.banner {
+  position: absolute; /* Posiciona los banners absolutamente dentro del contenedor */
+  top: 0; /* Posiciona el banner en la parte superior */
+  left: 0; /* Posiciona el banner en la izquierda */
+  width: auto; /* Ancho del banner */
+  height: 100%; /* Altura del banner */
+  opacity: 0; /* Oculta los banners inicialmente */
+  transition: opacity 1s ease-in-out; /* Transición de opacidad para el cambio de página */
+}
+
+/* Estilos para el banner activo */
+.banner-activo {
+  opacity: 1; /* Muestra el banner activo */
+  z-index: 1; /* Posiciona el banner activo en el frente */
+}
+
+/* Estilos para las imágenes */
+img {
+  width: 100%; /* Ancho de la imagen */
+  max-height: 350px; /* Altura máxima de la imagen */
+  object-fit: cover; /* Ajusta la imagen a la caja, manteniendo la proporción y recortando si es necesario */
+}
+
+
+
+
+
+
+
+
+/* --- Bloque de Estilos para los Controles de la Galería --- */
+/* Estilos para el contenedor de controles */
+.controles {
+  position: absolute; /* Posiciona los controles absolutamente dentro del contenedor */
+  bottom: 20px; /* Posiciona los controles en la parte inferior */
+  left: 50%; /* Posiciona los controles en el centro horizontal */
+  transform: translateX(-50%); /* Compensa la posición del centro */
+}
+
+/* Estilos para los botones de control */
+.controles button {
+  margin: 0 10px; /* Añade un margen horizontal de 10px a cada botón */
+  padding: 10px 20px; /* Añade un padding de 10px arriba/abajo y 20px izquierda/derecha */
+  background-color: #ccc; /* Establece el color de fondo del botón a gris claro */
+  border: none; /* Quita el borde de los botones */
+  cursor: pointer; /* Cambia el cursor a mano al pasar por encima */
+}
+
+/* Estilos para los botones de control al pasar el mouse */
+.controles button:hover {
+  background-color: #aaa; /* Cambia el color de fondo del botón a gris un poco más oscuro al pasar el mouse */
+}
+
+/* --- Bloque de Estilos para Elementos Adicionales --- */
+/* Estilos para un elemento con clase "cuadro" */
+.cuadro {
+  padding: 30px; /* Añade un padding de 30px en todos los lados */
+  border-radius: 30px; /* Redondea las esquinas con un radio de 30px */
+}
+
+/* Estilos para el contenedor de Swiper */
+swiper-container {
+  width: 100%; /* Establece el ancho del contenedor de Swiper al 100% */
+}
+
+/* Estilos para todas las imagenes */
+img {
+  border-radius: 0px; /* elimina el border radius de las imagenes */
+}

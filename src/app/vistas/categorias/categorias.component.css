@@ -13,7 +13,7 @@ mat-toolbar {
 
 
 span {
-  font-size: xx-large; /* Establece el tamaño de la fuente de los elementos <span> a muy grande (xx-large) */
+  font-size: x-large; /* Establece el tamaño de la fuente de los elementos <span> a muy grande (xx-large) */
   color: aqua; /* Define el color del texto de los elementos <span> como aguamarina (aqua) */
 }
 
@@ -29,16 +29,9 @@ mat-grid-list {
 }
 
 
-appu-carrusel {
-  position: static;
-  top: 25px;
-  align-items: center;
-  justify-content: center;
-  width: 100%; /* Define el ancho del grupo de pestañas al 100% de su contenedor padre */
-  z-index: 1; /* Asegura que el grupo de pestañas se muestre por encima de otros elementos con z-index menor */
-}
 
-.centro{
+
+.centro {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -52,11 +45,20 @@ appu-carrusel {
 
 .carrusel-content {
   position: fixed;
-  top: 80px;
+  top: 50px;
   align-items: center;
   justify-content: center;
   width: 100%; /* Define el ancho del grupo de pestañas al 100% de su contenedor padre */
   z-index: 0;
+}
+
+h2 {
+  letter-spacing: 1.5px;
+  text-align: end;
+  margin-right: 40px;
+  font-size: large;
+  font-style: italic;
+  color: rgb(255, 255, 255);
 }
 
 .botones {
