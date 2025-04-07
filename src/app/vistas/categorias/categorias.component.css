@@ -1,21 +1,28 @@
-.container {
-  align-items: center;
-  justify-content: center;
-  height: 100vh; 
-
-}
-
 mat-toolbar {
   display: flex; /* Convierte el mat-toolbar en un contenedor flexible para organizar elementos */
   justify-content: center; /* Centra horizontalmente el contenido dentro del toolbar */
   align-items: center;     /* Centra verticalmente el contenido dentro del toolbar (si es necesario) */
 }
-
-
 span {
   font-size: x-large; /* Establece el tamaño de la fuente de los elementos <span> a muy grande (xx-large) */
   color: aqua; /* Define el color del texto de los elementos <span> como aguamarina (aqua) */
+  letter-spacing: 1px;
 }
+
+
+
+
+
+.carrusel-content {
+  position: fixed;
+  top: 50px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;  
+  z-index: 0;
+}
+
+
 
 mat-tab-group {
   position: fixed; /* Fija la posición del grupo de pestañas (tabs) en la ventana del navegador, sin importar el scroll */
@@ -24,38 +31,12 @@ mat-tab-group {
   z-index: 1; /* Asegura que el grupo de pestañas se muestre por encima de otros elementos con z-index menor */
 }
 
-mat-grid-list {
-  margin-bottom: 10px; /* Agrega un margen inferior de 10 píxeles a las listas en cuadrícula (grid-list) */
-}
-
-
-
-
-.centro {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-}
-
-.tabContent {
-  height: max-content;
-}
-
-
-.carrusel-content {
-  position: fixed;
-  top: 50px;
-  align-items: center;
-  justify-content: center;
-  width: 100%; /* Define el ancho del grupo de pestañas al 100% de su contenedor padre */
-  z-index: 0;
-}
 
 h2 {
   letter-spacing: 1.5px;
   text-align: end;
   margin-right: 40px;
+  margin-top: 35px;
   font-size: large;
   font-style: italic;
   color: rgb(255, 255, 255);
