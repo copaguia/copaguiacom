@@ -220,7 +220,8 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    // . Oportunidades
+    /*
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Oportunidades',
@@ -246,7 +247,7 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    // . Inmuebles
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Inmuebles',
@@ -272,7 +273,7 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    // . Comunidad
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comunidad',
@@ -306,7 +307,7 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    // . Educación
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Educación',
@@ -343,7 +344,7 @@ export const categoriaData: CategoriasInterface[] = [
 
 
 
-    // . Pasatiempos
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Pasatiempos',
@@ -377,7 +378,7 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    // . Noticias
+    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Noticias',
@@ -410,6 +411,6 @@ export const categoriaData: CategoriasInterface[] = [
         ],
           
     },
-
+    */
 ];
 

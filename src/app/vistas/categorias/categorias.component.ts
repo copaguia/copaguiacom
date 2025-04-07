@@ -9,6 +9,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatIconModule } from '@angular/material/icon';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';
+import { RouterLink } from '@angular/router';
 
 export interface Tile {
   color: string;
@@ -19,9 +20,11 @@ export interface Tile {
 
 @Component({
   selector: 'app-categorias',
-  imports: [MatTabsModule,MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, CarruselComponent, ScrollBotonesComponent ],
+  imports: [
+    MatTabsModule,MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, 
+    CarruselComponent, ScrollBotonesComponent ],
   templateUrl: './categorias.component.html',
-  styleUrl: './categorias.component.css',
+    styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriasComponent {
