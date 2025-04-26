@@ -8,5 +8,12 @@ export const environment = {
         messagingSenderId: "719139766457",
         appId: "1:719139766457:web:1f75352dca7771537e1b68",
         measurementId: "G-DDJYYD9THN"
-      }
+      },
+      //Para configuracion de Emulators aun sin funcionar
+      useEmulators: true
+
+      // Recuerda que se debe instalar Java
+      // Reconstruir Nix agregando el paquete  de Java
+      // Configurar correctamente firebase.json
+      
 };

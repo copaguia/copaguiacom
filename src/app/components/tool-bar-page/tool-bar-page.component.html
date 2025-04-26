@@ -1,0 +1,22 @@
+<mat-toolbar>
+
+    <button  style="margin-right: 10px;"
+      mat-mini-fab
+      [color]="color"
+      [class]="buttonClass"
+      (click)="goBack()">
+      <mat-icon *ngIf="showIcon">{{ icon }}</mat-icon>
+    </button>
+
+
+    <span>{{ title }}</span>
+
+    <span class="spacer"></span>
+
+    <!--
+    <button mat-icon-button aria-label="Search button">
+      <mat-icon>search</mat-icon>
+    </button>-->
+
+  </mat-toolbar>
+  
