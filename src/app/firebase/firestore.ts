@@ -1,5 +1,5 @@
 // src/app/firebase/firestore.ts
-import { firestore} from './config';
+import { firestore} from './firebase-config';
 import { 
   collection, getDocs, query, where, orderBy, 
   addDoc, updateDoc, deleteDoc, doc, getDoc,

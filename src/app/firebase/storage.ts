@@ -1,5 +1,5 @@
 // src/app/firebase/storage.ts
-import { storage } from './config';
+import { storage } from './firebase-config';
 import { 
   ref, uploadBytes, getDownloadURL, 
   deleteObject, listAll, StorageReference 

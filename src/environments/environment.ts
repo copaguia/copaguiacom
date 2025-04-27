@@ -7,6 +7,7 @@ export const environment = {
         storageBucket: "copaguia-53f7f.appspot.com",
         messagingSenderId: "719139766457",
         appId: "1:719139766457:web:1f75352dca7771537e1b68",
-        measurementId: "G-DDJYYD9THN"
-      }
+        measurementId: "G-DDJYYD9THN"        
+      },    
+    vapidKey: 'BK6DsRiQcfyyVucN5tFxlfUBU09LrEiVC4v5WAJVxa6b2cyhTJJZ_B4qunaS60hjGCtCBAcSTZBMiADCkTMGSm0',
 };

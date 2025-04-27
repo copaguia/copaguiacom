@@ -1,5 +1,5 @@
 // src/app/firebase/auth.ts
-import { auth } from './config';
+import { auth } from './firebase-config';
 import { 
   signInWithEmailAndPassword, createUserWithEmailAndPassword,
   signOut, sendPasswordResetEmail, updateProfile,

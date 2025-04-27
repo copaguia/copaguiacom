@@ -10,10 +10,11 @@ export const environment = {
         measurementId: "G-DDJYYD9THN"
       },
       //Para configuracion de Emulators aun sin funcionar
-      useEmulators: true
+      useEmulators: true,
 
       // Recuerda que se debe instalar Java
       // Reconstruir Nix agregando el paquete  de Java
       // Configurar correctamente firebase.json
+
       
 };
