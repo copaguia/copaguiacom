@@ -7,6 +7,7 @@
 */
 
 import { BannerInterface } from "../components/carrusel/carrusel.component";
+import { AlimentosData } from "./tarjetasData";
 
 
 // Interface de las categorias
@@ -14,7 +15,7 @@ export interface CategoriasInterface {
     icono: string;
     ruta: string;
     seccion?: SeccionInterface[]; // No es estrictamente necesaria al usarlo colo como categoria.
-    tarjetas?: BannerInterface[];
+    tarjetas?: TarjetaInterface[];
 
 }
 
@@ -38,14 +39,7 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Alimentos',
-        tarjetas: [
-            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
-                patrocinador: 'Copacarnes'},
-            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
-                patrocinador: ''},
-            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
-                patrocinador: ''}
-        ],
+        tarjetas: AlimentosData,
         seccion: [  
             { 
                 ruta:'Domicilios', 
@@ -138,6 +132,14 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Servicios',
+        tarjetas: [
+            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
+                patrocinador: 'Copacarnes'},
+            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+                patrocinador: ''},
+            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+                patrocinador: ''}
+        ],
         seccion: [  
             { 
                 ruta:'Transporte', 
@@ -172,6 +174,14 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Entretenimiento',
+        tarjetas: [
+            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
+                patrocinador: 'Copacarnes'},
+            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+                patrocinador: ''},
+            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+                patrocinador: ''}
+        ],
         seccion: [  
             { 
                 ruta:'Día de Sol', 
@@ -198,6 +208,14 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Salud',
+        tarjetas: [
+            {image: 'https://img.freepik.com/foto-gratis/banner-medico-estetoscopio_23-2149611199.jpg?ga=GA1.1.222355279.1747401779&semt=ais_hybrid&w=740', 
+                patrocinador: 'Copacarnes'},
+            {image: 'https://img.freepik.com/foto-gratis/joven-medico-guapo-tunica-medica-estetoscopio_1303-17818.jpg?ga=GA1.1.222355279.1747401779&semt=ais_hybrid&w=740', 
+                patrocinador: ''},
+            {image: 'https://img.freepik.com/foto-gratis/retrato-sonriente-joven-medicos-posicion-juntos-retrato-personal-medico-dentro-moderno-hospital-sonriente-camara_657921-885.jpg?ga=GA1.1.222355279.1747401779&semt=ais_hybrid&w=740', 
+                patrocinador: ''}
+        ],
         seccion: [  
             { 
                 ruta:'Droguerías y opticas', 

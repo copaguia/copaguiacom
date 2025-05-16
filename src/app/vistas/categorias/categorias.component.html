@@ -1,5 +1,4 @@
 
-
   <mat-toolbar>
     <span style="letter-spacing: 1px;">
       <strong>CATEGORIAS</strong>
@@ -8,14 +7,11 @@
   
   <mat-divider></mat-divider>
   
-
   <mat-tab-group fitInkBarToContent headerPosition="below">  
-    
     
 
       @for (categoria of categorias(); track $index) {
             <mat-tab [label]="categoria.ruta">
-
 
                 <div class="carrusel-content">  
 
@@ -23,14 +19,10 @@
                   <app-carrusel [conector]="categoria.tarjetas"></app-carrusel>                      
 
                 </div>
-
                    
                 <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>     
 
             </mat-tab>
           }
 
-    
-
-    
   </mat-tab-group>

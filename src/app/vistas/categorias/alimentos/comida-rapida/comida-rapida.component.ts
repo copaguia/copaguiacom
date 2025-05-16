@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +31,8 @@ enum LoadingState {
   templateUrl: './comida-rapida.component.html',
   styleUrl: './comida-rapida.component.css'
 })
-export class ComidaRapidaComponent {
+export class ComidaRapidaComponent implements OnInit {
+
   public title = 'Comida Rápida';
   public negocios = signal<NegocioInterface[]>([]);
   public negociosFiltrados = signal<NegocioInterface[]>([]);

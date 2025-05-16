@@ -9,12 +9,18 @@
       <mat-card class="example-card" appearance="outlined">
 
         <img  
-          src="https://firebasestorage.googleapis.com/v0/b/copaguia-53f7f.appspot.com/o/BannersCategorias%2Ffajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.webp?alt=media&token=f38ac952-dd1e-4c7e-a8c7-1a5c9b5bfd1c" 
+          src="{{ item.image }}" 
           alt="Photo of a Shiba Inu">
         
         <mat-card-actions align="end">
-          <button mat-stroked-button>Whatsapp</button>
-          <button mat-stroked-button>LLamar</button>
+          <a href="https://wa.me/{{ item.whatsapp }}" target="_blank">
+            <button mat-stroked-button >Whatsapp</button>
+          </a>
+          
+          <a href="tel:+57{{ item.phoneFijo }}" target="_blank">
+            <button mat-stroked-button>LLamar</button>
+          </a>         
+          
           
         </mat-card-actions>
       </mat-card>

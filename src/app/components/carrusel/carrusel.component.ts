@@ -15,7 +15,9 @@ register();
 export interface BannerInterface {
   id?: string;
   image: string;
-  patrocinador: string;
+  whatsapp?: number;
+  phoneFijo?: number;
+  patrocinador?: string;
 }
 
 @Component({
