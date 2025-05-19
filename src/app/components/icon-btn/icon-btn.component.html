@@ -1,9 +1,81 @@
-
-<button 
-    matIconButton 
-    aria-label="conector.areaLabel" color="conector.color"
-    routerLink="{{conector.route}}"
-    disabled="{{conector.disabled}}" >
-    <mat-icon>{{ conector.icon }}</mat-icon>
-</button>
-
+@switch (conector()?.type) {
+    @case ('mat-fab') {
+      <button mat-fab
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        
+      </button>
+    }
+    @case ('mat-mini-fab') {
+      <button mat-mini-fab
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        
+      </button>
+    }
+    @case ('mat-icon-button') {
+      <button mat-icon-button
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        
+      </button>
+    }
+    @case ('mat-raised-button') {
+      <button mat-raised-button
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        @if (conector()?.name) {
+          {{ conector()?.name }}
+        }
+      </button>
+    }
+     @case ('mat-flat-button') {
+      <button mat-flat-button
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        @if (conector()?.name) {
+          {{ conector()?.name }}
+        }
+      </button>
+    }
+     @case ('mat-stroked-button') {
+      <button mat-stroked-button
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        @if (conector()?.name) {
+          {{ conector()?.name }}
+        }
+      </button>
+    }
+    @default {
+      <button mat-button
+              [color]="conector()?.color"
+              [disabled]="conector()?.disabled"
+              [attr.aria-label]="conector()?.ariaLabel"
+              [routerLink]="conector()?.route">
+        <mat-icon>{{ conector()?.icon }}</mat-icon>
+        @if (conector()?.name) {
+          {{ conector()?.name }}
+        }
+      </button>
+    }
+  }
+  
