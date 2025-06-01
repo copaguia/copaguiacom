@@ -38,6 +38,7 @@ import { DrogueriasOpticasComponent } from './vistas/categorias/salud/droguerias
 import { EpsHospitalesComponent } from './vistas/categorias/salud/eps-hospitales/eps-hospitales.component';
 import { MedicosOdontologosComponent } from './vistas/categorias/salud/medicos-odontologos/medicos-odontologos.component';
 import { NaturistasFisioterapiasComponent } from './vistas/categorias/salud/naturistas-fisioterapias/naturistas-fisioterapias.component';
+import { ClimaComponent } from './vistas/categorias/entretenimiento/clima/clima.component';
 
 
 export const routes: Routes = [
@@ -71,8 +72,7 @@ export const routes: Routes = [
     {
         path:'navegacion', component: NavegacionComponent
     },
-    {
-        path: '', component: NavMenuComponent,
+    {   path: '', component: NavMenuComponent,
         children: [
 
         ]
@@ -156,6 +156,9 @@ export const routes: Routes = [
     {
         path: 'categorias/Belleza y Spa', component: BellezaSpaComponent
     },
+    {
+        path: 'categorias/Clima', component: ClimaComponent
+    },
     
     {
         path: 'categorias/Día de Sol', component: DiaDeSolComponent
@@ -181,6 +184,8 @@ export const routes: Routes = [
     {
         path: 'categorias/Naturistas y fisioterapias', component: NaturistasFisioterapiasComponent
     },
+
+    
 
 
 

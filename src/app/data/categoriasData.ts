@@ -184,6 +184,10 @@ export const categoriaData: CategoriasInterface[] = [
         ],
         seccion: [  
             { 
+                ruta:'Clima', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
                 ruta:'Día de Sol', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
@@ -237,6 +241,7 @@ export const categoriaData: CategoriasInterface[] = [
         ],
           
     },
+    
 
     /*
     
