@@ -7,6 +7,7 @@
   packages = [
     pkgs.nodejs
     pkgs.adoptopenjdk-hotspot-bin-16
+    pkgs.nodejs_21
   ];
   # Sets environment variables in the workspace
   env = {};
