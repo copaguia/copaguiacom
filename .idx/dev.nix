@@ -5,7 +5,6 @@
   channel = "stable-23.11"; # or "unstable"
   # Use https://search.nixos.org/packages to find packages
   packages = [
-    pkgs.nodejs
     pkgs.adoptopenjdk-hotspot-bin-16
     pkgs.nodejs_21
   ];
