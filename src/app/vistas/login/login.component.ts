@@ -77,10 +77,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             } else {
               console.log('LoginComponent: Usuario autenticado sin username. Mostrando formulario de creación.');
               this.showUsernameForm = true;
-              if (user.email) {
-                this.usernameInput = user.email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
-                this.checkUsernameAvailability(true);
-              }
+
+              // --- INICIO DEL BLOQUE A COMENTAR (OPCIONAL PARA FUTURO PRE-RELLENO) ---
+              // if (user.email) {
+              //   this.usernameInput = user.email.split('@')[0].replace(/[^a-zA-Z0-9_]/g, '').toLowerCase();
+              //   this.checkUsernameAvailability(true);
+              // }
+              // --- FIN DEL BLOQUE A COMENTAR ---
             }
           } catch (error) {
             console.error('LoginComponent: Error al verificar el perfil público del usuario:', error);
