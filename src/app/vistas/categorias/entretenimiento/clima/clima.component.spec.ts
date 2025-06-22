@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LoginGComponent } from './login-g.component';
+import { ClimaComponent } from './clima.component';
 
-describe('LoginGComponent', () => {
-  let component: LoginGComponent;
-  let fixture: ComponentFixture<LoginGComponent>;
+describe('ClimaComponent', () => {
+  let component: ClimaComponent;
+  let fixture: ComponentFixture<ClimaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LoginGComponent]
+      imports: [ClimaComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LoginGComponent);
+    fixture = TestBed.createComponent(ClimaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

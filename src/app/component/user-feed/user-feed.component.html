@@ -1,0 +1,88 @@
+<!-- src/app/vistas/user-feed/user-feed.component.html -->
+<!-- Contenedor principal para el contenido del feed.
+     El mat-typography aplica estilos base de Material Design para texto y encabezados. -->
+     <div> 
+        <div class="mat-typography">
+      
+          <!-- Ya no hay condicionales para el spinner. Si se quiere mostrar,
+               debería hacerse controlando su visibilidad desde el TS con una propiedad.
+               Por ahora, se elimina para simplicidad extrema sin condicionales en el template. -->
+          <!-- <mat-spinner diameter="50"></mat-spinner> -->
+          <!-- <p>Cargando perfil...</p> -->
+      
+          <!-- Contenido del perfil (asume que userProfile() está disponible o se muestra vacío) -->
+          <mat-card>
+            <mat-card-header>
+              <!-- Avatar del perfil del usuario -->
+              <div mat-card-avatar>
+                <!-- Se muestra la foto si existe, si no, el icono. No hay @if para toda la imagen/icono. -->
+                <img [src]="userProfile()?.photoURL || 'https://placehold.co/64x64/cccccc/333333?text=NP'" alt="Foto de perfil">
+                <!-- Si quisieras solo el icono sin imagen por defecto, necesitarías CSS para mostrar/ocultar -->
+                <!-- <mat-icon *ngIf="!userProfile()?.photoURL">account_circle</mat-icon> -->
+              </div>
+              <!-- Título y subtítulo de la tarjeta del perfil -->
+              <mat-card-title>
+                {{ userProfile()?.displayName || userProfile()?.email || 'Usuario Desconocido' }}
+              </mat-card-title>
+              <mat-card-subtitle>
+                {{ userProfile()?.username || 'sin_usuario' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <!-- Biografía del usuario (se muestra si existe, o un texto por defecto) -->
+              <p>{{ userProfile()?.bio || (isCurrentUserProfile() ? 'No tienes biografía aún. ¡Edita tu perfil!' : 'Sin biografía.') }}</p>
+              
+            </mat-card-content>
+            <mat-card-actions>
+                <!-- Botón para cerrar sesión -->
+                <button mat-flat-button color="warn" (click)="logout()">
+                  <mat-icon>logout</mat-icon> Cerrar Sesión
+                </button>
+              </mat-card-actions>
+          </mat-card>
+      
+          <!-- Encabezado para la sección de publicaciones -->
+          <h3>Publicaciones</h3>
+      
+          <!-- Ya no hay condicionales para el spinner de posts o el mensaje de posts vacíos.
+               El @for simplemente iterará sobre una lista vacía si no hay posts. -->
+          <!-- <mat-spinner diameter="40"></mat-spinner> -->
+          <!-- <p>Cargando publicaciones...</p> -->
+          <!-- <mat-card> <mat-card-content><p>No hay publicaciones para este usuario aún.</p></mat-card-content></mat-card> -->
+          
+          <!-- Iteración sobre la lista de publicaciones -->
+          @for (post of userPosts(); track post.id) {
+            <mat-card>
+              <mat-card-header>
+                <!-- Avatar del autor de la publicación -->
+                <div mat-card-avatar>
+                  <img [src]="userProfile()?.photoURL || 'https://placehold.co/40x40/cccccc/333333?text=NP'" alt="Foto de perfil">
+                </div>
+                <!-- Título y subtítulo de la tarjeta de publicación -->
+                <mat-card-title>{{ post.username }}</mat-card-title>
+                <mat-card-subtitle>{{ post.timestamp?.toDate() | date:'short' }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <!-- Imagen de la publicación (si existe, se mostrará. Si no, el <div> estará vacío) -->
+                <div>
+                  <img [src]="post.imageUrl || ''" alt="Publicación">
+                </div>
+                <!-- Texto del caption de la publicación -->
+                <p>{{ post.caption }}</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <!-- Botones de "Me gusta" y "Comentar" -->
+                <button mat-icon-button>
+                  <mat-icon>thumb_up_alt</mat-icon>
+                  <span>{{ post.likesCount || 0 }}</span>
+                </button>
+                <button mat-icon-button>
+                  <mat-icon>comment</mat-icon>
+                  <span>{{ post.commentsCount || 0 }}</span>
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+      
