@@ -29,7 +29,6 @@ import { EventosLogisticaComponent } from './vistas/categorias/servicios/eventos
 import { BellezaSpaComponent } from './vistas/categorias/servicios/belleza-spa/belleza-spa.component';
 import { DiaDeSolComponent } from './vistas/categorias/entretenimiento/dia-de-sol/dia-de-sol.component';
 import { DiscotecasParchesComponent } from './vistas/categorias/entretenimiento/discotecas-parches/discotecas-parches.component';
-import { EventosComponent } from './vistas/categorias/entretenimiento/eventos/eventos.component';
 import { FincasSalonesComponent } from './vistas/categorias/entretenimiento/fincas-salones/fincas-salones.component';
 import { DrogueriasOpticasComponent } from './vistas/categorias/salud/droguerias-opticas/droguerias-opticas.component';
 import { EpsHospitalesComponent } from './vistas/categorias/salud/eps-hospitales/eps-hospitales.component';
@@ -39,49 +38,26 @@ import { ClimaComponent } from './vistas/categorias/entretenimiento/clima/clima.
 import { LoginComponent } from './vistas/login/login.component';
 import { UserFeedComponent } from './component/user-feed/user-feed.component';
 import { CarruselComponent } from './components/carrusel/carrusel.component';
+import { EventosComponent } from './vistas/categorias/entretenimiento/eventos/eventos.component';
 
 // Si tienes un AuthGuard para proteger rutas, impórtalo aquí.
-// import { AuthGuard } from './guards/auth.guard'; 
+// import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    // La ruta por defecto: si no hay path, redirige a '/login'.
-    // El LoginComponent se encargará de redirigir a '/profile/:username' si el usuario ya está logueado.
+    // 1. RUTAS DE ENTRADA Y PRINCIPALES (Orden: de más específica a menos)
     { path: '', redirectTo: '/login', pathMatch: 'full' },
-
-    // Ruta de Login: Es el punto de entrada para la autenticación
     { path: 'login', component: LoginComponent },
-
-    // Nueva ruta para el perfil de usuario. Aquí se mostrará el feed/contenido específico del usuario.
-    // Es crucial que el `LoginComponent` redirija a esta ruta después de un login exitoso o de la creación del username.
-    { 
-        path: 'profile/:username', 
-        component: UserFeedComponent,
-        // **OPCIONAL pero MUY RECOMENDADO:** Usa un guard para proteger esta ruta.
-        // canActivate: [AuthGuard] // Descomentar si tienes un AuthGuard configurado
-    },
-
-    // Rutas existentes de tu aplicación:
     { path: 'intro', component: IntroComponent },
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'contacto' , component: ContactoComponent },
-
-    // Nota sobre 'nav': Si NavMenuComponent es un layout para rutas protegidas,
-    // podrías querer que 'nav' sea una ruta protegida con 'canActivate'.
-    // { path: 'nav', component: NavMenuComponent, canActivate: [AuthGuard] }, 
-    { path: 'nav', component: NavMenuComponent }, // Dejado sin guard por simplicidad actual
-    
+    { path: 'nav', component: NavMenuComponent }, // Considera proteger con AuthGuard si es solo para usuarios logueados
     { path: 'navegacion', component: NavegacionComponent },
-    
-    // **NOTA:** La ruta `{ path: '', component: NavMenuComponent, children: [] }` se ha eliminado.
-    // Tener un `path: ''` que redirige a `/login` y otro `path: ''` para un componente puede causar conflictos
-    // si no se maneja cuidadosamente con guards y redirecciones en los guards.
-    // Si NavMenuComponent es un layout global para usuarios logueados, debería estar en una ruta padre o como children de una ruta protegida.
-
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
-    { path: 'seccion-page/:id', component: SeccionPageComponent },                      
-    { path: 'carrusel', component: CarruselComponent }, // Asegúrate que la ruta de importación de CarruselComponent sea correcta.
+    { path: 'seccion-page/:id', component: SeccionPageComponent },
+    { path: 'carrusel', component: CarruselComponent },
 
+    // 2. RUTAS DE CATEGORÍAS (muy específicas, por lo que no chocarán con :username)
     // Rutas de Categorías de Alimentos
     { path: 'categorias/Domicilios', component: DomiciliosComponent },
     { path: 'categorias/Comida Rápida', component: ComidaRapidaComponent },
@@ -91,7 +67,7 @@ export const routes: Routes = [
     { path: 'categorias/Supermercados', component: SupermercadosComponent },
     { path: 'categorias/Plaza de Mercado', component: PlazaDeMercadoComponent },
     { path: 'categorias/Carnicerias y Legumbrerias', component: CarniceriasLegumbreriasComponent },
-    
+
     // Rutas de Categorías de Comercios
     { path: 'categorias/Hogar', component: HogarComponent },
     { path: 'categorias/Celulares y PC', component: CelularesPcComponent },
@@ -101,28 +77,38 @@ export const routes: Routes = [
     { path: 'categorias/Regalos y joyas', component: RegalosJoyasComponent },
     { path: 'categorias/Repuestos', component: RepuestosComponent },
     { path: 'categorias/Ferreterías y Agropecuarias', component: FerreteriasAgropecuariasComponent },
-    
+
     // Rutas de Categorías de Servicios
     { path: 'categorias/Transporte', component: TransporteComponent },
     { path: 'categorias/Hogar y oficina', component: HogarOficinaComponent },
     { path: 'categorias/Construcción', component: ConstruccionComponent },
-    { path: 'categorias/Automotrices', component: ComidaRapidaComponent }, // **Verificar**: ¿Es correcto que "Automotrices" use ComidaRapidaComponent?
+    { path: 'categorias/Automotrices', component: ComidaRapidaComponent }, // **IMPORTANTE: Revisa esta línea, ¿es correcto que use ComidaRapidaComponent?**
     { path: 'categorias/Logística y eventos', component: EventosLogisticaComponent },
     { path: 'categorias/Belleza y Spa', component: BellezaSpaComponent },
-    
+
     // Rutas de Categorías de Entretenimiento
-    { path: 'categorias/Clima', component: ClimaComponent }, 
+    { path: 'categorias/Clima', component: ClimaComponent },
     { path: 'categorias/Día de Sol', component: DiaDeSolComponent },
     { path: 'categorias/Parches y discotecas', component: DiscotecasParchesComponent },
     { path: 'categorias/Eventos', component: EventosComponent },
     { path: 'categorias/Fincas y salones', component: FincasSalonesComponent },
-    
+
     // Rutas de Categorías de Salud
     { path: 'categorias/Droguerías y opticas', component: DrogueriasOpticasComponent },
     { path: 'categorias/EPS y hospitales', component: EpsHospitalesComponent },
     { path: 'categorias/Médicos y Odontólogos', component: MedicosOdontologosComponent },
     { path: 'categorias/Naturistas y fisioterapias', component: NaturistasFisioterapiasComponent },
 
-    // Ruta comodín: captura cualquier URL que no coincida con las anteriores y redirige al login.
-    { path: '**', redirectTo: '/login' }
+    // 3. RUTA DEL PERFIL DE USUARIO (LA MÁS CRÍTICA - DEBE IR AQUÍ)
+    // Esta ruta capturará `https://copaguia.com/nombredeusuario`
+    // Capturará cualquier segmento que NO haya sido capturado por las rutas específicas anteriores.
+    {
+        path: ':username',
+        component: UserFeedComponent, // Tu componente que muestra el perfil del usuario
+        // canActivate: [AuthGuard] // Descomentar si tienes un AuthGuard configurado y quieres proteger esta ruta
+    },
+
+    // 4. RUTA COMODÍN (WILDCARD) - SIEMPRE LA ÚLTIMA:
+    // Si una URL no coincide con ninguna de las rutas anteriores, redirige al usuario a la sección de categorías.
+    { path: '**', redirectTo: '/categorias' } // <--- REDIRTIGE A CATEGORIAS PARA REINICE SU NAVEGACIÓN!
 ];
