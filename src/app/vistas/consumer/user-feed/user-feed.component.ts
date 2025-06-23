@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common'; 
 import { MatButtonModule } from '@angular/material/button'; 
-import { AuthService, Post, PublicUserProfile } from '../../firebase/auth/auth.service';
+import { AuthService, Post, PublicUserProfile } from '../../../firebase/auth/auth.service';
 
 @Component({
   selector: 'app-user-feed',

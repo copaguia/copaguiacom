@@ -36,7 +36,7 @@ import { MedicosOdontologosComponent } from './vistas/categorias/salud/medicos-o
 import { NaturistasFisioterapiasComponent } from './vistas/categorias/salud/naturistas-fisioterapias/naturistas-fisioterapias.component';
 import { ClimaComponent } from './vistas/categorias/entretenimiento/clima/clima.component';
 import { LoginComponent } from './vistas/login/login.component';
-import { UserFeedComponent } from './components/user-feed/user-feed.component';
+import { UserFeedComponent } from './vistas/consumer/user-feed/user-feed.component';
 import { CarruselComponent } from './components/carrusel/carrusel.component';
 import { EventosComponent } from './vistas/categorias/entretenimiento/eventos/eventos.component';
 
