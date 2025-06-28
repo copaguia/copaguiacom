@@ -10,11 +10,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms'; 
+import { MatCardModule } from '@angular/material/card';
 
 // Firebase (solo el tipo `User` se importa)
 import { User } from 'firebase/auth'; 
 import { AuthService } from '../../firebase/auth/auth.service';
-import { MatCardModule } from '@angular/material/card';
+
 
 // ¡Solo un servicio!
 
