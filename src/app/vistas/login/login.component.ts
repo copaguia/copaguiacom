@@ -1,5 +1,5 @@
 // Angular Core
-import { Component, OnInit, inject, OnDestroy, signal, computed, effect } from '@angular/core'; 
+import { Component, inject, computed, effect } from '@angular/core'; 
 import { Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 
@@ -37,7 +37,10 @@ import { MatCardModule } from '@angular/material/card';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
+
+  public logo = 'assets/brand/copaguia-intro.gif';
+  public mensaje = 'Bienvenido a Copa Guia';
 
   private router = inject(Router);
   public authService = inject(AuthService); // ¡Ahora este es el único servicio inyectado
