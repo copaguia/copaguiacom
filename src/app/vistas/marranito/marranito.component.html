@@ -1,0 +1,86 @@
+<div class="wallet-container">
+    <mat-card class="wallet-card">
+      <mat-card-header>
+        <mat-card-title>Marrranito Digital - Billetera Avalanche</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-progress-bar *ngIf="isLoading()" mode="indeterminate"></mat-progress-bar>
+  
+        <div *ngIf="errorMessage()" class="message-error">{{ errorMessage() }}</div>
+        <div *ngIf="successMessage()" class="message-success">{{ successMessage() }}</div>
+  
+        <div *ngIf="walletAddress(); else noWalletConnected" class="wallet-info">
+          <h3>Billetera Conectada</h3>
+          <mat-divider></mat-divider>
+          <p><strong>Dirección:</strong> {{ walletAddress() }}
+            <button mat-icon-button (click)="copyToClipboard(walletAddress())">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </p>
+          <p><strong>Saldo AVAX:</strong> {{ avaxBalance() }} AVAX</p>
+  
+          <mat-card *ngIf="newMnemonic()" class="mnemonic-warning-card">
+              <mat-card-content>
+                <p><strong>¡IMPORTANTE! Guarda esta frase semilla en un lugar seguro y privado. ¡No la compartas!</strong></p>
+                <p class="mnemonic-text">{{ newMnemonic() }}
+                  <button mat-icon-button (click)="copyToClipboard(newMnemonic())">
+                    <mat-icon>content_copy</mat-icon>
+                  </button>
+                </p>
+                <p>Esta frase es la única forma de recuperar tus fondos. Nosotros no la almacenamos.</p>
+              </mat-card-content>
+          </mat-card>
+  
+          <mat-divider></mat-divider>
+  
+          <div class="send-section">
+            <h3>Enviar AVAX</h3>
+            <mat-form-field appearance="outline" class="full-width-input">
+              <mat-label>Dirección del Destinatario</mat-label>
+              <input matInput [(ngModel)]="sendToAddress" placeholder="0x..." required>
+            </mat-form-field>
+  
+            <mat-form-field appearance="outline" class="full-width-input">
+              <mat-label>Cantidad (AVAX)</mat-label>
+              <input matInput type="number" [(ngModel)]="sendAmount" placeholder="Ej: 0.5" required min="0.000000000000000001">
+            </mat-form-field>
+  
+            <button mat-raised-button color="primary" (click)="sendAvax()" [disabled]="isLoading()">
+              <mat-icon>send</mat-icon> Enviar AVAX
+            </button>
+          </div>
+  
+          <mat-divider></mat-divider>
+  
+          <button mat-raised-button color="warn" (click)="disconnectWallet()" [disabled]="isLoading()">
+            <mat-icon>link_off</mat-icon> Desconectar Billetera
+          </button>
+        </div>
+  
+        <ng-template #noWalletConnected>
+          <div class="no-wallet-section">
+            <h3>Conectar Billetera</h3>
+            <mat-divider></mat-divider>
+            <div class="action-group">
+              <button mat-raised-button color="accent" (click)="createWallet()" [disabled]="isLoading()">
+                <mat-icon>add_circle_outline</mat-icon> Crear Nueva Billetera
+              </button>
+            </div>
+  
+            <mat-divider></mat-divider>
+  
+            <h3>Importar Billetera Existente</h3>
+            <mat-form-field appearance="outline" class="full-width-input">
+              <mat-label>Frase Semilla (Mnemonic) o Clave Privada</mat-label>
+              <textarea matInput [(ngModel)]="importInput" placeholder="Ej: word1 word2 ... word12 o 0x..." rows="3"></textarea>
+            </mat-form-field>
+  
+            <button mat-raised-button color="primary" (click)="importWallet()" [disabled]="isLoading() || !importInput.trim()">
+              <mat-icon>vpn_key</mat-icon> Importar Billetera
+            </button>
+          </div>
+        </ng-template>
+  
+      </mat-card-content>
+    </mat-card>
+  </div>

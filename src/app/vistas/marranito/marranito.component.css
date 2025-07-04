@@ -1,0 +1,129 @@
+.wallet-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Ajusta la altura para centrar verticalmente */
+    background-color: #f0f2f5; /* Fondo suave */
+    padding: 20px;
+  }
+  
+  .wallet-card {
+    width: 100%;
+    max-width: 600px; /* Ancho máximo para la tarjeta */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    border-radius: 8px; /* Bordes redondeados */
+  }
+  
+  .wallet-card mat-card-header {
+    margin-bottom: 20px;
+  }
+  
+  .wallet-card mat-card-title {
+    text-align: center;
+    width: 100%;
+    font-size: 1.8em;
+    color: #3f51b5; /* Color primario de Material */
+  }
+  
+  .wallet-card mat-card-content {
+    padding-top: 15px;
+  }
+  
+  mat-divider {
+    margin: 20px 0;
+  }
+  
+  .full-width-input {
+    width: 100%;
+    margin-bottom: 15px; /* Espacio entre campos de formulario */
+  }
+  
+  .action-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Espacio entre botones */
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .action-group button,
+  .send-section button {
+    padding: 10px 20px; /* Padding interno para los botones */
+    font-size: 1em;
+  }
+  
+  .no-wallet-section,
+  .wallet-info {
+    text-align: center; /* Centrar contenido dentro de estas secciones */
+  }
+  
+  .wallet-info h3,
+  .no-wallet-section h3 {
+    color: #3f51b5;
+    margin-bottom: 10px;
+  }
+  
+  .wallet-info p {
+    font-size: 1.1em;
+    margin-bottom: 10px;
+    word-break: break-all; /* Para que las direcciones largas se rompan en varias líneas */
+  }
+  
+  .message-error {
+    color: #f44336; /* Rojo de error */
+    background-color: #ffebee;
+    border: 1px solid #f44336;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+  
+  .message-success {
+    color: #4caf50; /* Verde de éxito */
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  
+  .mnemonic-warning-card {
+    background-color: #fffde7; /* Amarillo muy claro para advertencia */
+    border: 1px solid #ffeb3b; /* Borde amarillo */
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  .mnemonic-warning-card p {
+    color: #ff9800; /* Texto naranja para advertencia */
+    font-weight: bold;
+  }
+  
+  .mnemonic-text {
+    font-family: 'Courier New', Courier, monospace; /* Fuente monoespaciada para la frase */
+    background-color: #e0e0e0;
+    padding: 10px;
+    border-radius: 4px;
+    word-break: break-all;
+    font-size: 0.9em;
+    position: relative; /* Para el botón de copiar */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Estilos para el botón de copiar dentro del texto */
+  .mnemonic-text button {
+    position: relative;
+    right: 0;
+    top: 0;
+    color: #555;
+    margin-left: 10px;
+  }
+  
+  /* Estilos para los botones con íconos */
+  button mat-icon {
+    margin-right: 8px; /* Espacio entre el ícono y el texto del botón */
+  }

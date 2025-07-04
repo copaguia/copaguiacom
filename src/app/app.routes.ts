@@ -39,6 +39,7 @@ import { LoginComponent } from './vistas/login/login.component';
 import { UserFeedComponent } from './vistas/consumer/user-feed/user-feed.component';
 import { CarruselComponent } from './components/carrusel/carrusel.component';
 import { EventosComponent } from './vistas/categorias/entretenimiento/eventos/eventos.component';
+import { MarranitoComponent } from './vistas/marranito/marranito.component';
 
 // Si tienes un AuthGuard para proteger rutas, impórtalo aquí.
 // import { AuthGuard } from './guards/auth.guard';
@@ -56,6 +57,7 @@ export const routes: Routes = [
     { path: 'seccion-page', component: SeccionPageComponent },
     { path: 'seccion-page/:id', component: SeccionPageComponent },
     { path: 'carrusel', component: CarruselComponent },
+    { path: 'marranito', component: MarranitoComponent },
 
     // 2. RUTAS DE CATEGORÍAS (muy específicas, por lo que no chocarán con :username)
     // Rutas de Categorías de Alimentos
