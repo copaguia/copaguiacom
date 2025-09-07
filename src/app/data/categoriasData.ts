@@ -11,24 +11,12 @@ import { AlimentosData } from "./tarjetasData";
 
 
 // Interface de las categorias
-export interface CategoriasInterface {
-    icono: string;
-    ruta: string;
-    seccion?: SeccionInterface[]; // No es estrictamente necesaria al usarlo colo como categoria.
-    tarjetas?: TarjetaInterface[];
+export interface CategoriasInterface { icono: string;  ruta: string;  seccion?: SeccionInterface[]; tarjetas?: TarjetaInterface[]; }
 
-}
-
-export interface TarjetaInterface {
-    image: string;
-    patrocinador: string;
-}
+export interface TarjetaInterface {    image: string;    patrocinador: string;}
 
 // Interface para las Secciones dentro de las Categorias
-export interface SeccionInterface {
-    ruta: string;
-    icono: string;
-}
+export interface SeccionInterface { seccion?: string;  ruta?: string; icono: string; }
 
 // Data estática para alimentar los botones de navegación de la app.
 export const categoriaData: CategoriasInterface[] = [

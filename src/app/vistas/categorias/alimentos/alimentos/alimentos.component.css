@@ -1,0 +1,105 @@
+/* src/app/vistas/tu-vista/tu-vista.component.css o tu archivo global */
+
+/* Contenedor principal de la lista de categorías */
+.componentes-categoria-lista {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 20px 100px; /* Padding ajustado a lo que tenías */
+  justify-content: center;
+  gap: 20px; /* Espacio entre las tarjetas */
+}
+
+/* Estilo para cada tarjeta individual */
+.componente-categoria-tarjeta {
+  overflow: hidden;
+  transition: background .3s ease, box-shadow .3s ease; /* Añadido box-shadow a la transición */
+  border: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 12px;
+  width: 320px; /* Ancho fijo para las tarjetas, ajusta según necesidad */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil para dar profundidad */
+  cursor: pointer; /* Indica que la tarjeta es clickable */
+  display: flex; /* Para organizar la imagen y el contenido si la imagen es fija */
+  flex-direction: column; /* Contenido apilado verticalmente */
+  background-color: var(--mat-sys-surface-container-low); /* Color de fondo de la tarjeta */
+}
+
+/* Efecto hover para las tarjetas (opcional, pero mejora la UX) */
+.componente-categoria-tarjeta:hover {
+  background-color: var(--mat-sys-surface-container-high); /* Ligeramente más claro/oscuro al pasar el ratón */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada al pasar el ratón */
+  transform: translateY(-2px); /* Pequeño levantamiento visual */
+}
+
+/* Contenedor para la imagen de previsualización */
+.tarjeta-imagen-contenedor {
+  width: 100%;
+  height: 180px; /* Altura fija para las imágenes */
+  background-color: var(--mat-sys-surface-container-highest); /* Fondo si la imagen no carga o no cubre */
+  display: flex; /* Para centrar la imagen */
+  align-items: center; /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  border-bottom: 1px solid var(--mat-sys-outline-variant); /* Separador entre imagen y texto */
+  padding: 10px; /* Espacio interno para la imagen */
+  box-sizing: border-box; /* Incluir padding en el height */
+}
+
+.tarjeta-imagen-contenedor img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* Asegura que la imagen se ajuste sin recortarse */
+  border-radius: 8px; /* Un poco de redondeo también en la imagen */
+}
+
+/* Contenedor para el título y la descripción */
+.tarjeta-contenido {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px; /* Espacio entre título y descripción */
+  flex-grow: 1; /* Para que ocupe el espacio restante si las imágenes tienen altura fija */
+}
+
+/* Estilo para el título de la tarjeta */
+.tarjeta-titulo {
+  font-size: 1.25rem; /* Tamaño de fuente más grande */
+  font-weight: 500; /* Negrita moderada */
+  margin: 0; /* Eliminar margen predeterminado del h2 */
+  color: var(--mat-sys-on-surface); /* Color de texto del tema */
+}
+
+/* Estilo para la descripción de la tarjeta */
+.tarjeta-descripcion {
+  font-size: 0.9rem;
+  color: var(--mat-sys-on-surface-variant); /* Color de texto ligeramente más tenue */
+  margin: 0; /* Eliminar margen predeterminado del p */
+  line-height: 1.4; /* Espaciado entre líneas */
+}
+
+/* Estilos para pantallas de escritorio (por encima de 1024px) */
+.componente-categoria-tarjeta {
+  width: calc(25% - 20px); /* 4 tarjetas por fila */
+}
+
+/* Estilos para tabletas (entre 768px y 1024px) */
+@media (max-width: 1024px) {
+  .componente-categoria-tarjeta {
+      width: calc(33.33% - 20px); /* 3 tarjetas por fila */
+  }
+}
+
+/* Estilos para teléfonos móviles (menos de 768px) */
+@media (max-width: 768px) {
+  .componente-categoria-tarjeta {
+      width: calc(50% - 15px); /* 2 tarjetas por fila */
+  }
+  .componentes-categoria-lista {
+      gap: 15px;
+  }
+}
+
+/* Estilos para móviles muy pequeños (menos de 480px) */
+@media (max-width: 480px) {
+  .componente-categoria-tarjeta {
+      width: 100%; /* 1 tarjeta por fila */
+  }
+}

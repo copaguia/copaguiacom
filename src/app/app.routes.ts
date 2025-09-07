@@ -40,6 +40,11 @@ import { UserFeedComponent } from './vistas/consumer/user-feed/user-feed.compone
 import { CarruselComponent } from './components/carrusel/carrusel.component';
 import { EventosComponent } from './vistas/categorias/entretenimiento/eventos/eventos.component';
 import { MarranitoComponent } from './vistas/marranito/marranito.component';
+import { AlimentosComponent } from './vistas/categorias/alimentos/alimentos/alimentos.component';
+import { ComerciosComponent } from './vistas/categorias/comercios/comercios/comercios.component';
+import { ServiciosComponent } from './vistas/categorias/servicios/servicios/servicios.component';
+import { EntretenimientoComponent } from './vistas/categorias/entretenimiento/entretenimiento/entretenimiento.component';
+import { SaludComponent } from './vistas/categorias/salud/salud/salud.component';
 
 // Si tienes un AuthGuard para proteger rutas, impórtalo aquí.
 // import { AuthGuard } from './guards/auth.guard';
@@ -51,7 +56,15 @@ export const routes: Routes = [
     { path: 'intro', component: IntroComponent },
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'contacto' , component: ContactoComponent },
-    { path: 'nav', component: NavMenuComponent }, // Considera proteger con AuthGuard si es solo para usuarios logueados
+    { path: 'nav', component: NavMenuComponent, 
+        children: [
+            { path: 'Alimentos', component: AlimentosComponent },
+            { path: 'Comercios', component: ComerciosComponent },
+            { path: 'Servicios', component: ServiciosComponent },
+            { path: 'Entretenimiento', component: EntretenimientoComponent },
+            { path: 'Salud', component: SaludComponent },
+
+    ] }, // Considera proteger con AuthGuard si es solo para usuarios logueados
     { path: 'navegacion', component: NavegacionComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },

@@ -16,28 +16,40 @@ import { CategoriasInterface, categoriaData } from '../data/categoriasData';
     templateUrl: './nav-menu.component.html',
     styleUrl: './nav-menu.component.css',
     imports: [
-        MatToolbarModule,
-        MatButtonModule,
-        MatSidenavModule,
-        MatListModule,
-        MatIconModule,
-        AsyncPipe, RouterLink, RouterOutlet
+        MatToolbarModule, MatButtonModule, MatSidenavModule,  MatListModule,    MatIconModule,  AsyncPipe, RouterLink, RouterOutlet
     ]
 })
 export class NavMenuComponent {
 
-  categorias = signal<CategoriasInterface[]>([]);
+  categorias = signal<CategoriasInterface[]>([
+    {
+      ruta:'Alimentos',
+      icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+    },
+    {
+      ruta:'Comercios',
+      icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+    },
+    {
+      ruta:'Servicios',
+      icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+    },
+    {
+      ruta:'Entretenimiento',
+      icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+    },
+    {
+      ruta:'Salud',
+      icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+    },
+
+
+    
+  ]);
   
-  constructor() {
-    const botonesCategorias = categoriaData;
-    this.categorias.set(botonesCategorias);
-}
+ 
 
   private breakpointObserver = inject(BreakpointObserver);
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset) .pipe(  map(result => result.matches),   shareReplay()  );
 }
