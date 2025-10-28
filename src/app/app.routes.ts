@@ -46,11 +46,9 @@ import { ServiciosComponent } from './vistas/categorias/servicios/servicios/serv
 import { EntretenimientoComponent } from './vistas/categorias/entretenimiento/entretenimiento/entretenimiento.component';
 import { SaludComponent } from './vistas/categorias/salud/salud/salud.component';
 
-// Si tienes un AuthGuard para proteger rutas, impórtalo aquí.
-// import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    // 1. RUTAS DE ENTRADA Y PRINCIPALES (Orden: de más específica a menos)
+    // 1. RUTAS DE ENTRADA Y PRINCIPALES
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'intro', component: IntroComponent },
@@ -63,8 +61,8 @@ export const routes: Routes = [
             { path: 'Servicios', component: ServiciosComponent },
             { path: 'Entretenimiento', component: EntretenimientoComponent },
             { path: 'Salud', component: SaludComponent },
-
-    ] }, // Considera proteger con AuthGuard si es solo para usuarios logueados
+        ] 
+    }, 
     { path: 'navegacion', component: NavegacionComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
@@ -72,7 +70,18 @@ export const routes: Routes = [
     { path: 'carrusel', component: CarruselComponent },
     { path: 'marranito', component: MarranitoComponent },
 
-    // 2. RUTAS DE CATEGORÍAS (muy específicas, por lo que no chocarán con :username)
+    // 2. RUTA DEL PERFIL DE USUARIO (CAMBIO NECESARIO)
+    // Se introduce el segmento fijo 'perfil' para que la URL sea /perfil/:username
+    // Esto evita colisiones con rutas de nivel superior (como 'nav', 'categorias', etc.).
+    {
+        path: 'perfil/:username', // ¡Ruta corregida!
+        component: UserFeedComponent, 
+        // canActivate: [AuthGuard]
+    },
+
+    // 3. RUTAS DE CATEGORÍAS (muy específicas, no chocan con 'perfil')
+    // El orden se mantiene ya que todas están bajo el prefijo 'categorias/'
+
     // Rutas de Categorías de Alimentos
     { path: 'categorias/Domicilios', component: DomiciliosComponent },
     { path: 'categorias/Comida Rápida', component: ComidaRapidaComponent },
@@ -97,7 +106,7 @@ export const routes: Routes = [
     { path: 'categorias/Transporte', component: TransporteComponent },
     { path: 'categorias/Hogar y oficina', component: HogarOficinaComponent },
     { path: 'categorias/Construcción', component: ConstruccionComponent },
-    { path: 'categorias/Automotrices', component: ComidaRapidaComponent }, // **IMPORTANTE: Revisa esta línea, ¿es correcto que use ComidaRapidaComponent?**
+    { path: 'categorias/Automotrices', component: ComidaRapidaComponent }, 
     { path: 'categorias/Logística y eventos', component: EventosLogisticaComponent },
     { path: 'categorias/Belleza y Spa', component: BellezaSpaComponent },
 
@@ -114,16 +123,19 @@ export const routes: Routes = [
     { path: 'categorias/Médicos y Odontólogos', component: MedicosOdontologosComponent },
     { path: 'categorias/Naturistas y fisioterapias', component: NaturistasFisioterapiasComponent },
 
-    // 3. RUTA DEL PERFIL DE USUARIO (LA MÁS CRÍTICA - DEBE IR AQUÍ)
-    // Esta ruta capturará `https://copaguia.com/nombredeusuario`
-    // Capturará cualquier segmento que NO haya sido capturado por las rutas específicas anteriores.
+    // 4. RUTA GENÉRICA DE NIVEL SUPERIOR (La ruta original del problema, ahora renombrada y movida)
+    /* * NOTA: Esta ruta genérica debe ir ANTES de la ruta comodín si la quieres mantener, 
+     * pero es inherentemente peligrosa por las colisiones. La ruta 'perfil/:username' 
+     * de arriba es mucho más segura. Si realmente quieres que /usuario funcione,
+     * reemplaza la ruta de arriba con esta, pero sabiendo que puede chocar con otras rutas.
+     */
     {
-        path: ':username',
-        component: UserFeedComponent, // Tu componente que muestra el perfil del usuario
-        // canActivate: [AuthGuard] // Descomentar si tienes un AuthGuard configurado y quieres proteger esta ruta
+        path: 'public/:username', // La he renombrado para que no choque con tus rutas principales
+        component: UserFeedComponent, 
+        // canActivate: [AuthGuard] 
     },
 
-    // 4. RUTA COMODÍN (WILDCARD) - SIEMPRE LA ÚLTIMA:
-    // Si una URL no coincide con ninguna de las rutas anteriores, redirige al usuario a la sección de categorías.
-    { path: '**', redirectTo: '/categorias' } // <--- REDIRTIGE A CATEGORIAS PARA REINICE SU NAVEGACIÓN!
+
+    // 5. RUTA COMODÍN (WILDCARD) - SIEMPRE LA ÚLTIMA:
+    { path: '**', redirectTo: '/categorias' }
 ];
