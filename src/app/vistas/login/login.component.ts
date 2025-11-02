@@ -1,5 +1,5 @@
 // Angular Core
-import { Component, inject, computed, effect } from '@angular/core'; 
+import { Component, inject, computed, effect, signal } from '@angular/core'; 
 import { Router } from '@angular/router'; 
 import { CommonModule } from '@angular/common'; 
 
@@ -43,8 +43,11 @@ export class LoginComponent {
   public logo = 'assets/brand/copaguia-intro.gif';
 	public mensaje = 'Bienvenido a Copa Guia';
 
+	public rutaRedireccion = signal<string>('/nav-menu');
+
 	private router = inject(Router);
 	public authService = inject(AuthService); // ¡Ahora este es el único servicio inyectado
+	
 	// --- Estados reactivos con Signals para el flujo de Login y Asignación de Username ---
 	errorMessage: string = ''; 
 	loading: boolean = false; 
@@ -78,7 +81,7 @@ export class LoginComponent {
 						if (publicProfile && publicProfile.username) {
 							console.log('LoginComponent: Usuario existente con username. Redirigiendo a:', publicProfile.username);
 							// CAMBIO APLICADO AQUÍ: Se usa '/perfil' para coincidir con la nueva ruta
-							this.router.navigate(['/perfil', publicProfile.username]);
+							this.router.navigate([this.rutaRedireccion()]);
 						} else {
 							console.log('LoginComponent: Usuario autenticado sin username. Mostrando formulario de creación.');
 							this.showUsernameForm = true;
@@ -178,7 +181,7 @@ export class LoginComponent {
 			const profile = await this.authService.createUserProfile(this.currentUser() as User, this.usernameInput); 
 			console.log('LoginComponent: Perfil de usuario creado/actualizado:', profile.username);
 			// CAMBIO APLICADO AQUÍ: Se usa '/perfil' para coincidir con la nueva ruta
-			this.router.navigate(['/perfil', profile.username]); 
+			this.router.navigate([this.rutaRedireccion()]); 
 		} catch (error: any) {
 			this.errorMessage = error.message || 'Error al crear/actualizar el perfil de usuario.';
 			console.error('LoginComponent: Error al crear username y perfil:', error);
