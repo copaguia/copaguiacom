@@ -1,9 +1,9 @@
-import { Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { ToolBarPageComponent } from '../../../../components/tool-bar-page/tool-bar-page.component';
 import { CommonModule } from '@angular/common';
 import { collection, onSnapshot, query, Unsubscribe, where } from 'firebase/firestore';
 import { NegocioInterface } from '../../../../interfaces/negocio-interface';
-import { firestore } from '../../../../firebase/firebase-config';
+import { InstanciaFirebase } from '../../../../firebase/instancias.service';
 
 
 /**
@@ -18,6 +18,8 @@ import { firestore } from '../../../../firebase/firebase-config';
   styleUrl: './domicilios.component.css'
 })
 export class DomiciliosComponent implements OnInit, OnDestroy {
+
+  private firestore= inject(InstanciaFirebase).firestore;
   
   // Datos y estado del componente utilizando signals para reactividad
   public title = 'Domicilios en Copacabana'; // Título que se mostrará en la página
@@ -28,33 +30,22 @@ export class DomiciliosComponent implements OnInit, OnDestroy {
   // Variable para controlar la suscripción a Firestore y poder cancelarla
   private desuscribirse: Unsubscribe | undefined;
 
-  /**
-   * Ciclo de vida: Al iniciar el componente
-   * Configura la consulta inicial a Firestore y establece las suscripciones
-   */
+  
   ngOnInit() {
     const seccion = 'Domicilios';
     this.isLoading.set(true); // Indica que se están cargando los datos
     this.desuscribirse = this.obtenerNegocios(seccion, this.negocios);
   }
 
-  /**
-   * Ciclo de vida: Al destruir el componente
-   * Limpia todas las suscripciones para evitar fugas de memoria
-   */
+  
   ngOnDestroy() {
     this.limpiarSuscripcion();
   }
 
-  /**
-   * Obtiene los negocios desde Firestore según la sección especificada
-   * @param seccion - Categoría de negocios a buscar (ej: "Domicilios")
-   * @param negociosSignal - Signal donde se almacenarán los datos obtenidos
-   * @returns Una función para cancelar la suscripción a los cambios en tiempo real
-   */
+  
   private obtenerNegocios(seccion: string, negociosSignal: WritableSignal<NegocioInterface[]>): Unsubscribe {
     // Configura la referencia a la colección y la consulta con filtro
-    const collectionRef = collection(firestore, 'Negocios');
+    const collectionRef = collection(this.firestore, 'Negocios');
     const q = query(collectionRef, where('seccion', '==', seccion));
 
     // Establece un listener para cambios en tiempo real con manejo de éxito y error

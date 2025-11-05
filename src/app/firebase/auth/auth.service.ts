@@ -2,203 +2,167 @@
 import { Injectable, inject, signal, Signal } from '@angular/core'; 
 import { Router } from '@angular/router';
 import {  GoogleAuthProvider,  User,  browserLocalPersistence,  onAuthStateChanged,  setPersistence,  signInWithPopup,  signOut} from 'firebase/auth';
-import {  collection,  doc,  getDoc,  getDocs,  query,  setDoc,  where,  runTransaction,  orderBy,  Firestore // Asegúrate de que el tipo Firestore esté disponible si lo usas
-} from 'firebase/firestore';
-
-// Importa las instancias de Firebase que inicializaste globalmente en app.config.ts
-import { auth, firestore, firebaseAppId } from '../../app.config'; 
+import {  collection,  doc,  getDoc,  getDocs,  query,  setDoc,  where,  runTransaction,  orderBy } from 'firebase/firestore';
 
 
-// --- Interfaces Moviadas aquí ---
-// Interfaz para el perfil público del usuario
-export interface PublicUserProfile {
-  uid: string;
-  username: string;
-  email: string;
-  displayName?: string;
-  photoURL?: string;
-  bio?: string;
-  lastActive?: string;
-  createdAt: string;
-  userType?: 'business' | 'consumer' | 'admin'; // <--- ¡DEFINE EL TIPO DE USUARIO!
-}
+import { PerfilInterface, RolUsuario } from '../../interfaces/perfil-interface';
+import { InstanciaFirebase } from '../instancias.service';
 
-// Interfaz para un post básico (si planeas mostrar posts en el feed)
-export interface Post {
-  id: string;
-  userId: string;
-  username: string;
-  imageUrl: string;
-  caption: string;
-  timestamp: any; // Firebase Timestamp (puede ser Date si lo conviertes)
-  likesCount?: number;
-  commentsCount?: number;
-}
-// ---------------------------------
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  // Signals para el estado de autenticación y perfil público
-  private _user = signal<User | null | undefined>(undefined); 
-  public user: Signal<User | null | undefined> = this._user.asReadonly(); 
-  
-  private _publicUserProfile = signal<PublicUserProfile | null>(null);
-  public publicUserProfile: Signal<PublicUserProfile | null> = this._publicUserProfile.asReadonly();
 
+export class AuthService {
+
+  private instancias = inject(InstanciaFirebase);
+  
   private router = inject(Router);
 
-  constructor() {
-    console.log('AuthService (Consolidado): Usando instancias de Firebase inicializadas globalmente.');
-    console.log('AuthService (Consolidado): Firebase Project ID:', firebaseAppId);
-    this.initAuthListener();
-  }
+  private usuarioEscritura = signal<User | null | undefined>(undefined); 
+  public usuarioLectura: Signal<User | null | undefined> = this.usuarioEscritura.asReadonly(); 
+  
+  private perfilEscritura = signal<PerfilInterface | null>(null);
+  public perfilLectura: Signal<PerfilInterface | null> = this.perfilEscritura.asReadonly();
 
-   /**
-   * Inicializa el listener de estado de autenticación de Firebase.
-   * Configura la persistencia y actualiza las Signals de usuario y perfil.
-   */
-   private async initAuthListener(): Promise<void> {
+  
+
+  readonly nombreColeccion = signal<string>('userProfiles');  
+
+
+  constructor() { this.monitorAutenticacion(); }
+
+
+
+
+
+
+
+
+  // 1. Monitorea la autenticacion y mantiene la persistencia.
+  private async monitorAutenticacion(): Promise<void> {
     try {
-      await setPersistence(auth, browserLocalPersistence);
-      console.log('AuthService (Consolidado): Persistencia de autenticación configurada a browserLocalPersistence.');
+      await setPersistence(this.instancias.auth, browserLocalPersistence); console.log(' Persistencia de autenticación .');
 
-      onAuthStateChanged(auth, async (user) => {
-        this._user.set(user);
-        if (user) {
-          console.log('AuthService (Consolidado): Usuario autenticado detectado:', user.uid);
-          // Cargar el perfil público del usuario o crearlo si no existe
+      onAuthStateChanged(this.instancias.auth, async (usuarioActual) => {
+        this.usuarioEscritura.set(usuarioActual);
+        if (usuarioActual) {     console.log(' Usuario autenticado detectado:', usuarioActual.uid);
           try {
-            let publicProfile = await this.getProfileByUid(user.uid); // Intentar obtener el perfil
+            let publicProfile = await this.obtenerPerfilUsuario(usuarioActual.uid); 
             if (publicProfile) {
-              this._publicUserProfile.set(publicProfile);
-              console.log('AuthService (Consolidado): Perfil público cargado:', publicProfile.username);
-            } else {
-              // <--- ¡INICIA EL BLOQUE DE CÓDIGO A AÑADIR/MODIFICAR AQUÍ!
-              // Si el perfil NO existe en Firestore, crearlo como CONSUMER por defecto
-              console.log('AuthService (Consolidado): Perfil no encontrado para el usuario. Creando perfil CONSUMER por defecto.');
-              // Generar un username por defecto (ej. desde el email o un id truncado si el email no está disponible)
-              const defaultUsername = user.email ? user.email.split('@')[0] : `user_${user.uid.substring(0, 8)}`;
-              // Llama a createUserProfile con el tipo 'consumer' por defecto
-              publicProfile = await this.createUserProfile(user, defaultUsername, 'consumer');
-              this._publicUserProfile.set(publicProfile);
-              console.log('AuthService (Consolidado): Nuevo perfil CONSUMER creado y cargado.');
-              // <--- ¡TERMINA EL BLOQUE DE CÓDIGO A AÑADIR/MODIFICAR AQUÍ!
+              this.perfilEscritura.set(publicProfile);    console.log(' Perfil público cargado:', publicProfile.nombreUsuario);
+            } else {    console.log(' Perfil no encontrado para el usuario. Creando perfil CONSUMER por defecto.');
+              const defaultnombreUsuario = usuarioActual.email ? usuarioActual.email.split('@')[0] : `user_${usuarioActual.uid.substring(0, 8)}`;
+              publicProfile = await this.creaNuevoPerfil(usuarioActual, defaultnombreUsuario);
+              this.perfilEscritura.set(publicProfile);    console.log(' Nuevo perfil CONSUMER creado y cargado.');
             }
-          } catch (error) {
-            console.error('AuthService (Consolidado): Error al cargar o crear perfil público en initAuthListener:', error);
-            this._publicUserProfile.set(null);
-          }
-        } else {
-          this._publicUserProfile.set(null);
-          console.log('AuthService (Consolidado): Usuario desautenticado.');
-        }
+          } catch (error) {     console.error(' Error al cargar o crear perfil público en initAuthListener:', error); this.perfilEscritura.set(null); }
+        } 
+        else { this.perfilEscritura.set(null);    console.log(' Usuario desautenticado.');}
       });
 
-    } catch (error) {
-      console.error('AuthService (Consolidado): Error durante la inicialización de autenticación o persistencia:', error);
-      this._user.set(null);
-      this._publicUserProfile.set(null);
-    }
+    } 
+    catch (error) {     console.error(' Error durante la inicialización de autenticación o persistencia:', error); this.usuarioEscritura.set(null); this.perfilEscritura.set(null); }
   }
 
-  /**
-   * Inicia el proceso de autenticación con Google mediante un pop-up.
-   * @returns {Promise<User>} Una promesa que se resuelve con el objeto User autenticado en caso de éxito.
-   * @throws {Error} Lanza un error si la autenticación falla por alguna razón.
-   */
-  async loginWithGoogle(): Promise<User> { 
-    const provider = new GoogleAuthProvider();
-    provider.addScope('profile'); 
-    provider.addScope('email');   
+
+
+
+
+
+
+
+
+
+
+
+  // 2. Para el boton de Login con Goole.
+  async loginConGoogle(): Promise<User> { 
+    const proveedorGoogle = new GoogleAuthProvider(); proveedorGoogle.addScope('profile'); proveedorGoogle.addScope('email');   
 
     try {
-      const result = await signInWithPopup(auth, provider); 
-      const user = result.user; 
+      const usuarioActual = (await signInWithPopup(this.instancias.auth, proveedorGoogle)).user; // obtiene credenciales mas propiedad user
       
-      if (!user.email) {
-        throw new Error('No se pudo obtener el email del usuario de Google.');
-      }
-      console.log('AuthService (Consolidado): Login con Google exitoso:', user.uid);
-      return user; 
-    } catch (error: any) { 
-      console.error('AuthService (Consolidado): Error en loginWithGoogle:', error);
-      let errorMessage: string;
+      if (!usuarioActual.email) { throw new Error('No se pudo obtener el email del usuario de Google.'); }     console.log(' Login con Google exitoso:', usuarioActual.uid); return usuarioActual; 
+    } 
+    catch (error: any) {    console.error(' Error en loginWithGoogle:', error);
+      let mensajeError: string;
       switch (error.code) {
-        case 'auth/popup-closed-by-user':
-          errorMessage = 'Inicio de sesión cancelado. La ventana emergente fue cerrada.';
+        case 'auth/popup-closed-by-user': mensajeError = 'Inicio de sesión cancelado. La ventana emergente fue cerrada.';
           break;
-        case 'auth/popup-blocked':
-          errorMessage = 'El navegador bloqueó la ventana emergente. Por favor, permita ventanas emergentes e intente nuevamente.';
+        case 'auth/popup-blocked': mensajeError = 'El navegador bloqueó la ventana emergente. Por favor, permita ventanas emergentes e intente nuevamente.';
           break;
-        case 'auth/cancelled-popup-request':
-          errorMessage = 'La solicitud de autenticación fue cancelada.';
+        case 'auth/cancelled-popup-request': mensajeError = 'La solicitud de autenticación fue cancelada.';
           break;
-        case 'auth/account-exists-with-different-credential':
-          errorMessage = 'Ya existe una cuenta con el mismo email pero con diferente proveedor de autenticación.';
+        case 'auth/account-exists-with-different-credential': mensajeError = 'Ya existe una cuenta con el mismo email pero con diferente proveedor de autenticación.';
           break;
-        case 'auth/unauthorized-domain':
-          errorMessage = 'El dominio de la aplicación no está autorizado para operaciones OAuth.';
+        case 'auth/unauthorized-domain': mensajeError = 'El dominio de la aplicación no está autorizado para operaciones OAuth.';
           break;
-        default:
-          errorMessage = `Error al iniciar sesión: ${error.message || 'Ha ocurrido un error desconocido'}`;
+        default: mensajeError = `Error al iniciar sesión: ${error.message || 'Ha ocurrido un error desconocido'}`;
       }
-      throw new Error(errorMessage); 
+      throw new Error(mensajeError); 
     }
   }
 
-  /**
-   * Cierra la sesión del usuario actual en Firebase.
-   * @returns {Promise<void>} Una promesa que se resuelve cuando la sesión ha sido cerrada.
-   */
-  async logout(): Promise<void> {
-    try {
-      await signOut(auth); 
-      console.log('AuthService (Consolidado): Sesión cerrada.');
-      this.router.navigate(['/login']); 
-    } catch (error) {
-      console.error('AuthService (Consolidado): Error al cerrar sesión:', error);
-      throw new Error('Error al cerrar sesión. Intente nuevamente.');
-    }
-  }
 
-  /**
-   * Obtiene el UID (User ID) del usuario actual de Firebase.
-   * @returns {string | null} El UID del usuario autenticado o `null` si no hay usuario.
-   */
-  getCurrentUserId(): string | null {
-    return auth.currentUser ? auth.currentUser.uid : null; 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Se desloguea
+  async desloguear(): Promise<void> {
+    try { await signOut(this.instancias.auth); console.log(' Sesión cerrada.'); this.router.navigate(['/login']); } 
+    catch (error) {console.error(' Error al cerrar sesión:', error); throw new Error('Error al cerrar sesión. Intente nuevamente.');}
   }
 
 
-  // --- Métodos de Gestión de Perfil de Usuario (Movidos de UserProfileService) ---
 
 
 
 
 
 
-  /**
-   * Obtiene el perfil público de un usuario por su UID.
-   * @param uid El UID del usuario.
-   * @returns {Promise<PublicUserProfile | null>} El perfil público o null si no existe.
-   */
-  async getProfileByUid(uid: string): Promise<PublicUserProfile | null> {
+
+
+
+
+
+
+ // Obtiene el ID del usuario actual.
+  obtenerIdentificadorUsuario(): string | null { return this.instancias.auth.currentUser ? this.instancias.auth.currentUser.uid : null; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // Obtiene el perfir por su Identificador.
+  async obtenerPerfilUsuario(idUsuario: string): Promise<PerfilInterface | null> {
     try {
-      const profileDocRef = doc(firestore, `userProfiles`, uid); 
+      const profileDocRef = doc(this.instancias.firestore, this.nombreColeccion() , idUsuario); 
       const profileSnap = await getDoc(profileDocRef);
-      if (profileSnap.exists()) {
-        console.log(`AuthService (Consolidado): Perfil encontrado para UID ${uid}`);
-        return profileSnap.data() as PublicUserProfile;
-      }
-      console.log(`AuthService (Consolidado): No se encontró perfil para UID ${uid}`);
-      return null;
-    } catch (error) {
-      console.error(`AuthService (Consolidado): Error al obtener perfil por UID ${uid}:`, error);
-      throw new Error('Error al obtener el perfil de usuario.');
-    }
+      if (profileSnap.exists()) { console.log(` Perfil encontrado para UID ${idUsuario}`); return profileSnap.data() as PerfilInterface; } console.log(` No se encontró perfil para UID ${idUsuario}`); return null;
+    } 
+    catch (error) { console.error(` Error al obtener perfil por UID ${idUsuario}:`, error); throw new Error('Error al obtener el perfil de usuario.');}
   }
 
 
@@ -207,51 +171,44 @@ export class AuthService {
 
 
 
-  /**
-   * Obtiene el perfil público de un usuario por su username.
-   * @param username El nombre de usuario.
-   * @returns {Promise<PublicUserProfile | null>} El perfil público o null si no existe.
-   */
-  async getProfileByUsername(username: string): Promise<PublicUserProfile | null> {
-    try {
-      const q = query(
-        collection(firestore, `userProfiles`), 
-        where('username', '==', username)
-      );
+
+
+
+
+
+
+ 
+  async obtenerPerfilPorNombreUsuario( nombreUsuario: string ): Promise<PerfilInterface | null> {
+    try { const q = query( collection( this.instancias.firestore, this.nombreColeccion() ), where('nombreUsuario', '==', nombreUsuario ));
       const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        console.log(`AuthService (Consolidado): Perfil encontrado para username ${username}`);
-        return querySnapshot.docs[0].data() as PublicUserProfile;
-      }
-      console.log(`AuthService (Consolidado): No se encontró perfil para username ${username}`);
-      return null;
-    } catch (error) {
-      console.error(`AuthService (Consolidado): Error al obtener perfil por username ${username}:`, error);
-      throw new Error('Error al obtener el perfil de usuario.');
-    }
+      if (!querySnapshot.empty) {console.log(` Perfil encontrado para nombreUsuario ${nombreUsuario}`); return querySnapshot.docs[0].data() as PerfilInterface;} console.log(` No se encontró perfil para nombreUsuario ${nombreUsuario}`);return null;} 
+    catch (error) { console.error(` Error al obtener perfil por nombreUsuario ${nombreUsuario}:`, error); throw new Error('Error al obtener el perfil de usuario.');}
   }
 
-  /**
-   * Verifica si un username ya existe en la base de datos.
-   * @param username El nombre de usuario a verificar.
-   * @returns {Promise<boolean>} True si el username ya existe, false en caso contrario.
-   */
-  async isUsernameTaken(username: string): Promise<boolean> {
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  async verificaNombreUsuario(nombreUsuario: string): Promise<boolean> {
     try {
-      const normalizedUsername = username.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
+      const nombreUsuarioLimpio = nombreUsuario.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
+      const consultaNombreUsuario = query( collection(this.instancias.firestore, this.nombreColeccion() ), where('nombreUsuario', '==', nombreUsuarioLimpio));
+      const resultadosBusqueda = await getDocs(consultaNombreUsuario);
+      const nombreNoDisponible = !resultadosBusqueda.empty; console.log(` nombreUsuario "${nombreUsuario}" ( normalized: "${nombreUsuarioLimpio}") taken: ${nombreNoDisponible}`);
+      return nombreNoDisponible;
 
-      const q = query(
-        collection(firestore, `userProfiles`), 
-        where('username', '==', normalizedUsername)
-      );
-      const querySnapshot = await getDocs(q);
-      const isTaken = !querySnapshot.empty;
-      console.log(`AuthService (Consolidado): Username "${username}" (normalized: "${normalizedUsername}") taken: ${isTaken}`);
-      return isTaken;
-    } catch (error) {
-      console.error(`AuthService (Consolidado): Error al verificar la unicidad del username "${username}":`, error);
-      throw new Error('Error al verificar la unicidad del nombre de usuario.');
-    }
+    } 
+    catch (error) { console.error(` Error al verificar la unicidad del nombreUsuario "${nombreUsuario}":`, error); throw new Error('Error al verificar la unicidad del nombre de usuario.');}
   }
 
 
@@ -260,119 +217,69 @@ export class AuthService {
 
 
 
-/**
-   * Crea o actualiza un perfil público de usuario con un username y un tipo de usuario.
-   * Utiliza una transacción para asegurar la unicidad del username si es un perfil nuevo.
-   * @param user El objeto User de Firebase (proveniente de la autenticación).
-   * @param username El username deseado por el usuario.
-   * @param type El tipo de usuario ('consumer', 'business', 'admin'). Por defecto 'consumer'. // <-- ¡NUEVA DESCRIPCIÓN Y PARÁMETRO!
-   * @returns {Promise<PublicUserProfile>} El perfil público creado o actualizado.
-   */
-async createUserProfile(
-  user: User,
-  username: string,
-  type: 'consumer' | 'business' | 'admin' = 'consumer' // <-- ¡MODIFICA ESTA LÍNEA! (Añade 'type' y su valor por defecto)
-): Promise<PublicUserProfile> {
-  const uid = user.uid;
-  const normalizedUsername = username.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
 
-  if (!normalizedUsername) {
-    throw new Error('El nombre de usuario no puede estar vacío o contener solo caracteres especiales.');
-  }
-
-  try {
-    const newProfile: PublicUserProfile = {
-      uid: uid,
-      username: normalizedUsername,
-      email: user.email || '',
-      displayName: user.displayName || '',
-      photoURL: user.photoURL || '',
-      bio: '',
-      lastActive: new Date().toISOString(),
-      createdAt: new Date().toISOString(),
-      userType: type // <--- ¡AÑADE O MODIFICA ESTA LÍNEA PARA ASIGNAR EL TIPO!
-    };
-
-    await runTransaction(firestore, async (transaction) => {
-      const userProfileRef = doc(firestore, `userProfiles`, uid);
-      const userProfileSnap = await transaction.get(userProfileRef);
-
-      if (userProfileSnap.exists()) {
-        // Si el perfil ya existe, actualizamos username y lastActive si es necesario
-        const existingProfile = userProfileSnap.data() as PublicUserProfile;
-        if (!existingProfile.username || existingProfile.username !== normalizedUsername) {
-          transaction.update(userProfileRef, { username: normalizedUsername, lastActive: newProfile.lastActive });
-          console.log(`AuthService (Consolidado): Perfil existente para ${uid} actualizado con nuevo username: ${normalizedUsername}`);
-        } else {
-          transaction.update(userProfileRef, { lastActive: newProfile.lastActive });
-          console.log(`AuthService (Consolidado): Perfil existente para ${uid} actualizado solo lastActive.`);
+  
+  async creaNuevoPerfil( user: User, nombreUsuario: string ): Promise<PerfilInterface> {
+    const idUsuario = user.uid;
+   
+    const nombreUsuarioLimpio = nombreUsuario.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
+  
+    if (!nombreUsuarioLimpio) { throw new Error('El nombre de usuario no puede estar vacío o contener solo caracteres especiales.'); }
+  
+    try {
+     
+      const nuevoPerfil: PerfilInterface = {
+        id: idUsuario, nombreUsuario: nombreUsuarioLimpio, email: user.email || '', nombreMostrado: user.displayName || '', urlFoto: user.photoURL || '',
+        biografia: '', ultimaActividad: new Date().toISOString(), fechaCreacion: new Date().toISOString(), rolUsuario: RolUsuario.USUARIO 
+      };
+  
+      // 3. Verifica la unicidad del nombreUsuario AFUERA de la transacción
+      const consultaVerificacion = query( collection(this.instancias.firestore, this.nombreColeccion()), where('nombreUsuario', '==', nombreUsuarioLimpio));
+      const nombreExistente = await getDocs(consultaVerificacion);
+  
+      // Si el nombreUsuario ya existe Y pertenece a un UID *diferente* al actual, lanza un error.
+      if (!nombreExistente.empty && nombreExistente.docs[0].id !== idUsuario) { throw new Error('El nombre de usuario ya está en uso. Por favor, elige otro.'); }
+  
+      // 4. Ejecuta la transacción para escribir los datos de forma segura
+      await runTransaction( this.instancias.firestore, async (transaction) => {
+        const referenciaUsuario = doc( this.instancias.firestore, this.nombreColeccion(), idUsuario);
+        const fotoDelPerfil = await transaction.get(referenciaUsuario);
+  
+        if (fotoDelPerfil.exists()) {
+          const perfilExistente = fotoDelPerfil.data() as PerfilInterface;
+          
+          if (!perfilExistente.nombreUsuario || perfilExistente.nombreUsuario !== nombreUsuarioLimpio) {
+            transaction.update(referenciaUsuario, { nombreUsuario: nombreUsuarioLimpio, ultimaActividad: nuevoPerfil.ultimaActividad }) } 
+          else { transaction.update(referenciaUsuario, { ultimaActividad: nuevoPerfil.ultimaActividad }); }
+          
+        } 
+        else {
+          transaction.set(referenciaUsuario, nuevoPerfil);    console.log(` Nuevo perfil público creado para ${idUsuario} con nombreUsuario: ${nombreUsuarioLimpio}, tipo: ${nuevoPerfil.rolUsuario}`);
         }
-        // NOTA IMPORTANTE: El userType NO se actualiza aquí si el perfil ya existe.
-        // El userType se establece en la creación inicial. Si un usuario cambia de rol
-        // (ej. de consumidor a negocio), se manejaría con una función de "actualización de rol" separada.
-      } else {
-        // Si el perfil NO existe, lo creamos asegurando la unicidad del username
-        const qCheck = query(
-          collection(firestore, `userProfiles`),
-          where('username', '==', normalizedUsername)
-        );
-        const existingUsernameSnap = await getDocs(qCheck);
-
-        if (!existingUsernameSnap.empty) {
-          throw new Error('El nombre de usuario ya está en uso. Por favor, elige otro.');
-        }
-
-        transaction.set(userProfileRef, newProfile); // <-- Aquí se guarda el 'newProfile' con el 'userType'
-        console.log(`AuthService (Consolidado): Nuevo perfil público creado para ${uid} con username: ${normalizedUsername}, tipo: ${type}`);
-      }
-    });
-    return newProfile;
-  } catch (error: any) {
-    console.error(`AuthService (Consolidado): Error al crear o actualizar perfil para UID ${uid}:`, error);
-    throw new Error(error.message || 'Error al guardar el perfil de usuario.');
-  }
+      });
+      
+      return nuevoPerfil;
+  
+    } catch (error: any) { console.error(` Error al crear o actualizar perfil para UID ${idUsuario}:`, error); throw new Error(error.message || 'Error al guardar el perfil de usuario.'); }
 }
 
-  /**
-   * Actualiza la fecha de última actividad de un perfil de usuario.
-   * @param uid El UID del usuario.
-   */
-  async updateLastActive(uid: string): Promise<void> {
-    try {
-      const profileDocRef = doc(firestore, `userProfiles`, uid); 
-      await setDoc(profileDocRef, { lastActive: new Date().toISOString() }, { merge: true });
-      console.log(`AuthService (Consolidado): lastActive actualizado para UID ${uid}`);
-    } catch (error) {
-      console.error(`AuthService (Consolidado): Error al actualizar lastActive para UID ${uid}:`, error);
-    }
+  
+
+
+
+
+
+
+
+
+
+  async guardaUltimaSesion(idUsuario: string): Promise<void> {
+    try { const referenciaUsuario = doc( this.instancias.firestore, this.nombreColeccion() , idUsuario); 
+      await setDoc(referenciaUsuario, { ultimaActividad: new Date().toISOString() }, { merge: true }); console.log(` ultimaActividad actualizado para UID ${idUsuario}`);} 
+    catch (error) { console.error(` Error al actualizar ultimaActividad para UID ${idUsuario}:`, error); }
   }
 
 
-
-
-
-
-
-
-  /**
-   * Obtiene los posts de un usuario específico por su UID.
-   * @param userId El UID del usuario.
-   * @returns {Promise<Post[]>} Una lista de posts del usuario.
-   */
-  async getUserPosts(userId: string): Promise<Post[]> {
-    try {
-      const postsCollectionRef = collection(firestore, `posts`); 
-      const q = query(postsCollectionRef, where('userId', '==', userId), orderBy('timestamp', 'desc'));
-      const querySnapshot = await getDocs(q);
-      const posts: Post[] = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data() as Omit<Post, 'id'> 
-      }));
-      console.log(`AuthService (Consolidado): Posts encontrados para UID ${userId}:`, posts.length);
-      return posts;
-    } catch (error) {
-      console.error(`AuthService (Consolidado): Error al obtener posts para UID ${userId}:`, error);
-      throw new Error('Error al cargar las publicaciones del usuario.');
-    }
-  }
+  
+ 
 }

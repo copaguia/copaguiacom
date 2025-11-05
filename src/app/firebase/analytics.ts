@@ -1,6 +1,6 @@
 // src/app/firebase/analytics.ts
 import { getAnalytics, logEvent, setUserId, setUserProperties } from 'firebase/analytics';
-import { app } from './firebase-config';
+import { app } from './instancias.service';
 
 // Inicialización de Analytics
 export const analytics = getAnalytics(app);

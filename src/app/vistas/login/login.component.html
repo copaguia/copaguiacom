@@ -1,12 +1,7 @@
-<!-- src/app/login/login.component.html -->
-<!-- Contenedor principal del componente de login. -->
+
  
 <div class="center"> 
-    <!-- Contenedor para aplicar estilos de tipografía de Material Design y centrar el contenido. -->
     <div class="mat-typography">
-  
-      <!-- Sección de carga inicial de autenticación.
-           Este bloque se muestra mientras la aplicación verifica el estado de la sesión. -->
       @if (isAuthLoading()) {
         <div style="padding: 32px 0;">
           <mat-spinner diameter="50"></mat-spinner>
@@ -14,8 +9,6 @@
         </div>
       }
   
-      <!-- Contenido principal del formulario de login/creación de username.
-           Se muestra solo una vez que la autenticación inicial ha terminado. -->
       @if (!isAuthLoading()) {
         <mat-card>
           <mat-card-content style="padding: 24px;">
@@ -24,17 +17,13 @@
             <img class="logo" src="{{ logo }}" alt="">
             
             
-            
-            <!-- SECCIÓN DE INICIO DE SESIÓN CON GOOGLE -->
-            <!-- Este bloque se muestra cuando el usuario necesita iniciar sesión (no tiene sesión activa o username). -->
             @if (!showUsernameForm) {
               
               <h3> {{ mensaje }} </h3>
   
               <button mat-raised-button  color="primary"
-              (click)="loginWithGoogle()"  [disabled]="loading">
+              (click)="loginConGoogle()"  [disabled]="loading">
                 @if (!loading) {             
-                  <!-- Icono SVG de Google -->
                   <svg style="width: 20px; height: 20px; margin-right: 8px;" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M22.675 11.238c0-.783-.069-1.543-.19-2.285H12v4.51h6.07c-.266 1.348-.99 2.483-2.078 3.327v2.925h3.766c2.203-2.028 3.48-5.006 3.48-8.477z" fill="#4285F4"/>
                     <path d="M12 23c3.053 0 5.617-1 7.487-2.735l-3.766-2.925c-1.088.751-2.49 1.205-3.721 1.205-2.868 0-5.29-1.93-6.167-4.502H2.884v2.99C4.814 21.36 8.236 23 12 23z" fill="#34A853"/>
@@ -48,8 +37,6 @@
               </button>
             }
   
-            <!-- SECCIÓN DE CREACIÓN DE USERNAME -->
-            <!-- Este bloque se muestra solo si `showUsernameForm` es true (para usuarios nuevos que necesitan definir un username). -->
             @if (showUsernameForm) {
               <h3>Elige tu Nombre de Usuario</h3>
               <p style="margin-bottom: 16px; color: var(--mdc-ref-palette-neutral70);">Este será tu identificador único en la aplicación.</p>
@@ -57,26 +44,13 @@
               <mat-form-field appearance="outline" style="width: 100%; margin-bottom: 16px;">
                 <mat-label>Nombre de Usuario</mat-label>
                 <input matInput 
-                       placeholder="ej. mi_negocio_online"
-                       [(ngModel)]="usernameInput"
-                       (ngModelChange)="checkUsernameAvailability()"
-                       [disabled]="usernameCheckLoading || loading"
-                       required
-                       minlength="3"
-                       pattern="^[a-zA-Z0-9_]+$"
-                       #usernameField="ngModel"> 
+                       placeholder="ej. mi_negocio_online" [(ngModel)]="usernameInput" (ngModelChange)="checkUsernameAvailability()" [disabled]="usernameCheckLoading || loading"
+                       required minlength="3" pattern="^[a-zA-Z0-9_]+$" #usernameField="ngModel"> 
               </mat-form-field>
   
-              <button
-                mat-raised-button
-                color="primary"
-                (click)="createUsernameAndProfile()"
-                [disabled]="usernameCheckLoading || loading || !usernameAvailable || usernameField.invalid">
-                @if (!loading) {
-                  <span>Crear Nombre de Usuario y Entrar</span>
-                } @else {
-                  <mat-spinner [diameter]="24"></mat-spinner>
-                }
+              <button mat-raised-button color="primary" (click)="createUsernameAndProfile()" [disabled]="usernameCheckLoading || loading || !usernameAvailable || usernameField.invalid">
+                @if (!loading) { <span>Crear Nombre de Usuario y Entrar</span>
+                } @else { <mat-spinner [diameter]="24"></mat-spinner> }
               </button>
             }
           </mat-card-content>

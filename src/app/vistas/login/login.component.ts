@@ -15,6 +15,7 @@ import { MatCardModule } from '@angular/material/card';
 // Firebase (solo el tipo `User` se importa)
 import { User } from 'firebase/auth'; 
 import { AuthService } from '../../firebase/auth/auth.service';
+import { RolUsuario } from '../../interfaces/perfil-interface';
 
 
 // ¡Solo un servicio!
@@ -25,14 +26,7 @@ import { AuthService } from '../../firebase/auth/auth.service';
 @Component({
   selector: 'app-login',
   imports: [ 
-    CommonModule,             
-    FormsModule,
-    MatCardModule,              
-    MatButtonModule,          
-    MatIconModule,            
-    MatProgressSpinnerModule, 
-    MatInputModule,           
-    MatFormFieldModule        
+    CommonModule, FormsModule, MatCardModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatInputModule, MatFormFieldModule        
   ],
   standalone: true,
   templateUrl: './login.component.html',
@@ -40,7 +34,7 @@ import { AuthService } from '../../firebase/auth/auth.service';
 })
 export class LoginComponent {
 
-  public logo = 'assets/brand/copaguia-intro.gif';
+  	public logo = 'assets/brand/copaguia-intro.gif';
 	public mensaje = 'Bienvenido a Copa Guia';
 
 	public rutaRedireccion = signal<string>('/nav-menu');
@@ -53,7 +47,7 @@ export class LoginComponent {
 	loading: boolean = false; 
 	
 	// `currentUser`: Signal que representa el usuario de Firebase logueado. 
-	currentUser = this.authService.user; 
+	currentUser = this.authService.usuarioLectura; 
 	// `isAuthLoading`: Signal computada que indica si el `AuthService` aún está verificando el estado inicial.
 	isAuthLoading = computed(() => this.currentUser() === undefined);
 
@@ -76,10 +70,10 @@ export class LoginComponent {
 					console.log('LoginComponent: Efecto detecta usuario autenticado:', user.uid);
 					try {
 						// Usar el método directamente del AuthService consolidado
-						const publicProfile = await this.authService.getProfileByUid(user.uid); 
+						const publicProfile = await this.authService.obtenerPerfilUsuario(user.uid); 
 						
-						if (publicProfile && publicProfile.username) {
-							console.log('LoginComponent: Usuario existente con username. Redirigiendo a:', publicProfile.username);
+						if (publicProfile && publicProfile.nombreUsuario) {
+							console.log('LoginComponent: Usuario existente con username. Redirigiendo a:', publicProfile.nombreUsuario);
 							// CAMBIO APLICADO AQUÍ: Se usa '/perfil' para coincidir con la nueva ruta
 							this.router.navigate([this.rutaRedireccion()]);
 						} else {
@@ -107,17 +101,17 @@ export class LoginComponent {
 	}
 
 
-	async loginWithGoogle(): Promise<void> {
+	async loginConGoogle(): Promise<void> {
 		this.loading = true; 
 		this.errorMessage = ''; 
 
 		try {
-			await this.authService.loginWithGoogle(); // Usar el método del AuthService consolidado
+			await this.authService.loginConGoogle(); // Usar el método del AuthService consolidado
 			console.log('LoginComponent: Login con Google completado. El flujo posterior lo gestiona el efecto de Signal.');
 		} catch (error: any) {
 			this.errorMessage = error.message; 
 			this.showUsernameForm = false; 
-			console.error('LoginComponent: Error en loginWithGoogle:', error);
+			console.error('LoginComponent: Error en loginConGoole:', error);
 		} finally {
 			this.loading = false; 
 		}
@@ -142,7 +136,7 @@ export class LoginComponent {
 		this.usernameCheckLoading = true; 
 		try {
 			// Usar el método del AuthService consolidado
-			const taken = await this.authService.isUsernameTaken(this.usernameInput); 
+			const taken = await this.authService.verificaNombreUsuario(this.usernameInput); 
 			this.usernameAvailable = !taken; 
 			if (taken) {
 				this.usernameErrorMessage = 'Este nombre de usuario ya está en uso. Por favor, elige otro.';
@@ -178,8 +172,8 @@ export class LoginComponent {
 
 		try {
 			// Usar el método del AuthService consolidado
-			const profile = await this.authService.createUserProfile(this.currentUser() as User, this.usernameInput); 
-			console.log('LoginComponent: Perfil de usuario creado/actualizado:', profile.username);
+			const profile = await this.authService.creaNuevoPerfil(this.currentUser() as User, this.usernameInput); 
+			console.log('LoginComponent: Perfil de usuario creado/actualizado:', profile.nombreUsuario);
 			// CAMBIO APLICADO AQUÍ: Se usa '/perfil' para coincidir con la nueva ruta
 			this.router.navigate([this.rutaRedireccion()]); 
 		} catch (error: any) {

@@ -16,21 +16,21 @@
               <!-- Avatar del perfil del usuario -->
               <div mat-card-avatar>
                 <!-- Se muestra la foto si existe, si no, el icono. No hay @if para toda la imagen/icono. -->
-                <img [src]="userProfile()?.photoURL || 'https://placehold.co/64x64/cccccc/333333?text=NP'" alt="Foto de perfil">
+                <img [src]="userProfile()?.urlFoto" alt="Foto de perfil">
                 <!-- Si quisieras solo el icono sin imagen por defecto, necesitarías CSS para mostrar/ocultar -->
                 <!-- <mat-icon *ngIf="!userProfile()?.photoURL">account_circle</mat-icon> -->
               </div>
               <!-- Título y subtítulo de la tarjeta del perfil -->
               <mat-card-title>
-                {{ userProfile()?.displayName || userProfile()?.email || 'Usuario Desconocido' }}
+                {{ userProfile()?.nombreMostrado }}
               </mat-card-title>
               <mat-card-subtitle>
-                {{ userProfile()?.username || 'sin_usuario' }}
+                {{ userProfile()?.nombreUsuario }}
               </mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               <!-- Biografía del usuario (se muestra si existe, o un texto por defecto) -->
-              <p>{{ userProfile()?.bio || (isCurrentUserProfile() ? 'No tienes biografía aún. ¡Edita tu perfil!' : 'Sin biografía.') }}</p>
+              <p>{{ userProfile()?.biografia }}</p>
               
             </mat-card-content>
             <mat-card-actions>
@@ -56,7 +56,7 @@
               <mat-card-header>
                 <!-- Avatar del autor de la publicación -->
                 <div mat-card-avatar>
-                  <img [src]="userProfile()?.photoURL || 'https://placehold.co/40x40/cccccc/333333?text=NP'" alt="Foto de perfil">
+                  <img [src]="userProfile()?.urlFoto" alt="Foto de perfil">
                 </div>
                 <!-- Título y subtítulo de la tarjeta de publicación -->
                 <mat-card-title>{{ post.username }}</mat-card-title>
