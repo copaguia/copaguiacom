@@ -21,7 +21,8 @@
   margin-bottom: 1rem;
 }
 
-.app-logo {
+.logo {
+  border-radius: 50%;
   width: 100px;
   height: 100px;
   margin-bottom: 1rem;

@@ -1,77 +1,69 @@
-import { Component, signal, ChangeDetectionStrategy, HostListener } from '@angular/core';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatDividerModule} from '@angular/material/divider';
-import { categoriaData } from '../../data/categoriasData';
-import { MatTabsModule} from '@angular/material/tabs';
+import { Component, signal, ChangeDetectionStrategy, HostListener, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 
-import { BreakpointObserver } from '@angular/cdk/layout';
+// Angular Material
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+
+// Servicios y Componentes
+import { AuthService } from '../../firebase/auth/auth.service';
+import { categoriaData } from '../../data/categoriasData';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';
-import { RouterLink } from '@angular/router';
-
-export interface Tile {
-  color: string;
-  cols: number;
-  rows: number;
-  text: string;
-}
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-categorias',
+  standalone: true, // Convertido a standalone
   imports: [
-    MatTabsModule,MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, 
-    CarruselComponent, ScrollBotonesComponent ],
+    CommonModule, RouterLink,
+    MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,
+    MatDividerModule, MatMenuModule, MatButtonModule,
+    CarruselComponent, ScrollBotonesComponent
+  ],
   templateUrl: './categorias.component.html',
-    styleUrl: './categorias.component.css',
+  styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriasComponent {
 
-  tiles: Tile[] = [
-    {text: 'One', cols: 3, rows: 1, color: 'lightblue'},
-    {text: 'Two', cols: 1, rows: 2, color: 'lightgreen'},
-    {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
-    {text: 'Four', cols: 2, rows: 1, color: '#DDBDF1'},
-  ];
+  // Inyección de servicios
+  public authService = inject(AuthService);
+  private router = inject(Router);
 
+  // --- Propiedades existentes ---
+  isMobile: boolean;
+  categorias = signal(categoriaData);
 
-  // Bloke que verifica si es Movile o pantalla escrotorio para presentar los botones de las categorias.
-  isMobile: boolean;   
   constructor(public breakpointObserver: BreakpointObserver) {
-    this.isMobile = window.innerWidth < 768; // Initial check on component load
+    this.isMobile = window.innerWidth < 768;
   }
+
   @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
+  onResize(event: any) {
     this.isMobile = event.target.innerWidth < 768;
   }
+  
+  // --- Nuevos métodos para el menú de usuario ---
 
+  /**
+   * Navega a la ruta especificada.
+   * @param route La ruta a la que se desea navegar.
+   */
+  navigateTo(route: string): void {
+    this.router.navigate([route]);
+  }
 
-
-  // Bloke que presenta las categorias según la data.
-
-  // Signasl de Categorias. USANDO SOLO SIGNASL ME LEE LOS DATOS ESTATICOS
-  categorias = signal(categoriaData); // Esta data podria pasar a ser dinamica si se implementa una coleccion de firestore y se hace un Get.
-
-
-
-
-
-
-  /*
-  obtenerSecciones(ruta: string, signalSecciones: any) {
-    const categoria = this.categorias().find(cat => cat.ruta === ruta);
-    if (categoria) {
-      if (Array.isArray(categoria.seccion)) {
-        signalSecciones.set(categoria.seccion);
-      } else {
-        console.error(`El tipo de dato de categoria.${ruta}.seccion no es un array de SeccionInterface`);
-      }
-    } else {
-      console.error(`La categoria ${ruta} no existe en los datos`);
-    }
-  } */
-
-
+  /**
+   * Cierra la sesión del usuario.
+   */
+  logout(): void {
+    this.authService.desloguear();
+  }
 }
