@@ -15,11 +15,11 @@ export const app = initializeApp(environment.firebaseConfig);
   providedIn: 'root'
 })
 export class InstanciaFirebase {
-  public auth: Auth = getAuth(app);
-  public firestore: Firestore = getFirestore(app);
-  public storage: FirebaseStorage = getStorage(app);
-  public messaging: Messaging = getMessaging(app);
-  public analytics: Analytics = getAnalytics(app);
+  public auth:        Auth                = getAuth(app);
+  public firestore:   Firestore           = getFirestore(app);
+  public storage:     FirebaseStorage     = getStorage(app);
+  public messaging:   Messaging           = getMessaging(app);
+  public analytics:   Analytics           = getAnalytics(app);
   public performance: FirebasePerformance = getPerformance(app);
 }
 
