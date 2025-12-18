@@ -1,61 +1,48 @@
+<div class="login-container">
+  <mat-card class="card">
 
- 
-<div class="center"> 
-    <div class="mat-typography">
-      @if (isAuthLoading()) {
-        <div style="padding: 32px 0;">
-          <mat-spinner diameter="50"></mat-spinner>
-          <p>Cargando autenticación...</p>
+    <!-- Sección del Logo y Mensaje de Bienvenida -->
+    <mat-card-header>
+      <div class="header-content">
+        <img [src]="logo" alt="Logo de la Aplicación" class="logo">
+        <mat-card-title>{{ mensaje }}</mat-card-title>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Muestra un spinner de carga mientras se verifica el estado de autenticación inicial -->
+      <div *ngIf="isAuthLoading()" class="spinner-container">
+        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+        <p>Verificando sesión...</p>
+      </div>
+
+      <!-- Muestra el botón de login solo si la verificación inicial ha terminado y el usuario no está logueado -->
+      <div *ngIf="!isAuthLoading() && !authService.usuarioLectura()">
+        
+        <!-- Botón principal para iniciar sesión con Google -->
+        <button 
+          mat-raised-button 
+          color="primary" 
+          (click)="loginConGoogle()" 
+          [disabled]="loading"
+          class="google-login-button">
+          
+          <div *ngIf="!loading; else showSpinner">
+            <mat-icon svgIcon="google_logo"></mat-icon>
+            <span>Continuar con Google</span>
+          </div>
+          
+          <ng-template #showSpinner>
+            <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
+          </ng-template>
+        </button>
+
+        <!-- Muestra mensajes de error si ocurren durante el login -->
+        <div *ngIf="errorMessage" class="error-message">
+          <p>{{ errorMessage }}</p>
         </div>
-      }
-  
-      @if (!isAuthLoading()) {
-        <mat-card>
-          <mat-card-content style="padding: 24px;">
+      </div>
+    </mat-card-content>
 
-            
-            <img class="logo" src="{{ logo }}" alt="">
-            
-            
-            @if (!showUsernameForm) {
-              
-              <h3> {{ mensaje }} </h3>
-  
-              <button mat-raised-button  color="primary"
-              (click)="loginConGoogle()"  [disabled]="loading">
-                @if (!loading) {             
-                  <svg style="width: 20px; height: 20px; margin-right: 8px;" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M22.675 11.238c0-.783-.069-1.543-.19-2.285H12v4.51h6.07c-.266 1.348-.99 2.483-2.078 3.327v2.925h3.766c2.203-2.028 3.48-5.006 3.48-8.477z" fill="#4285F4"/>
-                    <path d="M12 23c3.053 0 5.617-1 7.487-2.735l-3.766-2.925c-1.088.751-2.49 1.205-3.721 1.205-2.868 0-5.29-1.93-6.167-4.502H2.884v2.99C4.814 21.36 8.236 23 12 23z" fill="#34A853"/>
-                    <path d="M5.833 14.398c-.27-.791-.424-1.63-.424-2.48s.154-1.689.424-2.48V6.91H2.884C1.942 8.761 1.488 10.793 1.488 12.55s.454 3.789 1.396 5.639L5.833 14.398z" fill="#FBBC05"/>
-                    <path d="M12 4.47c1.657 0 3.15.577 4.334 1.706L19.24 3.05c-1.87-1.735-4.434-2.735-7.24-2.735-3.764 0-7.186 1.64-9.116 4.398l2.949 2.308c.877-2.572 3.3-4.502 6.167-4.502z" fill="#EA4335"/>
-                  </svg>
-                  Iniciar Sesión con Google
-                } @else {
-                  <mat-spinner [diameter]="24"></mat-spinner>
-                }
-              </button>
-            }
-  
-            @if (showUsernameForm) {
-              <h3>Elige tu Nombre de Usuario</h3>
-              <p style="margin-bottom: 16px; color: var(--mdc-ref-palette-neutral70);">Este será tu identificador único en la aplicación.</p>
-  
-              <mat-form-field appearance="outline" style="width: 100%; margin-bottom: 16px;">
-                <mat-label>Nombre de Usuario</mat-label>
-                <input matInput 
-                       placeholder="ej. mi_negocio_online" [(ngModel)]="usernameInput" (ngModelChange)="checkUsernameAvailability()" [disabled]="usernameCheckLoading || loading"
-                       required minlength="3" pattern="^[a-zA-Z0-9_]+$" #usernameField="ngModel"> 
-              </mat-form-field>
-  
-              <button mat-raised-button color="primary" (click)="createUsernameAndProfile()" [disabled]="usernameCheckLoading || loading || !usernameAvailable || usernameField.invalid">
-                @if (!loading) { <span>Crear Nombre de Usuario y Entrar</span>
-                } @else { <mat-spinner [diameter]="24"></mat-spinner> }
-              </button>
-            }
-          </mat-card-content>
-        </mat-card>
-      }
-    </div>
-  </div>
-  
+  </mat-card>
+</div>

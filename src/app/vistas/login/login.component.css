@@ -1,27 +1,54 @@
-.center {
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  height: 100%; 
+
+.login-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;    /* Centra verticalmente */
+  height: 100vh;          /* Hace que el contenedor ocupe toda la altura de la pantalla */
+  background-color: #031e1d; /* Un fondo suave para que la tarjeta resalte */
 }
 
-.logo {
-  border-radius: 50%;
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.app-logo {
   width: 100px;
   height: 100px;
+  margin-bottom: 1rem;
 }
 
-button {
+.google-login-button {
   width: 100%; 
   height: 48px; 
   display: flex; 
   align-items: center; 
-  justify-content: center; margin-top: 16px;
+  justify-content: center;
 }
 
-.mat-typography {
-  padding: 16px; 
-  margin: auto; 
-  max-width: 400px; 
-  text-align: center;
+/* Estilos para el spinner dentro del botón */
+.google-login-button mat-progress-spinner {
+  margin: 0;
+}
+
+.error-message {
+  color: red;
+  margin-top: 16px;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 }

@@ -30,15 +30,7 @@ export class AuthService {
 
   readonly nombreColeccion = signal<string>('Usuarios');  
 
-
   constructor() { this.monitorAutenticacion(); }
-
-
-
-
-
-
-
 
   // 1. Monitorea la autenticacion y mantiene la persistencia.
   private async monitorAutenticacion(): Promise<void> {
@@ -67,19 +59,14 @@ export class AuthService {
   }
 
 
-
-
-
-
-
-
-
-
-
-
   // 2. Para el boton de Login con Goole.
   async loginConGoogle(): Promise<User> { 
-    const proveedorGoogle = new GoogleAuthProvider(); proveedorGoogle.addScope('profile'); proveedorGoogle.addScope('email');   
+    const proveedorGoogle = new GoogleAuthProvider(); 
+    proveedorGoogle.addScope('profile'); 
+    proveedorGoogle.addScope('email');   
+    proveedorGoogle.setCustomParameters({
+      prompt: 'select_account'
+    });
 
     try {
       const usuarioActual = (await signInWithPopup(this.instancias.auth, proveedorGoogle)).user; // obtiene credenciales mas propiedad user
@@ -106,19 +93,6 @@ export class AuthService {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   // Se desloguea
   async desloguear(): Promise<void> {
     try { await signOut(this.instancias.auth); console.log(' Sesión cerrada.'); this.router.navigate(['/login']); } 
@@ -126,33 +100,8 @@ export class AuthService {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
  // Obtiene el ID del usuario actual.
   obtenerIdentificadorUsuario(): string | null { return this.instancias.auth.currentUser ? this.instancias.auth.currentUser.uid : null; }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   // Obtiene el perfir por su Identificador.
@@ -166,17 +115,6 @@ export class AuthService {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
  
   async obtenerPerfilPorNombreUsuario( nombreUsuario: string ): Promise<PerfilInterface | null> {
     try { const q = query( collection( this.instancias.firestore, this.nombreColeccion() ), where('nombreUsuario', '==', nombreUsuario ));
@@ -186,77 +124,44 @@ export class AuthService {
   }
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  async verificaNombreUsuario(nombreUsuario: string): Promise<boolean> {
-    try {
-      const nombreUsuarioLimpio = nombreUsuario.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
-      const consultaNombreUsuario = query( collection(this.instancias.firestore, this.nombreColeccion() ), where('nombreUsuario', '==', nombreUsuarioLimpio));
-      const resultadosBusqueda = await getDocs(consultaNombreUsuario);
-      const nombreNoDisponible = !resultadosBusqueda.empty; console.log(` nombreUsuario "${nombreUsuario}" ( normalized: "${nombreUsuarioLimpio}") taken: ${nombreNoDisponible}`);
-      return nombreNoDisponible;
-
-    } 
-    catch (error) { console.error(` Error al verificar la unicidad del nombreUsuario "${nombreUsuario}":`, error); throw new Error('Error al verificar la unicidad del nombre de usuario.');}
+  private normalizarNombreUsuario(nombreUsuario: string): string {
+    return nombreUsuario.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
   }
-
-
-
-
-
-
-
-
   
   async creaNuevoPerfil( user: User, nombreUsuario: string ): Promise<PerfilInterface> {
     const idUsuario = user.uid;
    
-    const nombreUsuarioLimpio = nombreUsuario.toLowerCase().trim().replace(/[^a-z0-9_]/g, '');
+    let nombreUsuarioFinal = this.normalizarNombreUsuario(nombreUsuario);
   
-    if (!nombreUsuarioLimpio) { throw new Error('El nombre de usuario no puede estar vacío o contener solo caracteres especiales.'); }
-  
+    if (!nombreUsuarioFinal) { throw new Error('El nombre de usuario base no es válido.'); }
+
     try {
-     
+        let nombreOcupado = true;
+        let contador = 0;
+        const baseNombre = nombreUsuarioFinal;
+
+        while(nombreOcupado){
+            const consultaNombre = query(collection(this.instancias.firestore, this.nombreColeccion()), where('nombreUsuario', '==', nombreUsuarioFinal));
+            const resultadoConsulta = await getDocs(consultaNombre);
+            if(resultadoConsulta.empty){
+                nombreOcupado = false;
+            } else {
+                contador++;
+                nombreUsuarioFinal = `${baseNombre}_${contador}`;
+            }
+        }
+
       const nuevoPerfil: PerfilInterface = {
-        id: idUsuario, nombreUsuario: nombreUsuarioLimpio, email: user.email || '', nombreMostrado: user.displayName || '', urlFoto: user.photoURL || '',
+        id: idUsuario, nombreUsuario: nombreUsuarioFinal, email: user.email || '', nombreMostrado: user.displayName || '', urlFoto: user.photoURL || '',
         biografia: '', ultimaActividad: new Date().toISOString(), fechaCreacion: new Date().toISOString(), rolUsuario: RolUsuario.USUARIO 
       };
   
-      // 3. Verifica la unicidad del nombreUsuario AFUERA de la transacción
-      const consultaVerificacion = query( collection(this.instancias.firestore, this.nombreColeccion()), where('nombreUsuario', '==', nombreUsuarioLimpio));
-      const nombreExistente = await getDocs(consultaVerificacion);
-  
-      // Si el nombreUsuario ya existe Y pertenece a un UID *diferente* al actual, lanza un error.
-      if (!nombreExistente.empty && nombreExistente.docs[0].id !== idUsuario) { throw new Error('El nombre de usuario ya está en uso. Por favor, elige otro.'); }
-  
-      // 4. Ejecuta la transacción para escribir los datos de forma segura
       await runTransaction( this.instancias.firestore, async (transaction) => {
         const referenciaUsuario = doc( this.instancias.firestore, this.nombreColeccion(), idUsuario);
-        const fotoDelPerfil = await transaction.get(referenciaUsuario);
-  
-        if (fotoDelPerfil.exists()) {
-          const perfilExistente = fotoDelPerfil.data() as PerfilInterface;
-          
-          if (!perfilExistente.nombreUsuario || perfilExistente.nombreUsuario !== nombreUsuarioLimpio) {
-            transaction.update(referenciaUsuario, { nombreUsuario: nombreUsuarioLimpio, ultimaActividad: nuevoPerfil.ultimaActividad }) } 
-          else { transaction.update(referenciaUsuario, { ultimaActividad: nuevoPerfil.ultimaActividad }); }
-          
-        } 
-        else {
-          transaction.set(referenciaUsuario, nuevoPerfil);    console.log(` Nuevo perfil público creado para ${idUsuario} con nombreUsuario: ${nombreUsuarioLimpio}, tipo: ${nuevoPerfil.rolUsuario}`);
-        }
+        transaction.set(referenciaUsuario, nuevoPerfil);
       });
+
+      console.log(` Nuevo perfil público creado para ${idUsuario} con nombreUsuario: ${nombreUsuarioFinal}, tipo: ${nuevoPerfil.rolUsuario}`);
       
       return nuevoPerfil;
   
@@ -264,15 +169,6 @@ export class AuthService {
 }
 
   
-
-
-
-
-
-
-
-
-
   async guardaUltimaSesion(idUsuario: string): Promise<void> {
     try { const referenciaUsuario = doc( this.instancias.firestore, this.nombreColeccion() , idUsuario); 
       await setDoc(referenciaUsuario, { ultimaActividad: new Date().toISOString() }, { merge: true }); console.log(` ultimaActividad actualizado para UID ${idUsuario}`);} 
