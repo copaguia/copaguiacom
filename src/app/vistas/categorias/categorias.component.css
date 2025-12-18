@@ -2,11 +2,11 @@
 
 .custom-toolbar {
   display: flex;
-  justify-content: space-between; /* Clave: Título a la izq, resto a la der */
+  justify-content: space-between;
   align-items: center;
   padding: 0 16px;
-  background-color: rgb(18, 18, 19); /* Mantenemos un fondo oscuro */
-  color: white; /* Aseguramos que el texto sea visible */
+  background-color: rgb(18, 18, 19);
+  color: white;
 }
 
 .custom-toolbar span strong {
@@ -15,22 +15,37 @@
 }
 
 .toolbar-spacer {
-  flex: 1 1 auto; /* Este es el "resorte" que empuja los elementos */
+  flex: 1 1 auto;
 }
 
+/* --- ESTILOS CORREGIDOS PARA EL AVATAR --- */
+
+/* 1. Contenedor del botón del avatar */
+.avatar-button {
+  width: 40px;          /* Mismo tamaño que la imagen */
+  height: 40px;         /* Mismo tamaño que la imagen */
+  padding: 0;           /* ¡Importante! Elimina el padding de mat-icon-button */
+  border-radius: 50%;   /* Lo hacemos redondo */
+  display: flex;        /* Usamos flexbox para centrar */
+  align-items: center;  /* Centrado vertical */
+  justify-content: center; /* Centrado horizontal */
+  overflow: hidden;     /* Asegura que la imagen no se salga del borde redondo */
+}
+
+/* 2. La imagen del avatar en sí */
 .user-avatar {
-  width: 40px;
-  height: 40px;
+  width: 100%;          /* La imagen ocupa todo el botón */
+  height: 100%;         /* La imagen ocupa todo el botón */
+  object-fit: cover;    /* Mantiene la proporción y cubre el espacio */
   border-radius: 50%;
-  object-fit: cover;
-  cursor: pointer;
 }
 
-/* --- Tus estilos existentes (revisados y conservados) --- */
+
+/* --- Tus estilos existentes --- */
 
 .carrusel-content {
   position: fixed;
-  top: 50px; /* Ajusta según sea necesario */
+  top: 50px;
   left: 0;
   right: 0;
   width: 100%;  
@@ -39,7 +54,7 @@
 
 mat-tab-group {
   position: fixed;
-  bottom: 0; /* Lo pego al fondo */
+  bottom: 0;
   width: 100%;
   z-index: 1;
 }
@@ -53,5 +68,3 @@ h2 {
   font-style: italic;
   color: rgb(255, 255, 255);
 }
-
-/* El estilo de los botones del scroll se mantiene en su propio componente, por lo que no es necesario aquí */

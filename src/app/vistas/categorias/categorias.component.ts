@@ -20,7 +20,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-categorias',
-  standalone: true, // Convertido a standalone
+  standalone: true,
   imports: [
     CommonModule, RouterLink,
     MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,
@@ -33,11 +33,9 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 })
 export class CategoriasComponent {
 
-  // Inyección de servicios
   public authService = inject(AuthService);
   private router = inject(Router);
 
-  // --- Propiedades existentes ---
   isMobile: boolean;
   categorias = signal(categoriaData);
 
@@ -49,15 +47,28 @@ export class CategoriasComponent {
   onResize(event: any) {
     this.isMobile = event.target.innerWidth < 768;
   }
-  
-  // --- Nuevos métodos para el menú de usuario ---
 
   /**
-   * Navega a la ruta especificada.
+   * Navega a una ruta estática especificada (p. ej. '/configuracion').
    * @param route La ruta a la que se desea navegar.
    */
   navigateTo(route: string): void {
     this.router.navigate([route]);
+  }
+
+  /**
+   * Navega a la página de perfil del usuario actual.
+   * Utiliza el 'nombreUsuario' del perfil para construir la URL dinámica.
+   */
+  navigateToProfile(): void {
+    const perfil = this.authService.perfilLectura();
+    if (perfil && perfil.nombreUsuario) {
+      this.router.navigate(['/perfil', perfil.nombreUsuario]);
+    } else {
+      console.error('No se puede navegar al perfil: Perfil o nombre de usuario no disponible.');
+      // Como fallback, redirigimos al login para evitar un estado inconsistente.
+      this.router.navigate(['/login']);
+    }
   }
 
   /**

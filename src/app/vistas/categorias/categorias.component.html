@@ -1,21 +1,18 @@
 <mat-toolbar class="custom-toolbar">
-  <!-- Título a la izquierda -->
   <span>
     <strong>CATEGORIAS</strong>
   </span>
-
-  <!-- Este spacer empuja todo lo que sigue hacia la derecha -->
   <span class="toolbar-spacer"></span>
 
-  <!-- Botón con el avatar del usuario que activa el menú -->
-  <button mat-icon-button [matMenuTriggerFor]="userMenu" *ngIf="authService.perfilLectura() as perfil">
-    <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar del usuario">
-  </button>
+  @if (authService.perfilLectura(); as perfil) {
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button"> <!-- Clase añadida -->
+      <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar del usuario">
+    </button>
+  }
 </mat-toolbar>
 
-<!-- Definición del Menú Desplegable -->
 <mat-menu #userMenu="matMenu">
-  <button mat-menu-item (click)="navigateTo('/perfil')">
+  <button mat-menu-item (click)="navigateToProfile()">
     <mat-icon>account_circle</mat-icon>
     <span>Mi Perfil</span>
   </button>
@@ -32,7 +29,6 @@
 
 <mat-divider></mat-divider>
 
-<!-- El resto de tu contenido (mat-tab-group) permanece igual -->
 <mat-tab-group fitInkBarToContent headerPosition="below">
   @for (categoria of categorias(); track $index) {
     <mat-tab [label]="categoria.ruta">
