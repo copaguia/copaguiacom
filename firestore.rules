@@ -2,33 +2,17 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Colección 'admins': Solo lectura para usuarios autenticados
-    match /admins/{document=**} {
-      allow read: if request.auth != null;
-    }
+    
 
-    // Colección 'userProfiles': Perfiles públicos de usuario
-    match /userProfiles/{uid} {
+    // Colección 'Usuarios': Perfiles públicos de usuario
+    match /Usuarios/{uid} {
       allow read; // Cualquiera puede leer un perfil
       // Solo el propietario (uid del documento) puede crearlo o actualizarlo
       allow write: if request.auth != null && request.auth.uid == uid;
     }
 
-    // Colección 'posts': Publicaciones de los usuarios
-    match /posts/{postId} {
-      allow read; // Cualquiera puede leer los posts
-      // Solo usuarios autenticados pueden crear posts
-      allow create: if request.auth != null;
-      // Solo el propietario del post (verificando userId dentro del documento) puede actualizar o eliminar
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
-    }
+    
 
-    // Colección 'users': Datos privados del usuario, solo accesibles por el propietario
-    // Si tu colección privada se llamaba 'Usuarios' en tu código Angular original:
-    match /users/{userId} {
-      match /Usuarios/{document=**} { 
-        allow read, write: if request.auth != null && request.auth.uid == userId;
-      }
-    }
+    
   }
 }

@@ -2,3 +2,5 @@ firebase deploy --only hosting:copaguia-dev
 
 Para Pruebas momentaneas.
 firebase hosting:channel:deploy preview_copaguia
+
+firebase deploy --only firestore:rules

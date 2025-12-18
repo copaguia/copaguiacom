@@ -28,7 +28,7 @@ export class AuthService {
 
   
 
-  readonly nombreColeccion = signal<string>('userProfiles');  
+  readonly nombreColeccion = signal<string>('Usuarios');  
 
 
   constructor() { this.monitorAutenticacion(); }
