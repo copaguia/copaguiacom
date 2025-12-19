@@ -3,13 +3,19 @@
 
 /****************    LOGO DE LA APLICACIÓN   ****************/
 :root { 
-    --logo-url: url('assets/brand/copaguia-intro.gif');  
-    --corporativo: #0a413e;                       /*  Color Principal  */
-    --secundario:  #ffebcb;                       /*  Color Secundario */
-    --resaltante:  #ffee00;                     /*  Color Resaltante */
+    /* Logos del Proyecto */
+    --logo-url:     url('assets/brand/copaguia-intro.gif');
+    --logo-google:  url('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg');
+    
+    --fondo-login:  url('https://i.imgur.com/l2aXC9k.jpeg');
+
+    /* Colores del proyecto */
+    --corporativo: #0a413e;    /*  Color Principal  */
+    --secundario:  #ffebcb;    /*  Color Secundario */
+    --resaltante:  #ffee00;    /*  Color Resaltante */
 
 
-    /*Manejo de esquinas*/
+    /* Manejo de esquina s*/
     --corner1: 0.125rem; --corner2: 0.25rem; --corner3: 0.375rem; --corner4: 0.5rem; --corner5: 0.625rem; --corner6: 0.75rem; --corner7: 0.9375rem;  --corner8: 1.25rem; --corner9: 1.5625rem; --corner10: 9999px; 
 
     /* Biblioteca de Clases de Altura (Utility Classes) */
@@ -29,4 +35,3 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 10px }
 
 .example-spacer { flex: 1 1 auto; }
-
