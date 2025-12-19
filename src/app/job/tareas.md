@@ -5,19 +5,19 @@
 ---
 
 ### Tarea #001: Refactorización del Componente de Login
-**Descripción:** Ajustar el `LoginComponent` para encapsular su CSS, limpiar el HTML y convertirlo en un componente `standalone` puro. Usando fondo de style.css var(). Importante darle formato de vista del codigo en bloke en columnas para mantener la belleza del codigo.
+**Descripción:** Ajustar el `LoginComponent` para encapsular su CSS, limpiar el HTML y convertirlo en un componente `standalone` puro. Usando fondo de style.css var(). Importante darle formato de vista del codigo en bloke en columnas para mantener la belleza del codigo. Darle efecto de transparencia mi card tipo AnimalFlight Solutions. Y ponerle pie de card con el link de lidertechnology.web.app pra captar clientelas.
 **Estado:** 🏃 EN EJECUCIÓN
 
 ---
 
-### Tarea #002: Despliegue en Producción
-**Descripción:** Desplegar la última versión de la aplicación en Firebase Hosting para que los cambios sean visibles públicamente.
+### Tarea #002: Roles de Usuario y Admin
+**Descripción:** Crear el enum de Roles de la app, crear el panel de Admin con las posibles rutas de Admin.
 **Estado:** ⏳ POR REALIZAR
 
 ---
 
-### Tarea #003: Crear Menú de Navegación Superior
-**Descripción:** Implementar un menú de navegación fijo (sticky) en la parte superior de la aplicación. Deberá ser responsive y contener los enlaces principales.
+### Tarea #003: Crear Rules
+**Descripción:** Construir el firebase.rules adecuado a las colecciones de l app, con roles bien definidos para todas las acciones .
 **Estado:** ⏳ POR REALIZAR
 
 ---
