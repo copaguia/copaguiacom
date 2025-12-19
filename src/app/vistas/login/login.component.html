@@ -10,38 +10,16 @@
     </mat-card-header>
 
     <mat-card-content>
-      <!-- Muestra un spinner de carga mientras se verifica el estado de autenticación inicial -->
-      <div *ngIf="isAuthLoading()" class="spinner-container">
-        <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-        <p>Verificando sesión...</p>
-      </div>
-
-      <!-- Muestra el botón de login solo si la verificación inicial ha terminado y el usuario no está logueado -->
-      <div *ngIf="!isAuthLoading() && !authService.usuarioLectura()">
-        
-        <!-- Botón principal para iniciar sesión con Google -->
-        <button 
-          mat-raised-button 
-          color="primary" 
-          (click)="loginConGoogle()" 
-          [disabled]="loading"
-          class="google-login-button">
-          
-          <div *ngIf="!loading; else showSpinner">
-            <mat-icon svgIcon="google_logo"></mat-icon>
-            <span>Continuar con Google</span>
-          </div>
-          
-          <ng-template #showSpinner>
-            <mat-progress-spinner mode="indeterminate" diameter="24"></mat-progress-spinner>
-          </ng-template>
-        </button>
-
-        <!-- Muestra mensajes de error si ocurren durante el login -->
-        <div *ngIf="errorMessage" class="error-message">
-          <p>{{ errorMessage }}</p>
+      @if (isAuthLoading()) {
+        <!-- Muestra un spinner de carga mientras se verifica el estado de autenticación inicial -->
+        <div class="spinner-container">
+          <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Verificando sesión...</p>
         </div>
-      </div>
+      } @else if (!authService.usuarioLectura()) {
+        <!-- Muestra nuestro nuevo componente de botón de login -->
+        <app-btn-login-google></app-btn-login-google>
+      }
     </mat-card-content>
 
   </mat-card>

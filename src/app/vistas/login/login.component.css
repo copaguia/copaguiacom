@@ -1,4 +1,3 @@
-
 .login-container {
   display: flex;
   justify-content: center; /* Centra horizontalmente */
@@ -7,7 +6,7 @@
   background-color: #031e1d; /* Un fondo suave para que la tarjeta resalte */
 }
 
-.login-card {
+.card {
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -26,19 +25,6 @@
   width: 100px;
   height: 100px;
   margin-bottom: 1rem;
-}
-
-.google-login-button {
-  width: 100%; 
-  height: 48px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-}
-
-/* Estilos para el spinner dentro del botón */
-.google-login-button mat-progress-spinner {
-  margin: 0;
 }
 
 .error-message {

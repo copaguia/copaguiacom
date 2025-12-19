@@ -1,0 +1,45 @@
+/* Contenedor principal del botón */
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%; /* Ancho reducido como solicitaste */
+  height: 48px;
+  margin-left: auto; /* Centrado horizontal */
+  margin-right: auto; /* Centrado horizontal */
+  transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+
+.google-login-button:hover {
+  background-color: var(--corporativo) !important;
+}
+
+
+/* Logo de Google, ahora como fondo de un elemento */
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg');
+  background-size: contain; /* Asegura que el logo se vea completo */
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Texto del botón */
+.button-text {
+  color: var(--resaltante);
+}
+
+/* Spinner de carga */
+mat-spinner {
+  margin: 0;
+}
+
+/* Contenedor del contenido del botón (logo y texto) */
+.button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

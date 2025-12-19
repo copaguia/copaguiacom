@@ -2,7 +2,26 @@
 @import '../css/logo.css';
 
 /****************    LOGO DE LA APLICACIÓN   ****************/
-:root { --logo-url: url('assets/brand/copaguia-intro.gif');  }
+:root { 
+    --logo-url: url('assets/brand/copaguia-intro.gif');  
+    --corporativo: #0a413e;                       /*  Color Principal  */
+    --secundario:  #ffebcb;                       /*  Color Secundario */
+    --resaltante:  #ffee00;                     /*  Color Resaltante */
+
+
+    /*Manejo de esquinas*/
+    --corner1: 0.125rem; --corner2: 0.25rem; --corner3: 0.375rem; --corner4: 0.5rem; --corner5: 0.625rem; --corner6: 0.75rem; --corner7: 0.9375rem;  --corner8: 1.25rem; --corner9: 1.5625rem; --corner10: 9999px; 
+
+    /* Biblioteca de Clases de Altura (Utility Classes) */
+    .altura1 { height: 2rem !important; }.altura2 { height: 4rem !important; }.altura3 { height: 6rem !important; }.altura4 { height: 8rem !important; }.altura5 { height: 10rem !important; }.altura6 { height: 12rem; }.altura7 { height: 14rem !important; }.altura8 { height: 16rem !important; }.altura9 { height: 18rem !important; }.altura10 { height: 20rem !important; }
+
+
+    /* Familias de fuentes from fuentes.css */
+    --font1:      "Questrial",    sans-serif;           /* UI General / Navegación */
+    --font2:      "Bitter",       serif;                /* Texto de Cuerpo / Párrafos */
+    --font3:      "Zalando Sans", sans-serif;           /* Énfasis / Decorativo / Error */
+    --font-code:  "Courier New",  Courier, monospace;   /* Fuente monoespaciada estándar */
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

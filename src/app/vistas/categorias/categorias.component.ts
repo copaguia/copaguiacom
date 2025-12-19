@@ -22,7 +22,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
   selector: 'app-categorias',
   standalone: true,
   imports: [
-    CommonModule, RouterLink,
+    CommonModule, 
     MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,
     MatDividerModule, MatMenuModule, MatButtonModule,
     CarruselComponent, ScrollBotonesComponent
