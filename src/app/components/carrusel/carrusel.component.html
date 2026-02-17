@@ -3,29 +3,21 @@
   
   @for (item of conector; track $index) {
     <swiper-slide>
-
-     
       
-     <mat-card class="example-card" appearance="outlined">
-  
-  <div class="image-container">
-    <img src="{{ item.image }}" alt="Publicidad">
-  </div>
-
-  <div class="actions-container">
-    <mat-card-actions>
-      <a href="https://wa.me/{{ item.whatsapp }}" target="_blank">
-        <button mat-stroked-button>Whatsapp</button>
-      </a>
+      <mat-card appearance="outlined">
+        
+        <img src="https://i.imgur.com/S5BUqP5.jpeg" alt="Photo of a Shiba Inu">
+        
+        <mat-card-actions align="end">
+          <button matButton="filled">WHATSAPP</button>
+          <button matButton>IR AL PERFIL</button>
+          <button matButton="filled">LLAMAR</button>
+        </mat-card-actions>
+      </mat-card>
       
-      <a href="tel:+57{{ item.phoneFijo }}" target="_blank">
-        <button mat-stroked-button>Llamar</button>
-      </a>
-    </mat-card-actions>
-  </div>
-
-</mat-card>
+    
       
+
      </swiper-slide> 
  } 
 

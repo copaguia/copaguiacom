@@ -9,66 +9,26 @@ swiper-container {
 swiper-slide {
   height: 100%;
   border-radius: 28px;
+  border: 2px solid #00d1c0;
   background-color: #000;
   overflow: hidden; /* Corta la imagen en las esquinas redondeadas */
 }
 
-/* --- Tarjeta Relativa --- */
-.example-card {
-  width: 100%;
-  height: 100%;
-  position: relative; /* Base para el anclaje de botones */
-  background-color: #000 !important;
-  border: none;
-  padding: 0;
-  margin: 0;
+.img-container {
+  height: 80%;
 }
 
-/* --- IMAGEN: Ocupa el 100% de la tarjeta --- */
 img {
-  width: 100%;
-  height: 100%; /* La imagen llena toda la tarjeta de fondo */
-  object-fit: cover; 
-  object-position: top; /* Prioriza la parte superior (caras/logos) */
-  display: block;
+  min-height: min-content;
 }
 
-/* --- CONTENEDOR DE BOTONES: Anclado y sutil --- */
+mat-card {
+  height: 100%;
+}
+
 mat-card-actions {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  
-  /* Altura reducida para no tapar mucha imagen */
-  height: 70px; 
-  
-  /* Degradado para que los botones resalten pero la imagen se intuya detrás */
-  background: linear-gradient(to top, rgba(219, 16, 16, 0.9) 0%, rgba(0,0,0,0.4) 70%, transparent 100%);
-  
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-evenly !important;
-  margin: 0 !important;
-  padding: 0 10px 10px 10px !important; /* Un poco de respiro abajo */
-  z-index: 2;
-}
+  bottom: 10px;
+  align-self: center;
 
-/* --- Estilo de Botones --- */
-button[mat-stroked-button] {
-  border-color: #00bcd4 !important;
-  color: #00bcd4 !important;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro para legibilidad */
-  border-radius: 25px !important;
-  backdrop-filter: blur(4px);
-  font-weight: 600;
-  flex: 0 1 40%; /* Evita que crezcan demasiado */
-}
-
-/* Ajustes para Pantallas Grandes */
-@media (min-width: 780px) {
-  swiper-container { 
-    width: 40%; 
-    height: 750px; /* Más vertical en escritorio */
-  }
 }
