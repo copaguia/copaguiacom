@@ -1,12 +1,12 @@
 import { Component, signal, ChangeDetectionStrategy, HostListener, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 // Angular Material
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabsModule, MatTabChangeEvent } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,9 +38,16 @@ export class CategoriasComponent {
 
   isMobile: boolean;
   categorias = signal(categoriaData);
+  // Inicializamos con el nombre de la primera categoría disponible
+  tituloToolbar = signal(categoriaData[0]?.ruta || 'CATEGORIAS'); 
 
   constructor(public breakpointObserver: BreakpointObserver) {
     this.isMobile = window.innerWidth < 768;
+  }
+
+  // Método para actualizar el título cuando el usuario cambia de pestaña
+  onTabChange(event: MatTabChangeEvent) {
+    this.tituloToolbar.set(event.tab.textLabel);
   }
 
   @HostListener('window:resize', ['$event'])
@@ -48,32 +55,20 @@ export class CategoriasComponent {
     this.isMobile = event.target.innerWidth < 768;
   }
 
-  /**
-   * Navega a una ruta estática especificada (p. ej. '/configuracion').
-   * @param route La ruta a la que se desea navegar.
-   */
   navigateTo(route: string): void {
     this.router.navigate([route]);
   }
 
-  /**
-   * Navega a la página de perfil del usuario actual.
-   * Utiliza el 'nombreUsuario' del perfil para construir la URL dinámica.
-   */
   navigateToProfile(): void {
     const perfil = this.authService.perfilLectura();
     if (perfil && perfil.nombreUsuario) {
       this.router.navigate(['/perfil', perfil.nombreUsuario]);
     } else {
       console.error('No se puede navegar al perfil: Perfil o nombre de usuario no disponible.');
-      // Como fallback, redirigimos al login para evitar un estado inconsistente.
       this.router.navigate(['/login']);
     }
   }
 
-  /**
-   * Cierra la sesión del usuario.
-   */
   logout(): void {
     this.authService.desloguear();
   }

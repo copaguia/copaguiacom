@@ -1,5 +1,4 @@
-/* --- Estilos para la nueva Toolbar --- */
-
+/* --- Toolbar y Avatar (Tus estilos originales) --- */
 .custom-toolbar {
   display: flex;
   justify-content: space-between;
@@ -7,64 +6,55 @@
   padding: 0 16px;
   background-color: rgb(18, 18, 19);
   color: white;
+  height: 64px;
 }
 
-.custom-toolbar span strong {
-  font-size: large;
-  letter-spacing: 1.5px;
+.avatar-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .toolbar-spacer {
   flex: 1 1 auto;
 }
 
-/* --- ESTILOS CORREGIDOS PARA EL AVATAR --- */
-
-/* 1. Contenedor del botón del avatar */
-.avatar-button {
-  width: 40px;          /* Mismo tamaño que la imagen */
-  height: 40px;         /* Mismo tamaño que la imagen */
-  padding: 0;           /* ¡Importante! Elimina el padding de mat-icon-button */
-  border-radius: 50%;   /* Lo hacemos redondo */
-  display: flex;        /* Usamos flexbox para centrar */
-  align-items: center;  /* Centrado vertical */
-  justify-content: center; /* Centrado horizontal */
-  overflow: hidden;     /* Asegura que la imagen no se salga del borde redondo */
-}
-
-/* 2. La imagen del avatar en sí */
-.user-avatar {
-  width: 100%;          /* La imagen ocupa todo el botón */
-  height: 100%;         /* La imagen ocupa todo el botón */
-  object-fit: cover;    /* Mantiene la proporción y cubre el espacio */
-  border-radius: 50%;
-}
-
-
-/* --- Tus estilos existentes --- */
-
-.carrusel-content {
-  position: fixed;
-  top: 50px;
-  left: 0;
-  right: 0;
-  width: 100%;  
-  z-index: 0;
-}
-
+/* --- Estructura de Pestañas y Altura --- */
 mat-tab-group {
-  position: fixed;
-  bottom: 0;
   width: 100%;
-  z-index: 1;
+  min-height: calc(100vh - 64px);
+  background-color: rgb(18, 18, 19);
+}
+
+/* Forzamos que el contenido ocupe el espacio */
+::ng-deep .mat-mdc-tab-body-wrapper {
+  flex-grow: 1;
+}
+
+/* Estilo para el contenedor del carrusel */
+.carrusel-content {
+  width: 100%;
+  padding-top: 10px;
 }
 
 h2 {
   letter-spacing: 1.5px;
   text-align: end;
   margin-right: 40px;
-  margin-top: 35px;
+  margin-top: 15px;
   font-size: large;
   font-style: italic;
-  color: rgb(255, 255, 255);
+  color: white;
 }

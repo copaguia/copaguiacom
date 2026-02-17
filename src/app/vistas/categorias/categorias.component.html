@@ -1,42 +1,37 @@
 <mat-toolbar class="custom-toolbar">
-  <span>
-    <strong>CATEGORIAS</strong>
-  </span>
+  <span><strong>{{ tituloToolbar() | uppercase }}</strong></span>
   <span class="toolbar-spacer"></span>
 
   @if (authService.perfilLectura(); as perfil) {
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button"> <!-- Clase añadida -->
-      <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar del usuario">
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
+      <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar">
     </button>
   }
 </mat-toolbar>
+
+<mat-tab-group 
+  fitInkBarToContent 
+  headerPosition="above"
+  (selectedTabChange)="onTabChange($event)">
+  
+  @for (categoria of categorias(); track $index) {
+    <mat-tab [label]="categoria.ruta">
+      <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
+      
+      <div class="carrusel-content">
+        <app-carrusel [conector]="categoria.tarjetas"></app-carrusel>
+      </div>
+    </mat-tab>
+  }
+</mat-tab-group>
 
 <mat-menu #userMenu="matMenu">
   <button mat-menu-item (click)="navigateToProfile()">
     <mat-icon>account_circle</mat-icon>
     <span>Mi Perfil</span>
   </button>
-  <button mat-menu-item (click)="navigateTo('/configuracion')">
-    <mat-icon>settings</mat-icon>
-    <span>Configuración</span>
-  </button>
-  <mat-divider></mat-divider>
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     <span>Cerrar Sesión</span>
   </button>
 </mat-menu>
-
-<mat-divider></mat-divider>
-
-<mat-tab-group fitInkBarToContent headerPosition="below">
-  @for (categoria of categorias(); track $index) {
-    <mat-tab [label]="categoria.ruta">
-      <div class="carrusel-content">
-        <h2>{{ categoria.ruta }}</h2>
-        <app-carrusel [conector]="categoria.tarjetas"></app-carrusel>
-      </div>
-      <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
-    </mat-tab>
-  }
-</mat-tab-group>
