@@ -6,24 +6,25 @@
 
      
       
-      <mat-card class="example-card" appearance="outlined">
+     <mat-card class="example-card" appearance="outlined">
+  
+  <div class="image-container">
+    <img src="{{ item.image }}" alt="Publicidad">
+  </div>
 
-        <img  
-          src="{{ item.image }}" 
-          alt="Photo of a Shiba Inu">
-        
-        <mat-card-actions align="end">
-          <a href="https://wa.me/{{ item.whatsapp }}" target="_blank">
-            <button mat-stroked-button >Whatsapp</button>
-          </a>
-          
-          <a href="tel:+57{{ item.phoneFijo }}" target="_blank">
-            <button mat-stroked-button>LLamar</button>
-          </a>         
-          
-          
-        </mat-card-actions>
-      </mat-card>
+  <div class="actions-container">
+    <mat-card-actions>
+      <a href="https://wa.me/{{ item.whatsapp }}" target="_blank">
+        <button mat-stroked-button>Whatsapp</button>
+      </a>
+      
+      <a href="tel:+57{{ item.phoneFijo }}" target="_blank">
+        <button mat-stroked-button>Llamar</button>
+      </a>
+    </mat-card-actions>
+  </div>
+
+</mat-card>
       
      </swiper-slide> 
  } 

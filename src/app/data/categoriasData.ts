@@ -1,12 +1,4 @@
-/*
-    En esta constante se cumple EMA ( Estrategia Modular Autónoma); 
-    tanto la interface de las Categorias como la interface de lñas Secciones estan 
-    incorporadas dentro del fichero, anulando la dependencia de otros servicios o componentes para
-    construir la Data Estática para el proyecto.
 
-*/
-
-import { BannerInterface } from "../components/carrusel/carrusel.component";
 import { AlimentosData } from "./tarjetasData";
 
 

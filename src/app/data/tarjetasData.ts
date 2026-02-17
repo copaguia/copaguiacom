@@ -9,7 +9,7 @@ export interface TarjetaInterface {
 export const AlimentosData: TarjetaInterface[] = [
     {
         id: '',
-        image: 'https://img.freepik.com/foto-gratis/arreglo-deliciosa-comida-brasilena_23-2148739220.jpg?ga=GA1.1.222355279.1747401779&semt=ais_hybrid&w=740',
+        image: 'https://i.imgur.com/S5BUqP5.jpeg',
         patrocinador: 'string',
         whatsapp: 3024581809,
         phoneFijo: 6045555555,
