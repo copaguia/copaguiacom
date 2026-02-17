@@ -1,133 +1,65 @@
-/* Existing styles for smaller screens (mobile-first approach) */
+/* --- Contenedor Swiper --- */
 swiper-container {
-  width: 80%;
-  max-height: 400px;
+  width: 85%;
+  height: 480px; /* Altura fija para evitar saltos */
+  margin: 0 auto;
+  padding: 20px 0;
+  /* Bloqueamos cualquier salida lateral del efecto cards */
+  overflow: clip; 
+  display: block;
 }
 
 swiper-slide {
-  max-height: 700px;
-  border: 2px solid;
-  border-radius: 18px;
-  font-size: 22px;
-  font-weight: bold;
-  color: #3f4141;
-  display: flex;
-  align-items: center;
-  object-fit: cover;
+  height: 100%;
   background-color: rgb(32, 32, 32);
+  border-radius: 18px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Evita artefactos visuales al rotar */
+  backface-visibility: hidden;
 }
 
-button {
-  margin: 5px;
-}
-
+/* --- Tarjeta Rígida --- */
 .example-card {
   width: 100%;
   height: 100%;
-  background-color: rgb(0, 0, 0);
-  padding: 10px;
-  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: black !important;
+  border: none;
+  padding: 0;
+  margin: 0;
   overflow: hidden;
-  background: var(--background);
-  position: relative;
-  z-index: 1;
 }
 
+/* --- La Imagen (Control Total) --- */
 img {
-  border-radius: 18px;
-  min-height: max-content;
   width: 100%;
+  height: 320px; /* Altura fija obligatoria */
+  object-fit: cover; /* La imagen se recorta para encajar, no estira la card */
+  object-position: center;
+  border-radius: 18px 18px 0 0;
+  display: block;
+  flex-shrink: 0; /* No permite que la imagen cambie de tamaño */
 }
 
-a {
-  margin: 5px;
+/* --- Botones --- */
+mat-card-actions {
+  flex-grow: 1; /* Ocupa el espacio restante sin empujar */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background: black;
+  padding: 8px !important;
 }
 
-@media (min-width: 780px ) { /* Example breakpoint: 768px and up */
-
-  swiper-container {
-    width: 60%; /* Make the carousel narrower on large screens */
-    max-height: 800px; /* Increase max-height for larger displays */
-  }
-
-  swiper-slide {
-    height: 100%; /* Increase slide height */
-    font-size: 26px; /* Slightly increase font size */
-    border: 3px solid; /* increase border*/
-  }
-
-  .example-card {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0);
-    padding: 10px;
-    border-radius: 1rem;
-    overflow: hidden;
-    background: var(--background);
-    position: relative;
-    z-index: 1;
-  }
-
-  button {
-    margin: 10px; /* increase margin*/
-  }
-  a{
-    margin: 10px; /* Increase margin for links.*/
-  }
-  img {
-    border-radius: 18px;
-    height: 100%;
-    width: auto;
-  }
- 
+/* Ajustes Responsivos */
+@media (min-width: 780px) {
+  swiper-container { width: 50%; height: 550px; }
+  img { height: 400px; }
 }
 
-/* Styles for larger screens (desktops, large tablets) */
-@media (min-width: 1024px) { /* Example breakpoint: 1024px and up */
-  swiper-container {
-    width: 30%; /* Make the carousel narrower on large screens */
-    height: auto; /* Increase max-height for larger displays */
-  }
-
-  swiper-slide {
-    height: 500px; /* Increase slide height */
-    font-size: 26px; /* Slightly increase font size */
-    border: 3px solid; /* increase border*/
-  }
-
-  .example-card {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 0);
-    padding: 10px;
-    border-radius: 1rem;
-    overflow: hidden;
-    background: var(--background);
-    position: relative;
-    z-index: 1;
-  }
-
-  button {
-    margin: 10px; /* increase margin*/
-  }
-  a{
-    margin: 10px; /* Increase margin for links.*/
-  }
-  img {
-    border-radius: 18px;
-    height: 100%;
-    width: auto;
-  }
-}
-
-@media (min-width: 1400px) { /* Example breakpoint: 1400px and up */
-  swiper-container {
-    width: 60%; /* Make the carousel narrower on very large screens */
-    
-  }
-
-  swiper-slide {
-    font-size: 30px; /* increase font-size */
-    
-  }
+@media (min-width: 1200px) {
+  swiper-container { width: 30%; height: 550px; }
 }

@@ -1,4 +1,29 @@
-/* --- Toolbar y Avatar (Tus estilos originales) --- */
+/* --- Bloqueo de Scroll Horizontal --- */
+.carrusel-content {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden; /* Esto mata la barra de scroll abajo */
+  overflow-y: visible;
+  padding-bottom: 20px;
+}
+
+/* Forzar el bloqueo en el contenedor interno de Angular Material */
+::ng-deep .mat-mdc-tab-body-content {
+  overflow-x: hidden !important;
+}
+
+/* --- Estructura y Altura --- */
+mat-tab-group {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  background-color: rgb(18, 18, 19);
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  flex-grow: 1;
+}
+
+/* --- Toolbar y Avatar (Tus originales) --- */
 .custom-toolbar {
   display: flex;
   justify-content: space-between;
@@ -27,28 +52,6 @@
   border-radius: 50%;
 }
 
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-/* --- Estructura de Pestañas y Altura --- */
-mat-tab-group {
-  width: 100%;
-  min-height: calc(100vh - 64px);
-  background-color: rgb(18, 18, 19);
-}
-
-/* Forzamos que el contenido ocupe el espacio */
-::ng-deep .mat-mdc-tab-body-wrapper {
-  flex-grow: 1;
-}
-
-/* Estilo para el contenedor del carrusel */
-.carrusel-content {
-  width: 100%;
-  padding-top: 10px;
-}
-
 h2 {
   letter-spacing: 1.5px;
   text-align: end;
@@ -58,3 +61,5 @@ h2 {
   font-style: italic;
   color: white;
 }
+
+.toolbar-spacer { flex: 1 1 auto; }
