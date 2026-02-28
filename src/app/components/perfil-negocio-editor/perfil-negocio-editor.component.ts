@@ -2,11 +2,12 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { doc, updateDoc, query, collection, where, getDocs } from 'firebase/firestore';
+import { Router } from '@angular/router';
 
 // L10: Arquitectura Lidertech
 import { InstanciaFirebase } from '../../core/firebase/instancias.service';
 import { AuthService } from '../../core/auth/auth.service';
-import { NegocioInterface } from '../../interfaces/negocio-interface';
+import { NegocioInterface, TipoNegocio } from '../../interfaces/negocio-interface';
 import { RolUsuario } from '../../core/auth/rol-usuario';
 
 // L10: Componentes de UI reutilizables
@@ -16,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-perfil-negocio-editor',
@@ -27,7 +29,8 @@ import { CommonModule } from '@angular/common';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
   templateUrl: './perfil-negocio-editor.component.html',
   styleUrls: ['./perfil-negocio-editor.component.css']
@@ -38,16 +41,24 @@ export class PerfilNegocioEditorComponent implements OnInit {
   private snackBar    = inject(MatSnackBar);
   private authService = inject(AuthService);
   private firestore   = inject(InstanciaFirebase).firestore;
+  private router      = inject(Router);
 
   public estaCargando = signal<boolean>(false);
   public negocioId    = signal<string | undefined>(undefined);
+  
+  public tiposDeNegocio = Object.values(TipoNegocio);
 
   public formGroup = this.formBuilder.group({
     logo:        ['', [Validators.required]],
     banner:      ['', [Validators.required]],
     descripcion: ['', [Validators.required, Validators.minLength(20)]],
     whatsapp:    ['', [Validators.required]],
-    instagram:   ['']
+    instagram:   [''],
+    nombre:      ['', [Validators.required]],
+    direccion:   ['', [Validators.required]],
+    telefono:    ['', [Validators.required]],
+    tipoNegocio: ['', [Validators.required]],
+    facebook:    ['']
   });
 
   async ngOnInit() {
@@ -69,11 +80,17 @@ export class PerfilNegocioEditorComponent implements OnInit {
           banner:      negocioData.banner,
           descripcion: negocioData.descripcion,
           whatsapp:    negocioData.contacto.whatsapp,
-          instagram:   negocioData.contacto.redes?.instagram || ''
+          instagram:   negocioData.contacto.redes?.instagram || '',
+          nombre:      negocioData.nombre,
+          direccion:   negocioData.contacto.direccion,
+          telefono:    negocioData.contacto.telefono,
+          tipoNegocio: negocioData.tipoNegocio,
+          facebook:    negocioData.contacto.redes?.facebook || ''
         });
+
       } else {
-        this.snackBar.open('No se encontró un negocio asociado a tu cuenta.', 'Cerrar', { duration: 5000 });
-        this.formGroup.disable();
+        this.snackBar.open('Primero debes registrar tu negocio.', 'Ok', { duration: 5000 });
+        this.router.navigate(['/onboarding-negocio-registro']); // <-- RUTA CORREGIDA
       }
     } else {
       this.snackBar.open('Acceso denegado. Debes ser dueño de un negocio para editar.', 'Cerrar', { duration: 5000 });
@@ -101,8 +118,13 @@ export class PerfilNegocioEditorComponent implements OnInit {
       logo:        this.formGroup.value.logo,
       banner:      this.formGroup.value.banner,
       descripcion: this.formGroup.value.descripcion,
+      nombre:      this.formGroup.value.nombre,
+      tipoNegocio: this.formGroup.value.tipoNegocio,
       'contacto.whatsapp': this.formGroup.value.whatsapp,
-      'contacto.redes.instagram': this.formGroup.value.instagram
+      'contacto.telefono': this.formGroup.value.telefono,
+      'contacto.direccion': this.formGroup.value.direccion,
+      'contacto.redes.instagram': this.formGroup.value.instagram,
+      'contacto.redes.facebook': this.formGroup.value.facebook
     };
 
     try {
@@ -115,5 +137,4 @@ export class PerfilNegocioEditorComponent implements OnInit {
       this.estaCargando.set(false);
     }
   }
-
 }

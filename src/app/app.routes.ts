@@ -45,6 +45,8 @@ import { ComerciosComponent } from './pages/categorias/comercios/comercios/comer
 import { ServiciosComponent } from './pages/categorias/servicios/servicios/servicios.component';
 import { EntretenimientoComponent } from './pages/categorias/entretenimiento/entretenimiento/entretenimiento.component';
 import { SaludComponent } from './pages/categorias/salud/salud/salud.component';
+import { PerfilNegocioEditorComponent } from './components/perfil-negocio-editor/perfil-negocio-editor.component';
+import { OnboardingNegocioRegistroComponent } from './pages/onboarding-negocio-registro/onboarding-negocio-registro.component'; // <-- IMPORTADO
 
 
 export const routes: Routes = [
@@ -53,6 +55,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'intro', component: IntroComponent },
     { path: 'registro', component: RegistarNegociosComponent },
+    { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent }, // <-- RUTA AÑADIDA
     { path: 'contacto' , component: ContactoComponent },
     { path: 'nav', component: NavMenuComponent, 
         children: [
@@ -77,6 +80,9 @@ export const routes: Routes = [
         path: 'perfil/:username', // ¡Ruta corregida!
         component: UserFeedComponent, 
         // canActivate: [AuthGuard]
+    },
+    {
+        path: 'perfil-negocio-editor', component: PerfilNegocioEditorComponent
     },
 
     // 3. RUTAS DE CATEGORÍAS (muy específicas, no chocan con 'perfil')
