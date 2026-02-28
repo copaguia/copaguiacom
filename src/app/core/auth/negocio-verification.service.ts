@@ -1,9 +1,8 @@
-import { Injectable, inject, signal } from '@angular/core';
-import { doc, getDoc, query, collection, where, getDocs } from 'firebase/firestore';
+import { Injectable, inject, signal, effect } from '@angular/core';
+import { query, collection, where, getDocs } from 'firebase/firestore';
 import { InstanciaFirebase } from '../firebase/instancias.service';
 import { AuthService } from './auth.service';
 import { RolUsuario } from './rol-usuario';
-import { take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +17,12 @@ export class NegocioVerificationService {
   public estaVerificando = signal<boolean>(true);
 
   constructor() {
-    this.verificarNegocioUsuarioActual();
-  }
+    effect(() => {
+      this.estaVerificando.set(true);
+      const perfil = this.authService.perfilLectura();
 
-  private verificarNegocioUsuarioActual() {
-    this.authService.usuarioLogueado$.pipe(take(1)).subscribe(usuario => {
-      if (usuario && usuario.rol === RolUsuario.DUENO) {
-        const uid = usuario.uid;
+      if (perfil && perfil.rolUsuario === RolUsuario.DUENO) {
+        const uid = perfil.id;
         const q = query(collection(this.firestore, 'negocios'), where('duenoId', '==', uid));
         
         getDocs(q).then(querySnapshot => {
@@ -37,16 +35,17 @@ export class NegocioVerificationService {
             this.negocioId.set(null);
           }
           this.estaVerificando.set(false);
+        }).catch(error => {
+            console.error("Error al verificar el negocio:", error);
+            this.tieneNegocio.set(false);
+            this.negocioId.set(null);
+            this.estaVerificando.set(false);
         });
       } else {
+        this.tieneNegocio.set(false);
+        this.negocioId.set(null);
         this.estaVerificando.set(false);
       }
     });
-  }
-
-  // Método para forzar una re-verificación si es necesario
-  public forzarReverificacion() {
-    this.estaVerificando.set(true);
-    this.verificarNegocioUsuarioActual();
   }
 }
