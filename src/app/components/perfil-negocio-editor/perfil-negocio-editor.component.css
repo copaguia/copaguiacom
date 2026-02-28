@@ -1,0 +1,6 @@
+.header-editor { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+    .form-grid { display: flex; flex-direction: column; gap: 10px; }
+    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+    .full-width { width: 100%; }
+    .btn-guardar { height: 50px; margin-top: 20px; font-weight: bold; }
+    @media (max-width: 600px) { .contacto-grid { grid-template-columns: 1fr; } }

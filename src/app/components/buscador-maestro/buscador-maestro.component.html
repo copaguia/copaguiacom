@@ -1,0 +1,36 @@
+<section class="box-responsive search-container">
+    <form [formGroup]="formGroup" class="form-busqueda">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>¿Qué buscas en Cooaguia?</mat-label>
+        <input matInput formControlName="termino" placeholder="Ej: Pizza, Ferretería, Barrio Central...">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <mat-chip-listbox formControlName="categoria" class="categorias-chips">
+        @for (cat of categorias; track cat.id) {
+          <mat-chip-option [value]="cat.id">
+            <mat-icon matChipAvatar>{{ cat.icono }}</mat-icon>
+            {{ cat.label }}
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </form>
+
+    <div class="resultados-grid">
+      @for (n of resultados(); track n.id) {
+        <article class="card-negocio" [routerLink]="['/negocio', n.slug]">
+          <img [src]="n.logo" [alt]="n.nombre">
+          <div class="info">
+            <h3>{{ n.nombre }}</h3>
+            <p><mat-icon>place</mat-icon> {{ n.ubicacion.barrio }}</p>
+            <mat-chip class="cat-tag">{{ n.subCategoria }}</mat-chip>
+          </div>
+        </article>
+      } @empty {
+        <div class="no-results">
+          <mat-icon>search_off</mat-icon>
+          <p>No encontramos negocios que coincidan con tu búsqueda.</p>
+        </div>
+      }
+    </div>
+  </section>

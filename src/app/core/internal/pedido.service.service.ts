@@ -1,12 +1,17 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject } from '@angular/core';
 import { ItemCarrito } from '../../interfaces/item-carrito';
 import { DatosClientePedido } from '../../interfaces/datos-cliente-pedido';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
+import { addDoc, collection } from 'firebase/firestore';
+import { InstanciaFirebase } from '../firebase/instancias.service';
+import { PedidoSubColeccion } from '../../interfaces/pedido-sub-coleccion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PedidoService {
+
+  private firestore      = inject(InstanciaFirebase).firestore;
 
   public estado          = signal<ItemCarrito[]>([]);
   public cliente         = signal<DatosClientePedido | null>(null);
@@ -69,7 +74,24 @@ export class PedidoService {
     return `https://wa.me/${numWhatsApp}?text=${uri}`;
   }
 
-  public enviarPedido(negocio: NegocioInterface): void {
+  
+
+  public async guardarPedidoEnFirebase(negocioId: string): Promise<void> {
+    const pedidoRef = collection(this.firestore, `negocios/${negocioId}/pedidos`);
+    const nuevoPedido: PedidoSubColeccion = {
+      cliente:      this.cliente()!,
+      items:        this.estado(),
+      total:        this.subtotalPedido(),
+      fecha:        new Date().toISOString(),
+      estadoPedido: 'pendiente'
+    };
+  
+    await addDoc(pedidoRef, nuevoPedido);
+  }
+  
+  // Actualizamos el método enviarPedido
+  public async enviarPedido(negocio: NegocioInterface): Promise<void> {
+    await this.guardarPedidoEnFirebase(negocio.id); // Guardamos copia en el historial del negocio
     const url = this.generarEnlaceWhatsApp(negocio);
     window.open(url, '_blank');
     this.limpiarCarrito();

@@ -1,0 +1,57 @@
+<main class="box-responsive">
+    <header class="perfil-header">
+      <img [src]="negocio().banner" class="banner-img" alt="Banner">
+      <div class="perfil-info">
+        <img [src]="negocio().logo" class="logo-img" alt="Logo">
+        <div class="texto">
+          <h1 class="mat-headline-4">{{ negocio().nombre }}</h1>
+          <mat-chip-set>
+            <mat-chip>{{ negocio().subCategoria }}</mat-chip>
+            @if (negocio().verificado) {
+              <mat-chip class="verificado-chip"><mat-icon>verified</mat-icon> Verificado</mat-chip>
+            }
+          </mat-chip-set>
+        </div>
+      </div>
+    </header>
+
+    <mat-tab-group dynamicHeight>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>info</mat-icon> Info
+        </ng-template>
+        <div class="tab-content">
+          <section class="info-grid">
+            <div class="descripcion">
+              <h3>Sobre nosotros</h3>
+              <p>{{ negocio().descripcion }}</p>
+            </div>
+            <div class="galeria-grid">
+              @for (foto of negocio().galeria; track foto) {
+                <img [src]="foto" class="galeria-item" alt="Galería">
+              }
+            </div>
+          </section>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon>restaurant_menu</mat-icon> Catálogo
+        </ng-template>
+        <div class="tab-content">
+          @for (cat of categoriasCatalogo(); track cat) {
+            <section class="categoria-seccion">
+              <h2 class="mat-headline-6">{{ cat }}</h2>
+              <div class="items-grid">
+                <!--
+                @for (prod of filtrarPorCat(cat); track prod.id) {
+                  <app-item-catalogo [item]="prod" />
+                }-->
+              </div>
+            </section>
+          }
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </main>

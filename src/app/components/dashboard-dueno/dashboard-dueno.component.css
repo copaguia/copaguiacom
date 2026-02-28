@@ -1,0 +1,17 @@
+.dash-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; flex-wrap: wrap; }
+    .stat-card { padding: 15px; text-align: center; min-width: 120px; background: #f8f9fa; }
+    .stat-card p { font-size: 1.5rem; font-weight: bold; margin: 0; color: #1976d2; }
+    .nuevo { border-left: 4px solid #f44336; }
+    .detalle-pedido { padding: 15px 0; }
+    .lista-items { margin: 15px 0; padding-left: 20px; }
+    .nota-cliente { background: #fff9c4; padding: 10px; border-radius: 5px; font-style: italic; border-left: 3px solid #fbc02d; }
+    .acciones-pedido { display: flex; gap: 10px; margin-top: 20px; }
+    .vacio-state { text-align: center; padding: 100px 0; opacity: 0.5; }
+
+
+
+
+
+    .grid-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .stat-item { padding: 20px; text-align: center; }
+    .stat-item h3 { font-size: 2rem; margin: 10px 0; font-weight: 800; }

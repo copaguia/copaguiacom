@@ -1,0 +1,67 @@
+<section class="box-responsive">
+    <header class="onboarding-header">
+      <h1 class="mat-headline-4">Únete a Cooaguia</h1>
+      <p>Registra tu negocio en el marketplace más grande del sector.</p>
+    </header>
+
+    <mat-stepper linear #stepper>
+      <mat-step [stepControl]="formGroupUsuario">
+        <form [formGroup]="formGroupUsuario">
+          <ng-template matStepLabel>Tu Cuenta</ng-template>
+          <div class="step-container">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre Completo</mat-label>
+              <input matInput formControlName="nombre" placeholder="Ej: Juan Pérez">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="tu@email.com">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Contraseña</mat-label>
+              <input matInput type="password" formControlName="password">
+            </mat-form-field>
+
+            <button mat-flat-button color="primary" matStepperNext>Siguiente</button>
+          </div>
+        </form>
+      </mat-step>
+
+      <mat-step [stepControl]="formGroupNegocio">
+        <form [formGroup]="formGroupNegocio">
+          <ng-template matStepLabel>Tu Negocio</ng-template>
+          <div class="step-container">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Nombre del Negocio</mat-label>
+              <input matInput formControlName="nombreNegocio" placeholder="Ej: Pizza House">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Categoría</mat-label>
+              <mat-select formControlName="categoria">
+                @for (cat of categorias; track cat.id) {
+                  <mat-option [value]="cat.id">{{ cat.label }}</mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>WhatsApp de contacto</mat-label>
+              <input matInput formControlName="whatsapp" placeholder="300 123 4567">
+            </mat-form-field>
+
+            <div class="btns-row">
+              <button mat-button matStepperPrevious>Atrás</button>
+              <button mat-flat-button color="primary" 
+                      [disabled]="estaProcesando()"
+                      (click)="finalizarRegistro()">
+                {{ estaProcesando() ? 'Creando...' : 'Crear mi Negocio' }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-step>
+    </mat-stepper>
+  </section>

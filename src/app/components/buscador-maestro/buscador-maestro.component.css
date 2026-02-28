@@ -1,0 +1,10 @@
+.search-container { padding: 20px 0; }
+    .full-width { width: 100%; }
+    .categorias-chips { margin-bottom: 25px; display: block; overflow-x: auto; white-space: nowrap; }
+    .resultados-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card-negocio { display: flex; gap: 15px; padding: 15px; border-radius: 12px; border: 1px solid #eee; cursor: pointer; transition: 0.3s; }
+    .card-negocio:hover { box-shadow: 0 4px 15px rgba(0,0,0,0.1); transform: translateY(-2px); }
+    .card-negocio img { width: 80px; height: 80px; border-radius: 10px; object-fit: cover; }
+    .info h3 { margin: 0; font-size: 1.1rem; }
+    .info p { margin: 5px 0; font-size: 0.85rem; color: #666; display: flex; align-items: center; }
+    .cat-tag { font-size: 0.7rem; height: 24px; }
