@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToolBarPageComponent } from '../../../../components/tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../../interfaces/negocio-interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { InstanciaFirebase } from '../../../../firebase/instancias.service';
+import { InstanciaFirebase } from '../../../../core/firebase/instancias.service';
 
 enum LoadingState {
   Idle = 'idle',

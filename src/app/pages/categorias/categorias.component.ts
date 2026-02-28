@@ -12,7 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 
 // Servicios y Componentes
-import { AuthService } from '../../firebase/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { categoriaData } from '../../data/categoriasData';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';

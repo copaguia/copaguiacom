@@ -1,19 +1,17 @@
-export enum RolUsuario {
-  VISITANTE = 'visitante',
-  USUARIO = 'usuario',
-  ADMIN = 'admin',
-  SOPORTE = 'soporte'
-}
+import { RolUsuario } from "../core/auth/rol-usuario";
 
 
 export interface PerfilInterface {
-  id: string; 
-  nombreUsuario: string; 
-  email: string; 
-  nombreMostrado?: string; 
-  urlFoto?: string; 
-  biografia?: string; 
-  ultimaActividad?: string; 
-  fechaCreacion: string; 
-  rolUsuario?: RolUsuario;
+  id               : string;
+  nombreUsuario    : string;
+  email            : string;
+  nombreMostrado?  : string;
+  urlFoto?         : string;
+  biografia?       : string;
+  ultimaActividad? : string;
+  fechaCreacion    : string;
+  rolUsuario?      : RolUsuario;
+  activo?          : boolean;
 }
+
+

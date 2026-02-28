@@ -35,3 +35,31 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .container { max-width: 1200px; margin: 0 auto; padding: 0 10px }
 
 .example-spacer { flex: 1 1 auto; }
+
+
+html, body { 
+    height: 100%; 
+  }
+  body { 
+    margin: 0; 
+    font-family: Roboto, "Helvetica Neue", sans-serif; 
+  }
+  
+  .box90 { max-width: 90%; margin: 0 auto; }
+  .box80 { max-width: 80%; margin: 0 auto; }
+  .box70 { max-width: 70%; margin: 0 auto; }
+  .box60 { max-width: 60%; margin: 0 auto; }
+  .box50 { max-width: 50%; margin: 0 auto; }
+  
+  @media (max-width: 599px) {
+    .box-responsive { max-width: 95%; margin: 0 auto; }
+  }
+  @media (min-width: 600px) and (max-width: 959px) {
+    .box-responsive { max-width: 85%; margin: 0 auto; }
+  }
+  @media (min-width: 960px) {
+    .box-responsive { max-width: 75%; margin: 0 auto; }
+  }
+  
+  
+  

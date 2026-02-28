@@ -3,7 +3,7 @@ import { ToolBarPageComponent } from '../../../../components/tool-bar-page/tool-
 import { CommonModule } from '@angular/common';
 import { collection, onSnapshot, query, Unsubscribe, where } from 'firebase/firestore';
 import { NegocioInterface } from '../../../../interfaces/negocio-interface';
-import { InstanciaFirebase } from '../../../../firebase/instancias.service';
+import { InstanciaFirebase } from '../../../../core/firebase/instancias.service';
 
 
 /**

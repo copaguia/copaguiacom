@@ -1,6 +1,6 @@
 import { getMessaging, getToken, onMessage, Messaging, isSupported } from 'firebase/messaging';
 import { app } from './firebase-config';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 // Inicializa el objeto de mensajería
 let messaging: Messaging | null = null;

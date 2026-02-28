@@ -11,7 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { BtnLoginGoogleComponent } from '../../components/btnLoginGoogle/btnLoginGoogle.component';
 
 // Servicios y modelos de la aplicación
-import { AuthService } from '../../firebase/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',

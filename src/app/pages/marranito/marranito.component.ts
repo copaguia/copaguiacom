@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
-import { BilleteraService } from '../../services/billetera.service';
+import { BilleteraService } from '../../core/billetera/billetera.service';
 
 @Component({
   selector: 'app-marranito',

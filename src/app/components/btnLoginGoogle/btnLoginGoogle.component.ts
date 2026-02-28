@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // Servicios y Enums
-import { AuthService } from '../../firebase/auth/auth.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { StateEnum } from '../../enums/state.enum';
 
 @Component({
