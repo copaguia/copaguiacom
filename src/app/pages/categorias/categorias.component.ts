@@ -17,6 +17,7 @@ import { categoriaData } from '../../data/categoriasData';
 import { CarruselComponent } from '../../components/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { AuthorizationService } from '../../core/auth/authorization.service';
 
 @Component({
   selector: 'app-categorias',
@@ -33,6 +34,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 })
 export class CategoriasComponent {
 
+  public authorization = inject(AuthorizationService); // AÑADIDO
   public authService = inject(AuthService);
   private router = inject(Router);
 
@@ -67,6 +69,11 @@ export class CategoriasComponent {
       console.error('No se puede navegar al perfil: Perfil o nombre de usuario no disponible.');
       this.router.navigate(['/login']);
     }
+  }
+
+
+  navigateToEditBusiness(): void { // AÑADIDO
+    this.router.navigate(['/perfil-negocio-editor']);
   }
 
   logout(): void {

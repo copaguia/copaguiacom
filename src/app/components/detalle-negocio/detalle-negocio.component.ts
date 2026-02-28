@@ -10,7 +10,7 @@ import { AnaliticaService } from '../../core/analitica/analitica.service.service
 
 @Component({
   selector: 'app-detalle-negocio',
-  imports: [CommonModule, MatTabsModule, MatIconModule, MatButtonModule, MatChipsModule, ItemCatalogoComponent],
+  imports: [CommonModule, MatTabsModule, MatIconModule, MatButtonModule, MatChipsModule, ItemCatalogoComponent ],
   templateUrl: './detalle-negocio.component.html',
   styleUrl: './detalle-negocio.component.css'
 })

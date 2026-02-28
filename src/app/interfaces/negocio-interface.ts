@@ -1,4 +1,6 @@
 export interface NegocioInterface {
+seccion: any;
+imagen: any;
     id:             string;
     duenoId:        string;
     nombre:         string;

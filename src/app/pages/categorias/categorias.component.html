@@ -30,6 +30,15 @@
     <mat-icon>account_circle</mat-icon>
     <span>Mi Perfil</span>
   </button>
+
+  <!-- Botón condicional para editar negocio -->
+  @if (authorization.esDueno()) {
+    <button mat-menu-item (click)="navigateToEditBusiness()">
+      <mat-icon>store</mat-icon>
+      <span>Editar Negocio</span>
+    </button>
+  }
+
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>
     <span>Cerrar Sesión</span>
