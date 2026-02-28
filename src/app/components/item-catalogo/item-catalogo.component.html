@@ -1,0 +1,45 @@
+<mat-card class="producto-card">
+    @if (item().urlImagen) {
+      <img mat-card-image [src]="item().urlImagen" [alt]="item().nombre" class="producto-img">
+    }
+    
+    <mat-card-content>
+      <div class="header-item">
+        <h3 class="mat-subtitle-1">{{ item().nombre }}</h3>
+        <span class="precio-tag">{{ item().precio | currency }}</span>
+      </div>
+      <p class="descripcion-text">{{ item().descripcion }}</p>
+
+      <form [formGroup]="formGroup" class="form-seleccion">
+        @if (item().variantes && item().variantes!.length > 0) {
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Selecciona opción</mat-label>
+            <mat-select formControlName="variante">
+              @for (v of item().variantes; track v) {
+                <mat-option [value]="v">{{ v }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+
+        <div class="acciones-compra">
+          <div class="selector-cantidad">
+            <button mat-icon-button type="button" (click)="cambiarCantidad(-1)" [disabled]="formGroup.value.cantidad! <= 1">
+              <mat-icon>remove_circle_outline</mat-icon>
+            </button>
+            <span class="cantidad-display">{{ formGroup.value.cantidad }}</span>
+            <button mat-icon-button type="button" (click)="cambiarCantidad(1)">
+              <mat-icon>add_circle_outline</mat-icon>
+            </button>
+          </div>
+
+          <button mat-flat-button color="primary" 
+                  [disabled]="item().variantes?.length && !formGroup.value.variante"
+                  (click)="agregar()">
+            <mat-icon>add_shopping_cart</mat-icon>
+            Añadir
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
