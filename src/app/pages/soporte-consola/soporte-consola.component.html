@@ -1,0 +1,66 @@
+<main class="box-responsive console-layout">
+    <section class="search-sidebar">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Buscar negocio para editar</mat-label>
+        <input matInput #busqueda (keyup.enter)="buscarNegocio(busqueda.value)" placeholder="Nombre o ID del negocio">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      @if (consolaService.negocioSeleccionado()) {
+        <div class="negocio-badge">
+          <img [src]="consolaService.negocioSeleccionado().logo" alt="Logo">
+          <div>
+            <strong>{{ consolaService.negocioSeleccionado().nombre }}</strong>
+            <p>{{ consolaService.negocioSeleccionado().slug }}</p>
+          </div>
+        </div>
+      }
+    </section>
+
+    <section class="editor-main">
+      @if (consolaService.negocioSeleccionado()) {
+        <mat-tab-group animationDuration="0ms">
+          
+          <mat-tab label="Información General">
+            <form [formGroup]="formGroup" class="tab-padding">
+              <div class="grid-form">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nombre Público</mat-label>
+                  <input matInput formControlName="nombre">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>WhatsApp de Pedidos</mat-label>
+                  <input matInput formControlName="whatsapp">
+                </mat-form-field>
+              </div>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Descripción (SEO Optimizable)</mat-label>
+                <textarea matInput formControlName="descripcion" rows="5"></textarea>
+              </mat-form-field>
+
+              <div class="acciones-editor">
+                <button mat-flat-button color="primary" (click)="guardarCambios()">
+                  <mat-icon>save</mat-icon> Aplicar Mejoras
+                </button>
+              </div>
+            </form>
+          </mat-tab>
+
+          <mat-tab label="Optimizar Catálogo">
+            <div class="tab-padding">
+              <p>Aquí el ejecutivo puede añadir fotos de mejor calidad o corregir precios.</p>
+              </div>
+          </mat-tab>
+
+        </mat-tab-group>
+      } @else {
+        <div class="empty-state">
+          <mat-icon class="huge-icon">admin_panel_settings</mat-icon>
+          <h2>Consola de Ejecutivo Cooaguia</h2>
+          <p>Busca un negocio en la barra lateral para comenzar a optimizar su información.</p>
+        </div>
+      }
+    </section>
+  </main>

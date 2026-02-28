@@ -12,6 +12,12 @@ export interface PerfilInterface {
   fechaCreacion    : string;
   rolUsuario?      : RolUsuario;
   activo?          : boolean;
+
+  negocioAsociadoId?: string; // ID del negocio si el rol es DUEÑO
+  metadatos?: {
+    totalPedidos?:  number;
+    verificado?:    boolean;
+  };
 }
 
 

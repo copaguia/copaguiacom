@@ -1,0 +1,9 @@
+@if (mostrarPrompt()) {
+    <div class="install-banner">
+      <p>¿Quieres instalar <strong>Cooaguia</strong> en tu pantalla de inicio?</p>
+      <button mat-flat-button color="accent" (click)="instalar()">Instalar Ahora</button>
+      <button mat-icon-button (click)="mostrarPrompt.set(false)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  }
