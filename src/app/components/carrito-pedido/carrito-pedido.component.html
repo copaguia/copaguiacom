@@ -1,0 +1,67 @@
+<section class="box-responsive">
+    <header class="carrito-header">
+      <h2 class="mat-headline-5"><mat-icon>shopping_cart</mat-icon> Tu Pedido</h2>
+    </header>
+
+    @if (pedidoService.estado().length > 0) {
+      <mat-action-list class="lista-productos">
+        @for (item of pedidoService.estado(); track item.idProducto + item.variante) {
+          <mat-list-item>
+            <span matListItemTitle>{{ item.nombre }}</span>
+            <span matListItemLine>
+              {{ item.cantidad }}x {{ item.precio | currency }} 
+              @if (item.variante) { | <strong>{{ item.variante }}</strong> }
+            </span>
+            <div matListItemMeta>
+              <button mat-icon-button color="warn" (click)="quitar(item.idProducto, item.variante)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        }
+      </mat-action-list>
+
+      <div class="total-seccion">
+        <p>Subtotal: <strong>{{ pedidoService.subtotalPedido() | currency }}</strong></p>
+      </div>
+
+      <form [formGroup]="formGroup" class="form-datos-cliente">
+        <h3 class="mat-subtitle-1">Datos de Entrega</h3>
+        
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Tu Nombre</mat-label>
+          <input matInput formControlName="nombre" placeholder="¿A quién buscamos?">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Dirección de entrega</mat-label>
+          <input matInput formControlName="direccion" placeholder="Calle, Carrera, Barrio...">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Método de Pago</mat-label>
+          <mat-select formControlName="metodoPago">
+            <mat-option value="Efectivo">Efectivo</mat-option>
+            <mat-option value="Nequi/Daviplata">Nequi / Daviplata</mat-option>
+            <mat-option value="Datafono">Datáfono</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Notas adicionales</mat-label>
+          <textarea matInput formControlName="nota" placeholder="Ej: Sin cebolla, portería..."></textarea>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="btn-enviar" 
+                [disabled]="formGroup.invalid"
+                (click)="confirmarEnvio()">
+          <mat-icon>send</mat-icon> Enviar pedido por WhatsApp
+        </button>
+      </form>
+    } @else {
+      <div class="carrito-vacio">
+        <mat-icon class="icon-grande">remove_shopping_cart</mat-icon>
+        <p>Tu carrito está vacío. ¡Agrega algo delicioso o útil!</p>
+      </div>
+    }
+  </section>
