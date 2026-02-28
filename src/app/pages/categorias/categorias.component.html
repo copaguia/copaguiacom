@@ -31,13 +31,21 @@
     <span>Mi Perfil</span>
   </button>
 
-  <!-- Botón condicional para editar negocio -->
+  <!-- INICIO: Lógica de botones de negocio condicional -->
   @if (authorization.esDueno()) {
-    <button mat-menu-item (click)="navigateToEditBusiness()">
-      <mat-icon>store</mat-icon>
-      <span>Editar Negocio</span>
-    </button>
+    @if (negocioService.tieneNegocio()) {
+      <button mat-menu-item (click)="navigateToEditBusiness()">
+        <mat-icon>store</mat-icon>
+        <span>Editar Negocio</span>
+      </button>
+    } @else {
+      <button mat-menu-item (click)="navigateToCreateBusiness()">
+        <mat-icon>add_business</mat-icon>
+        <span>Crear Negocio</span>
+      </button>
+    }
   }
+  <!-- FIN: Lógica de botones de negocio condicional -->
 
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>

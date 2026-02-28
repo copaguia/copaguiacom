@@ -1,14 +1,13 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, effect } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { doc, updateDoc, query, collection, where, getDocs } from 'firebase/firestore';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { Router } from '@angular/router';
 
 // L10: Arquitectura Lidertech
 import { InstanciaFirebase } from '../../core/firebase/instancias.service';
-import { AuthService } from '../../core/auth/auth.service';
+import { NegocioVerificationService } from '../../core/auth/negocio-verification.service'; // <-- NUEVO SERVICIO
 import { NegocioInterface, TipoNegocio } from '../../interfaces/negocio-interface';
-import { RolUsuario } from '../../core/auth/rol-usuario';
 
 // L10: Componentes de UI reutilizables
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -37,14 +36,13 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class PerfilNegocioEditorComponent implements OnInit {
 
-  private formBuilder = inject(FormBuilder);
-  private snackBar    = inject(MatSnackBar);
-  private authService = inject(AuthService);
-  private firestore   = inject(InstanciaFirebase).firestore;
-  private router      = inject(Router);
+  private formBuilder     = inject(FormBuilder);
+  private snackBar        = inject(MatSnackBar);
+  private firestore       = inject(InstanciaFirebase).firestore;
+  private router          = inject(Router);
+  public negocioService = inject(NegocioVerificationService); // <-- INYECTAMOS EL SERVICIO
 
   public estaCargando = signal<boolean>(false);
-  public negocioId    = signal<string | undefined>(undefined);
   
   public tiposDeNegocio = Object.values(TipoNegocio);
 
@@ -61,40 +59,53 @@ export class PerfilNegocioEditorComponent implements OnInit {
     facebook:    ['']
   });
 
-  async ngOnInit() {
-    this.estaCargando.set(true);
-    const perfil = this.authService.perfilLectura();
-
-    if (perfil && perfil.rolUsuario === RolUsuario.DUENO) {
-      const uid = perfil.id;
-      const q = query(collection(this.firestore, 'negocios'), where('duenoId', '==', uid));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        const negocioDoc = querySnapshot.docs[0];
-        this.negocioId.set(negocioDoc.id);
-        const negocioData = negocioDoc.data() as NegocioInterface;
-
-        this.formGroup.patchValue({
-          logo:        negocioData.logo,
-          banner:      negocioData.banner,
-          descripcion: negocioData.descripcion,
-          whatsapp:    negocioData.contacto.whatsapp,
-          instagram:   negocioData.contacto.redes?.instagram || '',
-          nombre:      negocioData.nombre,
-          direccion:   negocioData.contacto.direccion,
-          telefono:    negocioData.contacto.telefono,
-          tipoNegocio: negocioData.tipoNegocio,
-          facebook:    negocioData.contacto.redes?.facebook || ''
-        });
-
-      } else {
-        this.snackBar.open('Primero debes registrar tu negocio.', 'Ok', { duration: 5000 });
-        this.router.navigate(['/onboarding-negocio-registro']); // <-- RUTA CORREGIDA
+  constructor() {
+    // Usamos effect para reaccionar a los cambios en el servicio de verificación
+    effect(() => {
+      const estaVerificando = this.negocioService.estaVerificando();
+      if (!estaVerificando) {
+        const tieneNegocio = this.negocioService.tieneNegocio();
+        if (tieneNegocio) {
+          this.cargarDatosDelNegocio();
+        } else {
+          this.snackBar.open('Primero debes registrar tu negocio.', 'Ok', { duration: 5000 });
+          this.router.navigate(['/onboarding-negocio-registro']);
+        }
       }
+    });
+  }
+
+  ngOnInit() { 
+    // ngOnInit ahora puede estar más limpio o usarse para otras inicializaciones
+    this.estaCargando.set(this.negocioService.estaVerificando());
+  }
+
+  async cargarDatosDelNegocio() {
+    this.estaCargando.set(true);
+    const negocioId = this.negocioService.negocioId();
+    if (!negocioId) return; // Salvaguarda
+
+    const negocioRef = doc(this.firestore, 'negocios', negocioId);
+    const negocioSnap = await getDoc(negocioRef);
+
+    if (negocioSnap.exists()) {
+      const negocioData = negocioSnap.data() as NegocioInterface;
+      this.formGroup.patchValue({
+        logo:        negocioData.logo,
+        banner:      negocioData.banner,
+        descripcion: negocioData.descripcion,
+        whatsapp:    negocioData.contacto.whatsapp,
+        instagram:   negocioData.contacto.redes?.instagram || '',
+        nombre:      negocioData.nombre,
+        direccion:   negocioData.contacto.direccion,
+        telefono:    negocioData.contacto.telefono,
+        tipoNegocio: negocioData.tipoNegocio,
+        facebook:    negocioData.contacto.redes?.facebook || ''
+      });
     } else {
-      this.snackBar.open('Acceso denegado. Debes ser dueño de un negocio para editar.', 'Cerrar', { duration: 5000 });
-      this.formGroup.disable();
+      // Esto no debería ocurrir si la lógica del servicio es correcta, pero es una buena salvaguarda
+      this.snackBar.open('Error: No se encontraron los datos del negocio.', 'Cerrar', { duration: 5000 });
+      this.router.navigate(['/onboarding-negocio-registro']);
     }
     this.estaCargando.set(false);
   }
@@ -105,7 +116,7 @@ export class PerfilNegocioEditorComponent implements OnInit {
       return;
     }
 
-    const negocioId = this.negocioId();
+    const negocioId = this.negocioService.negocioId();
     if (!negocioId) {
         this.snackBar.open('No se ha podido identificar el negocio a actualizar.', 'Cerrar', { duration: 5000 });
         return;

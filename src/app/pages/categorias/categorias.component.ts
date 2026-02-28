@@ -18,6 +18,7 @@ import { CarruselComponent } from '../../components/carrusel/carrusel.component'
 import { ScrollBotonesComponent } from '../../components/scroll-botones/scroll-botones.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthorizationService } from '../../core/auth/authorization.service';
+import { NegocioVerificationService } from '../../core/auth/negocio-verification.service'; // <-- NUEVO SERVICIO
 
 @Component({
   selector: 'app-categorias',
@@ -34,20 +35,19 @@ import { AuthorizationService } from '../../core/auth/authorization.service';
 })
 export class CategoriasComponent {
 
-  public authorization = inject(AuthorizationService); // AÑADIDO
+  public authorization = inject(AuthorizationService);
   public authService = inject(AuthService);
+  public negocioService = inject(NegocioVerificationService); // <-- INYECTAMOS EL SERVICIO
   private router = inject(Router);
 
   isMobile: boolean;
   categorias = signal(categoriaData);
-  // Inicializamos con el nombre de la primera categoría disponible
   tituloToolbar = signal(categoriaData[0]?.ruta || 'CATEGORIAS'); 
 
   constructor(public breakpointObserver: BreakpointObserver) {
     this.isMobile = window.innerWidth < 768;
   }
 
-  // Método para actualizar el título cuando el usuario cambia de pestaña
   onTabChange(event: MatTabChangeEvent) {
     this.tituloToolbar.set(event.tab.textLabel);
   }
@@ -71,9 +71,12 @@ export class CategoriasComponent {
     }
   }
 
-
-  navigateToEditBusiness(): void { // AÑADIDO
+  navigateToEditBusiness(): void {
     this.router.navigate(['/perfil-negocio-editor']);
+  }
+
+  navigateToCreateBusiness(): void {
+    this.router.navigate(['/onboarding-negocio-registro']);
   }
 
   logout(): void {
