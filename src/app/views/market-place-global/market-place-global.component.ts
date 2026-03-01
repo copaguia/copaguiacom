@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { PedidoService } from '../../core/internal/pedido.service.service';
+import { PedidoService } from '../../core/services/pedido.service.service';
 import { ProductoMarketplace } from '../../interfaces/producto-marketplace';
 
 @Component({

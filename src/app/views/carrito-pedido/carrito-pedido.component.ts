@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { PedidoService } from '../../core/internal/pedido.service.service';
+import { PedidoService } from '../../core/services/pedido.service.service';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 
 @Component({

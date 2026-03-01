@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { AnaliticaService } from '../../core/analitica/analitica.service.service';
+import { AnaliticaService } from '../../core/husky/analitica.service.service';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 
 @Component({
