@@ -47,6 +47,7 @@ import { EntretenimientoComponent } from './views/categorias/entretenimiento/ent
 import { SaludComponent } from './views/categorias/salud/salud/salud.component';
 import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-registro/onboarding-negocio-registro.component'; // <-- IMPORTADO
 import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perfil-negocio-editor.component';
+import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
 
 
 export const routes: Routes = [
@@ -57,6 +58,16 @@ export const routes: Routes = [
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent }, // <-- RUTA AÑADIDA
     { path: 'contacto' , component: ContactoComponent },
+
+    // --- NUEVA RUTA ADMINISTRATIVA L10 ---
+    { 
+        path: 'admin/promociones', 
+        component: AdminPromocionesComponent,
+        // canActivate: [AdminGuard] // En el futuro, protege esta ruta con tu RolUsuario.ADMIN
+    },
+
+
+
     { path: 'nav', component: NavMenuComponent, 
         children: [
             { path: 'Alimentos', component: AlimentosComponent },

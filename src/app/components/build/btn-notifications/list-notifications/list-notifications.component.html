@@ -1,0 +1,24 @@
+<section class="contenedor-modal-completo">
+    <header class="encabezado-modal">
+      <h2 mat-dialog-title>Notificaciones</h2>
+      <button mat-icon-button (click)="cerrar()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </header>
+
+    <mat-dialog-content>
+      <mat-nav-list>
+        @for (item of notificaciones(); track item.id) {
+          <mat-list-item (click)="marcarComoLeida(item.id)">
+            <mat-icon matListItemIcon color="primary">notifications_active</mat-icon>
+            <div matListItemTitle class="titulo-noticia">{{ item.titulo }}</div>
+            <div matListItemLine class="cuerpo-noticia">{{ item.cuerpo }}</div>
+            <div matListItemMeta class="fecha-noticia">{{ item.fecha }}</div>
+          </mat-list-item>
+          <mat-divider></mat-divider>
+        } @empty {
+          <div class="sin-datos">No tienes notificaciones pendientes</div>
+        }
+      </mat-nav-list>
+    </mat-dialog-content>
+  </section>

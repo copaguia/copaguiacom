@@ -19,6 +19,7 @@ import { ScrollBotonesComponent } from '../../components/build/scroll-botones/sc
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthorizationService } from '../../core/auth/authorization.service';
 import { NegocioVerificationService } from '../../core/auth/negocio-verification.service'; // <-- NUEVO SERVICIO
+import { BtnNotificationsComponent } from '../../components/build/btn-notifications/btn-notifications.component';
 
 @Component({
   selector: 'app-categorias',
@@ -27,7 +28,7 @@ import { NegocioVerificationService } from '../../core/auth/negocio-verification
     CommonModule, 
     MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,
     MatDividerModule, MatMenuModule, MatButtonModule,
-    CarruselComponent, ScrollBotonesComponent
+    CarruselComponent, ScrollBotonesComponent, BtnNotificationsComponent
   ],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css',

@@ -1,0 +1,5 @@
+.contenedor-modal-completo { height: 100vh; display: flex; flex-direction: column; }
+    .encabezado-modal { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: var(--mat-sys-surface); }
+    .sin-datos { text-align: center; margin-top: 50px; color: gray; }
+    .titulo-noticia { font-weight: bold; }
+    .cuerpo-noticia { font-size: 0.9em; color: #555; }

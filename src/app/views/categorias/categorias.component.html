@@ -7,6 +7,8 @@
       <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar">
     </button>
   }
+
+  <app-btn-notifications></app-btn-notifications>
 </mat-toolbar>
 
 <mat-tab-group 
@@ -26,6 +28,9 @@
 </mat-tab-group>
 
 <mat-menu #userMenu="matMenu">
+
+  
+
   <button mat-menu-item (click)="navigateToProfile()">
     <mat-icon>account_circle</mat-icon>
     <span>Mi Perfil</span>
