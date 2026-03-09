@@ -2,17 +2,17 @@ export enum TipoNegocio {
     GASTRONOMIA = 'Gastronomía',
     COMERCIO = 'Comercio',
     SALUD_BELLEZA = 'Salud y Belleza',
-    TECNICO = 'Servicios Técnicos',
-    TECNOLOGIA = 'Tecnología',
-    INSTITUCIONAL = 'Institucional',
-    ENTRETENIMIENTO = 'Entretenimiento',
+    TECNICO           = 'Servicios Técnicos',
+    TECNOLOGIA        = 'Tecnología',
+    INSTITUCIONAL     = 'Institucional',
+    ENTRETENIMIENTO   = 'Entretenimiento',
     OTRO = 'Otro'
 }
 
 export interface NegocioInterface {
-  tipoNegocio: string;
-  seccion: any;
-  imagen: any;
+  tipoNegocio:  string;
+  seccion:      string;
+  imagen:       string;
     id:             string;
     duenoId:        string;
     nombre:         string;
@@ -33,7 +33,7 @@ export interface NegocioInterface {
     };
     contacto: {
       direccion: string;
-      whatsapp:      string; // Número principal para recibir el pedido
+      whatsapp:      string; 
       telefono:      string;
       email:         string;
       redes: {
