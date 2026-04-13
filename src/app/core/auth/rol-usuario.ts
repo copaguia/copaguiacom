@@ -1,5 +1,5 @@
 export enum RolUsuario {
-    LEAD       = 'lead',
+    VISITANTE  = 'visitante',
     CLIENTE    = 'cliente',
     DUENO      = 'dueno',
     REPARTIDOR = 'repartidor',
