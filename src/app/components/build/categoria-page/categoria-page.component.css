@@ -1,0 +1,34 @@
+.container {
+    padding-top: 20px;
+  }
+  
+  .centradoAbajo {
+    display: flex;
+    align-items: flex-end;
+  }
+  
+  .card {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .card-img-top {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    margin-bottom: 0;
+  }
+  

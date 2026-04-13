@@ -21,10 +21,7 @@ export const categoriaData: CategoriasInterface[] = [
         ruta: 'Alimentos',
         tarjetas: AlimentosData,
         seccion: [  
-            { 
-                ruta:'Domicilios', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            
             {  
                 ruta:'Comida Rápida', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'

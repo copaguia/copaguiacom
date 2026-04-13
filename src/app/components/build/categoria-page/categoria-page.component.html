@@ -1,25 +1,29 @@
 <app-tool-bar-page title="{{ title }}"></app-tool-bar-page>
 
-<h1>hola</h1>
-
 <div class="container">
-  <!----------- Buscador ---------
   <div class="row mb-4 centradoAbajo ">
     <div class="col-md-10">
       <mat-form-field appearance="outline" class="w-100">
         <mat-label>Buscar negocio</mat-label>
-        <input matInput [ngModel]="terminoBusqueda()" placeholder="Pizzería, hamburguesas, tacos...">
+        <input matInput [(ngModel)]="terminoBusqueda" (ngModelChange)="filtrarNegocios()" placeholder="Pizzería, hamburguesas, tacos...">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </div>
     <div class="col-md-2 d-flex align-items-center">
-      <button mat-raised-button color="primary" class="w-100" (click)="buscarNegocios()">
+      <button mat-raised-button color="primary" class="w-100" (click)="filtrarNegocios()">
         Buscar ahora
       </button>
     </div>
-  </div>----->
+  </div>
 
-  <!-- Mensaje cuando no hay resultados -->
+  @if (error()) {
+    <div class="row">
+      <div class="col-12 text-center my-5">
+        <p class="text-danger">{{ error() }}</p>
+      </div>
+    </div>
+  }
+
   @if (negociosFiltrados().length === 0 && !isLoading()) {
     <div class="row">
       <div class="col-12 text-center my-5">
@@ -28,7 +32,6 @@
     </div>
   }
 
-  <!-- Listado de negocios -->
   <div class="row">
     @for (item of negociosFiltrados(); track trackByNegocioId($index, item)) {
       <div class="col-md-4 mb-4">
@@ -45,7 +48,6 @@
     }
   </div>
 
-  <!-- Indicador de carga -->
   @if (isLoading()) {
     <div class="row">
       <div class="col-12 d-flex justify-content-center my-5">

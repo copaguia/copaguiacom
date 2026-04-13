@@ -6,68 +6,31 @@ import { ContactoComponent } from './views/contacto/contacto.component';
 import { NavegacionComponent } from './views/navegacion/navegacion.component';
 import { CategoriasComponent } from './views/categorias/categorias.component';
 import { SeccionPageComponent } from './components/build/seccion-page/seccion-page.component';
-import { DomiciliosComponent } from './views/categorias/alimentos/domicilios/domicilios.component';
-import { ComidaRapidaComponent } from './views/categorias/alimentos/comida-rapida/comida-rapida.component';
-import { RestaurantesPizzasComponent } from './views/categorias/alimentos/restaurantes-pizzas/restaurantes-pizzas.component';
-import { HeladosPostresComponent } from './views/categorias/alimentos/helados-postres/helados-postres.component';
-import { CafeteriasPanaderiasComponent } from './views/categorias/alimentos/cafeterias-panaderias/cafeterias-panaderias.component';
-import { SupermercadosComponent } from './views/categorias/alimentos/supermercados/supermercados.component';
-import { PlazaDeMercadoComponent } from './views/categorias/alimentos/plaza-de-mercado/plaza-de-mercado.component';
-import { CarniceriasLegumbreriasComponent } from './views/categorias/alimentos/carnicerias-legumbrerias/carnicerias-legumbrerias.component';
-import { HogarComponent } from './views/categorias/comercios/hogar/hogar.component';
-import { CelularesPcComponent } from './views/categorias/comercios/celulares-pc/celulares-pc.component';
-import { CosmeticosComponent } from './views/categorias/comercios/cosmeticos/cosmeticos.component';
-import { ModaCalzadoComponent } from './views/categorias/comercios/moda-calzado/moda-calzado.component';
-import { PapeleriasLibreriasComponent } from './views/categorias/comercios/papelerias-librerias/papelerias-librerias.component';
-import { RegalosJoyasComponent } from './views/categorias/comercios/regalos-joyas/regalos-joyas.component';
-import { RepuestosComponent } from './views/categorias/comercios/repuestos/repuestos.component';
-import { FerreteriasAgropecuariasComponent } from './views/categorias/comercios/ferreterias-agropecuarias/ferreterias-agropecuarias.component';
-import { TransporteComponent } from './views/categorias/servicios/transporte/transporte.component';
-import { HogarOficinaComponent } from './views/categorias/servicios/hogar-oficina/hogar-oficina.component';
-import { ConstruccionComponent } from './views/categorias/servicios/construccion/construccion.component';
-import { EventosLogisticaComponent } from './views/categorias/servicios/eventos-logistica/eventos-logistica.component';
-import { BellezaSpaComponent } from './views/categorias/servicios/belleza-spa/belleza-spa.component';
-import { DiaDeSolComponent } from './views/categorias/entretenimiento/dia-de-sol/dia-de-sol.component';
-import { DiscotecasParchesComponent } from './views/categorias/entretenimiento/discotecas-parches/discotecas-parches.component';
-import { FincasSalonesComponent } from './views/categorias/entretenimiento/fincas-salones/fincas-salones.component';
-import { DrogueriasOpticasComponent } from './views/categorias/salud/droguerias-opticas/droguerias-opticas.component';
-import { EpsHospitalesComponent } from './views/categorias/salud/eps-hospitales/eps-hospitales.component';
-import { MedicosOdontologosComponent } from './views/categorias/salud/medicos-odontologos/medicos-odontologos.component';
-import { NaturistasFisioterapiasComponent } from './views/categorias/salud/naturistas-fisioterapias/naturistas-fisioterapias.component';
-import { ClimaComponent } from './views/categorias/entretenimiento/clima/clima.component';
 import { LoginComponent } from './views/login/login.component';
 import { UserFeedComponent } from './views/consumer/user-feed/user-feed.component';
 import { CarruselComponent } from './components/build/carrusel/carrusel.component';
-import { EventosComponent } from './views/categorias/entretenimiento/eventos/eventos.component';
 import { MarranitoComponent } from './views/marranito/marranito.component';
 import { AlimentosComponent } from './views/categorias/alimentos/alimentos/alimentos.component';
 import { ComerciosComponent } from './views/categorias/comercios/comercios/comercios.component';
 import { ServiciosComponent } from './views/categorias/servicios/servicios/servicios.component';
 import { EntretenimientoComponent } from './views/categorias/entretenimiento/entretenimiento/entretenimiento.component';
 import { SaludComponent } from './views/categorias/salud/salud/salud.component';
-import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-registro/onboarding-negocio-registro.component'; // <-- IMPORTADO
+import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-registro/onboarding-negocio-registro.component';
 import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perfil-negocio-editor.component';
 import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
-
+import { CategoriaPageComponent } from './components/build/categoria-page/categoria-page.component';
 
 export const routes: Routes = [
-    // 1. RUTAS DE ENTRADA Y PRINCIPALES
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
     { path: 'intro', component: IntroComponent },
     { path: 'registro', component: RegistarNegociosComponent },
-    { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent }, // <-- RUTA AÑADIDA
+    { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
     { path: 'contacto' , component: ContactoComponent },
-
-    // --- NUEVA RUTA ADMINISTRATIVA L10 ---
     { 
         path: 'admin/promociones', 
         component: AdminPromocionesComponent,
-        // canActivate: [AdminGuard] // En el futuro, protege esta ruta con tu RolUsuario.ADMIN
     },
-
-
-
     { path: 'nav', component: NavMenuComponent, 
         children: [
             { path: 'Alimentos', component: AlimentosComponent },
@@ -83,76 +46,47 @@ export const routes: Routes = [
     { path: 'seccion-page/:id', component: SeccionPageComponent },
     { path: 'carrusel', component: CarruselComponent },
     { path: 'marranito', component: MarranitoComponent },
-
-    // 2. RUTA DEL PERFIL DE USUARIO (CAMBIO NECESARIO)
-    // Se introduce el segmento fijo 'perfil' para que la URL sea /perfil/:username
-    // Esto evita colisiones con rutas de nivel superior (como 'nav', 'categorias', etc.).
     {
-        path: 'perfil/:username', // ¡Ruta corregida!
-        component: UserFeedComponent, 
-        // canActivate: [AuthGuard]
+        path: 'perfil/:username',
+        component: UserFeedComponent,
     },
     {
         path: 'perfil-negocio-editor', component: PerfilNegocioEditorComponent
     },
-
-    // 3. RUTAS DE CATEGORÍAS (muy específicas, no chocan con 'perfil')
-    // El orden se mantiene ya que todas están bajo el prefijo 'categorias/'
-
-    // Rutas de Categorías de Alimentos
-    { path: 'categorias/Domicilios', component: DomiciliosComponent },
-    { path: 'categorias/Comida Rápida', component: ComidaRapidaComponent },
-    { path: 'categorias/Restaurante y Pizzas', component: RestaurantesPizzasComponent },
-    { path: 'categorias/Helados y postres', component: HeladosPostresComponent },
-    { path: 'categorias/Cafés y Parva', component: CafeteriasPanaderiasComponent },
-    { path: 'categorias/Supermercados', component: SupermercadosComponent },
-    { path: 'categorias/Plaza de Mercado', component: PlazaDeMercadoComponent },
-    { path: 'categorias/Carnicerias y Legumbrerias', component: CarniceriasLegumbreriasComponent },
-
-    // Rutas de Categorías de Comercios
-    { path: 'categorias/Hogar', component: HogarComponent },
-    { path: 'categorias/Celulares y PC', component: CelularesPcComponent },
-    { path: 'categorias/Cosméticos', component: CosmeticosComponent },
-    { path: 'categorias/Moda y Calzado', component: ModaCalzadoComponent },
-    { path: 'categorias/Papelerías y librerias', component: PapeleriasLibreriasComponent },
-    { path: 'categorias/Regalos y joyas', component: RegalosJoyasComponent },
-    { path: 'categorias/Repuestos', component: RepuestosComponent },
-    { path: 'categorias/Ferreterías y Agropecuarias', component: FerreteriasAgropecuariasComponent },
-
-    // Rutas de Categorías de Servicios
-    { path: 'categorias/Transporte', component: TransporteComponent },
-    { path: 'categorias/Hogar y oficina', component: HogarOficinaComponent },
-    { path: 'categorias/Construcción', component: ConstruccionComponent },
-    { path: 'categorias/Automotrices', component: ComidaRapidaComponent }, 
-    { path: 'categorias/Logística y eventos', component: EventosLogisticaComponent },
-    { path: 'categorias/Belleza y Spa', component: BellezaSpaComponent },
-
-    // Rutas de Categorías de Entretenimiento
-    { path: 'categorias/Clima', component: ClimaComponent },
-    { path: 'categorias/Día de Sol', component: DiaDeSolComponent },
-    { path: 'categorias/Parches y discotecas', component: DiscotecasParchesComponent },
-    { path: 'categorias/Eventos', component: EventosComponent },
-    { path: 'categorias/Fincas y salones', component: FincasSalonesComponent },
-
-    // Rutas de Categorías de Salud
-    { path: 'categorias/Droguerías y opticas', component: DrogueriasOpticasComponent },
-    { path: 'categorias/EPS y hospitales', component: EpsHospitalesComponent },
-    { path: 'categorias/Médicos y Odontólogos', component: MedicosOdontologosComponent },
-    { path: 'categorias/Naturistas y fisioterapias', component: NaturistasFisioterapiasComponent },
-
-    // 4. RUTA GENÉRICA DE NIVEL SUPERIOR (La ruta original del problema, ahora renombrada y movida)
-    /* * NOTA: Esta ruta genérica debe ir ANTES de la ruta comodín si la quieres mantener, 
-     * pero es inherentemente peligrosa por las colisiones. La ruta 'perfil/:username' 
-     * de arriba es mucho más segura. Si realmente quieres que /usuario funcione,
-     * reemplaza la ruta de arriba con esta, pero sabiendo que puede chocar con otras rutas.
-     */
+    { path: 'categorias/Domicilios', component: CategoriaPageComponent, data: { title: 'Domicilios', categoria: 'Alimentos', seccion: 'Domicilios' } },
+    { path: 'categorias/Comida Rápida', component: CategoriaPageComponent, data: { title: 'Comida Rápida', categoria: 'Alimentos', seccion: 'Comida Rápida' } },
+    { path: 'categorias/Restaurante y Pizzas', component: CategoriaPageComponent, data: { title: 'Restaurante y Pizzas', categoria: 'Alimentos', seccion: 'Restaurante y Pizzas' } },
+    { path: 'categorias/Helados y postres', component: CategoriaPageComponent, data: { title: 'Helados y postres', categoria: 'Alimentos', seccion: 'Helados y postres' } },
+    { path: 'categorias/Cafés y Parva', component: CategoriaPageComponent, data: { title: 'Cafés y Parva', categoria: 'Alimentos', seccion: 'Cafés y Parva' } },
+    { path: 'categorias/Supermercados', component: CategoriaPageComponent, data: { title: 'Supermercados', categoria: 'Alimentos', seccion: 'Supermercados' } },
+    { path: 'categorias/Plaza de Mercado', component: CategoriaPageComponent, data: { title: 'Plaza de Mercado', categoria: 'Alimentos', seccion: 'Plaza de Mercado' } },
+    { path: 'categorias/Carnicerias y Legumbrerias', component: CategoriaPageComponent, data: { title: 'Carnicerias y Legumbrerias', categoria: 'Alimentos', seccion: 'Carnicerias y Legumbrerias' } },
+    { path: 'categorias/Hogar', component: CategoriaPageComponent, data: { title: 'Hogar', categoria: 'Comercios', seccion: 'Hogar' } },
+    { path: 'categorias/Celulares y PC', component: CategoriaPageComponent, data: { title: 'Celulares y PC', categoria: 'Comercios', seccion: 'Celulares y PC' } },
+    { path: 'categorias/Cosméticos', component: CategoriaPageComponent, data: { title: 'Cosméticos', categoria: 'Comercios', seccion: 'Cosméticos' } },
+    { path: 'categorias/Moda y Calzado', component: CategoriaPageComponent, data: { title: 'Moda y Calzado', categoria: 'Comercios', seccion: 'Moda y Calzado' } },
+    { path: 'categorias/Papelerías y librerias', component: CategoriaPageComponent, data: { title: 'Papelerías y librerias', categoria: 'Comercios', seccion: 'Papelerías y librerias' } },
+    { path: 'categorias/Regalos y joyas', component: CategoriaPageComponent, data: { title: 'Regalos y joyas', categoria: 'Comercios', seccion: 'Regalos y joyas' } },
+    { path: 'categorias/Repuestos', component: CategoriaPageComponent, data: { title: 'Repuestos', categoria: 'Comercios', seccion: 'Repuestos' } },
+    { path: 'categorias/Ferreterías y Agropecuarias', component: CategoriaPageComponent, data: { title: 'Ferreterías y Agropecuarias', categoria: 'Comercios', seccion: 'Ferreterías y Agropecuarias' } },
+    { path: 'categorias/Transporte', component: CategoriaPageComponent, data: { title: 'Transporte', categoria: 'Servicios', seccion: 'Transporte' } },
+    { path: 'categorias/Hogar y oficina', component: CategoriaPageComponent, data: { title: 'Hogar y oficina', categoria: 'Servicios', seccion: 'Hogar y oficina' } },
+    { path: 'categorias/Construcción', component: CategoriaPageComponent, data: { title: 'Construcción', categoria: 'Servicios', seccion: 'Construcción' } },
+    { path: 'categorias/Automotrices', component: CategoriaPageComponent, data: { title: 'Automotrices', categoria: 'Servicios', seccion: 'Automotrices' } },
+    { path: 'categorias/Logística y eventos', component: CategoriaPageComponent, data: { title: 'Logística y eventos', categoria: 'Servicios', seccion: 'Logística y eventos' } },
+    { path: 'categorias/Belleza y Spa', component: CategoriaPageComponent, data: { title: 'Belleza y Spa', categoria: 'Servicios', seccion: 'Belleza y Spa' } },
+    { path: 'categorias/Clima', component: CategoriaPageComponent, data: { title: 'Clima', categoria: 'Entretenimiento', seccion: 'Clima' } },
+    { path: 'categorias/Día de Sol', component: CategoriaPageComponent, data: { title: 'Día de Sol', categoria: 'Entretenimiento', seccion: 'Día de Sol' } },
+    { path: 'categorias/Parches y discotecas', component: CategoriaPageComponent, data: { title: 'Parches y discotecas', categoria: 'Entretenimiento', seccion: 'Parches y discotecas' } },
+    { path: 'categorias/Eventos', component: CategoriaPageComponent, data: { title: 'Eventos', categoria: 'Entretenimiento', seccion: 'Eventos' } },
+    { path: 'categorias/Fincas y salones', component: CategoriaPageComponent, data: { title: 'Fincas y salones', categoria: 'Entretenimiento', seccion: 'Fincas y salones' } },
+    { path: 'categorias/Droguerías y opticas', component: CategoriaPageComponent, data: { title: 'Droguerías y opticas', categoria: 'Salud', seccion: 'Droguerías y opticas' } },
+    { path: 'categorias/EPS y hospitales', component: CategoriaPageComponent, data: { title: 'EPS y hospitales', categoria: 'Salud', seccion: 'EPS y hospitales' } },
+    { path: 'categorias/Médicos y Odontólogos', component: CategoriaPageComponent, data: { title: 'Médicos y Odontólogos', categoria: 'Salud', seccion: 'Médicos y Odontólogos' } },
+    { path: 'categorias/Naturistas y fisioterapias', component: CategoriaPageComponent, data: { title: 'Naturistas y fisioterapias', categoria: 'Salud', seccion: 'Naturistas y fisioterapias' } },
     {
-        path: 'public/:username', // La he renombrado para que no choque con tus rutas principales
+        path: 'public/:username',
         component: UserFeedComponent, 
-        // canActivate: [AuthGuard] 
     },
-
-
-    // 5. RUTA COMODÍN (WILDCARD) - SIEMPRE LA ÚLTIMA:
     { path: '**', redirectTo: '/categorias' }
 ];
