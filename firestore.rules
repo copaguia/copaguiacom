@@ -3,54 +3,48 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // --- Funciones de Utilidad ---
-    function estaAutenticado() {
+    // --- FUNCIONES DE APOYO ---
+    function isAuthenticated() {
       return request.auth != null;
     }
 
-    // Verifica si el usuario tiene un rol específico (ej. 'admin').
-    // Para que esto funcione, en tu colección 'Usuarios', cada documento de usuario
-    // debe tener un mapa llamado 'roles' con el rol, por ejemplo: { roles: { admin: true } }
-    function tieneRol(rol) {
-      return estaAutenticado() && get(/databases/$(database)/documents/Usuarios/$(request.auth.uid)).data.roles[rol] == true;
+    // Verifica el rol en el documento del usuario
+    function hasRole(role) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/Usuarios/$(request.auth.uid)).data.rolUsuario == role;
     }
 
+    // --- COLECCIONES ---
 
-    // --- Colecciones ---
-
-    // Colección 'Usuarios': Perfiles públicos de usuario
+    // Usuarios: Cualquiera lee, solo el dueño o admin edita
     match /Usuarios/{uid} {
-      // Cualquiera puede leer perfiles
       allow read: if true;
-      // El dueño del perfil o un admin pueden escribir
-      allow write: if estaAutenticado() && (request.auth.uid == uid || tieneRol('admin'));
+      allow write: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
     }
 
-    // Colección 'negocios'
+    // Negocios
     match /negocios/{negocioId} {
-      // Lectura pública para todos
-      allow read: if true;
-
-      // Se divide la regla de 'write' en create, update, delete para mayor control.
+      allow read: if true; // Público para que los clientes vean los negocios
       
-      // CREAR: Solo los administradores pueden crear nuevos negocios.
-      // Esto resuelve el error de permisos que estabas viendo.
-      allow create: if tieneRol('admin');
+      // IDEAL: Permitir que cualquier usuario registrado cree su negocio.
+      // Si quieres restringirlo a 'admin', cambia 'isAuthenticated()' por 'hasRole("admin")'
+      allow create: if isAuthenticated(); 
 
-      // ACTUALIZAR: El dueño del negocio (duenoId) o un admin pueden actualizar.
-      allow update: if estaAutenticado() && (request.auth.uid == resource.data.duenoId || tieneRol('admin'));
+      // Solo el dueño (grabado en el documento) o un admin pueden editar/borrar
+      allow update, delete: if isAuthenticated() && 
+        (request.auth.uid == resource.data.duenoId || hasRole('admin'));
 
-      // BORRAR: Solo los administradores pueden borrar.
-      allow delete: if tieneRol('admin');
-
-      // Subcolección 'pedidos'
+      // Pedidos (Subcolección)
       match /pedidos/{pedidoId} {
-        allow create: if true; // Cualquiera puede crear un pedido
-        // El dueño del negocio o un admin pueden leer/actualizar pedidos
-        allow read, update: if estaAutenticado() &&
-          (request.auth.uid == get(/databases/$(database)/documents/negocios/$(negocioId)).data.duenoId || tieneRol('admin'));
-        // Solo admins pueden borrar pedidos
-        allow delete: if tieneRol('admin');
+        // Los clientes pueden crear pedidos sin logearse (opcional)
+        allow create: if true; 
+        
+        // Solo el dueño del negocio puede gestionar los pedidos
+        // Usamos una lectura del documento padre para verificar la propiedad
+        allow read, update: if isAuthenticated() && 
+          (request.auth.uid == get(/databases/$(database)/documents/negocios/$(negocioId)).data.duenoId || hasRole('admin'));
+        
+        allow delete: if hasRole('admin');
       }
     }
   }

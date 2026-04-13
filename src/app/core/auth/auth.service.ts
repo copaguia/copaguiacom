@@ -207,7 +207,7 @@ export class AuthService {
       nombreMostrado:  usuario.displayName || '',
       urlFoto:         usuario.photoURL || '',
       fechaCreacion:   new Date().toISOString(),
-      rolUsuario:      RolUsuario.LEAD,
+      rolUsuario:      RolUsuario.VISITANTE,
       activo:      true
     };
 

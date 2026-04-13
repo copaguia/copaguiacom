@@ -29,14 +29,20 @@
 
 <mat-menu #userMenu="matMenu">
 
-  
-
   <button mat-menu-item (click)="navigateToProfile()">
     <mat-icon>account_circle</mat-icon>
     <span>Mi Perfil</span>
   </button>
 
-  <!-- INICIO: Lógica de botones de negocio condicional -->
+  <!-- Botón para ADMIN: Siempre visible si es admin -->
+  @if (authorization.esAdmin()) {
+    <button mat-menu-item (click)="navigateToCreateBusiness()">
+      <mat-icon>add_business</mat-icon>
+      <span>Agregar Negocio</span>
+    </button>
+  }
+
+  <!-- Botones para DUENO: Condicional a si tiene negocio -->
   @if (authorization.esDueno()) {
     @if (negocioService.tieneNegocio()) {
       <button mat-menu-item (click)="navigateToEditBusiness()">
@@ -50,7 +56,6 @@
       </button>
     }
   }
-  <!-- FIN: Lógica de botones de negocio condicional -->
 
   <button mat-menu-item (click)="logout()">
     <mat-icon>exit_to_app</mat-icon>

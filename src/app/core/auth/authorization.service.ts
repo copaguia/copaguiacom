@@ -14,7 +14,7 @@ export class AuthorizationService {
   private rolActual: Signal<RolUsuario | undefined> = computed(() => this.auth.perfilLectura()?.rolUsuario);
 
   // Signals públicas para cada rol
-  public esLead:       Signal<boolean> = this.crearSignalRol(RolUsuario.LEAD);
+  
   public esCliente:    Signal<boolean> = this.crearSignalRol(RolUsuario.CLIENTE);
   public esDueno:      Signal<boolean> = this.crearSignalRol(RolUsuario.DUENO);
   public esRepartidor: Signal<boolean> = this.crearSignalRol(RolUsuario.REPARTIDOR);

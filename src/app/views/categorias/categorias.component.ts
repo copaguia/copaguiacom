@@ -73,11 +73,11 @@ export class CategoriasComponent {
   }
 
   navigateToEditBusiness(): void {
-    this.router.navigate(['/perfil-negocio-editor']);
+    this.router.navigate(['admin/perfil-negocio-editor']);
   }
 
   navigateToCreateBusiness(): void {
-    this.router.navigate(['/onboarding-negocio-registro']);
+    this.router.navigate(['admin/agregar-negocio']);
   }
 
   logout(): void {
