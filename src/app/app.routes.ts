@@ -10,11 +10,6 @@ import { LoginComponent } from './views/login/login.component';
 import { UserFeedComponent } from './views/consumer/user-feed/user-feed.component';
 import { CarruselComponent } from './components/build/carrusel/carrusel.component';
 import { MarranitoComponent } from './views/marranito/marranito.component';
-import { AlimentosComponent } from './views/categorias/alimentos/alimentos/alimentos.component';
-import { ComerciosComponent } from './views/categorias/comercios/comercios/comercios.component';
-import { ServiciosComponent } from './views/categorias/servicios/servicios/servicios.component';
-import { EntretenimientoComponent } from './views/categorias/entretenimiento/entretenimiento/entretenimiento.component';
-import { SaludComponent } from './views/categorias/salud/salud/salud.component';
 import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-registro/onboarding-negocio-registro.component';
 import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perfil-negocio-editor.component';
 import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
@@ -32,13 +27,7 @@ export const routes: Routes = [
         component: AdminPromocionesComponent,
     },
     { path: 'nav', component: NavMenuComponent, 
-        children: [
-            { path: 'Alimentos', component: AlimentosComponent },
-            { path: 'Comercios', component: ComerciosComponent },
-            { path: 'Servicios', component: ServiciosComponent },
-            { path: 'Entretenimiento', component: EntretenimientoComponent },
-            { path: 'Salud', component: SaludComponent },
-        ] 
+        children: [ ] 
     }, 
     { path: 'navegacion', component: NavegacionComponent },
     { path: 'categorias', component: CategoriasComponent },

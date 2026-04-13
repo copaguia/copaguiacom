@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,7 +9,7 @@ import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, DocumentData } from 'firebase/firestore';
 import { CommonModule } from '@angular/common';
 
 enum LoadingState {
@@ -38,10 +39,11 @@ enum LoadingState {
 export class CategoriaPageComponent implements OnInit {
 
   private firestore = inject(InstanciaFirebase).firestore;
+  private route = inject(ActivatedRoute);
 
-  @Input() title: string = '';
-  @Input() categoria: string = '';
-  @Input() seccion: string = '';
+  public title: string = '';
+  public categoria: string = '';
+  public seccion: string = '';
 
   public negocios = signal<NegocioInterface[]>([]);
   public negociosFiltrados = signal<NegocioInterface[]>([]);
@@ -52,11 +54,18 @@ export class CategoriaPageComponent implements OnInit {
 
   public trackByNegocioId(index: number, negocio: NegocioInterface): string { return negocio.id; }
 
-  async ngOnInit() {
-    await this.buscarNegocios();
+  ngOnInit() {
+    this.route.data.subscribe(data => {
+      this.title = data['title'] || '';
+      this.categoria = data['categoria'] || '';
+      this.seccion = data['seccion'] || '';
+      this.buscarNegocios();
+    });
   }
 
   async buscarNegocios() {
+    if (!this.categoria) return;
+
     this.loadingState.set(LoadingState.Loading);
     this.error.set(null);
 
@@ -68,17 +77,18 @@ export class CategoriaPageComponent implements OnInit {
           where('categoria', '==', this.categoria),
           where('seccion', '==', this.seccion)
         );
-      } else if (this.categoria) {
+      } else {
         q = query(
             collection(this.firestore, 'negocios'),
             where('categoria', '==', this.categoria)
         );
-      } else {
-        q = query(collection(this.firestore, 'negocios'));
       }
 
       const querySnapshot = await getDocs(q);
-      const negocios = querySnapshot.docs.map(doc => Object.assign({ id: doc.id }, doc.data()) as NegocioInterface);
+      const negocios = querySnapshot.docs.map(doc => {
+        const data = doc.data() as DocumentData;
+        return { id: doc.id, ...data } as NegocioInterface;
+      });
       this.negocios.set(negocios);
       this.negociosFiltrados.set(negocios);
       this.loadingState.set(LoadingState.Success);
