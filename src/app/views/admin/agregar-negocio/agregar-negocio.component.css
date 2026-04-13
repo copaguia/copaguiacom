@@ -3,6 +3,7 @@
   margin: 2rem auto;
   padding: 2rem;
   border-radius: 8px;
+  /* background-color: #f9f9f9; */ /* Se elimina el fondo */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -45,7 +46,10 @@ legend {
 
 .checkbox-group {
   display: flex;
-  gap: 2rem;
+  gap: 1rem; /* Reducido para mejor alineación */
+  justify-content: flex-start; /* Alinea los checkboxes a la izquierda */
+  align-items: center;
+  flex-wrap: wrap;
   margin-bottom: 1.5rem;
 }
 

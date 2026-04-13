@@ -18,8 +18,8 @@
 
     <mat-form-field appearance="outline">
       <mat-label>URL de la Imagen (para la tarjeta)</mat-label>
-      <input matInput formControlName="imagen" required>
-      <mat-error *ngIf="negocioForm.get('imagen')?.hasError('required')">La URL de la imagen es requerida.</mat-error>
+      <input matInput formControlName="imagen">
+      <mat-hint>Si se deja en blanco, se usará una imagen por defecto.</mat-hint>
     </mat-form-field>
 
     <!-- Selectores de Categoría y Sección -->
@@ -75,8 +75,9 @@
 
     <!-- Opciones de Estado -->
     <div class="checkbox-group">
-        <mat-checkbox formControlName="verificado" color="primary">Negocio Verificado</mat-checkbox>
-        <mat-checkbox formControlName="destacado" color="primary">Negocio Destacado</mat-checkbox>
+        <mat-checkbox formControlName="activo" color="primary">Activo</mat-checkbox>
+        <mat-checkbox formControlName="verificado" color="primary">Verificado</mat-checkbox>
+        <mat-checkbox formControlName="destacado" color="primary">Destacado</mat-checkbox>
     </div>
 
     <!-- Botón de Envío y Mensajes -->
