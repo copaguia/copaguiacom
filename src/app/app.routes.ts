@@ -14,6 +14,7 @@ import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-r
 import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perfil-negocio-editor.component';
 import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
 import { CategoriaPageComponent } from './components/build/categoria-page/categoria-page.component';
+import { AgregarNegocioComponent } from './views/admin/agregar-negocio/agregar-negocio.component'; // Import new component
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -22,9 +23,14 @@ export const routes: Routes = [
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
     { path: 'contacto' , component: ContactoComponent },
-    { 
+    {
         path: 'admin/promociones', 
         component: AdminPromocionesComponent,
+    },
+    // Add new route for adding businesses
+    {
+        path: 'admin/agregar-negocio',
+        component: AgregarNegocioComponent
     },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 

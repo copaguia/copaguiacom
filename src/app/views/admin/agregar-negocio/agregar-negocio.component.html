@@ -1,0 +1,94 @@
+<div class="form-container">
+  <h2>Agregar Nuevo Negocio</h2>
+
+  <form [formGroup]="negocioForm" (ngSubmit)="onSubmit()">
+    
+    <!-- Campos Principales -->
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre del Negocio</mat-label>
+      <input matInput formControlName="nombre" required>
+      <mat-error *ngIf="negocioForm.get('nombre')?.hasError('required')">El nombre es requerido.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" rows="3" required></textarea>
+      <mat-error *ngIf="negocioForm.get('descripcion')?.hasError('required')">La descripción es requerida.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>URL de la Imagen (para la tarjeta)</mat-label>
+      <input matInput formControlName="imagen" required>
+      <mat-error *ngIf="negocioForm.get('imagen')?.hasError('required')">La URL de la imagen es requerida.</mat-error>
+    </mat-form-field>
+
+    <!-- Selectores de Categoría y Sección -->
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Categoría</mat-label>
+          <mat-select formControlName="categoria" required>
+            <mat-option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="negocioForm.get('categoria')?.hasError('required')">Selecciona una categoría.</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Sección</mat-label>
+          <mat-select formControlName="seccion" required>
+            <mat-option *ngFor="let seccion of seccionesDisponibles" [value]="seccion">{{ seccion }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="negocioForm.get('seccion')?.hasError('required')">Selecciona una sección.</mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- URLs Opcionales -->
+    <mat-form-field appearance="outline">
+      <mat-label>URL del Logo (opcional)</mat-label>
+      <input matInput formControlName="logo">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>URL del Banner (opcional)</mat-label>
+      <input matInput formControlName="banner">
+    </mat-form-field>
+
+    <!-- Grupo de Contacto -->
+    <fieldset formGroupName="contacto">
+      <legend>Información de Contacto</legend>
+      <mat-form-field appearance="outline">
+        <mat-label>WhatsApp</mat-label>
+        <input matInput formControlName="whatsapp">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email">
+        <mat-error *ngIf="negocioForm.get('contacto.email')?.hasError('email')">Ingresa un email válido.</mat-error>
+      </mat-form-field>
+    </fieldset>
+
+    <!-- Opciones de Estado -->
+    <div class="checkbox-group">
+        <mat-checkbox formControlName="verificado" color="primary">Negocio Verificado</mat-checkbox>
+        <mat-checkbox formControlName="destacado" color="primary">Negocio Destacado</mat-checkbox>
+    </div>
+
+    <!-- Botón de Envío y Mensajes -->
+    <div class="submit-section">
+      <button mat-raised-button color="primary" type="submit" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Agregar Negocio</span>
+        <mat-spinner *ngIf="isLoading" diameter="24"></mat-spinner>
+      </button>
+
+      <div *ngIf="successMessage" class="message success-message">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="message error-message">{{ errorMessage }}</div>
+    </div>
+
+  </form>
+</div>

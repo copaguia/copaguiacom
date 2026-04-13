@@ -1,12 +1,12 @@
 export enum TipoNegocio {
-    GASTRONOMIA = 'Gastronomía',
-    COMERCIO = 'Comercio',
-    SALUD_BELLEZA = 'Salud y Belleza',
+    GASTRONOMIA       = 'Gastronomía',
+    COMERCIO          = 'Comercio',
+    SALUD_BELLEZA     = 'Salud y Belleza',
     TECNICO           = 'Servicios Técnicos',
     TECNOLOGIA        = 'Tecnología',
     INSTITUCIONAL     = 'Institucional',
     ENTRETENIMIENTO   = 'Entretenimiento',
-    OTRO = 'Otro'
+    OTRO              = 'Otro'
 }
 
 export interface NegocioInterface {
