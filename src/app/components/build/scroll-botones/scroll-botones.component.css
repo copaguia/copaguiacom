@@ -24,13 +24,13 @@
 
 /* Ocultar la barra de desplazamiento para Webkit (Chrome, Safari) */
 .cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar {
-  display: none;
+  color: aqua;
 }
 
 /* --- Bloque de Estilos para Scroll Virtual --- */
 /* Estilos para la vista del scroll virtual */
 .cdk-virtual-scroll-data-source-example .example-viewport {
-  height: 50px; /* Establece una altura de 60px para la vista */
+  height: 55px; /* Establece una altura de 60px para la vista */
   width: 100%; /* Establece un ancho del 100% del contenedor padre */
 }
 
@@ -76,13 +76,13 @@ body::-webkit-scrollbar {
 /* Estilos para el "pulgar" de la barra de scroll (webkit) */
 body ::-webkit-scrollbar-thumb {
   color: transparent; /* Hace el color de fondo del pulgar transparente */
-  background: #003cff; /* Establece el color de fondo del pulgar a azul */
+  background: aqua; /* Establece el color de fondo del pulgar a rojo */
   border-radius: 5px; /* Redondea las esquinas del pulgar con un radio de 5px */
 }
 
 /* Estilos para el "pulgar" de la barra de scroll al pasar el mouse (webkit) */
 body ::-webkit-scrollbar-thumb:hover {
-  background: #b4b2b2; /* Cambia el color de fondo del pulgar a gris claro al pasar el mouse */
+  background: aquamarine; /* Cambia el color de fondo del pulgar a un rojo más oscuro al pasar el mouse */
 }
 
 /* --- Bloque de Estilos para Contenido Desplazable --- */
@@ -101,8 +101,6 @@ body ::-webkit-scrollbar-thumb:hover {
   flex: 0 0 auto; /* Evita que los botones se estiren o encojan, manteniéndolos en su tamaño natural */
   margin: 5px; /* Añade un margen horizontal de 5px a cada botón */
 }
-
-
 
 
 

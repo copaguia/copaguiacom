@@ -5,7 +5,7 @@
         itemSize="50" 
         class="example-viewport cdk-scrollable">
         @for (item of conector; track $index) {
-            <button mat-flat-button routerLink="{{item.ruta}}" matTooltip="identificado" >
+            <button matButton="outlined" routerLink="{{item.ruta}}" matTooltip="identificado" >
                 <!-- Agregaremos al tenerlo todos
                 <mat-icon>{{item.icono}}</mat-icon>-->
                 <span style="letter-spacing: 1px; font-size: medium;">{{item.ruta}}</span>
