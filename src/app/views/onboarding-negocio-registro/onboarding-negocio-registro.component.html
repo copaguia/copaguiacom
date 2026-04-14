@@ -1,67 +1,86 @@
-<section class="box-responsive">
-    <header class="onboarding-header">
-      <h1 class="mat-headline-4">Únete a Cooaguia</h1>
-      <p>Registra tu negocio en el marketplace más grande del sector.</p>
-    </header>
+<div class="onboarding-container">
+  <mat-stepper orientation="vertical" [linear]="true" #stepper>
 
-    <mat-stepper linear #stepper>
-      <mat-step [stepControl]="formGroupUsuario">
-        <form [formGroup]="formGroupUsuario">
-          <ng-template matStepLabel>Tu Cuenta</ng-template>
-          <div class="step-container">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nombre Completo</mat-label>
-              <input matInput formControlName="nombre" placeholder="Ej: Juan Pérez">
-            </mat-form-field>
+    <!-- Step 1: User Account Information -->
+    <mat-step [stepControl]="formGroupUsuario">
+      <form [formGroup]="formGroupUsuario">
+        <ng-template matStepLabel>Crea tu cuenta de administrador</ng-template>
+        
+        <mat-form-field>
+          <mat-label>Tu nombre</mat-label>
+          <input matInput formControlName="nombre" required>
+        </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" placeholder="tu@email.com">
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Tu email</mat-label>
+          <input matInput formControlName="email" type="email" required>
+        </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Contraseña</mat-label>
-              <input matInput type="password" formControlName="password">
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Contraseña (mínimo 6 caracteres)</mat-label>
+          <input matInput formControlName="password" type="password" required>
+        </mat-form-field>
 
-            <button mat-flat-button color="primary" matStepperNext>Siguiente</button>
-          </div>
-        </form>
-      </mat-step>
+        <div>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
 
-      <mat-step [stepControl]="formGroupNegocio">
-        <form [formGroup]="formGroupNegocio">
-          <ng-template matStepLabel>Tu Negocio</ng-template>
-          <div class="step-container">
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Nombre del Negocio</mat-label>
-              <input matInput formControlName="nombreNegocio" placeholder="Ej: Pizza House">
-            </mat-form-field>
+    <!-- Step 2: Business Information -->
+    <mat-step [stepControl]="formGroupNegocio">
+      <form [formGroup]="formGroupNegocio">
+        <ng-template matStepLabel>Registra los datos de tu negocio</ng-template>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Categoría</mat-label>
-              <mat-select formControlName="categoria">
-                @for (cat of categorias; track cat.id) {
-                  <mat-option [value]="cat.id">{{ cat.label }}</mat-option>
-                }
-              </mat-select>
-            </mat-form-field>
+        <mat-form-field>
+          <mat-label>Nombre de tu Negocio</mat-label>
+          <input matInput formControlName="nombreNegocio" required>
+        </mat-form-field>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>WhatsApp de contacto</mat-label>
-              <input matInput formControlName="whatsapp" placeholder="300 123 4567">
-            </mat-form-field>
+        <!-- Main Category Selector (using 'ruta') -->
+        <mat-form-field>
+          <mat-label>Categoría Principal</mat-label>
+          <mat-select formControlName="categoria" required>
+            <mat-option *ngFor="let cat of categorias" [value]="cat.ruta">
+              {{ cat.ruta }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
 
-            <div class="btns-row">
-              <button mat-button matStepperPrevious>Atrás</button>
-              <button mat-flat-button color="primary" 
-                      [disabled]="estaProcesando()"
-                      (click)="finalizarRegistro()">
-                {{ estaProcesando() ? 'Creando...' : 'Crear mi Negocio' }}
-              </button>
-            </div>
-          </div>
-        </form>
-      </mat-step>
-    </mat-stepper>
-  </section>
+        <!-- Sub-category Selector (using 'seccion') -->
+        <mat-form-field *ngIf="subcategoriasDisponibles.length > 0">
+          <mat-label>Sub-categoría</mat-label>
+          <mat-select formControlName="subcategoria" required>
+            <mat-option *ngFor="let sub of subcategoriasDisponibles" [value]="sub.ruta">
+              {{ sub.ruta }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>WhatsApp de Contacto</mat-label>
+          <input matInput formControlName="whatsapp" type="tel" required>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperPrevious>Atrás</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 3: Confirmation and Finish -->
+    <mat-step>
+      <ng-template matStepLabel>¡Todo listo!</ng-template>
+      <p>Has completado todos los pasos. Haz clic en finalizar para registrar tu negocio.</p>
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-flat-button color="primary" (click)="finalizarRegistro()" [disabled]="estaProcesando()">
+          <span *ngIf="!estaProcesando()">Finalizar Registro</span>
+          <span *ngIf="estaProcesando()">Procesando...</span>
+        </button>
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

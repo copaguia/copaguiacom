@@ -46,6 +46,10 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Cafés y Parva', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {
+                ruta: 'Cafetería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
             {  
                 ruta:'Supermercados', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
@@ -110,6 +114,14 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Celulares y PC', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {
+                ruta: 'Tienda de Teléfonos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Tecnología',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
             {  
                 ruta:'Cosméticos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
@@ -122,9 +134,17 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Calzado', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {
+                ruta: 'Zapatería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
             {  
                 ruta:'Papelerías y librerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Librería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Regalos', 
@@ -199,7 +219,7 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },  
             { 
-                ruta:'Domicilirios', 
+                ruta:'Domicilios', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             { 
@@ -265,6 +285,10 @@ export const categoriaData: CategoriasInterface[] = [
             },
             {
                 ruta: 'Repuestos Bicis',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Repuestos Autos',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
@@ -425,7 +449,6 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-    /*
     
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
@@ -511,16 +534,12 @@ export const categoriaData: CategoriasInterface[] = [
           
     },
 
-
-
-
-    
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Pasatiempos',
         seccion: [  
             { 
-                ruta:'Hróscopo', 
+                ruta:'Horóscopo', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -581,5 +600,4 @@ export const categoriaData: CategoriasInterface[] = [
         ],
           
     },
-    */
 ];

@@ -5,12 +5,15 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { CATEGORIAS_NEGOCIOS } from '../../../data/categorias-negocios';
-import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { RouterLink } from '@angular/router';
+
+// ImportaciÃ³n actualizada a la fuente de datos unificada
+import { categoriaData } from '../../../data/categoriasData';
+import { NegocioInterface } from '../../../interfaces/negocio-interface';
 
 @Component({
   selector: 'app-buscador-maestro',
+  standalone: true, // Se aÃ±ade standalone: true
   imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatChipsModule, MatIconModule, RouterLink],
   templateUrl: './buscador-maestro.component.html',
   styleUrl: './buscador-maestro.component.css'
@@ -20,7 +23,8 @@ export class BuscadorMaestroComponent {
   private formBuilder = inject(FormBuilder);
   private worker?:      Worker;
   
-  public categorias   = CATEGORIAS_NEGOCIOS;
+  // Se asigna la nueva fuente de datos
+  public categorias   = categoriaData;
   public negociosFull = signal<NegocioInterface[]>([]); // Se carga desde el servicio
   public resultados   = signal<NegocioInterface[]>([]);
   
@@ -55,7 +59,7 @@ export class BuscadorMaestroComponent {
         categoria: categoria
       });
     } else {
-      // Fallback si el navegador no soporta workers (raro en 2026)
+      // Fallback si el navegador no soporta workers
       const data = this.negociosFull().filter(n => n.nombre.includes(termino));
       this.resultados.set(data);
     }

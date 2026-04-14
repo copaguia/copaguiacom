@@ -8,9 +8,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { collection, addDoc } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth'; // Importar getAuth
+import { getAuth } from 'firebase/auth';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
+
+// Importamos la fuente de datos unificada y sus interfaces
+import { categoriaData, SeccionInterface } from '../../../data/categoriasData';
 
 @Component({
   selector: 'app-agregar-negocio',
@@ -37,22 +40,16 @@ export class AgregarNegocioComponent implements OnInit {
   successMessage = '';
   errorMessage = '';
 
-  categorias: string[] = ['Alimentos', 'Comercios', 'Servicios', 'Entretenimiento', 'Salud'];
-  secciones: { [key: string]: string[] } = {
-    'Alimentos': ['Domicilios', 'Comida Rápida', 'Restaurante y Pizzas', 'Helados y postres', 'Cafés y Parva', 'Supermercados', 'Plaza de Mercado', 'Carnicerias y Legumbrerias'],
-    'Comercios': ['Hogar', 'Celulares y PC', 'Cosméticos', 'Moda y Calzado', 'Papelerías y librerias', 'Regalos y joyas', 'Repuestos', 'Ferreterías y Agropecuarias'],
-    'Servicios': ['Transporte', 'Hogar y oficina', 'Construcción', 'Automotrices', 'Logística y eventos', 'Belleza y Spa'],
-    'Entretenimiento': ['Clima', 'Día de Sol', 'Parches y discotecas', 'Eventos', 'Fincas y salones'],
-    'Salud': ['Droguerías y opticas', 'EPS y hospitales', 'Médicos y Odontólogos', 'Naturistas y fisioterapias']
-  };
-  seccionesDisponibles: string[] = [];
+  // Usamos la fuente de datos unificada
+  categorias = categoriaData;
+  seccionesDisponibles: SeccionInterface[] = []; // Se mantiene el nombre original
 
   ngOnInit() {
     this.negocioForm = this.fb.group({
       nombre: ['', Validators.required],
       descripcion: ['', Validators.required],
       categoria: ['', Validators.required],
-      seccion: ['', Validators.required],
+      seccion: ['', Validators.required], // Se revierte a 'seccion'
       imagen: [''],
       logo: [''],
       banner: [''],
@@ -73,9 +70,11 @@ export class AgregarNegocioComponent implements OnInit {
       }),
     });
 
-    this.negocioForm.get('categoria')?.valueChanges.subscribe(categoriaSeleccionada => {
-      this.seccionesDisponibles = this.secciones[categoriaSeleccionada] || [];
-      this.negocioForm.get('seccion')?.setValue('');
+    // Lógica para actualizar las secciones disponibles
+    this.negocioForm.get('categoria')?.valueChanges.subscribe(categoriaRuta => {
+      const categoriaSeleccionada = this.categorias.find(c => c.ruta === categoriaRuta);
+      this.seccionesDisponibles = categoriaSeleccionada?.seccion || [];
+      this.negocioForm.get('seccion')?.setValue(''); // Se limpia el campo 'seccion'
     });
   }
 
@@ -103,7 +102,7 @@ export class AgregarNegocioComponent implements OnInit {
 
       const nuevoNegocio: Partial<NegocioInterface> = {
         ...formValue,
-        duenoId: user.uid, // ¡IMPORTANTE! Se añade el UID del usuario actual
+        duenoId: user.uid, 
         imagen: imagenUrl,
         activo: formValue.activo,
         fechaRegistro: new Date().toISOString(),
