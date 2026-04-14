@@ -37,25 +37,29 @@
           <input matInput formControlName="nombreNegocio" required>
         </mat-form-field>
 
-        <!-- Main Category Selector (using 'ruta') -->
+        <!-- Main Category Selector with @for -->
         <mat-form-field>
           <mat-label>Categoría Principal</mat-label>
           <mat-select formControlName="categoria" required>
-            <mat-option *ngFor="let cat of categorias" [value]="cat.ruta">
-              {{ cat.ruta }}
-            </mat-option>
+            <!-- Corregido: Usando track $index para evitar el error de tipo -->
+            @for (cat of categorias; track $index) {
+              <mat-option [value]="cat.ruta">{{ cat.ruta }}</mat-option>
+            }
           </mat-select>
         </mat-form-field>
 
-        <!-- Sub-category Selector (using 'seccion') -->
-        <mat-form-field *ngIf="subcategoriasDisponibles.length > 0">
-          <mat-label>Sub-categoría</mat-label>
-          <mat-select formControlName="subcategoria" required>
-            <mat-option *ngFor="let sub of subcategoriasDisponibles" [value]="sub.ruta">
-              {{ sub.ruta }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+        <!-- Sub-category Selector with @if and @for -->
+        @if (subcategoriasDisponibles.length > 0) {
+          <mat-form-field>
+            <mat-label>Sub-categoría</mat-label>
+            <mat-select formControlName="subcategoria" required>
+              <!-- Corregido: Usando track $index para evitar el error de tipo -->
+              @for (sub of subcategoriasDisponibles; track $index) {
+                <mat-option [value]="sub.ruta">{{ sub.ruta }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
 
         <mat-form-field>
           <mat-label>WhatsApp de Contacto</mat-label>
@@ -76,8 +80,11 @@
       <div>
         <button mat-button matStepperPrevious>Atrás</button>
         <button mat-flat-button color="primary" (click)="finalizarRegistro()" [disabled]="estaProcesando()">
-          <span *ngIf="!estaProcesando()">Finalizar Registro</span>
-          <span *ngIf="estaProcesando()">Procesando...</span>
+          @if (!estaProcesando()) {
+            <span>Finalizar Registro</span>
+          } @else {
+            <span>Procesando...</span>
+          }
         </button>
       </div>
     </mat-step>

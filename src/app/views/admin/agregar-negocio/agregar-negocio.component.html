@@ -2,14 +2,20 @@
   <h2>Agregar Nuevo Negocio</h2>
 
   <form [formGroup]="negocioForm" (ngSubmit)="onSubmit()">
-    <!-- Mensajes de feedback -->
-    <div *ngIf="isLoading" class="spinner-container">
-      <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-    </div>
-    <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <!-- Mensajes de feedback con @if -->
+    @if (isLoading) {
+      <div class="spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    }
+    @if (successMessage) {
+      <div class="success-message">{{ successMessage }}</div>
+    }
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
 
-    <!-- Campos del Formulario -->
+    <!-- Campos del Formulario (con codificación corregida) -->
     <mat-form-field appearance="fill">
       <mat-label>Nombre del Negocio</mat-label>
       <input matInput formControlName="nombre" required>
@@ -20,27 +26,29 @@
       <textarea matInput formControlName="descripcion" required></textarea>
     </mat-form-field>
 
-    <!-- Selector de Categoría Principal -->
+    <!-- Selector de Categoría con @for -->
     <mat-form-field appearance="fill">
       <mat-label>Categoría</mat-label>
       <mat-select formControlName="categoria" required>
-        <mat-option *ngFor="let cat of categorias" [value]="cat.ruta">
-          {{ cat.ruta }}
-        </mat-option>
+        @for (cat of categorias; track cat.ruta) {
+          <mat-option [value]="cat.ruta">{{ cat.ruta }}</mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
-    <!-- Selector de Sección -->
+    <!-- Selector de Sección con @for -->
     <mat-form-field appearance="fill">
       <mat-label>Sección</mat-label>
       <mat-select formControlName="seccion" required>
-        <mat-option *ngFor="let sub of seccionesDisponibles" [value]="sub.ruta">
-          {{ sub.ruta }}
-        </mat-option>
+        @for (sub of seccionesDisponibles; track sub.ruta) {
+          <mat-option [value]="sub.ruta">{{ sub.ruta }}</mat-option>
+        }
       </mat-select>
-      <mat-error *ngIf="negocioForm.get('categoria')?.value && seccionesDisponibles.length === 0">
-        No hay secciones para la categoría seleccionada.
-      </mat-error>
+      @if (negocioForm.get('categoria')?.value && seccionesDisponibles.length === 0) {
+        <mat-error>
+          No hay secciones para la categoría seleccionada.
+        </mat-error>
+      }
     </mat-form-field>
 
     <div formGroupName="contacto">
@@ -65,7 +73,6 @@
           </mat-form-field>
     </div>
 
-
     <!-- URLs de Imágenes -->
     <mat-form-field appearance="fill">
       <mat-label>URL de la Imagen Principal</mat-label>
@@ -89,9 +96,13 @@
       <mat-checkbox formControlName="activo">Activo</mat-checkbox>
     </div>
 
-    <!-- Botón de Envío -->
+    <!-- Botón de Envío con @if -->
     <button mat-raised-button color="primary" type="submit" [disabled]="negocioForm.invalid || isLoading">
-      {{ isLoading ? 'Guardando...' : 'Agregar Negocio' }}
+      @if (isLoading) {
+        <span>Guardando...</span>
+      } @else {
+        <span>Agregar Negocio</span>
+      }
     </button>
   </form>
 </div>

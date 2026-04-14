@@ -1,16 +1,20 @@
 <section class="box-responsive search-container">
     <form [formGroup]="formGroup" class="form-busqueda">
       <mat-form-field appearance="outline" class="full-width">
+        <!-- Texto con codificación corregida -->
         <mat-label>¿Qué buscas en Cooaguia?</mat-label>
         <input matInput formControlName="termino" placeholder="Ej: Pizza, Ferretería, Barrio Central...">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
 
       <mat-chip-listbox formControlName="categoria" class="categorias-chips">
+        <!-- Bucle final corregido para usar la fuente de datos unificada -->
         @for (cat of categorias; track cat.id) {
+          <!-- El [value] es cat.id para la lógica del worker -->
           <mat-chip-option [value]="cat.id">
-            <mat-icon matChipAvatar>{{ cat.icono }}</mat-icon>
-            {{ cat.label }}
+            <!-- El icono y la etiqueta vienen de las propiedades correctas -->
+            <mat-icon matChipAvatar>{{ cat.icono }}</mat-icon> 
+            {{ cat.ruta }}
           </mat-chip-option>
         }
       </mat-chip-listbox>
