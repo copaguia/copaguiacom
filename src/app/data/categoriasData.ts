@@ -153,19 +153,32 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },  
             { 
-                ruta:'Transporte', 
+                ruta:'Domiciliarios', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
+                ruta:'Taxistas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
+                ruta:'Transporte y Acarreos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Hogar y oficina', 
+                ruta:'Reparaciones Hogar y Oficina', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            
             {  
                 ruta:'Construcción', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Talleres Automotrices', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Talleres de Motos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -183,24 +196,24 @@ export const categoriaData: CategoriasInterface[] = [
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Entretenimiento',
         tarjetas: [
-            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
                 patrocinador: 'Copacarnes'},
-            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
                 patrocinador: ''},
-            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+            {
+                image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
                 patrocinador: ''}
         ],
         seccion: [  
-            { 
-                ruta:'Clima', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            
             { 
                 ruta:'Día de Sol', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Parches y discotecas', 
+                ruta:'Discotecas', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -208,9 +221,17 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Fincas y salones', 
+                ruta:'Fincas para Eventos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Estaderos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },  
+            {  
+                ruta:'Fondas y Parches', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                 
              
         ],
           
