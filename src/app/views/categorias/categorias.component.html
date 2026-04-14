@@ -11,10 +11,7 @@
   <app-btn-notifications></app-btn-notifications>
 </mat-toolbar>
 
-<mat-tab-group 
-  fitInkBarToContent 
-  headerPosition="above"
-  (selectedTabChange)="onTabChange($event)">
+<mat-tab-group fitInkBarToContent headerPosition="above"(selectedTabChange)="onTabChange($event)">
   
   @for (categoria of categorias(); track $index) {
     <mat-tab [label]="categoria.ruta">

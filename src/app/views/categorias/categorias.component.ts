@@ -24,22 +24,17 @@ import { BtnNotificationsComponent } from '../../components/build/btn-notificati
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [
-    CommonModule, 
-    MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,
-    MatDividerModule, MatMenuModule, MatButtonModule,
-    CarruselComponent, ScrollBotonesComponent, BtnNotificationsComponent
-  ],
+  imports: [CommonModule, MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule,MatDividerModule, MatMenuModule, MatButtonModule,CarruselComponent, ScrollBotonesComponent, BtnNotificationsComponent],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoriasComponent {
 
-  public authorization = inject(AuthorizationService);
-  public authService = inject(AuthService);
-  public negocioService = inject(NegocioVerificationService); // <-- INYECTAMOS EL SERVICIO
-  private router = inject(Router);
+  public authorization    = inject(AuthorizationService);
+  public authService      = inject(AuthService);
+  public negocioService   = inject(NegocioVerificationService); // <-- INYECTAMOS EL SERVICIO
+  private router          = inject(Router);
 
   isMobile: boolean;
   categorias = signal(categoriaData);

@@ -27,11 +27,19 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Restaurante y Pizzas', 
+                ruta:'Restaurantes', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Helados y postres', 
+                ruta:'Pizzerias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Heladerias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Postres', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -47,9 +55,13 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Carnicerias y Legumbrerias', 
+                ruta:'Carnicerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },            
+            },   
+            {  
+                ruta:'Legumbrerias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },          
              
         ],
           

@@ -1,34 +1,9 @@
 /* --- Contenedor Swiper --- */
-swiper-container {
-  width: 85%;
-  height: 650px; /* Aumentamos el alto total del slider */
-  margin: 0 auto;
-  padding: 20px 0;
-}
 
-swiper-slide {
-  height: 100%;
-  border-radius: 28px;
-  border: 2px solid #00d1c0;
-  background-color: #000;
-  overflow: hidden; /* Corta la imagen en las esquinas redondeadas */
-}
 
-.img-container {
-  height: 80%;
-}
-
-img {
-  min-height: min-content;
-}
-
-mat-card {
-  height: 100%;
-}
-
-mat-card-actions {
-  position: absolute;
-  bottom: 10px;
-  align-self: center;
-
-}
+swiper-container { width: 85%; height: 600px; margin: 0 auto; padding: 20px 0;}
+swiper-slide { height: 100%; border-radius: 15px; border: 2px solid #00d1c0; background-color: #000; overflow: hidden; }
+img { min-height: min-content; border-radius: 10px;}
+mat-card { height: 100%; }
+mat-card-actions {position: absolute; bottom: 10px; align-self: center; }
+.img-container { height: 80%;}
