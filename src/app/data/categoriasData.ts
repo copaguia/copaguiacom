@@ -61,8 +61,27 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Legumbrerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },          
-             
+            },
+            {
+                ruta: 'Panadería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Repostería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Licorera',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Cigarrería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Fruver',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -126,8 +145,35 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Agropecuarias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },          
-             
+            },
+            {
+                ruta: 'Tienda de Mascotas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Accesorios Dama',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Cacharrería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Miscelánea',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Remates',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Desechables',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Lencería Hogar',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -153,7 +199,7 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },  
             { 
-                ruta:'Domiciliarios', 
+                ruta:'Domicilirios', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             { 
@@ -185,8 +231,50 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Para Eventos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-                                
-             
+            {
+                ruta: 'Barbería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Peluquería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Peluquería Canina',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Centro de Estética',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Cerrajería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Mecánico',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Autolavado',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Herrería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Repuestos Bicis',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Litografía',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Encomiendas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -272,6 +360,71 @@ export const categoriaData: CategoriasInterface[] = [
     },
     
 
+    
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Comunidad',
+        seccion: [  
+            { 
+                ruta:'Notificaciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cultura', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Instituciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Trámites', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Religión', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Banco',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Parroquia',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Iglesia',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Inmobiliaria',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Parqueadero',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Billar',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Fábrica',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Profesional Independiente',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+        ],
+          
+    },
+
     /*
     
     {                 
@@ -324,41 +477,6 @@ export const categoriaData: CategoriasInterface[] = [
         ],
           
     },
-
-    
-    {                 
-        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
-        ruta: 'Comunidad',
-        seccion: [  
-            { 
-                ruta:'Notificaciones', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Deportes', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Cultura', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Instituciones', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Trámites', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Religión', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-             
-        ],
-          
-    },
-
     
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
@@ -411,7 +529,7 @@ export const categoriaData: CategoriasInterface[] = [
             },
             {  
                 ruta:'Sopa de Letras', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+                icono:'https://i.pinimg.com/originals/70/a5_52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Crucigramas', 
@@ -465,4 +583,3 @@ export const categoriaData: CategoriasInterface[] = [
     },
     */
 ];
-
