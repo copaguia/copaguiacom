@@ -18,7 +18,7 @@ export const categoriaData: CategoriasInterface[] = [
     // . Alimentos
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
-        ruta: 'Alimentos',
+        ruta: 'Alimentoss',
         tarjetas: AlimentosData,
         seccion: [  
             
@@ -43,16 +43,12 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Cafés y Parva', 
+                ruta:'Cafeterias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Cafetería',
+                ruta: 'Supermercados',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Supermercados', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Plaza de Mercado', 
@@ -61,29 +57,25 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Carnicerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Legumbrerias - Fruvers', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },   
             {  
-                ruta:'Legumbrerias', 
+                ruta:'Panaderias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Panadería',
+                ruta: 'Reposterias',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Repostería',
+                ruta: 'Salmamentarias',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Licorera',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Cigarrería',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Fruver',
+                ruta: 'Asaderos',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }
         ],
@@ -115,10 +107,6 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Tienda de Teléfonos',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
                 ruta: 'Tecnología',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
@@ -134,24 +122,16 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Calzado', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {
-                ruta: 'Zapatería',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
             {  
                 ruta:'Papelerías y librerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {
-                ruta: 'Librería',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
             {  
-                ruta:'Regalos', 
+                ruta:'Tiendas de Sentimientos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Joyas', 
+                ruta:'Joyerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -179,11 +159,7 @@ export const categoriaData: CategoriasInterface[] = [
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Miscelánea',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Remates',
+                ruta: 'Misceláneas',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
@@ -192,6 +168,16 @@ export const categoriaData: CategoriasInterface[] = [
             },
             {
                 ruta: 'Lencería Hogar',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+            ,
+            {
+                ruta: 'Deportes',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+            ,
+            {
+                ruta: 'Fabricas',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }
         ],
@@ -231,11 +217,6 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Reparaciones Hogar y Oficina', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            
-            {  
                 ruta:'Construcción', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
@@ -247,24 +228,12 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Talleres de Motos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {  
-                ruta:'Para Eventos', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
             {
-                ruta: 'Barbería',
+                ruta: 'Barberias',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Peluquería',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Peluquería Canina',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Centro de Estética',
+                ruta: 'Peluquerias Caninas',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
@@ -272,11 +241,11 @@ export const categoriaData: CategoriasInterface[] = [
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Mecánico',
+                ruta: 'Mecánicos y Electricos',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Autolavado',
+                ruta: 'Autolavados',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
@@ -284,19 +253,39 @@ export const categoriaData: CategoriasInterface[] = [
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Repuestos Bicis',
+                ruta: 'Repuestos Ciclas',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Repuestos Autos',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Litografía',
+                ruta: 'Publicidad',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
                 ruta: 'Encomiendas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Eventos y Decoración',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'CDA y SOAT',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Escuelas de Conducción',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Inmobiliarias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Parqueaderos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Profesionales Independientes',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }
         ],
@@ -329,19 +318,27 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Eventos', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
                 ruta:'Fincas para Eventos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Estaderos', 
+                ruta:'Fondas y Parches', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Diversion Extrema', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },  
             {  
-                ruta:'Fondas y Parches', 
+                ruta:'Senderismo', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },  
+            {  
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            } ,  
+            {  
+                ruta:'Billares', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }                 
              
@@ -363,7 +360,11 @@ export const categoriaData: CategoriasInterface[] = [
         ],
         seccion: [  
             { 
-                ruta:'Droguerías y opticas', 
+                ruta:'Droguerías', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Opticas', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -371,26 +372,32 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Médicos y Odontólogos', 
+                ruta:'Odontólogos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },{  
+                ruta:'Medicos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Naturistas y fisioterapias', 
+                ruta:'Fisioterapia', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Enfermeras', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }                    
              
         ],
           
     },
-    
 
-    
+    // . Comunidad
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comunidad',
         seccion: [  
             { 
-                ruta:'Notificaciones', 
+                ruta:'Comunicados', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -406,56 +413,36 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Trámites', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Religión', 
+                ruta:'Trámites Institucionales', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Banco',
+                ruta: 'Bancos y Coperativas',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Parroquia',
+                ruta: 'Parroquias',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {
-                ruta: 'Iglesia',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Inmobiliaria',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Parqueadero',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Billar',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Fábrica',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Profesional Independiente',
+                ruta: 'Comunicados Religiosos',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }
         ],
           
     },
 
-    
+    // . Oportunidades
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Oportunidades',
         seccion: [  
             { 
-                ruta:'Ofertas y promociones', 
+                ruta:'Ofertas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
+                ruta:'Promociones', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -469,13 +456,21 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Ventas a Crédito', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Ventas por Revistas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Museo Digital', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                
              
         ],
           
     },
 
-    
+    // . Inmuebles
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Inmuebles',
@@ -495,21 +490,26 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Lotes', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Aparta Estudios', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Habitaciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                        
              
         ],
           
     },
-    
+
+    // . Educacion
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Educación',
         seccion: [  
             { 
-                ruta:'Bibliotecas', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
                 ruta:'Colegios', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
@@ -522,18 +522,23 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Investigación ', 
+                ruta:'Apoyo Escolar', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Teso IA', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-             
+            {  
+                ruta:'Bibliotecas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+ 
         ],
           
     },
 
+   // . Pasatiempos
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Pasatiempos',
@@ -557,27 +562,19 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Poesia', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Juegos', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            }
              
         ],
           
     },
 
-    
+    // . Noticias
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Noticias',
         seccion: [  
             { 
                 ruta:'Deportes', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Politica', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -596,6 +593,10 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Salud', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {  
+                ruta:'Politica', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
              
         ],
           
