@@ -11,6 +11,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { collection, getDocs, query, where, DocumentData } from 'firebase/firestore';
 import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 
 enum LoadingState {
   Idle = 'idle',
@@ -29,7 +31,9 @@ enum LoadingState {
     MatButtonModule,
     MatFormFieldModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatCardModule,
+    MatListModule
   ],
   standalone: true,
   templateUrl: './categoria-page.component.html',

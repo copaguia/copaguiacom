@@ -10,6 +10,7 @@ export enum TipoNegocio {
 }
 
 export interface NegocioInterface {
+  premium?: boolean;
   tipoNegocio:  string;
   seccion:      string;
   imagen:       string;
