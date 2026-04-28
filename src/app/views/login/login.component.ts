@@ -12,6 +12,7 @@ import { BtnLoginGoogleComponent } from '../../components/extension/btnLoginGoog
 
 // Servicios y modelos de la aplicación
 import { AuthService } from '../../core/auth/auth.service';
+import { StateEnum } from '../../enums/state.enum';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +30,7 @@ export class LoginComponent {
 
   	public logo = 'assets/brand/copaguia-intro.gif';
 	public mensaje = 'Bienvenido a Copa Guia';
-	public rutaRedireccion = signal<string>('/nav-menu');
+	public rutaRedireccion = signal<string>('/categorias');
 
 	private router = inject(Router);
 	public authService = inject(AuthService);
@@ -39,12 +40,10 @@ export class LoginComponent {
 
 	constructor() {
 		effect(() => {
-			const usuario = this.authService.usuarioLectura();
-			const perfil = this.authService.perfilLectura();
-
-			if (usuario && perfil) {
+			// Redirige solo cuando el servicio de autenticación ha finalizado con éxito
+			if (this.authService.estado() === StateEnum.EXITO) {
 				this.router.navigate([this.rutaRedireccion()]);
-			} 
+			}
 		});
 	}
 }

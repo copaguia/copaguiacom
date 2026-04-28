@@ -29,48 +29,57 @@ export class AuthService {
   }
 
   private async monitorAutenticacion(): Promise<void> {
-  try {
-    const persistenciaNavegador = browserLocalPersistence;
-    
-    await setPersistence(this.auth, persistenciaNavegador);
+    console.log('Auth Service: Iniciando monitoreo de autenticación.');
+    try {
+      const persistenciaNavegador = browserLocalPersistence;
+      await setPersistence(this.auth, persistenciaNavegador);
 
-    onAuthStateChanged(this.auth, async (usuarioActual) => {
-      this.usuarioEscritura.set(usuarioActual);
-      
-      if (usuarioActual) {
-        const idUsuarioActual = usuarioActual.uid;
-        this.estado.set(StateEnum.CARGANDO);
-        
-      try {
-        let perfilPublico = await this.obtenerPerfilUsuario(idUsuarioActual);
-        
-        if (perfilPublico) {
-          this.perfilEscritura.set(perfilPublico);
-          this.estado.set(StateEnum.EXITO);
+      onAuthStateChanged(this.auth, async (usuarioActual) => {
+        console.log('Auth Service: onAuthStateChanged disparado. Usuario:', usuarioActual ? usuarioActual.uid : 'null');
+        this.usuarioEscritura.set(usuarioActual);
+
+        if (usuarioActual) {
+          const idUsuarioActual = usuarioActual.uid;
+          console.log('Auth Service: Usuario detectado. Cambiando estado a CARGANDO.');
+          this.estado.set(StateEnum.CARGANDO);
+
+          try {
+            console.log('Auth Service: Intentando obtener perfil para ID:', idUsuarioActual);
+            let perfilPublico = await this.obtenerPerfilUsuario(idUsuarioActual);
+
+            if (perfilPublico) {
+              console.log('Auth Service: Perfil encontrado. Cambiando estado a EXITO.', perfilPublico);
+              this.perfilEscritura.set(perfilPublico);
+              this.estado.set(StateEnum.EXITO);
+            } else {
+              console.log('Auth Service: Perfil no encontrado. Intentando crear uno nuevo.');
+              const correoUsuario = usuarioActual.email;
+              const extraccionCorreo = correoUsuario ? correoUsuario.split('@')[0] : `user_${idUsuarioActual.substring(0, 8)}`;
+
+              perfilPublico = await this.creaNuevoPerfil(usuarioActual, extraccionCorreo);
+              console.log('Auth Service: Perfil nuevo creado. Cambiando estado a EXITO.', perfilPublico);
+              this.perfilEscritura.set(perfilPublico);
+              this.estado.set(StateEnum.EXITO);
+            }
+          } catch (error) {
+            console.error('Auth Service: Error al obtener o crear perfil.', error);
+            this.perfilEscritura.set(null);
+            console.log('Auth Service: Cambiando estado a ERROR.');
+            this.estado.set(StateEnum.ERROR);
+          }
         } else {
-          const correoUsuario    = usuarioActual.email;
-          const extraccionCorreo = correoUsuario ? correoUsuario.split('@')[0] : `user_${idUsuarioActual.substring(0, 8)}`;
-          
-          perfilPublico = await this.creaNuevoPerfil(usuarioActual, extraccionCorreo);
-          this.perfilEscritura.set(perfilPublico);
-          this.estado.set(StateEnum.EXITO);
+          console.log('Auth Service: No hay usuario. Cambiando estado a INICIAL.');
+          this.perfilEscritura.set(null);
+          this.estado.set(StateEnum.INICIAL);
         }
-      }
-      catch (error) {
-        this.perfilEscritura.set(null);
-        this.estado.set(StateEnum.ERROR);
-      }
-      } else {
-        this.perfilEscritura.set(null);
-        this.estado.set(StateEnum.INICIAL);
-      }
-    });
-  }
-  catch (error) {
-    this.usuarioEscritura.set(null);
-    this.perfilEscritura.set(null);
-    this.estado.set(StateEnum.ERROR);
-  }
+      });
+    } catch (error) {
+      console.error('Auth Service: Error crítico en monitorAutenticacion.', error);
+      this.usuarioEscritura.set(null);
+      this.perfilEscritura.set(null);
+      console.log('Auth Service: Cambiando estado a ERROR.');
+      this.estado.set(StateEnum.ERROR);
+    }
   }
 
   async loginConGoogle(): Promise<User> {
@@ -237,9 +246,3 @@ export class AuthService {
   }
   }
 }
-
-
-
-
-
-// Fin del servicio AuthService
