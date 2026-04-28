@@ -39,7 +39,7 @@
           <mat-card class="h-100">
             <mat-card-header>
               <img mat-card-avatar [src]="item.logo || 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png'" alt="Logo de {{item.nombre}}"/>
-              <mat-card-title>{{ item.nombre }}</mat-card-title>
+              <h3 class="name">{{ item.nombre }}</h3>
               <mat-card-subtitle>{{ item.seccion }}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image [src]="item.imagen" alt="Imagen de {{ item.nombre }}" style="height: 200px; object-fit: cover;">
@@ -56,9 +56,7 @@
             <div class="flex-container">
               <!-- SECCIÓN IZQUIERDA: Logo e Información -->
               <div class="brand-info">
-                <img [src]="item.logo || 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png'" 
-                     alt="Logo de {{ item.nombre }}" 
-                     class="logo-img">
+                <img [src]="item.logo || 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png'" alt="Logo de {{ item.nombre }}"  class="logo-img">
                 
                 <div class="details">
                   <h3 class="name">{{ item.nombre }}</h3>
