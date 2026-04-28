@@ -16,9 +16,9 @@ service cloud.firestore {
 
     // --- COLECCIONES ---
 
-    // Usuarios: Solo el dueño o un admin puede leer. El usuario puede crear su perfil.
+    // Usuarios: Cualquiera autenticado puede leer. Solo el dueño o un admin puede editar.
     match /Usuarios/{uid} {
-      allow read: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
+      allow read: if isAuthenticated();
       allow create: if isAuthenticated() && request.auth.uid == uid;
       allow write: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
     }
