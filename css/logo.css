@@ -1,0 +1,127 @@
+
+
+/* 1. Ícono de barra de navegación o favicon (20px -> 1.25rem)    USO: <div class="logo2"></div>*/
+.logo2 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 1.25rem;
+    height: 1.25rem;
+}
+
+/* 2. Ícono en listas o botones pequeños (40px -> 2.5rem) USO: <div class="logo4"></div> */
+.logo4 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/* 3. Logos en headers o tarjetas (60px -> 3.75rem) 
+   USO: <div class="logo6"></div>
+*/
+.logo6 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 3.75rem;
+    height: 3.75rem;
+}
+
+/* 4. Logos en sub-headers o footers (80px -> 5rem) 
+   USO: <div class="logo8"></div>
+*/
+.logo8 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 5rem;
+    height: 5rem;
+}
+
+/* 5. Logo para uso en una sección de bienvenida (100px -> 6.25rem) 
+   USO: <div class="logo10"></div>
+*/
+.logo10 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 6.25rem;
+    height: 6.25rem;
+}
+
+/* 6. Logo para la página principal/splash screen (200px -> 12.5rem) 
+   USO: <div class="logo12"></div>
+*/
+.logo12 {
+    /* Propiedades de Base */
+    background-image: var(--logo-url);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease-in-out;
+    
+    /* Propiedades de Tamaño */
+    width: 12.5rem;
+    height: 12.5rem;
+}
+
+/* Efecto al pasar el cursor (aplica a todas las clases) */
+.logo2:hover, .logo2:focus,
+.logo4:hover, .logo4:focus,
+.logo6:hover, .logo6:focus,
+.logo8:hover, .logo8:focus,
+.logo10:hover, .logo10:focus,
+.logo12:hover, .logo12:focus {
+    transform: scale(1.05);
+}

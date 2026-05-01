@@ -1,0 +1,108 @@
+<div class="container">
+  <h2>Agregar Nuevo Negocio</h2>
+
+  <form [formGroup]="negocioForm" (ngSubmit)="onSubmit()">
+    <!-- Mensajes de feedback con @if -->
+    @if (isLoading) {
+      <div class="spinner-container">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    }
+    @if (successMessage) {
+      <div class="success-message">{{ successMessage }}</div>
+    }
+    @if (errorMessage) {
+      <div class="error-message">{{ errorMessage }}</div>
+    }
+
+    <!-- Campos del Formulario (con codificación corregida) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre del Negocio</mat-label>
+      <input matInput formControlName="nombre" required>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput formControlName="descripcion" required></textarea>
+    </mat-form-field>
+
+    <!-- Selector de Categoría con @for -->
+    <mat-form-field appearance="fill">
+      <mat-label>Categoría</mat-label>
+      <mat-select formControlName="categoria" required>
+        @for (cat of categorias; track cat.ruta) {
+          <mat-option [value]="cat.ruta">{{ cat.ruta }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Selector de Sección con @for -->
+    <mat-form-field appearance="fill">
+      <mat-label>Sección</mat-label>
+      <mat-select formControlName="seccion" required>
+        @for (sub of seccionesDisponibles; track sub.ruta) {
+          <mat-option [value]="sub.ruta">{{ sub.ruta }}</mat-option>
+        }
+      </mat-select>
+      @if (negocioForm.get('categoria')?.value && seccionesDisponibles.length === 0) {
+        <mat-error>
+          No hay secciones para la categoría seleccionada.
+        </mat-error>
+      }
+    </mat-form-field>
+
+    <div formGroupName="contacto">
+      <mat-form-field appearance="fill">
+        <mat-label>WhatsApp</mat-label>
+        <input matInput formControlName="whatsapp">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email de Contacto</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </div>
+    
+    <div formGroupName="ubicacion">
+        <mat-form-field appearance="fill">
+            <mat-label>Dirección</mat-label>
+            <input matInput formControlName="direccion">
+          </mat-form-field>
+    </div>
+
+    <!-- URLs de Imágenes -->
+    <mat-form-field appearance="fill">
+      <mat-label>URL de la Imagen Principal</mat-label>
+      <input matInput formControlName="imagen" placeholder="https://ejemplo.com/imagen.jpg">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>URL del Logo</mat-label>
+      <input matInput formControlName="logo" placeholder="https://ejemplo.com/logo.png">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>URL del Banner</mat-label>
+        <input matInput formControlName="banner" placeholder="https://ejemplo.com/logo.png">
+      </mat-form-field>
+
+    <!-- Checkboxes -->
+    <div class="checkbox-group">
+      <mat-checkbox formControlName="verificado">Verificado</mat-checkbox>
+      <mat-checkbox formControlName="destacado">Destacado</mat-checkbox>
+      <mat-checkbox formControlName="activo">Activo</mat-checkbox>
+    </div>
+
+    <!-- Botón de Envío con @if -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="negocioForm.invalid || isLoading">
+      @if (isLoading) {
+        <span>Guardando...</span>
+      } @else {
+        <span>Agregar Negocio</span>
+      }
+    </button>
+  </form>
+</div>

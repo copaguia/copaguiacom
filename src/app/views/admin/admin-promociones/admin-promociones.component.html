@@ -1,0 +1,45 @@
+<section class="box-responsive">
+    <header>
+      <h1>Panel de Distribución L10</h1>
+      <p>Envía promociones masivas a todos los usuarios de Copacabana</p>
+    </header>
+  
+    <form [formGroup]="formGroup" (ngSubmit)="enviarPromocion()" class="formulario-lidertech">
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Título de la Promoción</mat-label>
+        <input matInput formControlName="titulo" placeholder="Ej: ¡Súper Descuento!">
+        <mat-icon matSuffix>title</mat-icon>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mensaje (Cuerpo)</mat-label>
+        <textarea matInput formControlName="cuerpo" placeholder="Describe la oferta..."></textarea>
+      </mat-form-field>
+  
+      <div class="fila-controles">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha de Expiración</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="fechaExpiracion">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Valor Descuento (COP)</mat-label>
+          <input matInput type="number" formControlName="valorDescuento">
+          <span matPrefix>$&nbsp;</span>
+        </mat-form-field>
+      </div>
+  
+      <footer class="acciones-form">
+        <button mat-flat-button color="primary" 
+                type="submit" 
+                [disabled]="formGroup.invalid || estado() === 'procesando'">
+          <mat-icon>send</mat-icon>
+          {{ estado() === 'procesando' ? 'DISTRIBUYENDO...' : 'LANZAR PROMOCIÓN' }}
+        </button>
+      </footer>
+  
+    </form>
+  </section>

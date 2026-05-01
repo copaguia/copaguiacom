@@ -1,34 +1,11 @@
-/*
-    En esta constante se cumple EMA ( Estrategia Modular Autónoma); 
-    tanto la interface de las Categorias como la interface de lñas Secciones estan 
-    incorporadas dentro del fichero, anulando la dependencia de otros servicios o componentes para
-    construir la Data Estática para el proyecto.
-
-*/
-
-import { BannerInterface } from "../components/carrusel/carrusel.component";
-import { AlimentosData } from "./tarjetasData";
-
 
 // Interface de las categorias
-export interface CategoriasInterface {
-    icono: string;
-    ruta: string;
-    seccion?: SeccionInterface[]; // No es estrictamente necesaria al usarlo colo como categoria.
-    tarjetas?: TarjetaInterface[];
+export interface CategoriasInterface    { icono:        string;  ruta:          string;     seccion?: SeccionInterface[]; tarjetas?: TarjetaInterface[];    }
+export interface SeccionInterface       { seccion?:     string;  ruta?:         string;     icono: string;                                                  }
+export interface TarjetaInterface       { image:        string;  patrocinador:  string;                                                                     }
 
-}
 
-export interface TarjetaInterface {
-    image: string;
-    patrocinador: string;
-}
 
-// Interface para las Secciones dentro de las Categorias
-export interface SeccionInterface {
-    ruta: string;
-    icono: string;
-}
 
 // Data estática para alimentar los botones de navegación de la app.
 export const categoriaData: CategoriasInterface[] = [
@@ -39,41 +16,75 @@ export const categoriaData: CategoriasInterface[] = [
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Alimentos',
-        tarjetas: AlimentosData,
+        tarjetas: [
+            {
+                image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060', 
+                patrocinador: 'Copacarnes'},
+            {
+                image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060', 
+                patrocinador: ''},
+            {
+                image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380', 
+                patrocinador: ''}
+        ],
         seccion: [  
-            { 
-                ruta:'Domicilios', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            
             {  
                 ruta:'Comida Rápida', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Restaurante y Pizzas', 
+                ruta:'Restaurantes', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Helados y postres', 
+                ruta:'Pizzerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Cafés y Parva', 
+                ruta:'Heladerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Supermercados', 
+                ruta:'Postres', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cafeterias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Supermercados',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Plaza de Mercado', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Carnicerias y Legumbrerias', 
+                ruta:'Carnicerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },            
-             
+            },
+            {  
+                ruta:'Legumbrerias - Fruvers', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },   
+            {  
+                ruta:'Panaderias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Reposterias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Salmamentarias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Asaderos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -83,11 +94,14 @@ export const categoriaData: CategoriasInterface[] = [
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comercios',
         tarjetas: [
-            {image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060', 
                 patrocinador: 'Copacarnes'},
-            {image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060', 
                 patrocinador: ''},
-            {image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380', 
                 patrocinador: ''}
         ],
         seccion: [  
@@ -99,12 +113,20 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Celulares y PC', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {
+                ruta: 'Tecnología',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
             {  
                 ruta:'Cosméticos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Moda y Calzado', 
+                ruta:'Ropa', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Calzado', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -112,7 +134,11 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Regalos y joyas', 
+                ruta:'Tiendas de Sentimientos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Joyerias', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -120,10 +146,47 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Ferreterías y Agropecuarias', 
+                ruta:'Ferreterías', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },            
-             
+            },   
+            {  
+                ruta:'Agropecuarias', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Tienda de Mascotas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Accesorios Dama',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Cacharrería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Misceláneas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Desechables',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Lencería Hogar',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+            ,
+            {
+                ruta: 'Deportes',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+            ,
+            {
+                ruta: 'Fabricas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -133,20 +196,31 @@ export const categoriaData: CategoriasInterface[] = [
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Servicios',
         tarjetas: [
-            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
                 patrocinador: 'Copacarnes'},
-            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
                 patrocinador: ''},
-            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+            {
+                image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
                 patrocinador: ''}
         ],
         seccion: [  
+            {  
+                ruta:'Belleza y Spa', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },  
             { 
-                ruta:'Transporte', 
+                ruta:'Domicilios', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {  
-                ruta:'Hogar y oficina', 
+            { 
+                ruta:'Taxistas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
+                ruta:'Transporte y Acarreos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -154,18 +228,73 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Automotrices', 
+                ruta:'Talleres Automotrices', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Logística y eventos', 
+                ruta:'Talleres de Motos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {  
-                ruta:'Belleza y Spa', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                      
-             
+            {
+                ruta: 'Barberias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Peluquerias Caninas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Cerrajería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Mecánicos y Electricos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Autolavados',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Herrería',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Repuestos Ciclas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Publicidad',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Encomiendas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Eventos y Decoración',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'CDA y SOAT',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Escuelas de Conducción',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Inmobiliarias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Parqueaderos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Profesionales Independientes',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
         ],
           
     },
@@ -175,34 +304,50 @@ export const categoriaData: CategoriasInterface[] = [
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Entretenimiento',
         tarjetas: [
-            {image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740', 
                 patrocinador: 'Copacarnes'},
-            {image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
+            {
+                image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060', 
                 patrocinador: ''},
-            {image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
+            {
+                image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060', 
                 patrocinador: ''}
         ],
         seccion: [  
-            { 
-                ruta:'Clima', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            
             { 
                 ruta:'Día de Sol', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Parches y discotecas', 
+                ruta:'Discotecas', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Eventos', 
+                ruta:'Fincas para Eventos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Fincas y salones', 
+                ruta:'Fondas y Parches', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Diversion Extrema', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },  
+            {  
+                ruta:'Senderismo', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },  
+            {  
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            } ,  
+            {  
+                ruta:'Billares', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                 
              
         ],
           
@@ -222,7 +367,11 @@ export const categoriaData: CategoriasInterface[] = [
         ],
         seccion: [  
             { 
-                ruta:'Droguerías y opticas', 
+                ruta:'Droguerías', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Opticas', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -230,27 +379,77 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Médicos y Odontólogos', 
+                ruta:'Odontólogos', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },{  
+                ruta:'Medicos', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Naturistas y fisioterapias', 
+                ruta:'Fisioterapia', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Enfermeras', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             }                    
              
         ],
           
     },
-    
 
-    /*
-    
+    // . Comunidad
+    {                 
+        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
+        ruta: 'Comunidad',
+        seccion: [  
+            { 
+                ruta:'Comunicados', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Deportes', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Cultura', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Instituciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Trámites Institucionales', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Bancos y Coperativas',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Parroquias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {
+                ruta: 'Comunicados Religiosos',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+        ],
+          
+    },
+
+    // . Oportunidades
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Oportunidades',
         seccion: [  
             { 
-                ruta:'Ofertas y promociones', 
+                ruta:'Ofertas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            { 
+                ruta:'Promociones', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -264,13 +463,21 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Ventas a Crédito', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Ventas por Revistas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Museo Digital', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                
              
         ],
           
     },
 
-    
+    // . Inmuebles
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Inmuebles',
@@ -290,56 +497,26 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Lotes', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }                    
+            },
+            {  
+                ruta:'Aparta Estudios', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+            {  
+                ruta:'Habitaciones', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }                        
              
         ],
           
     },
 
-    
-    {                 
-        icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
-        ruta: 'Comunidad',
-        seccion: [  
-            { 
-                ruta:'Notificaciones', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Deportes', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Cultura', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Instituciones', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Trámites', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Religión', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-             
-        ],
-          
-    },
-
-    
+    // . Educacion
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Educación',
         seccion: [  
             { 
-                ruta:'Bibliotecas', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
                 ruta:'Colegios', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
@@ -352,28 +529,29 @@ export const categoriaData: CategoriasInterface[] = [
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
-                ruta:'Investigación ', 
+                ruta:'Apoyo Escolar', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Teso IA', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-             
+            {  
+                ruta:'Bibliotecas', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
+ 
         ],
           
     },
 
-
-
-
-    
+   // . Pasatiempos
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Pasatiempos',
         seccion: [  
             { 
-                ruta:'Hróscopo', 
+                ruta:'Horóscopo', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -382,7 +560,7 @@ export const categoriaData: CategoriasInterface[] = [
             },
             {  
                 ruta:'Sopa de Letras', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+                icono:'https://i.pinimg.com/originals/70/a5_52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
                 ruta:'Crucigramas', 
@@ -391,27 +569,19 @@ export const categoriaData: CategoriasInterface[] = [
             {  
                 ruta:'Poesia', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Juegos', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+            }
              
         ],
           
     },
 
-    
+    // . Noticias
     {                 
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Noticias',
         seccion: [  
             { 
                 ruta:'Deportes', 
-                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {  
-                ruta:'Politica', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
             {  
@@ -430,10 +600,12 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta:'Salud', 
                 icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
+            {  
+                ruta:'Politica', 
+                icono:'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            }
              
         ],
           
     },
-    */
 ];
-

@@ -1,0 +1,93 @@
+<div class="onboarding-container">
+  <mat-stepper orientation="vertical" [linear]="true" #stepper>
+
+    <!-- Step 1: User Account Information -->
+    <mat-step [stepControl]="formGroupUsuario">
+      <form [formGroup]="formGroupUsuario">
+        <ng-template matStepLabel>Crea tu cuenta de administrador</ng-template>
+        
+        <mat-form-field>
+          <mat-label>Tu nombre</mat-label>
+          <input matInput formControlName="nombre" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Tu email</mat-label>
+          <input matInput formControlName="email" type="email" required>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Contraseña (mínimo 6 caracteres)</mat-label>
+          <input matInput formControlName="password" type="password" required>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 2: Business Information -->
+    <mat-step [stepControl]="formGroupNegocio">
+      <form [formGroup]="formGroupNegocio">
+        <ng-template matStepLabel>Registra los datos de tu negocio</ng-template>
+
+        <mat-form-field>
+          <mat-label>Nombre de tu Negocio</mat-label>
+          <input matInput formControlName="nombreNegocio" required>
+        </mat-form-field>
+
+        <!-- Main Category Selector with @for -->
+        <mat-form-field>
+          <mat-label>Categoría Principal</mat-label>
+          <mat-select formControlName="categoria" required>
+            <!-- Corregido: Usando track $index para evitar el error de tipo -->
+            @for (cat of categorias; track $index) {
+              <mat-option [value]="cat.ruta">{{ cat.ruta }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Sub-category Selector with @if and @for -->
+        @if (subcategoriasDisponibles.length > 0) {
+          <mat-form-field>
+            <mat-label>Sub-categoría</mat-label>
+            <mat-select formControlName="subcategoria" required>
+              <!-- Corregido: Usando track $index para evitar el error de tipo -->
+              @for (sub of subcategoriasDisponibles; track $index) {
+                <mat-option [value]="sub.ruta">{{ sub.ruta }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+
+        <mat-form-field>
+          <mat-label>WhatsApp de Contacto</mat-label>
+          <input matInput formControlName="whatsapp" type="tel" required>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperPrevious>Atrás</button>
+          <button mat-button matStepperNext>Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 3: Confirmation and Finish -->
+    <mat-step>
+      <ng-template matStepLabel>¡Todo listo!</ng-template>
+      <p>Has completado todos los pasos. Haz clic en finalizar para registrar tu negocio.</p>
+      <div>
+        <button mat-button matStepperPrevious>Atrás</button>
+        <button mat-flat-button color="primary" (click)="finalizarRegistro()" [disabled]="estaProcesando()">
+          @if (!estaProcesando()) {
+            <span>Finalizar Registro</span>
+          } @else {
+            <span>Procesando...</span>
+          }
+        </button>
+      </div>
+    </mat-step>
+
+  </mat-stepper>
+</div>

@@ -1,0 +1,65 @@
+/* --- Bloqueo de Scroll Horizontal --- */
+.carrusel-content {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden; /* Esto mata la barra de scroll abajo */
+  overflow-y: visible;
+  padding-bottom: 20px;
+}
+
+/* Forzar el bloqueo en el contenedor interno de Angular Material */
+::ng-deep .mat-mdc-tab-body-content {
+  overflow-x: hidden !important;
+}
+
+/* --- Estructura y Altura --- */
+mat-tab-group {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  background-color: rgb(18, 18, 19);
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+  flex-grow: 1;
+}
+
+/* --- Toolbar y Avatar (Tus originales) --- */
+.custom-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  background-color: rgb(18, 18, 19);
+  color: white;
+  height: 64px;
+}
+
+.avatar-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+h2 {
+  letter-spacing: 1.5px;
+  text-align: end;
+  margin-right: 40px;
+  margin-top: 15px;
+  font-size: large;
+  font-style: italic;
+  color: white;
+}
+
+.toolbar-spacer { flex: 1 1 auto; }

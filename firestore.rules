@@ -1,33 +1,51 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Colección 'admins': Solo lectura para usuarios autenticados
-    match /admins/{document=**} {
-      allow read: if request.auth != null;
+    // --- FUNCIONES DE APOYO ---
+    function isAuthenticated() {
+      return request.auth != null;
     }
 
-    // Colección 'userProfiles': Perfiles públicos de usuario
-    match /userProfiles/{uid} {
-      allow read; // Cualquiera puede leer un perfil
-      // Solo el propietario (uid del documento) puede crearlo o actualizarlo
-      allow write: if request.auth != null && request.auth.uid == uid;
+    // Verifica el rol en el documento del usuario
+    function hasRole(role) {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/Usuarios/$(request.auth.uid)).data.rolUsuario == role;
     }
 
-    // Colección 'posts': Publicaciones de los usuarios
-    match /posts/{postId} {
-      allow read; // Cualquiera puede leer los posts
-      // Solo usuarios autenticados pueden crear posts
-      allow create: if request.auth != null;
-      // Solo el propietario del post (verificando userId dentro del documento) puede actualizar o eliminar
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    // --- COLECCIONES ---
+
+    // Usuarios: Cualquiera autenticado puede leer. Solo el dueño o un admin puede editar.
+    match /Usuarios/{uid} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.auth.uid == uid;
+      allow write: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
     }
 
-    // Colección 'users': Datos privados del usuario, solo accesibles por el propietario
-    // Si tu colección privada se llamaba 'Usuarios' en tu código Angular original:
-    match /users/{userId} {
-      match /Usuarios/{document=**} { 
-        allow read, write: if request.auth != null && request.auth.uid == userId;
+    // Negocios
+    match /negocios/{negocioId} {
+      allow read: if true; // Público para que los clientes vean los negocios
+      
+      // IDEAL: Permitir que cualquier usuario registrado cree su negocio.
+      // Si quieres restringirlo a 'admin', cambia 'isAuthenticated()' por 'hasRole("admin")'
+      allow create: if isAuthenticated(); 
+
+      // Solo el dueño (grabado en el documento) o un admin pueden editar/borrar
+      allow update, delete: if isAuthenticated() && 
+        (request.auth.uid == resource.data.duenoId || hasRole('admin'));
+
+      // Pedidos (Subcolección)
+      match /pedidos/{pedidoId} {
+        // Los clientes pueden crear pedidos sin logearse (opcional)
+        allow create: if true; 
+        
+        // Solo el dueño del negocio puede gestionar los pedidos
+        // Usamos una lectura del documento padre para verificar la propiedad
+        allow read, update: if isAuthenticated() && 
+          (request.auth.uid == get(/databases/$(database)/documents/negocios/$(negocioId)).data.duenoId || hasRole('admin'));
+        
+        allow delete: if hasRole('admin');
       }
     }
   }

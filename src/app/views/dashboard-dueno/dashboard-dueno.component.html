@@ -1,0 +1,89 @@
+<main class="box-responsive">
+    <header class="dash-header">
+      <h1 class="mat-headline-4">Panel de Control: {{ nombreNegocio() }}</h1>
+      <div class="stats-rapidas">
+        <mat-card class="stat-card">
+          <small>Pedidos Hoy</small>
+          <p>{{ adminService.pedidos().length }}</p>
+        </mat-card>
+      </div>
+    </header>
+
+
+    <div class="box-responsive">
+      <div class="grid-stats">
+        <mat-card class="stat-item">
+          <mat-icon color="primary">visibility</mat-icon>
+          <h3>{{ visitas() }}</h3>
+          <p>Visitas al perfil</p>
+        </mat-card>
+
+        <mat-card class="stat-item">
+          <mat-icon color="accent">shopping_cart</mat-icon>
+          <h3>{{ pedidos() }}</h3>
+          <p>Pedidos totales</p>
+        </mat-card>
+
+        <mat-card class="stat-item">
+          <mat-icon color="warn">bolt</mat-icon>
+          <h3>{{ tasaConversion() }}%</h3>
+          <p>Efectividad (Visita vs Compra)</p>
+        </mat-card>
+      </div>
+    </div>
+
+    <section class="pedidos-container">
+      <h2 class="mat-headline-6">Gestión de Pedidos</h2>
+      
+      @if (adminService.pedidos().length > 0) {
+        <mat-accordion multi>
+          @for (pedido of adminService.pedidos(); track pedido.id) {
+            <mat-expansion-panel [class.nuevo]="pedido.estadoPedido === 'pendiente'">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <strong>{{ pedido.cliente.nombre }}</strong>
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{ pedido.fecha | date:'shortTime' }} - Total: {{ pedido.total | currency }}
+                  <mat-chip [color]="pedido.estadoPedido === 'pendiente' ? 'warn' : 'primary'" selected>
+                    {{ pedido.estadoPedido | uppercase }}
+                  </mat-chip>
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+
+              <div class="detalle-pedido">
+                <p><strong>Dirección:</strong> {{ pedido.cliente.direccion }}</p>
+                <p><strong>Pago:</strong> {{ pedido.cliente.metodoPago }}</p>
+                
+                <ul class="lista-items">
+                  @for (item of pedido.items; track item.idProducto) {
+                    <li>{{ item.cantidad }}x {{ item.nombre }} {{ item.variante ? '('+item.variante+')' : '' }}</li>
+                  }
+                </ul>
+
+                @if (pedido.cliente.nota) {
+                  <blockquote class="nota-cliente">"{{ pedido.cliente.nota }}"</blockquote>
+                }
+
+                <div class="acciones-pedido">
+                  <button mat-stroked-button color="primary" 
+                          (click)="cambiarEstado(pedido.id!, 'completado')">
+                    Marcar como Entregado
+                  </button>
+                  <button mat-button color="warn" 
+                          (click)="cambiarEstado(pedido.id!, 'cancelado')">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          }
+        </mat-accordion>
+      } @else {
+        <div class="vacio-state">
+          <mat-icon>inbox</mat-icon>
+          <p>Aún no hay pedidos registrados.</p>
+        </div>
+      }
+    </section>
+  </main>

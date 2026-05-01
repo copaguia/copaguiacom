@@ -1,0 +1,26 @@
+<div class="login-container">
+  <mat-card class="card">
+
+    <!-- Sección del Logo y Mensaje de Bienvenida -->
+    <mat-card-header>
+      <div class="header-content">
+        <img [src]="logo" alt="Logo de la Aplicación" class="logo">
+        <mat-card-title>{{ mensaje }}</mat-card-title>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isAuthLoading()) {
+        <!-- Muestra un spinner de carga mientras se verifica el estado de autenticación inicial -->
+        <div class="spinner-container">
+          <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
+          <p>Verificando sesión...</p>
+        </div>
+      } @else if (!authService.usuarioLectura()) {
+        <!-- Muestra nuestro nuevo componente de botón de login -->
+        <app-btn-login-google></app-btn-login-google>
+      }
+    </mat-card-content>
+
+  </mat-card>
+</div>

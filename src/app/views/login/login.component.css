@@ -1,0 +1,41 @@
+.login-container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center;    /* Centra verticalmente */
+  height: 100vh;          /* Hace que el contenedor ocupe toda la altura de la pantalla */
+  background-color: #031e1d; /* Un fondo suave para que la tarjeta resalte */
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  color: red;
+  margin-top: 16px;
+}
+
+.spinner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}

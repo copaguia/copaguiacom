@@ -1,45 +1,51 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router, UrlTree } from '@angular/router';
-import { getAuth } from 'firebase/auth';
-import { Observable } from 'rxjs';
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { onAuthStateChanged } from 'firebase/auth';
+import { InstanciaFirebase } from '../core/firebase/instancias.service';
+import { AuthService } from '../core/auth/auth.service';
+import { RolUsuario } from '../core/auth/rol-usuario';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  constructor(private router: Router) {}
+export const rolesGuard: CanActivateFn = async (ruta, estadoNavegacion) => {
+  const instanciaFirebase = inject(InstanciaFirebase);
+  const servicioAuth      = inject(AuthService);
+  const enrutador         = inject(Router);
+  const autenticacion     = instanciaFirebase.auth;
+  
+  const usuarioAutenticado = await new Promise<any>((resolver) => {
+    const desuscribir = onAuthStateChanged(autenticacion, (usuario) => {
+      desuscribir();
+      resolver(usuario);
+    });
+  });
 
-  canActivate():
-    | Observable<boolean | UrlTree>
-    | Promise<boolean | UrlTree>
-    | boolean
-    | UrlTree {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    if (user) {
-      // El usuario está logueado, permite el acceso
-      return true;
-    } else {
-      // El usuario no está logueado, redirige a la ruta de login
-      this.router.navigate(['/']); // Puedes cambiar '/' por la ruta de login si tienes una
-      return false;
-    }
+  if (!usuarioAutenticado) {
+    enrutador.navigate(['/']);
+    return false;
   }
-}
 
-/**
- 
-Explicación del Guard:
+  const rolesPermitidos = ruta.data['roles'] as Array<RolUsuario>;
 
-@Injectable({ providedIn: 'root' }): Hace que el Guard sea un servicio inyectable en toda la aplicación.
-CanActivate: Implementa esta interfaz para poder usar el Guard en las rutas.
-constructor(private router: Router): Inyecta el Router para poder redirigir al usuario.
-canActivate(): Este método es el que se ejecuta cuando se intenta acceder a una ruta protegida.
-const auth = getAuth();: Obtiene la instancia de autenticación de Firebase.
-const user = auth.currentUser;: Obtiene el usuario actual.
-if (user): Si hay un usuario logueado (user no es null), devuelve true, permitiendo el acceso.
-else: Si no hay usuario logueado, redirige al usuario a la ruta raíz (/) y devuelve false, impidiendo el acceso.
+  if (rolesPermitidos && rolesPermitidos.length > 0) {
+    const idUsuarioActual = usuarioAutenticado.uid;
+    const perfilUsuario   = await servicioAuth.obtenerPerfilUsuario(idUsuarioActual);
+    
+    if (perfilUsuario && perfilUsuario.rolUsuario) {
+      const rolActual = perfilUsuario.rolUsuario;
+      
+      if (rolesPermitidos.includes(rolActual)) {
+        return true;
+      }
+    }
+
+    enrutador.navigate(['/']);
+    return false;
+  }
+
+  return true;
+};
 
 
- */
+
+
+
+// Fin del guard rolesGuard

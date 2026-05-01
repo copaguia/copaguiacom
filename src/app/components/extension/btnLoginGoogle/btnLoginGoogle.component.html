@@ -1,0 +1,23 @@
+<button 
+  mat-raised-button 
+  color       ="primary" 
+  class       ="google-login-button"
+  (click)     ="loginConGoogle()" 
+  [disabled]  ="estado() === StateEnum.AUTENTICANDO">
+  
+  @switch (estado()) {
+    @case (StateEnum.AUTENTICANDO) {
+      <mat-spinner diameter="24"></mat-spinner>
+    }
+    @default {
+      <div class="button-content">
+        <div class  ="google-logo"></div>
+        <span class ="button-text">Continuar con Google</span>
+      </div>
+    }
+  }
+</button>
+
+@if (estado() === StateEnum.ERROR && errorMessage()) {
+  <div class="error-message">{{ errorMessage() }}</div>
+}

@@ -1,0 +1,61 @@
+<mat-toolbar class="custom-toolbar">
+  <span><strong>{{ tituloToolbar() | uppercase }}</strong></span>
+  <span class="toolbar-spacer"></span>
+
+  @if (authService.perfilLectura(); as perfil) {
+    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
+      <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar">
+    </button>
+  }
+
+  <app-btn-notifications></app-btn-notifications>
+</mat-toolbar>
+
+<mat-tab-group fitInkBarToContent headerPosition="above"(selectedTabChange)="onTabChange($event)">
+  
+  @for (categoria of categorias(); track $index) {
+    <mat-tab [label]="categoria.ruta">
+      <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
+      
+      <div class="carrusel-content">
+        <app-carrusel [conector]="categoria.tarjetas"></app-carrusel>
+      </div>
+    </mat-tab>
+  }
+</mat-tab-group>
+
+<mat-menu #userMenu="matMenu">
+
+  <button mat-menu-item (click)="navigateToProfile()">
+    <mat-icon>account_circle</mat-icon>
+    <span>Mi Perfil</span>
+  </button>
+
+  <!-- Botón para ADMIN: Siempre visible si es admin -->
+  @if (authorization.esAdmin()) {
+    <button mat-menu-item (click)="navigateToCreateBusiness()">
+      <mat-icon>add_business</mat-icon>
+      <span>Agregar Negocio</span>
+    </button>
+  }
+
+  <!-- Botones para DUENO: Condicional a si tiene negocio -->
+  @if (authorization.esDueno()) {
+    @if (negocioService.tieneNegocio()) {
+      <button mat-menu-item (click)="navigateToEditBusiness()">
+        <mat-icon>store</mat-icon>
+        <span>Editar Negocio</span>
+      </button>
+    } @else {
+      <button mat-menu-item (click)="navigateToCreateBusiness()">
+        <mat-icon>add_business</mat-icon>
+        <span>Crear Negocio</span>
+      </button>
+    }
+  }
+
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Cerrar Sesión</span>
+  </button>
+</mat-menu>

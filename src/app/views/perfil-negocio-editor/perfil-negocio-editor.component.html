@@ -1,0 +1,88 @@
+<section class="box60">
+    <header class="header-editor">
+      <h2 class="mat-headline-5">Configuración de mi Negocio</h2>
+      <p>Actualiza la información que verán tus clientes en el directorio.</p>
+    </header>
+
+    <form [formGroup]="formGroup" (ngSubmit)="actualizarDatos()" class="form-grid">
+
+      <!-- SECCIÓN 1: IDENTIDAD DEL NEGOCIO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Negocio</mat-label>
+        <input matInput formControlName="nombre">
+        <mat-icon matSuffix>storefront</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Tipo de Negocio</mat-label>
+        <mat-select formControlName="tipoNegocio">
+          <mat-option *ngFor="let tipo of tiposDeNegocio" [value]="tipo">
+            {{ tipo }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>category</mat-icon>
+      </mat-form-field>
+
+      <!-- SECCIÓN 2: IMÁGENES -->
+      <div class="seccion-visual">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL Logo</mat-label>
+          <input matInput formControlName="logo">
+          <mat-icon matSuffix>image</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL Banner</mat-label>
+          <input matInput formControlName="banner">
+          <mat-icon matSuffix>add_photo_alternate</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- SECCIÓN 3: DESCRIPCIÓN -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción del Negocio</mat-label>
+        <textarea matInput formControlName="descripcion" rows="4"></textarea>
+      </mat-form-field>
+
+      <!-- SECCIÓN 4: CONTACTO Y UBICACIÓN -->
+      <div class="contacto-grid">
+        <mat-form-field appearance="outline">
+            <mat-label>Dirección Física</mat-label>
+            <input matInput formControlName="direccion">
+            <mat-icon matSuffix>location_on</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Teléfono (Fijo o Celular)</mat-label>
+          <input matInput formControlName="telefono">
+          <mat-icon matSuffix>call</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>WhatsApp (Pedidos)</mat-label>
+            <input matInput formControlName="whatsapp">
+            <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- SECCIÓN 5: REDES SOCIALES -->
+      <div class="contacto-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Instagram (@usuario)</mat-label>
+          <input matInput formControlName="instagram">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Facebook (URL de la página)</mat-label>
+            <input matInput formControlName="facebook">
+          </mat-form-field>
+      </div>
+      
+      <!-- SECCIÓN 6: ACCIONES -->
+      <button mat-flat-button color="primary" class="btn-guardar" 
+              [disabled]="formGroup.invalid || estaCargando()">
+        {{ estaCargando() ? 'Guardando...' : 'Guardar Cambios' }}
+      </button>
+
+    </form>
+  </section>

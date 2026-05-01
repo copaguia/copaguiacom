@@ -1,0 +1,6 @@
+.full-width { width: 100%; margin-bottom: 10px; }
+    .total-seccion { text-align: right; padding: 20px 0; border-top: 1px solid #eee; }
+    .btn-enviar { width: 100%; height: 50px; margin-top: 20px; font-weight: bold; }
+    .carrito-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; }
+    .carrito-vacio { text-align: center; padding: 50px 0; opacity: 0.6; }
+    .icon-grande { font-size: 48px; width: 48px; height: 48px; margin-bottom: 10px; }

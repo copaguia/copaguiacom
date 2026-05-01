@@ -1,0 +1,7 @@
+<button mat-icon-button (click)="abrirCentroNotificaciones()" aria-label="Notificaciones">
+    <mat-icon [matBadge]="notificacionesCount()" 
+              matBadgeColor="warn" 
+              [matBadgeHidden]="notificacionesCount() === 0">
+      notifications
+    </mat-icon>
+  </button>
