@@ -1,4 +1,9 @@
 {
-    "IDX.aI.enableInlineCompletion": true,
-    "IDX.aI.enableCodebaseIndexing": true
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#1e40af",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveBackground": "#1e3a8a",
+    "activityBar.background": "#1e40af",
+    "statusBar.background": "#1e40af"
+  }
 }
