@@ -1,0 +1,75 @@
+<div class="dashboard-container">
+  <div class="header">
+    <button mat-icon-button (click)="goBack()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Estadísticas de Sistema</h1>
+  </div>
+
+  @if (estService.loading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Procesando reportes de Firebase...</p>
+    </div>
+  } @else {
+    <div class="cards-grid">
+      
+      <!-- Usuarios Conectados/Registrados -->
+      <mat-card class="stat-card blue-card">
+        <mat-card-header>
+          <div mat-card-avatar class="card-icon">
+            <mat-icon>group</mat-icon>
+          </div>
+          <mat-card-title>Usuarios Conectados/Registrados</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ estService.totalUsuarios() || 0 }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Negocios Registrados -->
+      <mat-card class="stat-card purple-card">
+        <mat-card-header>
+          <div mat-card-avatar class="card-icon">
+            <mat-icon>storefront</mat-icon>
+          </div>
+          <mat-card-title>Negocios Registrados</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ estService.totalNegocios() || 0 }}</h2>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Negocios Activos -->
+      <mat-card class="stat-card green-card">
+        <mat-card-header>
+          <div mat-card-avatar class="card-icon">
+            <mat-icon>schedule</mat-icon>
+          </div>
+          <mat-card-title>Negocios en Horario Activo</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ estService.negociosActivos() || 0 }}</h2>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" [style.width.%]="(estService.negociosActivos() || 0) * 100 / (estService.totalNegocios() || 1)"></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Vistas de Notificaciones -->
+      <mat-card class="stat-card orange-card">
+        <mat-card-header>
+          <div mat-card-avatar class="card-icon">
+            <mat-icon>campaign</mat-icon>
+          </div>
+          <mat-card-title>Registros de Notificaciones</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <h2>{{ estService.vistasNotificaciones() || 0 }}</h2>
+          <p class="subtitle">Usuarios interactuando con alertas globales</p>
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  }
+</div>

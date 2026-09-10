@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, onSnapshot, query, orderBy, limit, addDoc } from 'firebase/firestore';
+import { collection, onSnapshot, query, orderBy, limit, addDoc, doc, updateDoc, increment } from 'firebase/firestore';
 import { NotificacionGlobal } from '../../interfaces/notificacion-global';
 import { StorageService } from '../firebase/services/storage.service';
 
@@ -15,9 +15,30 @@ export class GlobalNotificationService {
   public currentNotification = signal<NotificacionGlobal | null>(null);
 
   private readonly LOCAL_STORAGE_KEY = 'copaguia_vistas_notif_globales';
+  private audioIntervalRef: any = null;
 
   constructor() {
     this.escucharNotificacionesGlobales();
+  }
+
+  public getIconoNotificacion(tipo: string): string {
+    switch (tipo) {
+      case 'promocion': return 'campaign';
+      case 'oferta': return 'local_offer';
+      case 'aviso': return 'info';
+      case 'urgencia': return 'warning';
+      default: return 'notifications_active';
+    }
+  }
+
+  public getColorNotificacion(tipo: string): string {
+    switch (tipo) {
+      case 'promocion': return '#2196F3'; // Azul
+      case 'oferta': return '#4CAF50';    // Verde
+      case 'aviso': return '#FF9800';     // Naranja
+      case 'urgencia': return '#F44336';  // Rojo
+      default: return '#4CAF50';
+    }
   }
 
   /**
@@ -34,8 +55,10 @@ export class GlobalNotificationService {
       const nuevaNotificacion: NotificacionGlobal = {
         titulo: datos.titulo || '',
         mensaje: datos.mensaje || '',
+        tipo: datos.tipo as 'promocion' | 'aviso' | 'oferta' | 'urgencia',
         fechaCreacion: new Date().toISOString(),
         fechaCaducidad: datos.fechaCaducidad || new Date().toISOString(),
+        vistasTotales: 0
       };
 
       if (imagenUrl) {
@@ -62,6 +85,7 @@ export class GlobalNotificationService {
       if (snapshot.empty) {
         this.hasNewNotification.set(false);
         this.currentNotification.set(null);
+        this.detenerAudio();
         return;
       }
 
@@ -76,6 +100,7 @@ export class GlobalNotificationService {
         // Caducada
         this.hasNewNotification.set(false);
         this.currentNotification.set(null);
+        this.detenerAudio();
         return;
       }
 
@@ -84,6 +109,7 @@ export class GlobalNotificationService {
       if (vistas.includes(notifId)) {
         this.hasNewNotification.set(false);
         this.currentNotification.set(data); // La guardamos por si quiere verla de nuevo
+        this.detenerAudio();
       } else {
         // ES NUEVA!
         this.currentNotification.set(data);
@@ -91,7 +117,7 @@ export class GlobalNotificationService {
         // Si no estaba ya activa, reproducimos el sonido
         if (!this.hasNewNotification()) {
           this.hasNewNotification.set(true);
-          this.reproducirSonido();
+          this.reproducirSonido(data.tipo);
         }
       }
     }, (error) => {
@@ -99,13 +125,23 @@ export class GlobalNotificationService {
     });
   }
 
-  public marcarComoVista(id: string) {
+  public async marcarComoVista(id: string) {
     const vistas = this.getNotificacionesVistas();
     if (!vistas.includes(id)) {
       vistas.push(id);
       localStorage.setItem(this.LOCAL_STORAGE_KEY, JSON.stringify(vistas));
+      
+      try {
+        const docRef = doc(this.firestore, 'NotificacionesApp', id);
+        await updateDoc(docRef, {
+          vistasTotales: increment(1)
+        });
+      } catch (e) {
+        console.error('Error al registrar la vista contable', e);
+      }
     }
     this.hasNewNotification.set(false);
+    this.detenerAudio();
   }
 
   private getNotificacionesVistas(): string[] {
@@ -113,27 +149,33 @@ export class GlobalNotificationService {
     return data ? JSON.parse(data) : [];
   }
 
-  private reproducirSonido() {
-    try {
-      // Usamos un sonido por defecto o uno provisto en assets
-      const audio = new Audio('assets/sounds/bell.mp3');
-      audio.play().catch(e => {
-        console.warn('El navegador bloqueó la reproducción automática del sonido. El usuario debe interactuar con la página primero.', e);
-      });
-      
-      // Simular "tilin tilin tilin" (3 veces)
-      let count = 1;
-      const interval = setInterval(() => {
-        if (count >= 3) {
-          clearInterval(interval);
-        } else {
-          const nextAudio = new Audio('assets/sounds/bell.mp3');
-          nextAudio.play().catch(() => {});
-          count++;
-        }
-      }, 1000); // 1 segundo entre cada tilin
-    } catch (e) {
-      console.error('Error al reproducir audio', e);
+  private reproducirSonido(tipo: string) {
+    this.detenerAudio(); // Detener cualquier bucle previo
+
+    const playAudio = () => {
+      try {
+        const audio = new Audio(`assets/sounds/${tipo}.mp3`);
+        audio.play().catch(e => {
+          console.warn('El navegador bloqueó la reproducción automática del sonido.', e);
+        });
+      } catch (e) {
+        console.error('Error al reproducir audio', e);
+      }
+    };
+
+    // Reproducir inmediatamente
+    playAudio();
+
+    // Luego repetir cada 30 segundos mientras no sea leída
+    this.audioIntervalRef = setInterval(() => {
+      playAudio();
+    }, 30000); 
+  }
+
+  private detenerAudio() {
+    if (this.audioIntervalRef) {
+      clearInterval(this.audioIntervalRef);
+      this.audioIntervalRef = null;
     }
   }
 }

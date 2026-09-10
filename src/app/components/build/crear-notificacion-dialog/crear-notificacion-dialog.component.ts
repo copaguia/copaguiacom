@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { GlobalNotificationService } from '../../../core/services/global-notification.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -24,6 +25,7 @@ import { SnackbarService } from '../../../core/services/snackbar.service';
     MatButtonModule,
     MatIconModule,
     MatDatepickerModule,
+    MatSelectModule,
     MatNativeDateModule,
     MatProgressSpinnerModule
   ],
@@ -46,6 +48,7 @@ export class CrearNotificacionDialogComponent {
     this.form = this.fb.group({
       titulo: ['', [Validators.required]],
       mensaje: ['', [Validators.required]],
+      tipo: ['', [Validators.required]],
       fechaCaducidad: ['', [Validators.required]]
     });
   }
@@ -79,6 +82,7 @@ export class CrearNotificacionDialogComponent {
       const datos = {
         titulo: this.form.value.titulo,
         mensaje: this.form.value.mensaje,
+        tipo: this.form.value.tipo,
         fechaCaducidad: new Date(this.form.value.fechaCaducidad).toISOString()
       };
 

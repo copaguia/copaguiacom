@@ -2,6 +2,16 @@
 
 <mat-dialog-content class="dialog-content">
   <form [formGroup]="form" class="notif-form">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Tipo de Notificación</mat-label>
+      <mat-select formControlName="tipo">
+        <mat-option value="promocion">Promoción (📣)</mat-option>
+        <mat-option value="oferta">Oferta (🏷️)</mat-option>
+        <mat-option value="aviso">Aviso (ℹ️)</mat-option>
+        <mat-option value="urgencia">Urgencia (⚠️)</mat-option>
+      </mat-select>
+    </mat-form-field>
     
     <mat-form-field appearance="outline">
       <mat-label>Título de la Notificación</mat-label>

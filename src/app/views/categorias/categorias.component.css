@@ -75,6 +75,7 @@ h2 {
 
 .shake-icon {
   animation: shake 1.5s infinite cubic-bezier(.36,.07,.19,.97) both;
+  transform-origin: top center;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;

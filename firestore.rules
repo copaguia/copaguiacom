@@ -26,7 +26,10 @@ service cloud.firestore {
     // Notificaciones Globales
     match /NotificacionesApp/{notificacionId} {
       allow read: if true; // Cualquier persona puede recibir las notificaciones globales
-      allow write: if hasRole('admin'); // Solo los administradores pueden crearlas o borrarlas
+      allow create, delete: if hasRole('admin'); // Solo los administradores pueden crearlas o borrarlas
+      allow update: if hasRole('admin') || 
+                    (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['vistasTotales']) &&
+                     request.resource.data.vistasTotales == resource.data.vistasTotales + 1);
     }
 
     // Negocios
