@@ -32,6 +32,9 @@ mat-tab-group {
   background-color: rgb(18, 18, 19);
   color: white;
   height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .avatar-button {

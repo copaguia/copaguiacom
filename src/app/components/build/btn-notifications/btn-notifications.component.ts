@@ -30,9 +30,10 @@ export class BtnNotificationsComponent implements OnInit {
   constructor() {
     effect(() => {
       const estaSuscrito     = this.permisoActivado();
+      const unreadCount      = this.notificacionesCount();
       
-      // L10: Solo invitamos si no tiene el permiso concedido
-      if (!estaSuscrito) {
+      // L10: Solo invitamos si no tiene el permiso concedido Y tiene notificaciones sin leer
+      if (!estaSuscrito && unreadCount > 0) {
         this.lanzarInvitacionSuscripcion();
       }
     });

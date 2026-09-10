@@ -1,10 +1,12 @@
-import { Component, computed, effect, inject, signal, OnInit, Signal } from '@angular/core'; 
+import { Component, computed, inject, signal, OnInit, Signal } from '@angular/core'; 
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card'; 
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common'; 
 import { MatButtonModule } from '@angular/material/button'; 
+import { MatListModule } from '@angular/material/list';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AuthService} from '../../../core/auth/auth.service';
 import { PerfilInterface } from '../../../interfaces/perfil-interface';
 import { PostInterface } from '../../../interfaces/post-interface';
@@ -17,57 +19,58 @@ import { PostInterface } from '../../../interfaces/post-interface';
     MatCardModule, 
     MatIconModule, 
     MatProgressSpinnerModule,
-    MatButtonModule 
+    MatButtonModule,
+    MatListModule,
+    MatTooltipModule
   ],
   templateUrl: './user-feed.component.html',
   styleUrl: './user-feed.component.css'
 })
 export class UserFeedComponent implements OnInit { 
-  private authService: AuthService; 
+  private authService = inject(AuthService); 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
-  
   profileUsername = signal<string | null>(null);
   userProfile = signal<PerfilInterface | null>(null);
   userPosts = signal<PostInterface[]>([]);
   loadingProfile = signal<boolean>(true);
-  loadingPosts = signal<boolean>(true);
+  loadingPosts = signal<boolean>(false);
 
-  isCurrentUserProfile: Signal<boolean>;
+  isCurrentUserProfile = computed(() => {
+    const p = this.authService.perfilLectura();
+    return p ? p.nombreUsuario === this.profileUsername() : false;
+  });
 
-  constructor() {
- 
-  }
+  constructor() {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe(async params => {
       const username = params.get('username');
-      if (username && username !== this.profileUsername()) { 
-        this.profileUsername.set(username); 
+      if (username) { 
+        this.profileUsername.set(username);
+        this.loadingProfile.set(true);
+        try {
+          const p = await this.authService.obtenerPerfilPorNombreUsuario(username);
+          this.userProfile.set(p);
+        } catch (error) {
+          console.error('Error obteniendo perfil:', error);
+          this.userProfile.set(null);
+        }
+        this.loadingProfile.set(false);
       }
     });
   }
 
- 
-
-  /**
-   * Navega de vuelta a la página principal (login).
-   * Este método aún existe si lo llamas desde otros lugares, pero no está en el HTML del feed.
-   */
   goToLogin(): void {
     this.router.navigate(['/login']);
   }
   
-  /**
-   * Cierra la sesión del usuario.
-   */
   async logout(): Promise<void> {
     try {
       await this.authService.desloguear();
     } catch (error) {
-      console.error('Error al cerrar sesión desde UserFeed:', error);
-      // Los errores se loguean, pero no se muestran al usuario.
+      console.error('Error al cerrar sesión:', error);
     }
   }
 }

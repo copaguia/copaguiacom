@@ -1,88 +1,140 @@
-<!-- src/app/vistas/user-feed/user-feed.component.html -->
-<!-- Contenedor principal para el contenido del feed.
-     El mat-typography aplica estilos base de Material Design para texto y encabezados. -->
-     <div> 
-        <div class="mat-typography">
-      
-          <!-- Ya no hay condicionales para el spinner. Si se quiere mostrar,
-               debería hacerse controlando su visibilidad desde el TS con una propiedad.
-               Por ahora, se elimina para simplicidad extrema sin condicionales en el template. -->
-          <!-- <mat-spinner diameter="50"></mat-spinner> -->
-          <!-- <p>Cargando perfil...</p> -->
-      
-          <!-- Contenido del perfil (asume que userProfile() está disponible o se muestra vacío) -->
-          <mat-card>
-            <mat-card-header>
-              <!-- Avatar del perfil del usuario -->
-              <div mat-card-avatar>
-                <!-- Se muestra la foto si existe, si no, el icono. No hay @if para toda la imagen/icono. -->
-                <img [src]="userProfile()?.urlFoto" alt="Foto de perfil">
-                <!-- Si quisieras solo el icono sin imagen por defecto, necesitarías CSS para mostrar/ocultar -->
-                <!-- <mat-icon *ngIf="!userProfile()?.photoURL">account_circle</mat-icon> -->
-              </div>
-              <!-- Título y subtítulo de la tarjeta del perfil -->
-              <mat-card-title>
-                {{ userProfile()?.nombreMostrado }}
-              </mat-card-title>
-              <mat-card-subtitle>
-                {{ userProfile()?.nombreUsuario }}
-              </mat-card-subtitle>
-            </mat-card-header>
-            <mat-card-content>
-              <!-- Biografía del usuario (se muestra si existe, o un texto por defecto) -->
-              <p>{{ userProfile()?.biografia }}</p>
-              
-            </mat-card-content>
-            <mat-card-actions>
-                <!-- Botón para cerrar sesión -->
-                <button mat-flat-button color="warn" (click)="logout()">
-                  <mat-icon>logout</mat-icon> Cerrar Sesión
-                </button>
-              </mat-card-actions>
-          </mat-card>
-      
-          <!-- Encabezado para la sección de publicaciones -->
-          <h3>Publicaciones</h3>
-      
-          <!-- Ya no hay condicionales para el spinner de posts o el mensaje de posts vacíos.
-               El @for simplemente iterará sobre una lista vacía si no hay posts. -->
-          <!-- <mat-spinner diameter="40"></mat-spinner> -->
-          <!-- <p>Cargando publicaciones...</p> -->
-          <!-- <mat-card> <mat-card-content><p>No hay publicaciones para este usuario aún.</p></mat-card-content></mat-card> -->
-          
-          <!-- Iteración sobre la lista de publicaciones -->
-          @for (post of userPosts(); track post.id) {
-            <mat-card>
-              <mat-card-header>
-                <!-- Avatar del autor de la publicación -->
-                <div mat-card-avatar>
-                  <img [src]="userProfile()?.urlFoto" alt="Foto de perfil">
-                </div>
-                <!-- Título y subtítulo de la tarjeta de publicación -->
-                <mat-card-title>{{ post.username }}</mat-card-title>
-                <mat-card-subtitle>{{ post.timestamp?.toDate() | date:'short' }}</mat-card-subtitle>
-              </mat-card-header>
-              <mat-card-content>
-                <!-- Imagen de la publicación (si existe, se mostrará. Si no, el <div> estará vacío) -->
-                <div>
-                  <img [src]="post.imageUrl || ''" alt="Publicación">
-                </div>
-                <!-- Texto del caption de la publicación -->
-                <p>{{ post.caption }}</p>
-              </mat-card-content>
-              <mat-card-actions>
-                <!-- Botones de "Me gusta" y "Comentar" -->
-                <button mat-icon-button>
-                  <mat-icon>thumb_up_alt</mat-icon>
-                  <span>{{ post.likesCount || 0 }}</span>
-                </button>
-                <button mat-icon-button>
-                  <mat-icon>comment</mat-icon>
-                  <span>{{ post.commentsCount || 0 }}</span>
-                </button>
-              </mat-card-actions>
-            </mat-card>
-          }
-        </div>
+<div class="feed-container"> 
+  <div class="mat-typography container box-responsive">
+    
+    @if (loadingProfile()) {
+      <div class="spinner-container">
+        <mat-spinner diameter="50"></mat-spinner>
       </div>
+    } @else if (userProfile(); as perfil) {
       
+      <mat-card class="profile-card">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img [src]="perfil.urlFoto || 'assets/brand/copaguia-intro.gif'" alt="Foto de perfil">
+          </div>
+          <mat-card-title>
+            {{ perfil.nombreMostrado || perfil.nombreUsuario }}
+            @if (perfil.metadatos?.verificado) {
+              <mat-icon color="primary" class="verified-icon" matTooltip="Usuario Verificado">verified</mat-icon>
+            }
+          </mat-card-title>
+          <mat-card-subtitle>@{{ perfil.nombreUsuario }}</mat-card-subtitle>
+        </mat-card-header>
+        
+        <mat-card-content>
+          <p class="bio-text"><i>{{ perfil.biografia || 'Sin biografía disponible.' }}</i></p>
+          
+          <mat-list>
+            <mat-divider></mat-divider>
+            
+            <mat-list-item>
+              <mat-icon matListItemIcon color="primary">email</mat-icon>
+              <h3 matListItemTitle>Correo Electrónico</h3>
+              <p matListItemLine>{{ perfil.email }}</p>
+            </mat-list-item>
+
+            <mat-list-item>
+              <mat-icon matListItemIcon color="primary">badge</mat-icon>
+              <h3 matListItemTitle>Rol</h3>
+              <p matListItemLine><strong>{{ perfil.rolUsuario || 'USUARIO' }}</strong></p>
+            </mat-list-item>
+
+            @if (perfil.sexo) {
+              <mat-list-item>
+                <mat-icon matListItemIcon color="primary">wc</mat-icon>
+                <h3 matListItemTitle>Sexo</h3>
+                <p matListItemLine>{{ perfil.sexo }}</p>
+              </mat-list-item>
+            }
+
+            @if (perfil.fechaNacimiento) {
+              <mat-list-item>
+                <mat-icon matListItemIcon color="primary">cake</mat-icon>
+                <h3 matListItemTitle>Fecha de Nacimiento</h3>
+                <p matListItemLine>{{ perfil.fechaNacimiento | date:'longDate' }}</p>
+              </mat-list-item>
+            }
+
+            @if (perfil.direccion) {
+              <mat-list-item>
+                <mat-icon matListItemIcon color="primary">location_on</mat-icon>
+                <h3 matListItemTitle>Dirección ({{ perfil.direccion.municipio || 'Copacabana' }})</h3>
+                <p matListItemLine>{{ perfil.direccion.calle || '' }} {{ perfil.direccion.barrio ? '- B. ' + perfil.direccion.barrio : '' }}</p>
+              </mat-list-item>
+            }
+
+            @if (perfil.negocioAsociadoId) {
+              <mat-list-item>
+                <mat-icon matListItemIcon color="primary">store</mat-icon>
+                <h3 matListItemTitle>Negocio a Cargo</h3>
+                <p matListItemLine>{{ perfil.negocioAsociadoId }}</p>
+              </mat-list-item>
+            }
+
+            <mat-list-item>
+              <mat-icon matListItemIcon color="primary">calendar_today</mat-icon>
+              <h3 matListItemTitle>Miembro desde</h3>
+              <p matListItemLine>{{ perfil.fechaCreacion | date:'longDate' }}</p>
+            </mat-list-item>
+
+            <mat-list-item>
+              <mat-icon matListItemIcon color="primary">shopping_cart</mat-icon>
+              <h3 matListItemTitle>Total de Pedidos</h3>
+              <p matListItemLine>{{ perfil.metadatos?.totalPedidos || 0 }}</p>
+            </mat-list-item>
+            
+          </mat-list>
+        </mat-card-content>
+        
+        <mat-card-actions align="end">
+          @if (isCurrentUserProfile()) {
+            <button mat-stroked-button color="primary" (click)="logout()">
+              <mat-icon>logout</mat-icon> Cerrar Sesión
+            </button>
+          }
+        </mat-card-actions>
+      </mat-card>
+
+      <!-- Encabezado para la sección de publicaciones -->
+      <h3 class="posts-title">Publicaciones</h3>
+      
+      @for (post of userPosts(); track post.id) {
+        <mat-card class="post-card">
+          <mat-card-header>
+            <div mat-card-avatar>
+              <img [src]="perfil.urlFoto || 'assets/brand/copaguia-intro.gif'" alt="Foto de perfil">
+            </div>
+            <mat-card-title>{{ post.username }}</mat-card-title>
+            <mat-card-subtitle>{{ post.timestamp?.toDate() | date:'short' }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            @if (post.imageUrl) {
+              <div class="post-image-container">
+                <img [src]="post.imageUrl" alt="Publicación">
+              </div>
+            }
+            <p>{{ post.caption }}</p>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-icon-button>
+              <mat-icon>thumb_up_alt</mat-icon>
+              <span>{{ post.likesCount || 0 }}</span>
+            </button>
+            <button mat-icon-button>
+              <mat-icon>comment</mat-icon>
+              <span>{{ post.commentsCount || 0 }}</span>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <p class="no-posts">No hay publicaciones recientes.</p>
+      }
+      
+    } @else {
+      <div class="error-container">
+        <mat-icon color="warn">error</mat-icon>
+        <p>Perfil no encontrado.</p>
+      </div>
+    }
+  </div>
+</div>
