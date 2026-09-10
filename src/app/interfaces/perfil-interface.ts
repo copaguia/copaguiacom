@@ -16,10 +16,10 @@ export interface PerfilInterface {
   sexo?            : string;
   fechaNacimiento? : string;
   direccion?       : {
-    calle?     : string;
-    barrio?    : string;
-    municipio? : string;
-    detalles?  : string;
+    nomenclatura? : string;
+    barrio?       : string;
+    municipio?    : string;
+    detalles?     : string;
   };
 
   negocioAsociadoId?: string; // ID del negocio si el rol es DUEÑO

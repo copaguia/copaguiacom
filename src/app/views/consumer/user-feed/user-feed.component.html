@@ -1,140 +1,201 @@
-<div class="feed-container"> 
-  <div class="mat-typography container box-responsive">
-    
+<app-tool-bar-page [title]="'Perfil'" color="primary"></app-tool-bar-page>
+<div class="feed-container">
+  <div class="container box-responsive mat-typography">
+
     @if (loadingProfile()) {
-      <div class="spinner-container">
-        <mat-spinner diameter="50"></mat-spinner>
-      </div>
+    <div class="spinner-container">
+      <mat-spinner diameter="50"></mat-spinner>
+    </div>
     } @else if (userProfile(); as perfil) {
-      
-      <mat-card class="profile-card">
-        <mat-card-header>
-          <div mat-card-avatar>
-            <img [src]="perfil.urlFoto || 'assets/brand/copaguia-intro.gif'" alt="Foto de perfil">
-          </div>
-          <mat-card-title>
-            {{ perfil.nombreMostrado || perfil.nombreUsuario }}
-            @if (perfil.metadatos?.verificado) {
-              <mat-icon color="primary" class="verified-icon" matTooltip="Usuario Verificado">verified</mat-icon>
-            }
-          </mat-card-title>
-          <mat-card-subtitle>@{{ perfil.nombreUsuario }}</mat-card-subtitle>
-        </mat-card-header>
-        
-        <mat-card-content>
-          <p class="bio-text"><i>{{ perfil.biografia || 'Sin biografía disponible.' }}</i></p>
-          
-          <mat-list>
-            <mat-divider></mat-divider>
-            
-            <mat-list-item>
-              <mat-icon matListItemIcon color="primary">email</mat-icon>
-              <h3 matListItemTitle>Correo Electrónico</h3>
-              <p matListItemLine>{{ perfil.email }}</p>
-            </mat-list-item>
 
-            <mat-list-item>
-              <mat-icon matListItemIcon color="primary">badge</mat-icon>
-              <h3 matListItemTitle>Rol</h3>
-              <p matListItemLine><strong>{{ perfil.rolUsuario || 'USUARIO' }}</strong></p>
-            </mat-list-item>
+    <mat-card class="profile-card modern-card">
+      <!-- Banner de fondo -->
+      <div class="profile-banner"></div>
 
-            @if (perfil.sexo) {
-              <mat-list-item>
-                <mat-icon matListItemIcon color="primary">wc</mat-icon>
-                <h3 matListItemTitle>Sexo</h3>
-                <p matListItemLine>{{ perfil.sexo }}</p>
-              </mat-list-item>
-            }
-
-            @if (perfil.fechaNacimiento) {
-              <mat-list-item>
-                <mat-icon matListItemIcon color="primary">cake</mat-icon>
-                <h3 matListItemTitle>Fecha de Nacimiento</h3>
-                <p matListItemLine>{{ perfil.fechaNacimiento | date:'longDate' }}</p>
-              </mat-list-item>
-            }
-
-            @if (perfil.direccion) {
-              <mat-list-item>
-                <mat-icon matListItemIcon color="primary">location_on</mat-icon>
-                <h3 matListItemTitle>Dirección ({{ perfil.direccion.municipio || 'Copacabana' }})</h3>
-                <p matListItemLine>{{ perfil.direccion.calle || '' }} {{ perfil.direccion.barrio ? '- B. ' + perfil.direccion.barrio : '' }}</p>
-              </mat-list-item>
-            }
-
-            @if (perfil.negocioAsociadoId) {
-              <mat-list-item>
-                <mat-icon matListItemIcon color="primary">store</mat-icon>
-                <h3 matListItemTitle>Negocio a Cargo</h3>
-                <p matListItemLine>{{ perfil.negocioAsociadoId }}</p>
-              </mat-list-item>
-            }
-
-            <mat-list-item>
-              <mat-icon matListItemIcon color="primary">calendar_today</mat-icon>
-              <h3 matListItemTitle>Miembro desde</h3>
-              <p matListItemLine>{{ perfil.fechaCreacion | date:'longDate' }}</p>
-            </mat-list-item>
-
-            <mat-list-item>
-              <mat-icon matListItemIcon color="primary">shopping_cart</mat-icon>
-              <h3 matListItemTitle>Total de Pedidos</h3>
-              <p matListItemLine>{{ perfil.metadatos?.totalPedidos || 0 }}</p>
-            </mat-list-item>
-            
-          </mat-list>
-        </mat-card-content>
-        
-        <mat-card-actions align="end">
-          @if (isCurrentUserProfile()) {
-            <button mat-stroked-button color="primary" (click)="logout()">
-              <mat-icon>logout</mat-icon> Cerrar Sesión
-            </button>
+      <mat-card-header class="profile-header-centered">
+        <div mat-card-avatar class="avatar-container">
+          <img [src]="perfil.urlFoto || 'assets/brand/copaguia-intro.gif'" alt="Foto de perfil" class="profile-avatar">
+        </div>
+        <mat-card-title class="profile-name">
+          {{ perfil.nombreMostrado || perfil.nombreUsuario }}
+          @if (perfil.metadatos?.verificado) {
+          <mat-icon color="primary" class="verified-icon" matTooltip="Usuario Verificado">verified</mat-icon>
           }
-        </mat-card-actions>
-      </mat-card>
+        </mat-card-title>
+        <mat-card-subtitle class="profile-handle">@{{ perfil.nombreUsuario }}</mat-card-subtitle>
+      </mat-card-header>
 
-      <!-- Encabezado para la sección de publicaciones -->
-      <h3 class="posts-title">Publicaciones</h3>
-      
-      @for (post of userPosts(); track post.id) {
-        <mat-card class="post-card">
-          <mat-card-header>
-            <div mat-card-avatar>
-              <img [src]="perfil.urlFoto || 'assets/brand/copaguia-intro.gif'" alt="Foto de perfil">
+      <mat-card-content class="profile-content">
+        <div class="bio-section">
+          <p class="bio-text"><i>"{{ perfil.biografia || 'Sin biografía disponible. ¡Cuéntanos algo sobre ti!' }}"</i>
+          </p>
+        </div>
+
+        @if (isEditing()) {
+        <form [formGroup]="editForm" class="edit-profile-form">
+          <h3 class="section-title">Información Básica</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre para mostrar</mat-label>
+              <input matInput formControlName="nombreMostrado">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Sexo</mat-label>
+              <mat-select formControlName="sexo">
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Femenino">Femenino</mat-option>
+                <mat-option value="Otro">Otro</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Fecha de Nacimiento</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento">
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Biografía</mat-label>
+            <textarea matInput formControlName="biografia" rows="3"></textarea>
+          </mat-form-field>
+
+          <h3 class="section-title">Dirección</h3>
+          <div class="form-grid">
+            <mat-form-field appearance="outline">
+              <mat-label>Municipio</mat-label>
+              <input matInput formControlName="municipio">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Barrio</mat-label>
+              <input matInput formControlName="barrio">
+            </mat-form-field>
+          </div>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Calle y Detalles</mat-label>
+            <input matInput formControlName="calle">
+          </mat-form-field>
+        </form>
+        } @else {
+
+        <div class="info-grid">
+          <!-- Contacto & Cuenta -->
+          <div class="info-card">
+            <mat-icon color="primary">email</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Correo Electrónico</span>
+              <span class="info-value">{{ perfil.email }}</span>
             </div>
-            <mat-card-title>{{ post.username }}</mat-card-title>
-            <mat-card-subtitle>{{ post.timestamp?.toDate() | date:'short' }}</mat-card-subtitle>
-          </mat-card-header>
-          <mat-card-content>
-            @if (post.imageUrl) {
-              <div class="post-image-container">
-                <img [src]="post.imageUrl" alt="Publicación">
-              </div>
-            }
-            <p>{{ post.caption }}</p>
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-icon-button>
-              <mat-icon>thumb_up_alt</mat-icon>
-              <span>{{ post.likesCount || 0 }}</span>
-            </button>
-            <button mat-icon-button>
-              <mat-icon>comment</mat-icon>
-              <span>{{ post.commentsCount || 0 }}</span>
-            </button>
-          </mat-card-actions>
-        </mat-card>
-      } @empty {
-        <p class="no-posts">No hay publicaciones recientes.</p>
-      }
-      
+          </div>
+
+          <div class="info-card">
+            <mat-icon color="primary">badge</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Rol en Copaguia</span>
+              <span class="info-value role-badge">{{ perfil.rolUsuario || 'USUARIO' }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <mat-icon [color]="perfil.activo ? 'primary' : 'warn'">power_settings_new</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Estado de Cuenta</span>
+              <span class="info-value">{{ perfil.activo ? 'Activa' : 'Inactiva' }}</span>
+            </div>
+          </div>
+
+          <!-- Info Personal -->
+          <div class="info-card">
+            <mat-icon color="primary">wc</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Sexo</span>
+              <span class="info-value">{{ perfil.sexo || 'No especificado (Actualiza tu perfil)' }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <mat-icon color="primary">cake</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Fecha de Nacimiento</span>
+              <span class="info-value">{{ perfil.fechaNacimiento ? (perfil.fechaNacimiento | date:'longDate') : 'No especificada (Actualiza tu perfil)' }}</span>
+            </div>
+          </div>
+
+          <!-- Localización -->
+          <div class="info-card address-card">
+            <mat-icon color="primary">location_on</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Ubicación ({{ perfil.direccion?.municipio || 'Copacabana' }})</span>
+              <span class="info-value">
+                @if (perfil.direccion?.barrio || perfil.direccion?.nomenclatura) {
+                  {{ perfil.direccion?.nomenclatura || '' }}
+                  {{ perfil.direccion?.barrio ? ' - Barrio ' + perfil.direccion?.barrio : '' }}
+                } @else {
+                  No especificada (Actualiza tu perfil)
+                }
+              </span>
+            </div>
+          </div>
+
+          <!-- Info Plataforma -->
+          @if (perfil.negocioAsociadoId) {
+          <div class="info-card">
+            <mat-icon color="primary">store</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Negocio a Cargo (ID)</span>
+              <span class="info-value">{{ perfil.negocioAsociadoId }}</span>
+            </div>
+          </div>
+          }
+
+          <div class="info-card">
+            <mat-icon color="primary">calendar_today</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Miembro desde</span>
+              <span class="info-value">{{ perfil.fechaCreacion | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <mat-icon color="primary">history</mat-icon>
+            <div class="info-details">
+              <span class="info-label">Última Actividad</span>
+              <span class="info-value">{{ perfil.ultimaActividad ? (perfil.ultimaActividad | date:'short') : 'Reciente'
+                }}</span>
+            </div>
+          </div>
+        </div>
+        }
+      </mat-card-content>
+
+      <mat-card-actions class="profile-actions">
+        @if (isCurrentUserProfile()) {
+        @if (isEditing()) {
+        <button mat-button (click)="toggleEdit()" class="action-btn">Cancelar</button>
+        <button mat-flat-button color="primary" (click)="saveProfile()" [disabled]="editForm.invalid"
+          class="action-btn save-btn">Guardar Cambios</button>
+        } @else {
+        <button mat-stroked-button color="primary" (click)="toggleEdit()" class="action-btn">
+          <mat-icon>edit</mat-icon> Editar Perfil
+        </button>
+        <button mat-flat-button color="warn" (click)="logout()" class="action-btn">
+          <mat-icon>logout</mat-icon> Salir
+        </button>
+        }
+        }
+      </mat-card-actions>
+    </mat-card>
+
     } @else {
-      <div class="error-container">
-        <mat-icon color="warn">error</mat-icon>
-        <p>Perfil no encontrado.</p>
-      </div>
+    <div class="error-container">
+      <mat-icon color="warn" class="error-icon">error</mat-icon>
+      <h2>Perfil no encontrado</h2>
+      <p>El usuario que buscas no existe o fue eliminado.</p>
+    </div>
     }
   </div>
 </div>

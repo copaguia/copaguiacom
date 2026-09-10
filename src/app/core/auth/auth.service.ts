@@ -245,4 +245,21 @@ export class AuthService {
     throw new Error('Error al actualizar la ultima actividad');
   }
   }
+
+  async actualizarPerfil(idUsuario: string, datos: Partial<PerfilInterface>): Promise<void> {
+    try {
+      const coleccionActual   = this.nombreColeccion();
+      const referenciaUsuario = doc(this.firestore, coleccionActual, idUsuario);
+      
+      await setDoc(referenciaUsuario, datos, { merge: true });
+
+      // Actualizar el signal si el perfil editado es el del usuario autenticado
+      const perfilActual = this.perfilLectura();
+      if (perfilActual && perfilActual.id === idUsuario) {
+        this.perfilEscritura.set({ ...perfilActual, ...datos });
+      }
+    } catch (error) {
+      throw new Error('Error al actualizar el perfil: ' + error);
+    }
+  }
 }
