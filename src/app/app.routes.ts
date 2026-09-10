@@ -15,6 +15,7 @@ import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perf
 import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
 import { CategoriaPageComponent } from './components/build/categoria-page/categoria-page.component';
 import { AgregarNegocioComponent } from './views/admin/agregar-negocio/agregar-negocio.component';
+import { EstadisticasComponent } from './views/admin/estadisticas/estadisticas.component';
 
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
@@ -34,6 +35,10 @@ const staticRoutes: Routes = [
     {
         path: 'admin/agregar-negocio',
         component: AgregarNegocioComponent
+    },
+    {
+        path: 'admin/estadisticas',
+        component: EstadisticasComponent
     },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 

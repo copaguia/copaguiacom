@@ -44,6 +44,10 @@
 
   <!-- Botón para ADMIN: Siempre visible si es admin -->
   @if (authorization.esAdmin()) {
+    <button mat-menu-item (click)="navigateToEstadisticas()">
+      <mat-icon color="primary">bar_chart</mat-icon>
+      <span>Estadísticas</span>
+    </button>
     <button mat-menu-item (click)="navigateToCreateBusiness()">
       <mat-icon>add_business</mat-icon>
       <span>Agregar Negocio</span>

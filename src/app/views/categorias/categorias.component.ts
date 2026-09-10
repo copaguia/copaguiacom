@@ -95,10 +95,14 @@ export class CategoriasComponent {
 
   openCrearNotificacion() {
     this.dialog.open(CrearNotificacionDialogComponent, {
-      width: '90%',
-      maxWidth: '500px',
-      panelClass: 'dark-dialog'
+      width: '100%',
+      maxWidth: '400px',
+      panelClass: 'custom-dialog-container'
     });
+  }
+
+  navigateToEstadisticas() {
+    this.router.navigate(['/admin/estadisticas']);
   }
 
   logout(): void {
