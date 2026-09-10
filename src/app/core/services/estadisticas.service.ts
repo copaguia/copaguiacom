@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, getCountFromServer, getDocs } from 'firebase/firestore';
+import { collection, getCountFromServer, getDocs, query, where } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 import { NotificacionGlobal } from '../../interfaces/notificacion-global';
 
@@ -14,7 +14,7 @@ export class EstadisticasService {
   public totalNegocios = signal<number | null>(null);
   public negociosActivos = signal<number | null>(null);
   public vistasNotificaciones = signal<number | null>(null);
-  
+
   public loading = signal<boolean>(false);
 
   constructor() { }
