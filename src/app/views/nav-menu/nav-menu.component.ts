@@ -8,18 +8,23 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { GlobalNotificationService } from '../../core/services/global-notification.service';
+import { GlobalNotificationDialogComponent } from '../../components/build/global-notification-dialog/global-notification-dialog.component';
 import { CategoriasInterface, categoriaData } from '../../data/categoriasData';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'app-nav-menu',
     templateUrl: './nav-menu.component.html',
     styleUrl: './nav-menu.component.css',
     imports: [
-        MatToolbarModule, MatButtonModule, MatSidenavModule,  MatListModule,    MatIconModule,  AsyncPipe, RouterLink, RouterOutlet
+        MatToolbarModule, MatButtonModule, MatSidenavModule, MatListModule, MatIconModule, AsyncPipe, RouterLink, RouterOutlet, MatDialogModule
     ]
 })
 export class NavMenuComponent {
+  public globalNotifService = inject(GlobalNotificationService);
+  private dialog = inject(MatDialog);
 
   categorias = signal<CategoriasInterface[]>([
     {
@@ -52,4 +57,16 @@ export class NavMenuComponent {
   private breakpointObserver = inject(BreakpointObserver);
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset) .pipe(  map(result => result.matches),   shareReplay()  );
+
+  openGlobalNotification() {
+    const data = this.globalNotifService.currentNotification();
+    if (data) {
+      this.dialog.open(GlobalNotificationDialogComponent, {
+        data: data,
+        width: '90%',
+        maxWidth: '400px',
+        panelClass: 'dark-dialog'
+      });
+    }
+  }
 }

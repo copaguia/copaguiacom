@@ -1,0 +1,23 @@
+<div class="notification-card">
+  <div class="header-image" *ngIf="data.imagenUrl">
+    <img [src]="data.imagenUrl" alt="Notificación">
+  </div>
+  
+  <h2 mat-dialog-title class="dialog-title">
+    <mat-icon color="primary">notifications_active</mat-icon>
+    {{ data.titulo }}
+  </h2>
+  
+  <mat-dialog-content class="dialog-content">
+    <p class="message">{{ data.mensaje }}</p>
+    
+    <div class="dates">
+      <small><strong>Publicado:</strong> {{ data.fechaCreacion | date:'mediumDate' }}</small>
+      <small class="exp"><strong>Vence:</strong> {{ data.fechaCaducidad | date:'mediumDate' }}</small>
+    </div>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-flat-button color="primary" (click)="cerrar()">¡Entendido!</button>
+  </mat-dialog-actions>
+</div>

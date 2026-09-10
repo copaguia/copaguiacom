@@ -65,7 +65,27 @@ h2 {
   color: white;
 }
 
-.toolbar-spacer { flex: 1 1 auto; }
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.global-notif-btn {
+  color: #4caf50;
+}
+
+.shake-icon {
+  animation: shake 1.5s infinite cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0) rotate(-5deg); }
+  20%, 80% { transform: translate3d(2px, 0, 0) rotate(5deg); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-10deg); }
+  40%, 60% { transform: translate3d(4px, 0, 0) rotate(10deg); }
+}
 
 /* Estilo para la pestaña activa */
 ::ng-deep .mdc-tab.mdc-tab--active {

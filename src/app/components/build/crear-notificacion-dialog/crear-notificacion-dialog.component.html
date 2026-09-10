@@ -1,0 +1,49 @@
+<h2 mat-dialog-title>Crear Notificación Global</h2>
+
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="form" class="notif-form">
+    
+    <mat-form-field appearance="outline">
+      <mat-label>Título de la Notificación</mat-label>
+      <input matInput formControlName="titulo" placeholder="Ej. ¡Gran Promoción!">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mensaje Detallado</mat-label>
+      <textarea matInput formControlName="mensaje" rows="4" placeholder="Escribe el contenido de la alerta..."></textarea>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Fecha de Caducidad (Hasta cuándo mostrar)</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="fechaCaducidad">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="image-upload-container">
+      <p class="upload-label">Imagen Banner (Opcional):</p>
+      
+      <button mat-stroked-button type="button" color="primary" (click)="fileInput.click()" *ngIf="!vistaPreviaUrl">
+        <mat-icon>add_photo_alternate</mat-icon>
+        Subir Imagen
+      </button>
+      <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+
+      <div class="image-preview" *ngIf="vistaPreviaUrl">
+        <img [src]="vistaPreviaUrl" alt="Vista previa">
+        <button mat-icon-button color="warn" class="remove-btn" (click)="removerImagen()" type="button">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close [disabled]="cargando">Cancelar</button>
+  <button mat-flat-button color="primary" (click)="crearNotificacion()" [disabled]="cargando || form.invalid">
+    <mat-spinner diameter="20" *ngIf="cargando"></mat-spinner>
+    <span *ngIf="!cargando">Publicar Alerta</span>
+  </button>
+</mat-dialog-actions>

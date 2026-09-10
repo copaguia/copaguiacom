@@ -23,6 +23,12 @@ service cloud.firestore {
       allow write: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
     }
 
+    // Notificaciones Globales
+    match /NotificacionesApp/{notificacionId} {
+      allow read: if true; // Cualquier persona puede recibir las notificaciones globales
+      allow write: if hasRole('admin'); // Solo los administradores pueden crearlas o borrarlas
+    }
+
     // Negocios
     match /negocios/{negocioId} {
       allow read: if true; // Público para que los clientes vean los negocios

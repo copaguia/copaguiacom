@@ -9,6 +9,12 @@
   }
 
   <app-btn-notifications></app-btn-notifications>
+
+  @if (globalNotifService.hasNewNotification()) {
+    <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification()">
+      <mat-icon class="shake-icon" color="accent" style="color: #4caf50;">notifications_active</mat-icon>
+    </button>
+  }
 </mat-toolbar>
 
 <mat-tab-group fitInkBarToContent headerPosition="above"(selectedTabChange)="onTabChange($event)">
@@ -37,6 +43,12 @@
       <mat-icon>add_business</mat-icon>
       <span>Agregar Negocio</span>
     </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="openCrearNotificacion()">
+      <mat-icon color="accent">notification_add</mat-icon>
+      <span>Crear Notificación Global</span>
+    </button>
+    <mat-divider></mat-divider>
   }
 
   <!-- Botones para DUENO: Condicional a si tiene negocio -->

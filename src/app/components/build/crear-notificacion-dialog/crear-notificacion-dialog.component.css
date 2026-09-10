@@ -1,0 +1,45 @@
+.dialog-content {
+  padding-top: 10px !important;
+}
+
+.notif-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.image-upload-container {
+  margin-top: 10px;
+  border: 1px dashed #555;
+  border-radius: 8px;
+  padding: 15px;
+  text-align: center;
+}
+
+.upload-label {
+  margin-bottom: 10px;
+  color: #aaa;
+  font-size: 14px;
+}
+
+.image-preview {
+  position: relative;
+  width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(0,0,0,0.6);
+}
