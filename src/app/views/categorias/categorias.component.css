@@ -63,3 +63,12 @@ h2 {
 }
 
 .toolbar-spacer { flex: 1 1 auto; }
+
+/* Estilo para la pestaña activa */
+::ng-deep .mdc-tab.mdc-tab--active {
+  background-color: var(--corporativo) !important;
+  border-top-left-radius: 15px !important;
+  border-top-right-radius: 15px !important;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}

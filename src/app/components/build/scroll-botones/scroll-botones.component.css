@@ -96,10 +96,20 @@ body ::-webkit-scrollbar-thumb:hover {
   margin-bottom: 5px; /* Espacio entre barra scroll y tabs */
 }
 
-/* Estilos para los botones dentro del contenido desplazable */
+/* Estilos para los botones dentro del contenido desplazable (estilo píldora pequeño) */
 .cdk-scrollable button {
-  flex: 0 0 auto; /* Evita que los botones se estiren o encojan, manteniéndolos en su tamaño natural */
-  margin: 5px; /* Añade un margen horizontal de 5px a cada botón */
+  flex: 0 0 auto;
+  margin: 5px;
+  height: 28px !important;
+  min-height: 28px !important;
+  border-radius: 14px !important;
+  line-height: 28px !important;
+  padding: 0 12px !important;
+}
+
+::ng-deep .cdk-scrollable button span {
+  font-size: 12px !important;
+  letter-spacing: 0.5px !important;
 }
 
 
