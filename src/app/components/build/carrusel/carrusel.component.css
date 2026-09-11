@@ -1,9 +1,62 @@
 /* --- Contenedor Swiper --- */
 
 
-swiper-container { width: 85%; height: 600px; margin: 0 auto; padding: 20px 0;}
-swiper-slide { height: 100%; border-radius: 15px; border: 2px solid #00d1c0; background-color: #000; overflow: hidden; }
-img { min-height: min-content; border-radius: 10px;}
-mat-card { height: 100%; }
-mat-card-actions {position: absolute; bottom: 10px; align-self: center; }
-.img-container { height: 80%;}
+swiper-container {
+  width: 85%;
+  height: 600px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+swiper-slide {
+  height: 100%;
+  border-radius: 15px;
+  border: 2px solid #00d1c0;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.slide-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.image-card {
+  flex: 1; /* Ocupa el espacio superior */
+  margin: 16px; /* Margen elegante alrededor de la tarjeta de la imagen */
+  border-radius: 12px; /* Bordes suaves para la tarjeta interna */
+  overflow: hidden; /* Corta la imagen a la forma de la tarjeta */
+  padding: 0; /* Asegurarse de que no haya espacios */
+  background-color: transparent;
+  display: flex;
+}
+
+.image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Expande la imagen para cubrir el 100% del card */
+  display: block;
+}
+
+.actions-toolbar {
+  padding: 12px 16px;
+  background-color: #121212;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.img-container {
+  height: 80%;
+}
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  swiper-container {
+    height: 550px;
+    /* Reduce la altura para que no choquen con la parte baja/buscador */
+  }
+}

@@ -101,6 +101,8 @@ h2 {
 
 ::ng-deep .mdc-tab {
   overflow: hidden !important;
+  height: 40px !important;
+  min-height: 40px !important;
 }
 
 /* Estilo para la pestaña activa (color verde) */

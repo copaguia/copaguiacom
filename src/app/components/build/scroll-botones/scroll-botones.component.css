@@ -30,17 +30,18 @@
 }
 
 /* Ocultar la barra de desplazamiento para Webkit (Chrome, Safari) */
-.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar {
-  color: aqua;
+.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar,
+.cdk-scrollable::-webkit-scrollbar {
+  height: 2px;
+  background-color: transparent;
 }
 
 /* --- Bloque de Estilos para Scroll Virtual --- */
 /* Estilos para la vista del scroll virtual */
 .cdk-virtual-scroll-data-source-example .example-viewport {
-  height: 55px;
-  /* Establece una altura de 60px para la vista */
+  height: 43px;
+  /* Reducido para juntar más la barra de scroll con el botón */
   width: 100%;
-  /* Establece un ancho del 100% del contenedor padre */
 }
 
 /* Estilos para el contenedor de contenido del scroll virtual */
@@ -76,8 +77,8 @@ body {
 }
 
 body ::-webkit-scrollbar {
-  height: 5px;
-  /* Groso de la barra Scroll */
+  height: 2px;
+  /* Grosor de la barra Scroll reducido */
   width: 50%;
   /* Establece la anchura de la barra de desplazamiento al 100% de la anchura del contenedor */
   position: absolute;
@@ -87,8 +88,8 @@ body ::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar {
-  height: 5px;
-  /* Establece la altura de la barra de scroll a 3px */
+  height: 2px;
+  /* Establece la altura de la barra de scroll a 2px */
   width: 50%;
   /* Establece la anchura de la barra de desplazamiento a la mitad del ancho de la ventana gráfica */
   position: absolute;
@@ -128,7 +129,7 @@ body ::-webkit-scrollbar-thumb:hover {
   /* Evita que los elementos se envuelvan a la siguiente línea */
   padding-bottom: 0px;
   /* Espacio entre botones y barra scroll */
-  margin-bottom: 5px;
+  margin-bottom: 0px;
   /* Espacio entre barra scroll y tabs */
 }
 
