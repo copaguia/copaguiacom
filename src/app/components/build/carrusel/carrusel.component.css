@@ -1,62 +1,54 @@
-/* --- Contenedor Swiper --- */
-
-
-swiper-container {
-  width: 85%;
-  height: 600px;
-  margin: 0 auto;
-  padding: 20px 0;
+.material-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 16px;
+  padding: 20px;
+  width: 100%;
+  height: 600px; /* Altura principal del carrusel */
+  box-sizing: border-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
-swiper-slide {
-  height: 100%;
-  border-radius: 15px;
-  border: 2px solid #00d1c0;
-  background-color: #000;
-  overflow: hidden;
+.material-carousel::-webkit-scrollbar {
+  display: none;
 }
 
-.slide-layout {
+.carousel-item {
+  scroll-snap-align: center;
+  flex: 0 0 85%;
+  max-width: 400px;
+  display: flex;
+  height: 100%; /* Fuerza al item a ocupar toda la altura */
+}
+
+.example-card {
+  width: 100%;
+  height: 100%; /* Fuerza a la tarjeta a ocupar toda la altura del item */
   display: flex;
   flex-direction: column;
-  height: 100%;
+  background-color: rgb(25, 25, 25);
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 0;
 }
 
-.image-card {
-  flex: 1; /* Ocupa el espacio superior */
-  margin: 16px; /* Margen elegante alrededor de la tarjeta de la imagen */
-  border-radius: 12px; /* Bordes suaves para la tarjeta interna */
-  overflow: hidden; /* Corta la imagen a la forma de la tarjeta */
-  padding: 0; /* Asegurarse de que no haya espacios */
-  background-color: transparent;
-  display: flex;
-}
-
-.image-card img {
+.example-card img.mat-mdc-card-image {
+  flex: 1; /* Esto es el equivalente a height: 100% del espacio sobrante */
+  min-height: 0;
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* Expande la imagen para cubrir el 100% del card */
-  display: block;
+  object-fit: cover;
+  object-position: top; /* Ancla la imagen arriba para que si hay recorte, sea por abajo (pies) y no por arriba (cabeza) */
+  margin: 0; 
 }
 
 .actions-toolbar {
-  padding: 12px 16px;
-  background-color: #121212;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: auto;
   display: flex;
   justify-content: space-around;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.img-container {
-  height: 80%;
-}
-
-/* Ajustes para móviles */
-@media (max-width: 768px) {
-  swiper-container {
-    height: 550px;
-    /* Reduce la altura para que no choquen con la parte baja/buscador */
-  }
+  padding: 16px;
+  background-color: #121212;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }

@@ -1,27 +1,28 @@
-
-<swiper-container effect="cards" grab-cursor="true" autoplay-delay="2500" autoplay-disable-on-interaction="false">
-  
+<div class="material-carousel" #carouselContainer>
   @for (item of conector; track $index) {
-    <swiper-slide>
-      
-      <div class="slide-layout">
-        <!-- Imagen flotante dentro de una tarjeta Material con margen -->
-        <mat-card class="image-card" appearance="outlined">
-          <img src="https://i.imgur.com/S5BUqP5.jpeg" alt="Publicidad">
-        </mat-card>
+    <div class="carousel-item">
+      <mat-card class="example-card" appearance="outlined">
         
-        <!-- Toolbar inferior separado de la imagen -->
-        <div class="actions-toolbar">
+        <mat-card-header>
+          <div mat-card-avatar class="example-header-image"></div>
+          <mat-card-title>Shiba Inu</mat-card-title>
+          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        </mat-card-header>
+        
+        <img mat-card-image src="https://i.imgur.com/S5BUqP5.jpeg" alt="Publicidad">
+        
+        <mat-card-content>
+          <!-- Puedes agregar texto aquí -->
+        </mat-card-content>
+
+        <!-- Botonera estándar de Material -->
+        <mat-card-actions class="actions-toolbar">
           <button matButton="filled">WHATSAPP</button>
-          <button matButton>IR AL PERFIL</button>
+          <button matButton>PERFIL</button>
           <button matButton="filled">LLAMAR</button>
-        </div>
-      </div>
-      
-    
-      
-
-     </swiper-slide> 
- } 
-
-</swiper-container>
+        </mat-card-actions>
+        
+      </mat-card>
+    </div>
+  }
+</div>
