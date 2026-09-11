@@ -46,6 +46,7 @@ export class DetalleNegocioComponent implements OnInit {
         const data = querySnapshot.docs[0].data() as NegocioInterface;
         data.id = querySnapshot.docs[0].id;
         this.negocio.set(data);
+        this.calcularEstadoHorario(data.horarios);
         this.analitica.registrarEvento(data.id, 'visita');
       }
     } catch (error) {
@@ -54,6 +55,8 @@ export class DetalleNegocioComponent implements OnInit {
     this.loading.set(false);
   }
 
+  public estadoNegocio = signal<string>('');
+
   public categoriasCatalogo = computed(() => {
     const items = this.negocio()?.catalogo || [];
     return [...new Set(items.map((i: any) => i.categoriaItem))];
@@ -61,5 +64,50 @@ export class DetalleNegocioComponent implements OnInit {
 
   public filtrarPorCat(categoria: string) {
     return this.negocio()?.catalogo?.filter((i: any) => i.categoriaItem === categoria) || [];
+  }
+
+  private calcularEstadoHorario(horarios: any) {
+    if (!horarios) {
+      this.estadoNegocio.set('');
+      return;
+    }
+    
+    const dias = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+    const now = new Date();
+    const diaActual = dias[now.getDay()];
+    const horarioHoy = horarios[diaActual];
+
+    if (!horarioHoy || !horarioHoy.abierto || !horarioHoy.apertura || !horarioHoy.cierre) {
+      this.estadoNegocio.set('Cerrado');
+      return;
+    }
+
+    const currentMinutes = now.getHours() * 60 + now.getMinutes();
+    const aperturaParts = horarioHoy.apertura.split(':');
+    const cierreParts = horarioHoy.cierre.split(':');
+    
+    if (aperturaParts.length !== 2 || cierreParts.length !== 2) {
+      this.estadoNegocio.set('');
+      return;
+    }
+
+    const aperturaMin = parseInt(aperturaParts[0]) * 60 + parseInt(aperturaParts[1]);
+    const cierreMin = parseInt(cierreParts[0]) * 60 + parseInt(cierreParts[1]);
+
+    if (currentMinutes < aperturaMin) {
+      if (aperturaMin - currentMinutes <= 60) {
+        this.estadoNegocio.set('Abre pronto');
+      } else {
+        this.estadoNegocio.set('Cerrado');
+      }
+    } else if (currentMinutes >= aperturaMin && currentMinutes < cierreMin) {
+      if (cierreMin - currentMinutes <= 60) {
+        this.estadoNegocio.set('Cierra pronto');
+      } else {
+        this.estadoNegocio.set('Abierto');
+      }
+    } else {
+      this.estadoNegocio.set('Cerrado');
+    }
   }
 }

@@ -3,7 +3,7 @@
     <mat-spinner diameter="40"></mat-spinner>
   </div>
 } @else if (negocio()) {
-  <app-tool-bar-page [title]="negocio()?.nombre || 'Detalle del Negocio'"></app-tool-bar-page>
+  <app-tool-bar-page [title]="negocio()?.nombre + (estadoNegocio() ? ' • ' + estadoNegocio() : '')"></app-tool-bar-page>
   <main class="perfil-container">
     <!-- Header tipo Instagram -->
     <header class="perfil-header">
@@ -66,7 +66,9 @@
       <!-- TAB 1: PRODUCTOS -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">storefront</mat-icon>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <mat-icon class="tab-icon">storefront</mat-icon> <span>Productos</span>
+          </div>
         </ng-template>
         <div class="tab-content grid-layout">
           @if (negocio()?.catalogo?.length) {
@@ -87,7 +89,9 @@
       <!-- TAB 2: SERVICIOS -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">build</mat-icon>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <mat-icon class="tab-icon">build</mat-icon> <span>Servicios</span>
+          </div>
         </ng-template>
         <div class="tab-content list-layout">
            <p class="empty-state text-muted text-center py-4">Servicios disponibles próximamente.</p>
@@ -97,7 +101,9 @@
       <!-- TAB 3: GALERÍA -->
       <mat-tab>
         <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">grid_on</mat-icon>
+          <div style="display: flex; gap: 4px; align-items: center;">
+            <mat-icon class="tab-icon">grid_on</mat-icon> <span>Galería</span>
+          </div>
         </ng-template>
         <div class="tab-content grid-layout">
           @if (negocio()?.galeria?.length) {
@@ -113,14 +119,18 @@
       </mat-tab>
 
       <!-- TAB 4: PROMOCIONES -->
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <mat-icon class="tab-icon">local_offer</mat-icon>
-        </ng-template>
-        <div class="tab-content">
-          <p class="empty-state text-muted text-center py-4">No hay promociones activas.</p>
-        </div>
-      </mat-tab>
+      @if (negocio()?.plan === 'plus Premium') {
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <div style="display: flex; gap: 4px; align-items: center;">
+              <mat-icon class="tab-icon">local_offer</mat-icon> <span>Promociones</span>
+            </div>
+          </ng-template>
+          <div class="tab-content">
+            <p class="empty-state text-muted text-center py-4">No hay promociones activas.</p>
+          </div>
+        </mat-tab>
+      }
 
     </mat-tab-group>
   </main>
