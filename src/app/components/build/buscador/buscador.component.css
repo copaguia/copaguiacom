@@ -1,0 +1,55 @@
+:host {
+  display: block;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  :host {
+    width: 80%;
+  }
+}
+
+.gemini-search-bar {
+  display: flex;
+  align-items: center;
+  background-color: #212121; /* Fondo oscuro contrastante (estilo Gemini) */
+  border-radius: 50px; /* Bordes en forma de píldora */
+  padding: 14px 20px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  pointer-events: auto; /* Reactiva los clics dentro del contenedor flotante */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* PREVIENE DESBORDAMIENTO */
+}
+
+.gemini-search-bar:focus-within {
+  background-color: #2a2a2a;
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
+}
+
+.icon {
+  color: #a0a0a0;
+  margin-right: 12px;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+}
+
+.gemini-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  outline: none;
+}
+
+.gemini-input::placeholder {
+  color: #888888;
+}

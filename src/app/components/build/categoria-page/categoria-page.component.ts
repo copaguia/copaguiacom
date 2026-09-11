@@ -1,10 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
 import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -13,6 +8,9 @@ import { collection, getDocs, query, where, DocumentData } from 'firebase/firest
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { BuscadorComponent } from '../buscador/buscador.component';
 
 enum LoadingState {
   Idle = 'idle',
@@ -26,14 +24,12 @@ enum LoadingState {
   imports: [
     CommonModule,
     ToolBarPageComponent,
-    FormsModule,
-    MatInputModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    MatListModule
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    BuscadorComponent
   ],
   standalone: true,
   templateUrl: './categoria-page.component.html',

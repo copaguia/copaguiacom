@@ -1,5 +1,20 @@
-.container {
+.container-main {
     padding-top: 20px;
+    padding-bottom: 85px; /* Espacio para que el buscador no tape contenido */
+  }
+
+  .search-fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--mat-app-background-color, #121212);
+    z-index: 1000;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.4);
+    box-sizing: border-box; /* PREVIENE DESBORDAMIENTO */
   }
   
   .centradoAbajo {
