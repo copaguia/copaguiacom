@@ -1,0 +1,58 @@
+<div class="admin-container">
+  <div class="header">
+    <button mat-icon-button (click)="volver()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Gestión de Publicidad (Carrusel)</h1>
+  </div>
+
+  <mat-form-field appearance="outline" class="select-categoria">
+    <mat-label>Selecciona una Categoría</mat-label>
+    <mat-select [ngModel]="categoriaSeleccionada()" (ngModelChange)="categoriaSeleccionada.set($event)">
+      @for (cat of categoriasDisponibles; track cat) {
+        <mat-option [value]="cat">{{ cat }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  @if (categoriaSeleccionada()) {
+    <div class="slots-container">
+      @for (banner of banners(); track $index) {
+        <div class="slot-card">
+          <div class="slot-header">
+            <h3>Espacio {{ $index + 1 }}</h3>
+            @if (banner.image && !archivosPendientes()[$index]) {
+              <button mat-icon-button color="warn" (click)="eliminarBanner($index)" title="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+
+          <div class="image-preview" (click)="fileInput.click()">
+            @if (banner.image) {
+              <img [src]="banner.image" alt="Publicidad Slot {{ $index + 1 }}">
+            } @else {
+              <div class="empty-state">
+                <mat-icon>add_photo_alternate</mat-icon>
+                <span>Subir 1080x1350px</span>
+              </div>
+            }
+          </div>
+          
+          <input type="file" #fileInput hidden accept="image/*" (change)="onFileSelected($event, $index)">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre del Patrocinador</mat-label>
+            <input matInput [(ngModel)]="banner.patrocinador">
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" class="save-btn" 
+                  [disabled]="isSaving()" 
+                  (click)="guardarBanner($index)">
+            {{ isSaving() ? 'Guardando...' : 'Guardar Espacio ' + ($index + 1) }}
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

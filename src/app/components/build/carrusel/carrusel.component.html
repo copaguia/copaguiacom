@@ -5,21 +5,25 @@
         
         <mat-card-header>
           <div mat-card-avatar class="example-header-image"></div>
-          <mat-card-title>Shiba Inu</mat-card-title>
-          <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+          <mat-card-title>{{ item.patrocinador || 'Anunciante' }}</mat-card-title>
+          <mat-card-subtitle>Publicidad</mat-card-subtitle>
         </mat-card-header>
         
-        <img mat-card-image src="https://i.imgur.com/S5BUqP5.jpeg" alt="Publicidad">
-        
-        <mat-card-content>
-          <!-- Puedes agregar texto aquí -->
-        </mat-card-content>
+        @if (item.image) {
+          <img mat-card-image [src]="item.image" alt="Publicidad">
+        } @else {
+          <div class="empty-banner-placeholder">
+            <mat-icon class="placeholder-icon">campaign</mat-icon>
+            <span class="placeholder-title">Publicidad Disponible</span>
+            <span class="placeholder-subtitle">Tamaño recomendado:<br>1080x1350px (4:5)</span>
+          </div>
+        }
 
         <!-- Botonera estándar de Material -->
         <mat-card-actions class="actions-toolbar">
-          <button matButton="filled">WHATSAPP</button>
-          <button matButton>PERFIL</button>
-          <button matButton="filled">LLAMAR</button>
+          <button matButton="filled" [disabled]="!item.image">WHATSAPP</button>
+          <button matButton [disabled]="!item.image">PERFIL</button>
+          <button matButton="filled" [disabled]="!item.image">LLAMAR</button>
         </mat-card-actions>
         
       </mat-card>

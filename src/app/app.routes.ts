@@ -17,6 +17,8 @@ import { CategoriaPageComponent } from './components/build/categoria-page/catego
 import { AgregarNegocioComponent } from './views/admin/agregar-negocio/agregar-negocio.component';
 import { EstadisticasComponent } from './views/admin/estadisticas/estadisticas.component';
 
+import { AdminPublicidadComponent } from './views/admin/admin-publicidad/admin-publicidad.component';
+
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
 
@@ -39,6 +41,10 @@ const staticRoutes: Routes = [
     {
         path: 'admin/estadisticas',
         component: EstadisticasComponent
+    },
+    {
+        path: 'admin/publicidad',
+        component: AdminPublicidadComponent
     },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 

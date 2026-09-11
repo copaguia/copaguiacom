@@ -19,6 +19,7 @@ import { BtnNotificationsComponent } from '../../components/build/btn-notificati
 import { GlobalNotificationService } from '../../core/services/global-notification.service';
 import { GlobalNotificationDialogComponent } from '../../components/build/global-notification-dialog/global-notification-dialog.component';
 import { CrearNotificacionDialogComponent } from '../../components/build/crear-notificacion-dialog/crear-notificacion-dialog.component';
+import { PublicidadService } from '../../core/services/publicidad.service';
 
 @Component({
   selector: 'app-categorias',
@@ -33,14 +34,27 @@ export class CategoriasComponent {
   authService = inject(AuthService);
   negocioService = inject(NegocioVerificationService);
   globalNotifService = inject(GlobalNotificationService);
+  publicidadService = inject(PublicidadService);
   dialog = inject(MatDialog);
   router = inject(Router);
 
   categorias = signal(categoriaData);
   tituloToolbar = signal(categoriaData[0]?.ruta || 'CATEGORIAS');
+  diccionarioBanners = signal<Record<string, any>>({});
+
+  constructor() {
+    this.cargarBannersParaCategoriaActiva(this.tituloToolbar());
+  }
 
   onTabChange(event: MatTabChangeEvent) {
     this.tituloToolbar.set(event.tab.textLabel);
+    this.cargarBannersParaCategoriaActiva(event.tab.textLabel);
+  }
+
+  async cargarBannersParaCategoriaActiva(categoriaId: string) {
+    if (this.diccionarioBanners()[categoriaId]) return;
+    const banners = await this.publicidadService.obtenerBanners(categoriaId);
+    this.diccionarioBanners.update(d => ({...d, [categoriaId]: banners}));
   }
 
   navigateTo(route: string): void {

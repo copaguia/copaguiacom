@@ -29,7 +29,7 @@
       <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
       
       <div class="carrusel-content">
-        <app-carrusel [conector]="categoria.tarjetas"></app-carrusel>
+        <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []"></app-carrusel>
       </div>
     </mat-tab>
   }
@@ -56,6 +56,10 @@
     <button mat-menu-item (click)="openCrearNotificacion()">
       <mat-icon color="accent">notification_add</mat-icon>
       <span>Crear Notificación Global</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('admin/publicidad')">
+      <mat-icon color="accent">view_carousel</mat-icon>
+      <span>Gestión de Publicidad</span>
     </button>
     <mat-divider></mat-divider>
   }
