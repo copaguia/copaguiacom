@@ -88,11 +88,22 @@ h2 {
   40%, 60% { transform: translate3d(4px, 0, 0) rotate(10deg); }
 }
 
-/* Estilo para la pestaña activa */
-::ng-deep .mdc-tab.mdc-tab--active {
-  background-color: var(--corporativo) !important;
+/* Redondear las esquinas de todas las pestañas y ocultar el desbordamiento del hover */
+::ng-deep .mdc-tab,
+::ng-deep .mdc-tab__ripple,
+::ng-deep .mat-mdc-tab-ripple,
+::ng-deep .mat-ripple {
   border-top-left-radius: 15px !important;
   border-top-right-radius: 15px !important;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
+}
+
+::ng-deep .mdc-tab {
+  overflow: hidden !important;
+}
+
+/* Estilo para la pestaña activa (color verde) */
+::ng-deep .mdc-tab.mdc-tab--active {
+  background-color: var(--corporativo) !important;
 }
