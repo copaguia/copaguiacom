@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Hide scrollbar globally for an app-like experience */
+html, body, .mat-drawer-content, .mat-sidenav-content, * {
+  -ms-overflow-style: none !important;  /* IE and Edge */
+  scrollbar-width: none !important;  /* Firefox */
+}
+::-webkit-scrollbar {
+  display: none !important; /* Chrome, Safari and Opera */
+}
 @import '../css/logo.css';
 
 /****************    LOGO DE LA APLICACIÓN   ****************/

@@ -13,6 +13,7 @@ import { MarranitoComponent } from './views/marranito/marranito.component';
 import { OnboardingNegocioRegistroComponent } from './views/onboarding-negocio-registro/onboarding-negocio-registro.component';
 import { PerfilNegocioEditorComponent } from './views/perfil-negocio-editor/perfil-negocio-editor.component';
 import { AdminPromocionesComponent } from './views/admin/admin-promociones/admin-promociones.component';
+import { DetalleNegocioComponent } from './views/detalle-negocio/detalle-negocio.component';
 import { CategoriaPageComponent } from './components/build/categoria-page/categoria-page.component';
 import { AgregarNegocioComponent } from './views/admin/agregar-negocio/agregar-negocio.component';
 import { EstadisticasComponent } from './views/admin/estadisticas/estadisticas.component';
@@ -61,6 +62,9 @@ const staticRoutes: Routes = [
     },
     {
         path: 'perfil-negocio-editor', component: PerfilNegocioEditorComponent
+    },
+    {
+        path: 'negocio/:slug', component: DetalleNegocioComponent
     },
     {
         path: 'public/:username',

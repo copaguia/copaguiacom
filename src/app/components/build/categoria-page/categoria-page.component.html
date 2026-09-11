@@ -22,20 +22,37 @@
     @for (item of negociosFiltrados(); track item.id) {
       <div class="col-12 col-md-6 col-lg-4 mb-4">
 
-        <!-- TARJETA PREMIUM -->
-        @if (item.premium) {
+        <!-- TARJETA PREMIUM LEGACY (Solo si es item.premium sin plan nuevo) -->
+        @if (item.premium && !item.plan) {
           <mat-card class="h-100">
             <mat-card-header>
-              <img mat-card-avatar [src]="item.logo || 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png'" alt="Logo de {{item.nombre}}"/>
-              <h3 class="name">{{ item.nombre }}</h3>
+              @if (item.logo) {
+                <img mat-card-avatar [src]="item.logo" alt="Logo de {{item.nombre}}"/>
+              } @else {
+                <div mat-card-avatar class="logo-placeholder" style="margin-top: 0;">
+                  <mat-icon>image</mat-icon>
+                </div>
+              }
+              <h3 class="name" style="display: flex; align-items: center; gap: 4px;">
+                {{ item.nombre }}
+                @if (item.verificado) {
+                  <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
+                }
+              </h3>
               <mat-card-subtitle>{{ item.seccion }}</mat-card-subtitle>
             </mat-card-header>
             <img mat-card-image [src]="item.imagen" alt="Imagen de {{ item.nombre }}" style="height: 200px; object-fit: cover;">
             <mat-card-content class="mt-3">
               <p class="text-truncate">{{ item.descripcion }}</p>
             </mat-card-content>
-            <mat-card-actions>
-              <button mat-flat-button color="primary" class="w-100">VER PERFIL COMPLETO</button>
+            <mat-card-actions class="d-flex justify-content-between align-items-center">
+              <button mat-flat-button color="primary" [routerLink]="['/negocio', item.slug]" style="flex: 1; margin-right: 8px;">VER PERFIL COMPLETO</button>
+              <button mat-icon-button 
+                      color="primary" 
+                      [routerLink]="['/negocio', item.slug]" 
+                      matTooltip="Ver Perfil">
+                <mat-icon>visibility</mat-icon>
+              </button>
             </mat-card-actions>
           </mat-card>
         } @else {          
@@ -44,10 +61,21 @@
             <div class="flex-container">
               <!-- SECCIÓN IZQUIERDA: Logo e Información -->
               <div class="brand-info">
-                <img [src]="item.logo || 'https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image.png'" alt="Logo de {{ item.nombre }}"  class="logo-img">
+                @if (item.logo) {
+                  <img [src]="item.logo" alt="Logo de {{ item.nombre }}" class="logo-img">
+                } @else {
+                  <div class="logo-placeholder">
+                    <mat-icon>image</mat-icon>
+                  </div>
+                }
                 
                 <div class="details">
-                  <h3 class="name">{{ item.nombre }}</h3>
+                  <h3 class="name" style="display: flex; align-items: center; gap: 4px; margin-bottom: 0;">
+                    {{ item.nombre }}
+                    @if (item.verificado) {
+                      <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
+                    }
+                  </h3>
                   <div class="location">
                     <mat-icon>place</mat-icon>
                     <span>{{ item.ubicacion.direccion }}</span>
@@ -56,15 +84,22 @@
               </div>
       
               <!-- SECCIÓN DERECHA: Botón de Acción -->
-              <div class="actions">
-                <a [href]="'https://wa.me/' + item.contacto.whatsapp + '?text=Hola,%20vi%20su%20negocio%20en%20CopaGuía.com...'" 
+              <div class="actions" style="display: flex; gap: 4px; align-items: center;">
+                <a [href]="'https://wa.me/' + item.contacto?.whatsapp + '?text=Hola,%20vi%20su%20negocio%20en%20CopaGuía.com...'" 
                    target="_blank" 
                    class="wa-link">
-                  <button mat-flat-button color="primary" class="btn-rounded">
+                  <button mat-mini-fab color="primary">
                     <mat-icon>chat</mat-icon>
-                    <span class="btn-label">Contactar</span>
                   </button>
                 </a>
+                <button mat-icon-button 
+                        [routerLink]="(!item.plan || item.plan === 'basico') ? null : ['/negocio', item.slug]"
+                        [color]="(!item.plan || item.plan === 'basico') ? '' : 'primary'"
+                        [style.color]="(!item.plan || item.plan === 'basico') ? '#ccc' : ''"
+                        [matTooltip]="(!item.plan || item.plan === 'basico') ? 'Perfil no disponible en plan básico' : 'Ver Perfil'"
+                        (click)="$event.stopPropagation()">
+                  <mat-icon>{{ (!item.plan || item.plan === 'basico') ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
               </div>
             </div>
           </mat-card>

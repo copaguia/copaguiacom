@@ -1,3 +1,13 @@
+:host {
+  display: block;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+:host::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
 .container-main {
     padding-top: 20px;
     padding-bottom: 85px; /* Espacio para que el buscador no tape contenido */
@@ -88,6 +98,19 @@
     flex-shrink: 0;
     background-color: #f7fafc;
     border: 1px solid #edf2f7;
+  }
+
+  .logo-placeholder {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #f4f5f7;
+    border: 1px solid #edf2f7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: #a0aec0;
   }
 
   .details {

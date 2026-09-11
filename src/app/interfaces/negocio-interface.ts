@@ -10,7 +10,8 @@ export enum TipoNegocio {
 }
 
 export interface NegocioInterface {
-  premium?: boolean;
+  premium?: boolean; // Obsoleto, usar plan
+  plan?: 'basico' | 'premium' | 'plus Premium';
   tipoNegocio:  string;
   seccion:      string;
   imagen:       string;

@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, DestroyRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
-import { collection, getDocs, query, where, DocumentData } from 'firebase/firestore';
+import { collection, onSnapshot, query, where, DocumentData } from 'firebase/firestore';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BuscadorComponent } from '../buscador/buscador.component';
+import { RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 enum LoadingState {
   Idle = 'idle',
@@ -29,7 +31,9 @@ enum LoadingState {
     MatListModule,
     MatIconModule,
     MatButtonModule,
-    BuscadorComponent
+    MatTooltipModule,
+    BuscadorComponent,
+    RouterModule
   ],
   standalone: true,
   templateUrl: './categoria-page.component.html',
@@ -40,6 +44,9 @@ export class CategoriaPageComponent implements OnInit {
 
   private firestore = inject(InstanciaFirebase).firestore;
   private route = inject(ActivatedRoute);
+
+  private destroyRef = inject(DestroyRef);
+  private unsubscribeSnapshot: (() => void) | null = null;
 
   public title: string = '';
   public categoria: string = '';
@@ -63,11 +70,17 @@ export class CategoriaPageComponent implements OnInit {
     });
   }
 
-  async buscarNegocios() {
+  buscarNegocios() {
     if (!this.categoria) return;
 
     this.loadingState.set(LoadingState.Loading);
     this.error.set(null);
+
+    // Limpiar suscripción previa si la hay
+    if (this.unsubscribeSnapshot) {
+      this.unsubscribeSnapshot();
+      this.unsubscribeSnapshot = null;
+    }
 
     try {
       let q;
@@ -84,17 +97,40 @@ export class CategoriaPageComponent implements OnInit {
         );
       }
 
-      const querySnapshot = await getDocs(q);
-      const negocios = querySnapshot.docs.map(doc => {
-        const data = doc.data() as DocumentData;
-        return { id: doc.id, ...data } as NegocioInterface;
+      this.unsubscribeSnapshot = onSnapshot(q, (querySnapshot) => {
+        let negocios = querySnapshot.docs.map(doc => {
+          const data = doc.data() as DocumentData;
+          return { id: doc.id, ...data } as NegocioInterface;
+        });
+
+        // Ordenar: Plus Premium primero (o verificados)
+        negocios = negocios.sort((a, b) => {
+          if (a.plan === 'plus Premium' && b.plan !== 'plus Premium') return -1;
+          if (a.plan !== 'plus Premium' && b.plan === 'plus Premium') return 1;
+          if (a.verificado && !b.verificado) return -1;
+          if (!a.verificado && b.verificado) return 1;
+          return 0;
+        });
+
+        this.negocios.set(negocios);
+        this.filtrarNegocios(); // Aplica el filtro si el usuario tiene una búsqueda activa
+        this.loadingState.set(LoadingState.Success);
+      }, (e) => {
+        console.error(e);
+        this.error.set('Error al escuchar cambios en negocios');
+        this.loadingState.set(LoadingState.Error);
       });
-      this.negocios.set(negocios);
-      this.negociosFiltrados.set(negocios);
-      this.loadingState.set(LoadingState.Success);
+
+      // Asegurar que nos desuscribimos al destruir el componente
+      this.destroyRef.onDestroy(() => {
+        if (this.unsubscribeSnapshot) {
+          this.unsubscribeSnapshot();
+        }
+      });
+
     } catch (e) {
       console.error(e);
-      this.error.set('Error al buscar negocios');
+      this.error.set('Error al inicializar consulta');
       this.loadingState.set(LoadingState.Error);
     }
   }
