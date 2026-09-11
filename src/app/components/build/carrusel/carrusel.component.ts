@@ -33,7 +33,7 @@ export class CarruselComponent implements AfterViewInit {
     this.dialog.open(InteresPublicidadDialogComponent, {
       data: {
         categoria: this.categoriaId || 'General',
-        espacio: index + 1
+        espacio: `Tarjeta ${index + 1}`
       },
       width: '90%',
       maxWidth: '450px',

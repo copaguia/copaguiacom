@@ -13,10 +13,12 @@
 
     <span class="spacer"></span>
 
-    <!--
-    <button mat-icon-button aria-label="Search button">
-      <mat-icon>search</mat-icon>
-    </button>-->
+    <!-- Added Promotion Icon -->
+    <button mat-icon-button class="promo-btn" (click)="openPromoDialog()" aria-label="Promoción">
+      <mat-icon [class.shake-icon-promo]="toolbarAd() !== null" 
+                [style.color]="toolbarAd() !== null ? '#00ff00' : '#cccccc'">
+        campaign
+      </mat-icon>
+    </button>
 
   </mat-toolbar>
-  

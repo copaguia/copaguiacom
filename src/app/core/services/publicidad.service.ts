@@ -7,6 +7,7 @@ import { BannerInterface } from '../../components/build/carrusel/carrusel.compon
 export interface PublicidadCategoria {
   categoriaId: string;
   slots: BannerInterface[];
+  toolbarSlot?: BannerInterface | null;
 }
 
 @Injectable({
@@ -18,6 +19,7 @@ export class PublicidadService {
 
   // Caché en memoria para evitar repetidas lecturas (Firestore-ultra-low cost strategy)
   private cache = new Map<string, BannerInterface[]>();
+  private cacheToolbar = new Map<string, BannerInterface | null>();
 
   constructor() {}
 
@@ -34,16 +36,28 @@ export class PublicidadService {
         const data = docSnap.data() as PublicidadCategoria;
         const slots = data.slots && data.slots.length === 3 ? data.slots : this.generarSlotsVacios();
         this.cache.set(categoriaId, slots);
+        this.cacheToolbar.set(categoriaId, data.toolbarSlot || null);
         return slots;
       } else {
         const slotsVacios = this.generarSlotsVacios();
         this.cache.set(categoriaId, slotsVacios);
+        this.cacheToolbar.set(categoriaId, null);
         return slotsVacios;
       }
     } catch (error) {
       console.error('Error obteniendo banners:', error);
       return this.generarSlotsVacios();
     }
+  }
+
+  async obtenerToolbarAd(categoriaId: string): Promise<BannerInterface | null> {
+    if (this.cacheToolbar.has(categoriaId)) {
+      return this.cacheToolbar.get(categoriaId)!;
+    }
+    
+    // Si no está en caché, intentamos cargar los banners generales (que cargarán también el toolbar)
+    await this.obtenerBanners(categoriaId);
+    return this.cacheToolbar.get(categoriaId) || null;
   }
 
   async guardarBanner(
@@ -96,6 +110,55 @@ export class PublicidadService {
       this.cache.set(categoriaId, currentBanners);
     } catch (error) {
       console.error('Error eliminando banner:', error);
+      throw error;
+    }
+  }
+
+  async guardarToolbarAd(
+    categoriaId: string, 
+    file: File | null, 
+    patrocinador: string,
+    whatsapp?: number,
+    phoneFijo?: number
+  ): Promise<void> {
+    try {
+      let imageUrl = '';
+      const currentToolbarAd = await this.obtenerToolbarAd(categoriaId);
+      
+      if (file) {
+        const storageRef = ref(this.storage, `publicidad/${categoriaId}/toolbar-${Date.now()}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      } else {
+        imageUrl = currentToolbarAd?.image || '';
+      }
+
+      const toolbarSlot: BannerInterface = {
+        id: 'toolbar',
+        image: imageUrl,
+        patrocinador: patrocinador || '',
+        whatsapp: whatsapp,
+        phoneFijo: phoneFijo
+      };
+
+      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      await setDoc(docRef, { categoriaId, toolbarSlot }, { merge: true });
+      
+      this.cacheToolbar.set(categoriaId, toolbarSlot);
+
+    } catch (error) {
+      console.error('Error guardando toolbar ad:', error);
+      throw error;
+    }
+  }
+
+  async eliminarToolbarAd(categoriaId: string): Promise<void> {
+    try {
+      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      await setDoc(docRef, { categoriaId, toolbarSlot: null }, { merge: true });
+      this.cacheToolbar.set(categoriaId, null);
+    } catch (error) {
+      console.error('Error eliminando toolbar ad:', error);
       throw error;
     }
   }

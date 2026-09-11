@@ -1,0 +1,29 @@
+<div class="dialog-container">
+  <button mat-icon-button class="close-btn" (click)="cerrar()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
+  <div class="image-wrapper">
+    <img [src]="data.image" [alt]="data.patrocinador" class="ad-image">
+  </div>
+  
+  <div class="ad-content">
+    <h2 class="ad-title">{{ data.patrocinador }}</h2>
+    
+    <div class="actions">
+      @if (data.whatsapp) {
+        <button mat-flat-button class="wa-btn" (click)="contactarPatrocinador()">
+          <mat-icon>whatsapp</mat-icon>
+          WhatsApp
+        </button>
+      }
+      
+      @if (data.phoneFijo) {
+        <a mat-stroked-button class="phone-btn" href="tel:{{data.phoneFijo}}">
+          <mat-icon>phone</mat-icon>
+          Llamar
+        </a>
+      }
+    </div>
+  </div>
+</div>

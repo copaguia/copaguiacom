@@ -6,10 +6,12 @@
   gap: 16px;
   padding: 20px;
   width: 100%;
-  height: 600px; /* Altura principal del carrusel */
+  height: 600px;
+  /* Altura principal del carrusel */
   box-sizing: border-box;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  margin-top: 20px;
 }
 
 .material-carousel::-webkit-scrollbar {
@@ -21,12 +23,14 @@
   flex: 0 0 85%;
   max-width: 400px;
   display: flex;
-  height: 100%; /* Fuerza al item a ocupar toda la altura */
+  height: 100%;
+  /* Fuerza al item a ocupar toda la altura */
 }
 
 .example-card {
   width: 100%;
-  height: 100%; /* Fuerza a la tarjeta a ocupar toda la altura del item */
+  height: 100%;
+  /* Fuerza a la tarjeta a ocupar toda la altura del item */
   display: flex;
   flex-direction: column;
   background-color: rgb(25, 25, 25);
@@ -36,12 +40,14 @@
 }
 
 .example-card img.mat-mdc-card-image {
-  flex: 1; /* Esto es el equivalente a height: 100% del espacio sobrante */
+  flex: 1;
+  /* Esto es el equivalente a height: 100% del espacio sobrante */
   min-height: 0;
   width: 100%;
   object-fit: cover;
-  object-position: top; /* Ancla la imagen arriba para que si hay recorte, sea por abajo (pies) y no por arriba (cabeza) */
-  margin: 0; 
+  object-position: top;
+  /* Ancla la imagen arriba para que si hay recorte, sea por abajo (pies) y no por arriba (cabeza) */
+  margin: 0;
 }
 
 .default-avatar {
@@ -52,6 +58,7 @@
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
+
 .default-avatar mat-icon {
   color: #888;
   font-size: 20px;
@@ -70,6 +77,7 @@
   text-align: center;
   padding: 24px;
 }
+
 .empty-banner-placeholder .placeholder-icon {
   font-size: 48px;
   width: 48px;
@@ -77,16 +85,19 @@
   margin-bottom: 16px;
   color: #444;
 }
+
 .empty-banner-placeholder .placeholder-title {
   font-size: 1.2rem;
   font-weight: 600;
   color: #aaa;
   margin-bottom: 8px;
 }
+
 .empty-banner-placeholder .placeholder-subtitle {
   font-size: 0.9rem;
   opacity: 0.7;
 }
+
 .interest-btn {
   margin-top: 16px;
   border-radius: 20px;

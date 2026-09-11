@@ -16,7 +16,16 @@
   </mat-form-field>
 
   @if (categoriaSeleccionada()) {
+    <div class="tipo-anuncio-container" style="margin-bottom: 20px; text-align: center;">
+      <mat-radio-group [ngModel]="tipoAnuncio()" (ngModelChange)="tipoAnuncio.set($event)" color="primary">
+        <mat-radio-button value="carrusel">Carrusel ADS</mat-radio-button>
+        <mat-radio-button value="toolbar">Toolbar ADS</mat-radio-button>
+      </mat-radio-group>
+    </div>
+
     <div class="slots-container">
+      @if (tipoAnuncio() === 'carrusel') {
+
       @for (banner of banners(); track $index) {
         <div class="slot-card">
           <div class="slot-header">
@@ -50,6 +59,42 @@
                   [disabled]="isSaving()" 
                   (click)="guardarBanner($index)">
             {{ isSaving() ? 'Guardando...' : 'Guardar Espacio ' + ($index + 1) }}
+          </button>
+        </div>
+      }
+      } @else {
+        <div class="slot-card">
+          <div class="slot-header">
+            <h3>Espacio Toolbar ADS</h3>
+            @if (toolbarBanner()?.image && !archivoToolbarPendiente()) {
+              <button mat-icon-button color="warn" (click)="eliminarBanner(0)" title="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+
+          <div class="image-preview" (click)="fileInputToolbar.click()">
+            @if (toolbarBanner()?.image) {
+              <img [src]="toolbarBanner()?.image" alt="Publicidad Toolbar">
+            } @else {
+              <div class="empty-state">
+                <mat-icon>add_photo_alternate</mat-icon>
+                <span>Subir Imagen</span>
+              </div>
+            }
+          </div>
+          
+          <input type="file" #fileInputToolbar hidden accept="image/*" (change)="onFileSelected($event, 0)">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre del Patrocinador</mat-label>
+            <input matInput [ngModel]="toolbarBanner()?.patrocinador" (ngModelChange)="toolbarBanner.set({ id: 'toolbar', image: toolbarBanner()?.image || '', patrocinador: $event, whatsapp: toolbarBanner()?.whatsapp, phoneFijo: toolbarBanner()?.phoneFijo })">
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" class="save-btn" 
+                  [disabled]="isSaving()" 
+                  (click)="guardarBanner(0)">
+            {{ isSaving() ? 'Guardando...' : 'Guardar Toolbar AD' }}
           </button>
         </div>
       }

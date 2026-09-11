@@ -5,6 +5,7 @@
   overflow-x: hidden; /* Esto mata la barra de scroll abajo */
   overflow-y: visible;
   padding-bottom: 20px;
+  padding-top: 15px;
 }
 
 /* Forzar el bloqueo en el contenedor interno de Angular Material */

@@ -1,0 +1,64 @@
+.dialog-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a1a1a;
+  color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+}
+
+.image-wrapper {
+  width: 100%;
+  max-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+}
+
+.ad-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px;
+  object-fit: contain;
+}
+
+.ad-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.ad-title {
+  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--corporativo, #4caf50);
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.wa-btn {
+  background-color: #25D366;
+  color: white;
+}
+
+.phone-btn {
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
