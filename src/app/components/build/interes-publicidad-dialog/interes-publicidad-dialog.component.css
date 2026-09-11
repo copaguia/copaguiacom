@@ -1,0 +1,54 @@
+.dialog-container {
+  padding: 24px;
+  background-color: #1e1e1e;
+  color: white;
+}
+.dialog-header {
+  margin-bottom: 20px;
+}
+.dialog-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  color: #ff9800; /* Color acento */
+}
+.dialog-content p {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #ccc;
+  margin-bottom: 16px;
+}
+.info-card {
+  background: #2c2c2c;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.1rem;
+}
+.info-row mat-icon {
+  color: #ff9800;
+}
+.subtitle {
+  font-size: 0.9rem !important;
+  color: #aaa !important;
+  font-style: italic;
+}
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+.btn-whatsapp {
+  background-color: #25d366;
+  color: white;
+}

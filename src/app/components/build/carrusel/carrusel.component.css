@@ -44,6 +44,21 @@
   margin: 0; 
 }
 
+.default-avatar {
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.default-avatar mat-icon {
+  color: #888;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
 .empty-banner-placeholder {
   flex: 1;
   display: flex;
@@ -71,6 +86,10 @@
 .empty-banner-placeholder .placeholder-subtitle {
   font-size: 0.9rem;
   opacity: 0.7;
+}
+.interest-btn {
+  margin-top: 16px;
+  border-radius: 20px;
 }
 
 .actions-toolbar {

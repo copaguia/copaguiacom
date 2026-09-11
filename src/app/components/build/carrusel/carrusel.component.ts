@@ -2,6 +2,8 @@ import { Component, Input, ElementRef, ViewChild, AfterViewInit, inject, Destroy
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { InteresPublicidadDialogComponent } from '../interes-publicidad-dialog/interes-publicidad-dialog.component';
 
 export interface BannerInterface {
   id?: string;
@@ -13,16 +15,31 @@ export interface BannerInterface {
 
 @Component({
   selector: 'app-carrusel',
-  imports: [MatCardModule, MatButtonModule, MatIconModule],
+  standalone: true,
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatDialogModule],
   templateUrl: './carrusel.component.html',
   styleUrl: './carrusel.component.css'
 })
 export class CarruselComponent implements AfterViewInit {  
 
   @Input() conector: BannerInterface[] = [];
+  @Input() categoriaId: string = ''; // Recibe la categoría desde el padre
   @ViewChild('carouselContainer') carouselContainer!: ElementRef<HTMLElement>;
   
   private destroyRef = inject(DestroyRef);
+  private dialog = inject(MatDialog);
+
+  openInterestDialog(index: number) {
+    this.dialog.open(InteresPublicidadDialogComponent, {
+      data: {
+        categoria: this.categoriaId || 'General',
+        espacio: index + 1
+      },
+      width: '90%',
+      maxWidth: '450px',
+      panelClass: 'dark-dialog'
+    });
+  }
 
   ngAfterViewInit(): void {
     // Autoplay nativo para reemplazar a swiper JS

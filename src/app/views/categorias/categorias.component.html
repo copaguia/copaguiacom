@@ -29,7 +29,7 @@
       <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
       
       <div class="carrusel-content">
-        <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []"></app-carrusel>
+        <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []" [categoriaId]="categoria.ruta"></app-carrusel>
       </div>
     </mat-tab>
   }

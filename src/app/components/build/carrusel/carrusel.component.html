@@ -4,7 +4,9 @@
       <mat-card class="example-card" appearance="outlined">
         
         <mat-card-header>
-          <div mat-card-avatar class="example-header-image"></div>
+          <div mat-card-avatar class="default-avatar">
+            <mat-icon>storefront</mat-icon>
+          </div>
           <mat-card-title>{{ item.patrocinador || 'Anunciante' }}</mat-card-title>
           <mat-card-subtitle>Publicidad</mat-card-subtitle>
         </mat-card-header>
@@ -16,6 +18,10 @@
             <mat-icon class="placeholder-icon">campaign</mat-icon>
             <span class="placeholder-title">Publicidad Disponible</span>
             <span class="placeholder-subtitle">Tamaño recomendado:<br>1080x1350px (4:5)</span>
+            
+            <button mat-stroked-button color="accent" class="interest-btn" (click)="openInterestDialog($index)">
+              ¡Me interesa este espacio!
+            </button>
           </div>
         }
 

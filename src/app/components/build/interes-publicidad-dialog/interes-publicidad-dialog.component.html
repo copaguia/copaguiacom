@@ -1,0 +1,30 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2><mat-icon>campaign</mat-icon> ¡Haz notar tu negocio!</h2>
+  </div>
+  
+  <div class="dialog-content">
+    <p>Has seleccionado un espacio premium disponible en Copaguía:</p>
+    
+    <div class="info-card">
+      <div class="info-row">
+        <mat-icon>category</mat-icon>
+        <span>Categoría: <strong>{{ data.categoria }}</strong></span>
+      </div>
+      <div class="info-row">
+        <mat-icon>view_carousel</mat-icon>
+        <span>Espacio: <strong>Tarjeta {{ data.espacio }}</strong></span>
+      </div>
+    </div>
+    
+    <p class="subtitle">Comunícate con nuestro equipo comercial vía WhatsApp para conocer tarifas y reservar este espacio para tu marca antes de que otro negocio lo tome.</p>
+  </div>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="cerrar()">Cancelar</button>
+    <button mat-flat-button class="btn-whatsapp" (click)="contactarWhatsApp()">
+      <mat-icon>whatsapp</mat-icon>
+      Contactar por WhatsApp
+    </button>
+  </div>
+</div>
