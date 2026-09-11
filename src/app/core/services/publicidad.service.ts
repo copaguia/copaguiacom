@@ -29,7 +29,7 @@ export class PublicidadService {
     }
 
     try {
-      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      const docRef = doc(this.db, 'ads', categoriaId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -88,7 +88,7 @@ export class PublicidadService {
         phoneFijo: phoneFijo
       };
 
-      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, slots: currentBanners }, { merge: true });
       
       this.cache.set(categoriaId, currentBanners);
@@ -104,7 +104,7 @@ export class PublicidadService {
       const currentBanners = await this.obtenerBanners(categoriaId);
       currentBanners[slotIndex] = { id: slotIndex.toString(), image: '', patrocinador: '' };
       
-      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, slots: currentBanners }, { merge: true });
       
       this.cache.set(categoriaId, currentBanners);
@@ -141,7 +141,7 @@ export class PublicidadService {
         phoneFijo: phoneFijo
       };
 
-      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, toolbarSlot }, { merge: true });
       
       this.cacheToolbar.set(categoriaId, toolbarSlot);
@@ -154,7 +154,7 @@ export class PublicidadService {
 
   async eliminarToolbarAd(categoriaId: string): Promise<void> {
     try {
-      const docRef = doc(this.db, 'banners_categorias', categoriaId);
+      const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, toolbarSlot: null }, { merge: true });
       this.cacheToolbar.set(categoriaId, null);
     } catch (error) {
