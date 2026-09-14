@@ -1,0 +1,54 @@
+<div class="dialog-container">
+  <!-- Header -->
+  <div class="dialog-header">
+    <h2 class="dialog-title">¡Destaca tu Negocio!</h2>
+    <p class="dialog-subtitle">Adquiere un Perfil Profesional y llega a más clientes con nuestras herramientas exclusivas.</p>
+    <button mat-icon-button class="close-btn" (click)="cerrar()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    <div class="planes-grid">
+      @for (plan of planes; track plan.id) {
+        <div class="plan-card" [class.destacado]="plan.destacado">
+          
+          @if (plan.destacado) {
+            <div class="badge-recomendado">Recomendado</div>
+          }
+
+          <div class="plan-header" [style.border-bottom]="'2px solid ' + plan.colorHex">
+            <h3 class="plan-nombre" [style.color]="plan.colorHex">
+              {{ plan.nombre }}
+            </h3>
+            <div class="plan-precio-container">
+              <span class="plan-moneda">{{ plan.moneda }}</span>
+              <span class="plan-precio">{{ plan.precio | number }}</span>
+              <span class="plan-frecuencia">{{ plan.frecuencia }}</span>
+            </div>
+          </div>
+
+          <div class="plan-body">
+            <ul class="caracteristicas-list">
+              @for (car of plan.caracteristicas; track $index) {
+                <li>
+                  <mat-icon class="check-icon" [style.color]="plan.colorHex">check_circle</mat-icon>
+                  <span>{{ car }}</span>
+                </li>
+              }
+            </ul>
+          </div>
+
+          <div class="plan-footer">
+            <button mat-flat-button class="btn-solicitar" 
+                    [style.background-color]="plan.destacado ? plan.colorHex : '#374151'"
+                    [style.color]="'white'"
+                    (click)="solicitarPlan(plan)">
+              Solicitar Plan
+            </button>
+          </div>
+        </div>
+      }
+    </div>
+  </mat-dialog-content>
+</div>

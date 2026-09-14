@@ -36,7 +36,7 @@ export class PlanesNegocioDialogComponent {
       nombre: 'Básico',
       precio: 35000,
       moneda: '$',
-      frecuencia: '/ año',
+      frecuencia: '/ mes',
       destacado: false,
       colorHex: '#3b82f6', // blue
       caracteristicas: [
@@ -51,7 +51,7 @@ export class PlanesNegocioDialogComponent {
       nombre: 'Premium',
       precio: 65000,
       moneda: '$',
-      frecuencia: '/ año',
+      frecuencia: '/ mes',
       destacado: false,
       colorHex: '#10b981', // emerald green
       caracteristicas: [
@@ -66,7 +66,7 @@ export class PlanesNegocioDialogComponent {
       nombre: 'Premium Plus',
       precio: 135000,
       moneda: '$',
-      frecuencia: '/ año',
+      frecuencia: '/ mes',
       destacado: true,
       colorHex: '#f59e0b', // amber / gold
       caracteristicas: [

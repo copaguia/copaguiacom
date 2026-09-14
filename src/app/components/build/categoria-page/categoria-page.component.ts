@@ -14,6 +14,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { PlanesNegocioDialogComponent } from '../planes-negocio-dialog/planes-negocio-dialog.component';
 
 enum LoadingState {
   Idle = 'idle',
@@ -34,7 +36,8 @@ enum LoadingState {
     MatButtonModule,
     MatTooltipModule,
     BuscadorComponent,
-    RouterModule
+    RouterModule,
+    MatDialogModule
   ],
   standalone: true,
   templateUrl: './categoria-page.component.html',
@@ -176,6 +179,8 @@ export class CategoriaPageComponent implements OnInit {
     return actualMin >= apertMin && actualMin <= cierreMin;
   }
 
+  private dialog = inject(MatDialog);
+
   public limpiarDireccion(direccion: string): string {
     if (!direccion) return '';
     return direccion
@@ -190,11 +195,12 @@ export class CategoriaPageComponent implements OnInit {
       event.preventDefault();
       event.stopPropagation();
       if (this.authorization.esDueno()) {
-        const confirmar = window.confirm('Soy dueño del Negocio y quiero Completar mi perfil Profesional');
-        if (confirmar) {
-          // Opcionalmente redirigir al editor
-          // this.router.navigate(['admin/perfil-negocio-editor']);
-        }
+        this.dialog.open(PlanesNegocioDialogComponent, {
+          width: '95vw',
+          maxWidth: '1000px',
+          panelClass: 'custom-dialog-container',
+          backdropClass: 'blur-backdrop'
+        });
       }
     }
   }
