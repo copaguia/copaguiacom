@@ -173,4 +173,13 @@ export class CategoriaPageComponent implements OnInit {
     
     return actualMin >= apertMin && actualMin <= cierreMin;
   }
+
+  public limpiarDireccion(direccion: string): string {
+    if (!direccion) return '';
+    return direccion
+      .replace(/,?\s*copacabana\b/gi, '')
+      .replace(/,?\s*antioquia\b/gi, '')
+      .replace(/,\s*$/, '')
+      .trim();
+  }
 }

@@ -20,26 +20,28 @@
   <!-- Listado de Negocios -->
   <div class="row">
     @for (item of negociosFiltrados(); track item.id) {
-    <div class="col-12 col-md-6 col-lg-4 mb-4">
+    <div class="col-12 col-md-6 col-lg-4 mb-2">
 
       <!-- TARJETA PREMIUM LEGACY (Solo si es item.premium sin plan nuevo) -->
       @if (item.premium && !item.plan) {
       <mat-card class="h-100">
         <mat-card-header>
-          @if (item.logo) {
-          <img mat-card-avatar [src]="item.logo" alt="Logo de {{item.nombre}}" [class.is-open-img]="estaAbierto(item)" />
-          } @else {
-          <div mat-card-avatar class="logo-placeholder" style="margin-top: 0;">
-            <mat-icon>image</mat-icon>
-          </div>
-          }
-          <h2 class="name" style="display: flex; align-items: center; gap: 4px;">
-            {{ item.nombre }}
-            @if (item.verificado) {
-            <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
+          <div class="legacy-logo-container">
+            @if (item.logo) {
+            <img mat-card-avatar [src]="item.logo" alt="Logo de {{item.nombre}}" [class.is-open-img]="estaAbierto(item)" style="margin: 0" />
+            } @else {
+            <div mat-card-avatar class="logo-placeholder" style="margin: 0;">
+              <mat-icon>image</mat-icon>
+            </div>
             }
             @if (estaAbierto(item)) {
             <span class="open-badge">Abierto</span>
+            }
+          </div>
+          <h2 class="name" style="display: flex; align-items: center; gap: 4px;">
+            {{ item.nombre | titlecase }}
+            @if (item.verificado) {
+            <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
             }
           </h2>
           <mat-card-subtitle>{{ item.seccion }}</mat-card-subtitle>
@@ -59,31 +61,33 @@
       </mat-card>
       } @else {
 
-      <mat-card appearance="outlined" class="business-horizontal-card">
+      <mat-card appearance="outlined" class="business-horizontal-card" [class.plan-basico]="!item.plan || item.plan === 'basico'">
         <div class="flex-container">
           <!-- SECCIÓN IZQUIERDA: Logo e Información -->
           <div class="brand-info">
-            @if (item.logo) {
-            <img [src]="item.logo" alt="Logo de {{ item.nombre }}" class="logo-img" [class.is-open-img]="estaAbierto(item)">
-            } @else {
-            <div class="logo-placeholder">
-              <mat-icon>image</mat-icon>
+            <div class="logo-container">
+              @if (item.logo) {
+              <img [src]="item.logo" alt="Logo de {{ item.nombre }}" class="logo-img" [class.is-open-img]="estaAbierto(item)">
+              } @else {
+              <div class="logo-placeholder" [class.is-open-img]="estaAbierto(item)">
+                <mat-icon>image</mat-icon>
+              </div>
+              }
+              @if (estaAbierto(item)) {
+              <span class="open-badge">Abierto</span>
+              }
             </div>
-            }
 
             <div class="details">
               <h2 class="name" style="display: flex; align-items: center; gap: 4px; margin-bottom: 0;">
-                {{ item.nombre }}
+                {{ item.nombre | titlecase }}
                 @if (item.verificado) {
                 <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
-                }
-                @if (estaAbierto(item)) {
-                <span class="open-badge">Abierto</span>
                 }
               </h2>
               <div class="location">
                 <mat-icon>place</mat-icon>
-                <span>{{ item.ubicacion.direccion }}</span>
+                <span>{{ limpiarDireccion(item.ubicacion.direccion) }}</span>
               </div>
             </div>
           </div>
