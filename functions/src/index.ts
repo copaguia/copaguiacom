@@ -63,3 +63,42 @@ export const testSync = onRequest(
     }
   }
 );
+
+// Endpoint temporal para limpiar la basura (negocios fuera de Copacabana)
+export const cleanTrash = onRequest(
+  {
+    memory: '256MiB',
+    timeoutSeconds: 540,
+  },
+  async (req, res) => {
+    try {
+      const db = admin.firestore();
+      const snapshot = await db.collection('negocios').get();
+      
+      const batch = db.batch();
+      let deletedCount = 0;
+      let checkCount = 0;
+
+      snapshot.forEach(doc => {
+        checkCount++;
+        const data = doc.data();
+        const address = (data.ubicacion?.direccion || '').toLowerCase();
+        
+        // Si no incluye 'copacabana', se elimina
+        if (!address.includes('copacabana')) {
+          batch.delete(doc.ref);
+          deletedCount++;
+        }
+      });
+
+      if (deletedCount > 0) {
+        await batch.commit();
+      }
+
+      res.send(`Limpieza completada. Se revisaron ${checkCount} negocios y se eliminaron ${deletedCount} negocios que no pertenecían a Copacabana.`);
+    } catch (error: any) {
+      console.error('Error durante la limpieza:', error);
+      res.status(500).send('Error en limpieza: ' + error.message);
+    }
+  }
+);
