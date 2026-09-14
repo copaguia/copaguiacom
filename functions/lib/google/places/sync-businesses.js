@@ -160,9 +160,9 @@ async function syncBusinesses(apiKey) {
         const docRef = collectionRef.doc(negocio.id);
         const docSnap = await docRef.get();
         if (docSnap.exists) {
-            // Usamos merge: true para no sobreescribir imágenes u otra info que el dueño haya actualizado manualmente
-            await docRef.set(negocio, { merge: true });
-            updatedCount++;
+            // Si el negocio ya existe en nuestra base de datos, lo ignoramos por completo
+            // para no sobrescribir ningún dato que el usuario haya editado manualmente.
+            continue;
         }
         else {
             await docRef.set(negocio);
