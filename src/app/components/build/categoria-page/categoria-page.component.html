@@ -94,9 +94,12 @@
 
           <!-- SECCIÓN DERECHA: Botón de Acción -->
           <div class="actions" style="display: flex; gap: 4px; align-items: center;">
-            <a [href]="'https://wa.me/' + item.contacto?.whatsapp + '?text=Los%20encontré%20en%20CopaGuia.com'"
-              target="_blank" class="wa-link" matTooltip="Contactar por WhatsApp">
-              <button mat-icon-button style="color: #25D366;">
+            <a [href]="estaAbierto(item) ? 'https://wa.me/' + item.contacto?.whatsapp + '?text=Los%20encontré%20en%20CopaGuia.com' : null"
+              [target]="estaAbierto(item) ? '_blank' : '_self'" 
+              class="wa-link" 
+              [matTooltip]="estaAbierto(item) ? 'Contactar por WhatsApp' : 'Negocio Cerrado'"
+              (click)="contactarWhatsApp(item, $event)">
+              <button mat-icon-button [style.color]="estaAbierto(item) ? '#25D366' : '#9e9e9e'">
                 <mat-icon svgIcon="whatsapp"></mat-icon>
               </button>
             </a>

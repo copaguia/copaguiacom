@@ -211,6 +211,47 @@ export class CategoriaPageComponent implements OnInit {
       }
     }
   }
+
+  public contactarWhatsApp(item: NegocioInterface, event: Event) {
+    if (!this.estaAbierto(item)) {
+      event.preventDefault();
+      event.stopPropagation();
+      this.dialog.open(NegocioCerradoDialogComponent, {
+        width: '90vw',
+        maxWidth: '400px',
+        panelClass: 'custom-dialog-container',
+        backdropClass: 'blur-backdrop'
+      });
+    }
+  }
+}
+
+@Component({
+  selector: 'app-negocio-cerrado-dialog',
+  standalone: true,
+  imports: [MatDialogModule, MatButtonModule, MatIconModule],
+  template: `
+    <div style="padding: 32px 24px; text-align: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
+      <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+        <div style="background-color: #fee2e2; border-radius: 50%; padding: 16px; display: inline-flex;">
+          <mat-icon style="font-size: 40px; height: 40px; width: 40px; color: #ef4444;">schedule</mat-icon>
+        </div>
+      </div>
+      <h2 style="margin: 0 0 12px; font-weight: 700; font-size: 1.5rem; color: #1f2937;">Negocio Cerrado</h2>
+      <p style="color: #4b5563; margin: 0 0 24px; font-size: 1.05rem; line-height: 1.5;">
+        En este momento el negocio se encuentra cerrado o no está en horario de apertura.
+      </p>
+      <button mat-flat-button color="primary" style="width: 100%; padding: 8px 0; border-radius: 8px; font-size: 1rem; font-weight: 600;" (click)="cerrar()">
+        Entendido
+      </button>
+    </div>
+  `
+})
+export class NegocioCerradoDialogComponent {
+  dialogRef = inject(MatDialogRef<NegocioCerradoDialogComponent>);
+  cerrar() {
+    this.dialogRef.close();
+  }
 }
 
 @Component({
