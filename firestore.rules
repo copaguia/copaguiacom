@@ -57,5 +57,11 @@ service cloud.firestore {
         allow delete: if hasRole('admin');
       }
     }
+
+    // Publicidad (Carrusel)
+    match /ads/{categoriaId} {
+      allow read: if true; // Cualquier persona puede ver los anuncios
+      allow write: if hasRole('admin'); // Solo el administrador puede modificar la publicidad
+    }
   }
 }
