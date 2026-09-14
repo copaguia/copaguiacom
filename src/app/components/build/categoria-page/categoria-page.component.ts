@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, D
 import { ActivatedRoute } from '@angular/router';
 import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
+import { AuthorizationService } from '../../../core/auth/authorization.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { collection, onSnapshot, query, where, DocumentData } from 'firebase/firestore';
@@ -44,6 +45,7 @@ export class CategoriaPageComponent implements OnInit {
 
   private firestore = inject(InstanciaFirebase).firestore;
   private route = inject(ActivatedRoute);
+  public authorization = inject(AuthorizationService);
 
   private destroyRef = inject(DestroyRef);
   private unsubscribeSnapshot: (() => void) | null = null;
@@ -181,5 +183,19 @@ export class CategoriaPageComponent implements OnInit {
       .replace(/,?\s*antioquia\b/gi, '')
       .replace(/,\s*$/, '')
       .trim();
+  }
+
+  public handleClickPerfil(item: NegocioInterface, event: Event) {
+    if (!item.plan || item.plan === 'basico') {
+      event.preventDefault();
+      event.stopPropagation();
+      if (this.authorization.esDueno()) {
+        const confirmar = window.confirm('Soy dueño del Negocio y quiero Completar mi perfil Profesional');
+        if (confirmar) {
+          // Opcionalmente redirigir al editor
+          // this.router.navigate(['admin/perfil-negocio-editor']);
+        }
+      }
+    }
   }
 }

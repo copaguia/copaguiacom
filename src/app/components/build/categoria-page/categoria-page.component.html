@@ -104,8 +104,8 @@
               [routerLink]="(!item.plan || item.plan === 'basico') ? null : ['/negocio', item.slug]"
               [color]="(!item.plan || item.plan === 'basico') ? '' : 'primary'"
               [style.color]="(!item.plan || item.plan === 'basico') ? '#ccc' : ''"
-              [matTooltip]="(!item.plan || item.plan === 'basico') ? 'Perfil no disponible en plan básico' : 'Ver Perfil'"
-              (click)="$event.stopPropagation()">
+              [matTooltip]="(!item.plan || item.plan === 'basico') ? 'Este negocio aun no ha creado su Perfil Profesional' : 'Ver Perfil'"
+              (click)="handleClickPerfil(item, $event)">
               <mat-icon>{{ (!item.plan || item.plan === 'basico') ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </div>
