@@ -1,0 +1,15 @@
+# Compiled Output
+lib/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment & Secrets
+.env
+.env.*
+.secret
+.runtimeconfig.json
+firebase-debug.log
+firebase-debug.*.log
