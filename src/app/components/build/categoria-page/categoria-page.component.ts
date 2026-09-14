@@ -148,4 +148,29 @@ export class CategoriaPageComponent implements OnInit {
       );
     }
   }
+
+  public estaAbierto(negocio: NegocioInterface): boolean {
+    if (!negocio.horarios) return false;
+    const dias = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+    const hoy = new Date();
+    const diaString = dias[hoy.getDay()] as keyof typeof negocio.horarios;
+    
+    const horarioHoy = negocio.horarios[diaString];
+    if (!horarioHoy || !horarioHoy.abierto || !horarioHoy.apertura || !horarioHoy.cierre) {
+      return false;
+    }
+
+    const horaLocal = hoy.getHours();
+    const minLocal = hoy.getMinutes();
+    const [hA, mA] = horarioHoy.apertura.split(':').map(Number);
+    const [hC, mC] = horarioHoy.cierre.split(':').map(Number);
+
+    if (isNaN(hA) || isNaN(mA) || isNaN(hC) || isNaN(mC)) return false;
+    
+    const actualMin = horaLocal * 60 + minLocal;
+    const apertMin = hA * 60 + mA;
+    const cierreMin = hC * 60 + mC;
+    
+    return actualMin >= apertMin && actualMin <= cierreMin;
+  }
 }

@@ -27,7 +27,7 @@
       <mat-card class="h-100">
         <mat-card-header>
           @if (item.logo) {
-          <img mat-card-avatar [src]="item.logo" alt="Logo de {{item.nombre}}" />
+          <img mat-card-avatar [src]="item.logo" alt="Logo de {{item.nombre}}" [class.is-open-img]="estaAbierto(item)" />
           } @else {
           <div mat-card-avatar class="logo-placeholder" style="margin-top: 0;">
             <mat-icon>image</mat-icon>
@@ -37,6 +37,9 @@
             {{ item.nombre }}
             @if (item.verificado) {
             <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
+            }
+            @if (estaAbierto(item)) {
+            <span class="open-badge">Abierto</span>
             }
           </h2>
           <mat-card-subtitle>{{ item.seccion }}</mat-card-subtitle>
@@ -61,7 +64,7 @@
           <!-- SECCIÓN IZQUIERDA: Logo e Información -->
           <div class="brand-info">
             @if (item.logo) {
-            <img [src]="item.logo" alt="Logo de {{ item.nombre }}" class="logo-img">
+            <img [src]="item.logo" alt="Logo de {{ item.nombre }}" class="logo-img" [class.is-open-img]="estaAbierto(item)">
             } @else {
             <div class="logo-placeholder">
               <mat-icon>image</mat-icon>
@@ -73,6 +76,9 @@
                 {{ item.nombre }}
                 @if (item.verificado) {
                 <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
+                }
+                @if (estaAbierto(item)) {
+                <span class="open-badge">Abierto</span>
                 }
               </h2>
               <div class="location">

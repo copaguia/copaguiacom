@@ -121,12 +121,27 @@
 
   .name {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
     color: #eaebee;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  .is-open-img {
+    border: 2px solid #4CAF50 !important;
+  }
+
+  .open-badge {
+    color: #4CAF50;
+    font-size: 0.65rem;
+    font-weight: 600;
+    border: 1px solid #4CAF50;
+    padding: 1px 6px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    display: inline-block;
   }
 
   .location {
