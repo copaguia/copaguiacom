@@ -118,6 +118,13 @@ export async function syncBusinesses(apiKey: string): Promise<{ added: number; u
     if (!place.location?.latitude || !place.location?.longitude) {
       return false;
     }
+    
+    // Bloqueo estricto: Si la dirección no dice Copacabana, se descarta (evita Bello o Medellín)
+    const address = (place.formattedAddress || '').toLowerCase();
+    if (!address.includes('copacabana')) {
+      return false;
+    }
+
     return isInsideCopacabana(place.location.latitude, place.location.longitude);
   });
 
@@ -135,9 +142,9 @@ export async function syncBusinesses(apiKey: string): Promise<{ added: number; u
     const docSnap = await docRef.get();
 
     if (docSnap.exists) {
-      // Usamos merge: true para no sobreescribir imágenes u otra info que el dueño haya actualizado manualmente
-      await docRef.set(negocio, { merge: true });
-      updatedCount++;
+      // Si el negocio ya existe en nuestra base de datos, lo ignoramos por completo
+      // para no sobrescribir ningún dato que el usuario haya editado manualmente.
+      continue;
     } else {
       await docRef.set(negocio);
       addedCount++;

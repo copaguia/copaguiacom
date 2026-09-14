@@ -143,6 +143,11 @@ async function syncBusinesses(apiKey) {
         if (!place.location?.latitude || !place.location?.longitude) {
             return false;
         }
+        // Bloqueo estricto: Si la dirección no dice Copacabana, se descarta (evita Bello o Medellín)
+        const address = (place.formattedAddress || '').toLowerCase();
+        if (!address.includes('copacabana')) {
+            return false;
+        }
         return (0, config_1.isInsideCopacabana)(place.location.latitude, place.location.longitude);
     });
     const businessesToSync = filteredPlaces.map(place => mapGooglePlaceToNegocio(place, place._matchedQuery));

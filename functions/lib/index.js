@@ -33,9 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sincronizarNegociosCopacabana = void 0;
+exports.testSync = exports.sincronizarNegociosCopacabana = void 0;
 const admin = __importStar(require("firebase-admin"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
+const https_1 = require("firebase-functions/v2/https");
 const sync_businesses_1 = require("./google/places/sync-businesses");
 const config_1 = require("./google/places/config");
 // Initialize Firebase Admin
@@ -65,6 +66,28 @@ exports.sincronizarNegociosCopacabana = (0, scheduler_1.onSchedule)({
     }
     catch (error) {
         console.error('Error during scheduled synchronization:', error);
+    }
+});
+// Endpoint temporal para probar la ejecución inmediatamente desde el navegador
+exports.testSync = (0, https_1.onRequest)({
+    secrets: ['PLACES_API_KEY'],
+    memory: config_1.SYNC_CONFIG.memory,
+    timeoutSeconds: config_1.SYNC_CONFIG.timeoutSeconds,
+}, async (req, res) => {
+    const apiKey = process.env.PLACES_API_KEY;
+    if (!apiKey) {
+        console.error('PLACES_API_KEY environment variable is not defined.');
+        res.status(500).send('PLACES_API_KEY is missing');
+        return;
+    }
+    console.log('Starting MANUAL synchronization of Copacabana businesses...');
+    try {
+        const summary = await (0, sync_businesses_1.syncBusinesses)(apiKey);
+        res.send(`Sincronización manual completada exitosamente. Se procesaron los negocios. Revisar Firestore. Detalles: Agregados ${summary.added}, Actualizados ${summary.updated}`);
+    }
+    catch (error) {
+        console.error('Error during manual synchronization:', error);
+        res.status(500).send('Ocurrió un error en la sincronización: ' + error.message);
     }
 });
 //# sourceMappingURL=index.js.map

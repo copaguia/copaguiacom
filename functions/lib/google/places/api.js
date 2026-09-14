@@ -28,7 +28,7 @@ async function searchPlacesForQuery(query, apiKey) {
         ].join(','),
     };
     const data = {
-        textQuery: query,
+        textQuery: `${query} en Copacabana, Antioquia`,
         languageCode: 'es',
         regionCode: 'co',
         locationRestriction: {

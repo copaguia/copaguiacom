@@ -25,7 +25,7 @@ export async function searchPlacesForQuery(query: string, apiKey: string): Promi
   };
 
   const data: any = {
-    textQuery: query,
+    textQuery: `${query} en Copacabana, Antioquia`,
     languageCode: 'es',
     regionCode: 'co',
     locationRestriction: {
