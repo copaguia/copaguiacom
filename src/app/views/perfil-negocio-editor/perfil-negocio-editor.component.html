@@ -14,10 +14,10 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Tipo de Negocio</mat-label>
-        <mat-select formControlName="tipoNegocio">
-          <mat-option *ngFor="let tipo of tiposDeNegocio" [value]="tipo">
-            {{ tipo }}
+        <mat-label>Categoría del Negocio</mat-label>
+        <mat-select formControlName="categoria">
+          <mat-option *ngFor="let cat of categoriasAllowed" [value]="cat">
+            {{ cat }}
           </mat-option>
         </mat-select>
         <mat-icon matSuffix>category</mat-icon>

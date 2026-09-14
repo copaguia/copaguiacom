@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 // L10: Arquitectura Lidertech
 import { InstanciaFirebase } from '../../core/firebase/instancias.service';
 import { NegocioVerificationService } from '../../core/auth/negocio-verification.service'; // <-- NUEVO SERVICIO
-import { NegocioInterface, TipoNegocio } from '../../interfaces/negocio-interface';
+import { NegocioInterface } from '../../interfaces/negocio-interface';
 
 // L10: Componentes de UI reutilizables
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -44,7 +44,7 @@ export class PerfilNegocioEditorComponent implements OnInit {
 
   public estaCargando = signal<boolean>(false);
   
-  public tiposDeNegocio = Object.values(TipoNegocio);
+  public categoriasAllowed = ['Alimentos', 'Comercios', 'Servicios', 'Entretenimiento', 'Salud', 'Comunidad', 'Oportunidades', 'Inmuebles', 'Educación', 'Pasatiempos', 'Noticias'];
 
   public formGroup = this.formBuilder.group({
     logo:        ['', [Validators.required]],
@@ -55,7 +55,7 @@ export class PerfilNegocioEditorComponent implements OnInit {
     nombre:      ['', [Validators.required]],
     direccion:   ['', [Validators.required]],
     telefono:    ['', [Validators.required]],
-    tipoNegocio: ['', [Validators.required]],
+    categoria:   ['', [Validators.required]],
     facebook:    ['']
   });
 
@@ -99,7 +99,7 @@ export class PerfilNegocioEditorComponent implements OnInit {
         nombre:      negocioData.nombre,
         direccion:   negocioData.contacto.direccion,
         telefono:    negocioData.contacto.telefono,
-        tipoNegocio: negocioData.tipoNegocio,
+        categoria:   negocioData.categoria,
         facebook:    negocioData.contacto.redes?.facebook || ''
       });
     } else {
@@ -130,7 +130,7 @@ export class PerfilNegocioEditorComponent implements OnInit {
       banner:      this.formGroup.value.banner,
       descripcion: this.formGroup.value.descripcion,
       nombre:      this.formGroup.value.nombre,
-      tipoNegocio: this.formGroup.value.tipoNegocio,
+      categoria:   this.formGroup.value.categoria,
       'contacto.whatsapp': this.formGroup.value.whatsapp,
       'contacto.telefono': this.formGroup.value.telefono,
       'contacto.direccion': this.formGroup.value.direccion,

@@ -1,0 +1,70 @@
+export interface NegocioInterface {
+  premium?: boolean;
+  plan?: 'basico' | 'premium' | 'plus Premium';
+  seccion: string;
+  imagen: string;
+  id: string;
+  duenoId: string;
+  nombre: string;
+  slug: string;
+  categoria: 'Alimentos' | 'Comercios' | 'Servicios' | 'Entretenimiento' | 'Salud' | 'Comunidad' | 'Oportunidades' | 'Inmuebles' | 'Educación' | 'Pasatiempos' | 'Noticias';
+  descripcion: string;
+  logo: string;
+  banner: string;
+  galeria: string[];
+  ubicacion: {
+    direccion: string;
+    barrio: string;
+    ciudad: string;
+    latitud: number;
+    longitud: number;
+    googleMapsUrl: string;
+  };
+  contacto: {
+    direccion: string;
+    whatsapp: string;
+    telefono: string;
+    email: string;
+    redes: {
+      instagram?: string;
+      facebook?: string;
+      tiktok?: string;
+      web?: string;
+    };
+  };
+  horarios: {
+    lunes: { abierto: boolean; apertura: string; cierre: string };
+    martes: { abierto: boolean; apertura: string; cierre: string };
+    miercoles: { abierto: boolean; apertura: string; cierre: string };
+    jueves: { abierto: boolean; apertura: string; cierre: string };
+    viernes: { abierto: boolean; apertura: string; cierre: string };
+    sabado: { abierto: boolean; apertura: string; cierre: string };
+    domingo: { abierto: boolean; apertura: string; cierre: string };
+    festivos: { abierto: boolean; apertura: string; cierre: string };
+  };
+  catalogo: {
+    id: string;
+    nombre: string;
+    descripcion: string;
+    precio: number;
+    urlImagen?: string;
+    disponible: boolean;
+    categoriaItem: string;
+    etiquetas: string[];
+    permiteCantidades: boolean;
+    variantes?: string[];
+    unidadMedida?: string;
+  }[];
+  configuracionPedido: {
+    aceptaPedidos: boolean;
+    mensajeBienvenida?: string;
+    costoDomicilio?: number;
+    pedidoMinimo?: number;
+  };
+  rating: number;
+  totalResenas: number;
+  verificado: boolean;
+  destacado: boolean;
+  fechaRegistro: string;
+  metadatos: Record<string, any>;
+}

@@ -1,26 +1,13 @@
-export enum TipoNegocio {
-    GASTRONOMIA       = 'Gastronomía',
-    COMERCIO          = 'Comercio',
-    SALUD_BELLEZA     = 'Salud y Belleza',
-    TECNICO           = 'Servicios Técnicos',
-    TECNOLOGIA        = 'Tecnología',
-    INSTITUCIONAL     = 'Institucional',
-    ENTRETENIMIENTO   = 'Entretenimiento',
-    OTRO              = 'Otro'
-}
-
 export interface NegocioInterface {
   premium?: boolean; // Obsoleto, usar plan
   plan?: 'basico' | 'premium' | 'plus Premium';
-  tipoNegocio:  string;
   seccion:      string;
   imagen:       string;
     id:             string;
     duenoId:        string;
     nombre:         string;
     slug:           string;
-    categoria:      'gastronomia' | 'comercio' | 'salud_belleza' | 'tecnico' | 'tecnologia' | 'institucional' | 'entretenimiento';
-    subCategoria:   string;
+    categoria:      'Alimentos' | 'Comercios' | 'Servicios' | 'Entretenimiento' | 'Salud' | 'Comunidad' | 'Oportunidades' | 'Inmuebles' | 'Educación' | 'Pasatiempos' | 'Noticias';
     descripcion:    string;
     logo:           string;
     banner:         string;
