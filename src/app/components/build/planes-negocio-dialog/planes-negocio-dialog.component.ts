@@ -42,6 +42,7 @@ export class PlanesNegocioDialogComponent {
       caracteristicas: [
         'Perfil en el directorio',
         'Información de contacto',
+        'Botón directo a WhatsApp',
         'Ubicación en mapa',
         'Horarios de atención'
       ]
@@ -57,8 +58,7 @@ export class PlanesNegocioDialogComponent {
       caracteristicas: [
         'Todo lo del Básico',
         'Logo y Banner personalizado',
-        'Galería de fotos (Hasta 5)',
-        'Botón directo a WhatsApp'
+        'Galería de fotos (Hasta 5)'
       ]
     },
     {

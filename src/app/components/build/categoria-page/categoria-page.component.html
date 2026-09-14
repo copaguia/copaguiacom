@@ -94,10 +94,10 @@
 
           <!-- SECCIÓN DERECHA: Botón de Acción -->
           <div class="actions" style="display: flex; gap: 4px; align-items: center;">
-            <a [href]="'https://wa.me/' + item.contacto?.whatsapp + '?text=Hola,%20vi%20su%20negocio%20en%20CopaGuía.com...'"
-              target="_blank" class="wa-link">
-              <button mat-mini-fab color="primary">
-                <mat-icon>chat</mat-icon>
+            <a [href]="'https://wa.me/' + item.contacto?.whatsapp + '?text=Los%20encontré%20en%20CopaGuia.com'"
+              target="_blank" class="wa-link" matTooltip="Contactar por WhatsApp">
+              <button mat-icon-button style="color: #25D366;">
+                <mat-icon svgIcon="whatsapp"></mat-icon>
               </button>
             </a>
             <button mat-icon-button
