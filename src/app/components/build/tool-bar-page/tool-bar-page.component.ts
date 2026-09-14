@@ -27,6 +27,8 @@ export class ToolBarPageComponent {
     return this._title;
   }
 
+  @Input() count: number | null = null;
+
   @Input() color: 'primary' | 'accent' | 'warn' = 'primary';
   @Input() buttonClass: string = '';
   @Input() showIcon: boolean = true;

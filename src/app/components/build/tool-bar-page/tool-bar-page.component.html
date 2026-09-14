@@ -9,7 +9,7 @@
     </button>
 
 
-    <span>{{ title }}</span>
+    <span>{{ title }}<span *ngIf="count !== null" style="font-size: 0.8em; font-weight: 400; opacity: 0.8; margin-left: 4px;">({{ count }})</span></span>
 
     <span class="spacer"></span>
 
