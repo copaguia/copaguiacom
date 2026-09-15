@@ -8,8 +8,15 @@
   display: none; /* Chrome, Safari and Opera */
 }
 
+app-tool-bar-page {
+  position: sticky;
+  top: 0;
+  z-index: 1050; /* Por encima de otros elementos */
+  display: block;
+}
+
 .container-main {
-    padding-top: 20px;
+    padding-top: 10px; /* Reducido para ajustarse al sticky */
     padding-bottom: 85px; /* Espacio para que el buscador no tape contenido */
   }
 
@@ -18,7 +25,7 @@
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: var(--mat-app-background-color, #121212);
+    background-color: #051b14; /* Verde casi negro */
     z-index: 1000;
     padding: 12px 15px;
     display: flex;
@@ -172,6 +179,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
+    margin-top: 4px;
     color: #718096;
     font-size: 0.85rem;
     white-space: nowrap;
