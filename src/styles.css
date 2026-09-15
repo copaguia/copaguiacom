@@ -186,3 +186,8 @@ body {
 }
 .custom-dialog-container .mdc-dialog__surface { padding: 0 !important; background: transparent !important; box-shadow: none !important; border-radius: 16px !important; overflow: hidden !important; }
 .blur-backdrop { backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+
+.white-backdrop {
+  background-color: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: none !important;
+}

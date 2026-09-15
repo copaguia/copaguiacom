@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { PlanesNegocioDialogComponent } from '../planes-negocio-dialog/planes-negocio-dialog.component';
+import { AdminEditNegocioDialogComponent } from '../admin-edit-negocio-dialog/admin-edit-negocio-dialog.component';
 
 enum LoadingState {
   Idle = 'idle',
@@ -210,6 +211,18 @@ export class CategoriaPageComponent implements OnInit {
         });
       }
     }
+  }
+
+  public abrirEdicionAdmin(item: NegocioInterface, event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.dialog.open(AdminEditNegocioDialogComponent, {
+      width: '95vw',
+      maxWidth: '900px',
+      panelClass: 'custom-dialog-container',
+      backdropClass: 'white-backdrop',
+      data: { negocio: item }
+    });
   }
 
   public contactarWhatsApp(item: NegocioInterface, event: Event) {
