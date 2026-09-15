@@ -30,10 +30,17 @@
 }
 
 /* Ocultar la barra de desplazamiento para Webkit (Chrome, Safari) */
-.cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar,
-.cdk-scrollable::-webkit-scrollbar {
-  height: 2px;
-  background-color: transparent;
+::ng-deep .cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar,
+::ng-deep .cdk-scrollable::-webkit-scrollbar {
+  display: block !important;
+  height: 2px !important;
+  background-color: transparent !important;
+}
+
+::ng-deep .cdk-virtual-scroll-data-source-example .example-viewport .cdk-virtual-scroll-content-wrapper::-webkit-scrollbar-thumb,
+::ng-deep .cdk-scrollable::-webkit-scrollbar-thumb {
+  background: aqua !important;
+  border-radius: 5px !important;
 }
 
 /* --- Bloque de Estilos para Scroll Virtual --- */
@@ -142,6 +149,17 @@ body ::-webkit-scrollbar-thumb:hover {
   border-radius: 14px !important;
   line-height: 28px !important;
   padding: 0 12px !important;
+  border: 1px solid rgba(150, 150, 150, 0.25) !important; /* Atenuado de borde más sutil */
+}
+
+::ng-deep .cdk-scrollable button.mat-mdc-outlined-button,
+::ng-deep .cdk-scrollable button[matbutton="outlined"],
+::ng-deep .cdk-scrollable button::before,
+::ng-deep .cdk-scrollable button .mat-mdc-button-ripple,
+::ng-deep .cdk-scrollable button .mdc-button__ripple {
+  --mdc-outlined-button-outline-color: rgba(150, 150, 150, 0.25) !important;
+  --mat-outlined-button-outline-color: rgba(150, 150, 150, 0.25) !important;
+  border-color: rgba(150, 150, 150, 0.25) !important;
 }
 
 ::ng-deep .cdk-scrollable button span {
