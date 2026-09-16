@@ -6,8 +6,6 @@
   gap: 16px;
   padding: 20px;
   width: 100%;
-  height: 600px;
-  /* Altura principal del carrusel */
   box-sizing: border-box;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -22,32 +20,30 @@
   scroll-snap-align: center;
   flex: 0 0 85%;
   max-width: 400px;
+  height: 480px !important; /* Altura fija global para todos los items */
   display: flex;
-  height: 100%;
-  /* Fuerza al item a ocupar toda la altura */
 }
 
 .example-card {
   width: 100%;
-  height: 100%;
-  /* Fuerza a la tarjeta a ocupar toda la altura del item */
+  height: 480px !important; /* Fuerza altura absoluta e inamovible */
   display: flex;
   flex-direction: column;
   background-color: rgb(25, 25, 25);
   border-radius: 16px;
   overflow: hidden;
   margin: 0;
+  padding-bottom: 0 !important;
 }
 
-.example-card img.mat-mdc-card-image {
-  flex: 1;
-  /* Esto es el equivalente a height: 100% del espacio sobrante */
-  min-height: 0;
-  width: 100%;
-  object-fit: cover;
-  object-position: top;
-  /* Ancla la imagen arriba para que si hay recorte, sea por abajo (pies) y no por arriba (cabeza) */
-  margin: 0;
+.example-card img {
+  flex: 1 1 auto !important;
+  min-height: 250px;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  margin: 0 !important;
 }
 
 .default-avatar {
@@ -67,7 +63,10 @@
 }
 
 .empty-banner-placeholder {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 250px;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,6 +75,7 @@
   color: #666;
   text-align: center;
   padding: 24px;
+  box-sizing: border-box;
 }
 
 .empty-banner-placeholder .placeholder-icon {
@@ -104,12 +104,13 @@
 }
 
 .actions-toolbar {
-  margin-top: auto;
   display: flex;
   justify-content: space-around;
   padding: 16px;
   background-color: #121212;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-bottom: 0 !important;
+  padding-bottom: 16px !important;
 }
 
 .carousel-wrapper {
@@ -121,13 +122,13 @@
 
 .nav-btn {
   position: absolute !important;
-  top: 50%;
+  top: 45%;
   transform: translateY(-50%);
-  z-index: 100 !important;
-  background-color: rgba(255, 255, 255, 0.1) !important;
+  z-index: 9999 !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
   color: #0df !important;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 221, 255, 0.5);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   display: flex !important; /* Siempre visibles */
 }
 
@@ -136,11 +137,11 @@
 }
 
 .nav-left {
-  left: 10px;
+  left: 15px;
 }
 
 .nav-right {
-  right: 10px;
+  right: 15px;
 }
 
 @media (min-width: 768px) {
