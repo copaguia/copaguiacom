@@ -58,15 +58,5 @@ export class NavMenuComponent {
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset) .pipe(  map(result => result.matches),   shareReplay()  );
 
-  openGlobalNotification() {
-    const data = this.globalNotifService.currentNotification();
-    if (data) {
-      this.dialog.open(GlobalNotificationDialogComponent, {
-        data: data,
-        width: '90%',
-        maxWidth: '400px',
-        panelClass: 'dark-dialog'
-      });
-    }
-  }
+
 }

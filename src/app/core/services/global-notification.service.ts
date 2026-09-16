@@ -11,8 +11,7 @@ export class GlobalNotificationService {
   private firestore = inject(InstanciaFirebase).firestore;
   private storageService = inject(StorageService);
   
-  public hasNewNotification = signal<boolean>(false);
-  public currentNotification = signal<NotificacionGlobal | null>(null);
+  public unreadNotifications = signal<NotificacionGlobal[]>([]);
 
   private readonly LOCAL_STORAGE_KEY = 'copaguia_vistas_notif_globales';
   private audioIntervalRef: any = null;
@@ -78,47 +77,45 @@ export class GlobalNotificationService {
     const q = query(
       collection(this.firestore, 'NotificacionesApp'),
       orderBy('fechaCreacion', 'desc'),
-      limit(1)
+      limit(10)
     );
 
     onSnapshot(q, (snapshot) => {
       if (snapshot.empty) {
-        this.hasNewNotification.set(false);
-        this.currentNotification.set(null);
+        this.unreadNotifications.set([]);
         this.detenerAudio();
         return;
       }
 
-      const doc = snapshot.docs[0];
-      const data = doc.data() as NotificacionGlobal;
-      const notifId = doc.id;
-      data.id = notifId;
-
-      // Verificar caducidad
       const ahora = new Date().toISOString();
-      if (data.fechaCaducidad && data.fechaCaducidad < ahora) {
-        // Caducada
-        this.hasNewNotification.set(false);
-        this.currentNotification.set(null);
-        this.detenerAudio();
-        return;
-      }
-
-      // Verificar si ya fue vista
       const vistas = this.getNotificacionesVistas();
-      if (vistas.includes(notifId)) {
-        this.hasNewNotification.set(false);
-        this.currentNotification.set(data); // La guardamos por si quiere verla de nuevo
-        this.detenerAudio();
-      } else {
-        // ES NUEVA!
-        this.currentNotification.set(data);
-        
-        // Si no estaba ya activa, reproducimos el sonido
-        if (!this.hasNewNotification()) {
-          this.hasNewNotification.set(true);
-          this.reproducirSonido(data.tipo);
+      
+      const notifs: NotificacionGlobal[] = [];
+      let hayNueva = false;
+      const currentUnreads = this.unreadNotifications();
+
+      snapshot.docs.forEach(docSnap => {
+        const data = docSnap.data() as NotificacionGlobal;
+        const notifId = docSnap.id;
+        data.id = notifId;
+
+        if (data.fechaCaducidad && data.fechaCaducidad < ahora) return;
+        if (vistas.includes(notifId)) return;
+
+        notifs.push(data);
+
+        if (!currentUnreads.some(n => n.id === notifId)) {
+          if (!hayNueva) {
+            hayNueva = true;
+            this.reproducirSonido(data.tipo);
+          }
         }
+      });
+
+      this.unreadNotifications.set(notifs);
+
+      if (notifs.length === 0) {
+        this.detenerAudio();
       }
     }, (error) => {
       console.error('Error escuchando notificaciones globales:', error);
@@ -140,8 +137,12 @@ export class GlobalNotificationService {
         console.error('Error al registrar la vista contable', e);
       }
     }
-    this.hasNewNotification.set(false);
-    this.detenerAudio();
+    const updated = this.unreadNotifications().filter(n => n.id !== id);
+    this.unreadNotifications.set(updated);
+    
+    if (updated.length === 0) {
+      this.detenerAudio();
+    }
   }
 
   private getNotificacionesVistas(): string[] {

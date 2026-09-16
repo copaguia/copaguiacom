@@ -87,11 +87,10 @@ export class CategoriasComponent {
     this.router.navigate(['admin/agregar-negocio']);
   }
 
-  openGlobalNotification() {
-    const data = this.globalNotifService.currentNotification();
-    if (data) {
+  openGlobalNotification(notif: any) {
+    if (notif) {
       this.dialog.open(GlobalNotificationDialogComponent, {
-        data: data,
+        data: notif,
         width: '90%',
         maxWidth: '400px',
         panelClass: 'dark-dialog'
@@ -103,7 +102,7 @@ export class CategoriasComponent {
     this.dialog.open(CrearNotificacionDialogComponent, {
       width: '100%',
       maxWidth: '400px',
-      panelClass: 'custom-dialog-container'
+      panelClass: 'dark-dialog'
     });
   }
 

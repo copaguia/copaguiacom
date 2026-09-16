@@ -1,8 +1,7 @@
-@if (notificacionesCount() > 0) {
-  <button mat-icon-button (click)="abrirCentroNotificaciones()" aria-label="Notificaciones">
-    <mat-icon [matBadge]="notificacionesCount()" 
-              matBadgeColor="warn">
-      notifications
-    </mat-icon>
-  </button>
-}
+<button mat-icon-button (click)="abrirCentroNotificaciones()" aria-label="Notificaciones">
+  <mat-icon [matBadge]="notificacionesCount()" 
+            [matBadgeHidden]="notificacionesCount() === 0"
+            matBadgeColor="warn">
+    notifications
+  </mat-icon>
+</button>

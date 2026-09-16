@@ -26,15 +26,13 @@
 
   <app-btn-notifications></app-btn-notifications>
 
-  @if (globalNotifService.hasNewNotification()) {
-    @if (globalNotifService.currentNotification(); as notif) {
-      <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification()">
-        <mat-icon class="shake-icon" 
-                  [style.color]="globalNotifService.getColorNotificacion(notif.tipo || '')">
-          {{ globalNotifService.getIconoNotificacion(notif.tipo || '') }}
-        </mat-icon>
-      </button>
-    }
+  @for (notif of globalNotifService.unreadNotifications(); track notif.id) {
+    <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification(notif)">
+      <mat-icon class="shake-icon" 
+                [style.color]="globalNotifService.getColorNotificacion(notif.tipo || '')">
+        {{ globalNotifService.getIconoNotificacion(notif.tipo || '') }}
+      </mat-icon>
+    </button>
   }
 </mat-toolbar>
 
