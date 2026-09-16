@@ -27,7 +27,10 @@ export class AdminPublicidadComponent {
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
-  categoriasDisponibles = categoriaData.map(c => c.ruta);
+  categoriasAgrupadas = categoriaData.map(c => ({
+    nombre: c.ruta,
+    secciones: c.seccion ? c.seccion.map(s => s.ruta) : []
+  }));
   
   categoriaSeleccionada = signal<string>('');
   tipoAnuncio = signal<'carrusel' | 'toolbar' | 'oferta'>('carrusel');
@@ -110,13 +113,19 @@ export class AdminPublicidadComponent {
         const banner = this.banners()[index];
         const file = this.archivosPendientes()[index] || null;
 
+        let fechaISO = banner.fechaCaducidad;
+        if (fechaISO && typeof fechaISO !== 'string') {
+          fechaISO = (fechaISO as Date).toISOString();
+        }
+
         await this.publicidadService.guardarBanner(
           catId, 
           index, 
           file, 
           banner.patrocinador || '', 
           banner.whatsapp, 
-          banner.phoneFijo
+          banner.phoneFijo,
+          fechaISO
         );
         const current = [...this.archivosPendientes()];
         current[index] = null as any;

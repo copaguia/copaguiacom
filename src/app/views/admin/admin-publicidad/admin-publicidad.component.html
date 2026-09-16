@@ -9,8 +9,13 @@
   <mat-form-field appearance="outline" class="select-categoria">
     <mat-label>Selecciona una Categoría</mat-label>
     <mat-select [ngModel]="categoriaSeleccionada()" (ngModelChange)="categoriaSeleccionada.set($event)">
-      @for (cat of categoriasDisponibles; track cat) {
-        <mat-option [value]="cat">{{ cat }}</mat-option>
+      @for (grupo of categoriasAgrupadas; track grupo.nombre) {
+        <mat-optgroup [label]="grupo.nombre">
+          <mat-option [value]="grupo.nombre">{{ grupo.nombre }} (Principal)</mat-option>
+          @for (sec of grupo.secciones; track sec) {
+            <mat-option [value]="sec">{{ sec }}</mat-option>
+          }
+        </mat-optgroup>
       }
     </mat-select>
   </mat-form-field>
@@ -54,6 +59,13 @@
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del Patrocinador</mat-label>
             <input matInput [(ngModel)]="banner.patrocinador">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha de Caducidad (Cada 8 días)</mat-label>
+            <input matInput [matDatepicker]="pickerCarrusel" [(ngModel)]="banner.fechaCaducidad">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerCarrusel"></mat-datepicker-toggle>
+            <mat-datepicker #pickerCarrusel></mat-datepicker>
           </mat-form-field>
 
           <button mat-flat-button color="primary" class="save-btn" 

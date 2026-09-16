@@ -57,7 +57,17 @@ export class CategoriasComponent {
 
   async cargarBannersParaCategoriaActiva(categoriaId: string) {
     if (!this.diccionarioBanners()[categoriaId]) {
-      const banners = await this.publicidadService.obtenerBanners(categoriaId);
+      let banners = await this.publicidadService.obtenerBanners(categoriaId);
+      
+      // Filtrar banners expirados
+      const ahora = new Date().toISOString();
+      banners = banners.map(b => {
+        if (b.fechaCaducidad && b.fechaCaducidad < ahora) {
+          return { id: b.id, image: '', patrocinador: '' };
+        }
+        return b;
+      });
+
       this.diccionarioBanners.update(d => ({...d, [categoriaId]: banners}));
     }
     const oferta = await this.publicidadService.obtenerOfertaCentralAd(categoriaId);

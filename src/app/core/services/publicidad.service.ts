@@ -79,7 +79,8 @@ export class PublicidadService {
     file: File | null, 
     patrocinador: string,
     whatsapp?: number,
-    phoneFijo?: number
+    phoneFijo?: number,
+    fechaCaducidad?: string
   ): Promise<void> {
     try {
       let imageUrl = '';
@@ -100,6 +101,7 @@ export class PublicidadService {
       };
       if (whatsapp !== undefined) currentBanner.whatsapp = whatsapp;
       if (phoneFijo !== undefined) currentBanner.phoneFijo = phoneFijo;
+      if (fechaCaducidad) currentBanner.fechaCaducidad = fechaCaducidad;
 
       currentBanners[slotIndex] = currentBanner;
 

@@ -1,0 +1,155 @@
+<div class="pautas-container">
+  <div class="header">
+    <button mat-icon-button (click)="volver()" class="back-btn">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <div class="header-titles">
+      <h1>Sistema de Pautas ADS</h1>
+      <p class="subtitle">Monetización y Espacios Publicitarios</p>
+    </div>
+  </div>
+
+  <div class="pricing-grid">
+    <!-- Carrusel ADS -->
+    <mat-card class="pricing-card premium-card">
+      <div class="card-glow"></div>
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon"><mat-icon>view_carousel</mat-icon></div>
+        <mat-card-title>Carrusel ADS</mat-card-title>
+        <mat-card-subtitle>Alto Impacto (1080x1350px)</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-tag">
+          <span class="currency">$</span>
+          <span class="amount">50.000</span>
+          <span class="period">/ cada 8 días</span>
+        </div>
+        <ul class="features-list">
+          <li><mat-icon>check_circle</mat-icon> Rotación constante en la categoría</li>
+          <li><mat-icon>check_circle</mat-icon> Enlace a perfil o WhatsApp</li>
+          <li><mat-icon>check_circle</mat-icon> Máxima visibilidad visual</li>
+          <li><mat-icon>check_circle</mat-icon> Renovación o caducidad a los 8 días</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Oferta Central (ENTÉRATE) -->
+    <mat-card class="pricing-card gold-card">
+      <div class="card-glow"></div>
+      <div class="badge-popular">MÁS POPULAR</div>
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon"><mat-icon>local_offer</mat-icon></div>
+        <mat-card-title>Oferta Central (ENTÉRATE)</mat-card-title>
+        <mat-card-subtitle>Conversión Directa</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-tag">
+          <span class="currency">$</span>
+          <span class="amount">80.000</span>
+          <span class="period">/ cada 8 días</span>
+        </div>
+        <ul class="features-list">
+          <li><mat-icon>check_circle</mat-icon> Botón dorado flotante en la categoría</li>
+          <li><mat-icon>check_circle</mat-icon> Modal pantalla completa al hacer clic</li>
+          <li><mat-icon>check_circle</mat-icon> Llamado a la acción "Adquirir Oferta" directo a WhatsApp</li>
+          <li><mat-icon>check_circle</mat-icon> Desaparición automática al caducar</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Toolbar ADS -->
+    <mat-card class="pricing-card standard-card">
+      <div class="card-glow"></div>
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon"><mat-icon>campaign</mat-icon></div>
+        <mat-card-title>Toolbar ADS (Megáfono)</mat-card-title>
+        <mat-card-subtitle>Anuncio de Nicho</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-tag">
+          <span class="currency">$</span>
+          <span class="amount">30.000</span>
+          <span class="period">/ quincena</span>
+        </div>
+        <ul class="features-list">
+          <li><mat-icon>check_circle</mat-icon> Ubicado en la barra superior de sub-secciones</li>
+          <li><mat-icon>check_circle</mat-icon> Impacta a usuarios específicos (ej. buscando Restaurantes)</li>
+          <li><mat-icon>check_circle</mat-icon> Ícono con animación llamativa</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Notificaciones Globales -->
+    <mat-card class="pricing-card elite-card">
+      <div class="card-glow"></div>
+      <mat-card-header>
+        <div mat-card-avatar class="card-icon"><mat-icon>notifications_active</mat-icon></div>
+        <mat-card-title>Notificaciones Globales</mat-card-title>
+        <mat-card-subtitle>Alcance Masivo Inmediato</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="price-tag">
+          <span class="currency">$</span>
+          <span class="amount">100.000</span>
+          <span class="period">/ envío</span>
+        </div>
+        <ul class="features-list">
+          <li><mat-icon>check_circle</mat-icon> Llega a TODOS los usuarios conectados</li>
+          <li><mat-icon>check_circle</mat-icon> Vibración del dispositivo y animación de ícono</li>
+          <li><mat-icon>check_circle</mat-icon> Diálogo de alerta forzado en pantalla</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="projection-section">
+    <h2>Proyección de Ingresos (Ocupación al 100%)</h2>
+    <p class="subtitle" style="margin-bottom: 24px;">Estimado mensual si todos los espacios disponibles de todas las categorías y secciones estuvieran vendidos.</p>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <mat-icon color="primary">view_carousel</mat-icon>
+        <div class="stat-info">
+          <h3>Carrusel ADS ({{ totalCategorias * 3 }} espacios)</h3>
+          <p>Renovación cada 8 días (Aprox. x4 al mes)</p>
+          <span class="stat-value text-primary">${{ (totalCategorias * 3 * 50000 * 4) | number }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon color="accent">local_offer</mat-icon>
+        <div class="stat-info">
+          <h3>Oferta Central ({{ totalCategorias }} espacios)</h3>
+          <p>Renovación cada 8 días (Aprox. x4 al mes)</p>
+          <span class="stat-value text-accent">${{ (totalCategorias * 80000 * 4) | number }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon class="text-success">campaign</mat-icon>
+        <div class="stat-info">
+          <h3>Toolbar Secciones ({{ totalSubSecciones }} espacios)</h3>
+          <p>Renovación cada quincena (x2 al mes)</p>
+          <span class="stat-value text-success">${{ (totalSubSecciones * 30000 * 2) | number }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <mat-icon style="color: #a855f7 !important;">store</mat-icon>
+        <div class="stat-info">
+          <h3>Suscripción Plan Básico</h3>
+          <p>Proyección: 10 negocios x {{ totalSubSecciones }} secciones = {{ totalSubSecciones * 10 }} negocios</p>
+          <span class="stat-value" style="color: #a855f7 !important;">${{ (totalSubSecciones * 10 * 35000) | number }}</span>
+        </div>
+      </div>
+    </div>
+
+    <mat-card class="total-projection-card">
+      <div class="card-glow" style="background: linear-gradient(90deg, #10b981, #f59e0b, #3b82f6);"></div>
+      <mat-card-content class="total-content">
+        <div class="total-label">POTENCIAL TOTAL MENSUAL (Sin notificaciones)</div>
+        <div class="total-amount">${{ calcularTotalProyectado() | number }} COP</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
