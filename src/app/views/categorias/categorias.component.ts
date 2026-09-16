@@ -10,9 +10,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../core/auth/auth.service';
+import { InstanciaFirebase } from '../../core/firebase/instancias.service';
+import { collection, getDocs, DocumentData } from 'firebase/firestore';
 import { categoriaData } from '../../data/categoriasData';
 import { CarruselComponent } from '../../components/build/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/build/scroll-botones/scroll-botones.component';
+import { BuscadorComponent } from '../../components/build/buscador/buscador.component';
 import { AuthorizationService } from '../../core/auth/authorization.service';
 import { NegocioVerificationService } from '../../core/auth/negocio-verification.service';
 import { GlobalNotificationService } from '../../core/services/global-notification.service';
@@ -25,7 +28,7 @@ import { BannerInterface } from '../../components/build/carrusel/carrusel.compon
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, MatMenuModule, MatButtonModule, MatDialogModule, CarruselComponent, ScrollBotonesComponent],
+  imports: [CommonModule, MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, MatMenuModule, MatButtonModule, MatDialogModule, CarruselComponent, ScrollBotonesComponent, BuscadorComponent],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -38,12 +41,14 @@ export class CategoriasComponent {
   publicidadService = inject(PublicidadService);
   dialog = inject(MatDialog);
   router = inject(Router);
+  firestore = inject(InstanciaFirebase).firestore;
 
   categorias = signal(categoriaData);
   tituloToolbar = signal(categoriaData[0]?.ruta || 'CATEGORIAS');
   diccionarioBanners = signal<Record<string, any>>({});
   ofertaCentralBanner = signal<BannerInterface | null>(null);
   animKey = signal(0);
+  terminoGlobal = signal('');
 
   constructor() {
     this.cargarBannersParaCategoriaActiva(this.tituloToolbar());
@@ -160,5 +165,38 @@ export class CategoriasComponent {
 
   logout(): void {
     this.authService.desloguear();
+  }
+
+  async onSearchChange(term: string) {
+    this.terminoGlobal.set(term);
+    const searchTerm = term.trim().toLowerCase();
+    
+    if (searchTerm.length > 0) {
+      try {
+        // Obtenemos todos los negocios para hacer una búsqueda completa
+        // Nota: en una app masiva esto debe ir a un backend o Algolia, pero para este tamaño funciona bien.
+        const querySnapshot = await getDocs(collection(this.firestore, 'negocios'));
+        const negocios = querySnapshot.docs.map(doc => doc.data() as DocumentData);
+        
+        // Encontrar el primer negocio que coincida con el nombre o descripción
+        const negocioEncontrado = negocios.find(n => 
+          (n['nombre'] && n['nombre'].toLowerCase().includes(searchTerm)) ||
+          (n['descripcion'] && n['descripcion'].toLowerCase().includes(searchTerm))
+        );
+
+        if (negocioEncontrado && negocioEncontrado['seccion']) {
+          // Si lo encuentra, redirige a su sección específica con el término de búsqueda
+          this.router.navigate(['/categorias', negocioEncontrado['seccion']], { queryParams: { q: term } });
+        } else {
+          // Si no encuentra sección o no hay negocio, puede ir al maestro global
+          this.router.navigate(['/buscar'], { queryParams: { q: term } });
+        }
+      } catch (e) {
+        console.error("Error buscando el negocio:", e);
+        this.router.navigate(['/buscar'], { queryParams: { q: term } });
+      }
+
+      this.terminoGlobal.set(''); // reset so it's clean if they come back
+    }
   }
 }

@@ -148,7 +148,7 @@
 <!-- Barra de Búsqueda Fija Abajo -->
 <div class="search-fixed-bottom">
   <app-buscador class="buscador-wrapper" [label]="'Buscar en ' + title"
-    [placeholder]="'Ej: Pizzería, hamburguesas, tacos...'" [termino]="terminoBusqueda()"
-    (terminoChange)="terminoBusqueda.set($event); filtrarNegocios()">
+    [placeholder]="'Ej: Pizzería, hamburguesas, tacos...'" [(termino)]="terminoBusqueda"
+    (searchAction)="filtrarNegocios()">
   </app-buscador>
 </div>

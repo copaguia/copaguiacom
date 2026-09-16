@@ -47,6 +47,14 @@
   }
 </mat-tab-group>
 
+<!-- Barra de Búsqueda Fija Abajo (Buscador Global) -->
+<div class="search-fixed-bottom">
+  <app-buscador class="buscador-wrapper" label="Buscar Negocios"
+    placeholder="Coloque nombre del negocio o etiquetas de búsqueda" [(termino)]="terminoGlobal"
+    (searchAction)="onSearchChange($event)">
+  </app-buscador>
+</div>
+
 <mat-menu #userMenu="matMenu">
 
   <button mat-menu-item (click)="navigateToProfile()">

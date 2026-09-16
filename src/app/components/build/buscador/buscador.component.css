@@ -14,9 +14,9 @@
 .gemini-search-bar {
   display: flex;
   align-items: center;
-  background-color: #212121; /* Fondo oscuro contrastante (estilo Gemini) */
+  background-color: #1e1e1e; /* Fondo oscuro contrastante (estilo Gemini) */
   border-radius: 50px; /* Bordes en forma de píldora */
-  padding: 14px 20px;
+  padding: 8px 12px;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
@@ -25,6 +25,7 @@
   border: 1px solid rgba(255, 255, 255, 0.08);
   transition: all 0.3s ease;
   box-sizing: border-box; /* PREVIENE DESBORDAMIENTO */
+  gap: 8px;
 }
 
 .gemini-search-bar:focus-within {
@@ -33,12 +34,20 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7);
 }
 
-.icon {
+.action-btn {
   color: #a0a0a0;
-  margin-right: 12px;
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
+}
+
+.send-btn {
+  background-color: #2c2c2c;
+  color: #a0a0a0;
+  transition: all 0.3s ease;
+}
+
+/* Cuando hay texto, el botón de enviar se pone azul como en Gemini */
+.has-text .send-btn {
+  background-color: #3b82f6; /* Azul brillante */
+  color: #ffffff;
 }
 
 .gemini-input {
@@ -48,6 +57,7 @@
   color: #ffffff;
   font-size: 16px;
   outline: none;
+  padding: 8px;
 }
 
 .gemini-input::placeholder {

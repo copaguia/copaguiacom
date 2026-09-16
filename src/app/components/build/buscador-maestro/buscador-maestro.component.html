@@ -9,9 +9,9 @@
 
       <mat-chip-listbox formControlName="categoria" class="categorias-chips">
         <!-- Bucle final corregido para usar la fuente de datos unificada -->
-        @for (cat of categorias; track cat.id) {
-          <!-- El [value] es cat.id para la lógica del worker -->
-          <mat-chip-option [value]="cat.id">
+        @for (cat of categorias; track cat.ruta) {
+          <!-- El [value] es cat.ruta para la lógica del worker -->
+          <mat-chip-option [value]="cat.ruta">
             <!-- El icono y la etiqueta vienen de las propiedades correctas -->
             <mat-icon matChipAvatar>{{ cat.icono }}</mat-icon> 
             {{ cat.ruta }}

@@ -20,6 +20,7 @@ import { EstadisticasComponent } from './views/admin/estadisticas/estadisticas.c
 
 import { AdminPublicidadComponent } from './views/admin/admin-publicidad/admin-publicidad.component';
 import { SistemaPautasComponent } from './views/admin/sistema-pautas/sistema-pautas.component';
+import { BuscadorMaestroComponent } from './components/build/buscador-maestro/buscador-maestro.component';
 
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
@@ -55,6 +56,7 @@ const staticRoutes: Routes = [
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 
     }, 
+    { path: 'buscar', component: BuscadorMaestroComponent },
     { path: 'navegacion', component: NavegacionComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },

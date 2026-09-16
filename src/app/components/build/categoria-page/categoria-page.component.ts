@@ -77,6 +77,17 @@ export class CategoriaPageComponent implements OnInit {
       this.seccion = data['seccion'] || '';
       this.buscarNegocios();
     });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.terminoBusqueda.set(params['q']);
+        // Como los negocios podrían no haber cargado aún, filtrarNegocios se llama cuando lleguen,
+        // pero por si acaso, lo llamamos también aquí si ya llegaron.
+        if (this.negocios().length > 0) {
+          this.filtrarNegocios();
+        }
+      }
+    });
   }
 
   buscarNegocios() {

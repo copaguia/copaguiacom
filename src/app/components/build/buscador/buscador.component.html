@@ -1,7 +1,16 @@
-<div class="gemini-search-bar">
-  <mat-icon class="icon">search</mat-icon>
+<div class="gemini-search-bar" [class.has-text]="termino().trim().length > 0">
+  <button mat-icon-button class="action-btn attach-btn">
+    <mat-icon>add</mat-icon>
+  </button>
   <input type="text"
          class="gemini-input" 
          [(ngModel)]="termino" 
-         [placeholder]="placeholder()">
+         [placeholder]="placeholder()"
+         (keyup.enter)="emitSearch()">
+  <button mat-icon-button class="action-btn mic-btn">
+    <mat-icon>mic</mat-icon>
+  </button>
+  <button mat-icon-button class="send-btn" (click)="emitSearch()" [disabled]="!termino().trim()">
+    <mat-icon>arrow_upward</mat-icon>
+  </button>
 </div>
