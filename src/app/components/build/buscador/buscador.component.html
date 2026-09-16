@@ -7,8 +7,8 @@
          [(ngModel)]="termino" 
          [placeholder]="placeholder()"
          (keyup.enter)="emitSearch()">
-  <button mat-icon-button class="action-btn mic-btn">
-    <mat-icon>mic</mat-icon>
+  <button mat-icon-button class="action-btn mic-btn" (click)="startListening()" [class.listening]="isListening()">
+    <mat-icon>{{ isListening() ? 'mic' : 'mic_none' }}</mat-icon>
   </button>
   <button mat-icon-button class="send-btn" (click)="emitSearch()" [disabled]="!termino().trim()">
     <mat-icon>arrow_upward</mat-icon>
