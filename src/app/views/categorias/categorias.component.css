@@ -182,14 +182,14 @@ h2 {
 ::ng-deep .mdc-tab.mdc-tab--active::before {
   left: -15px !important;
   right: auto !important;
-  width: 16px !important; /* +1px de ancho para solapar con la pestaña y tapar el hueco */
+  width: 20px !important; /* 15px para la curva + 5px de superposición sólida sobre la pestaña */
   background: radial-gradient(circle at 0 0, transparent 15px, var(--corporativo) 15.5px) !important;
 }
 
 ::ng-deep .mdc-tab.mdc-tab--active::after {
   right: -15px !important;
   left: auto !important;
-  width: 16px !important; /* +1px de ancho para solapar */
+  width: 20px !important; /* 15px para la curva + 5px de superposición sólida */
   background: radial-gradient(circle at 100% 0, transparent 15px, var(--corporativo) 15.5px) !important;
 }
 
