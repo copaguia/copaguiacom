@@ -124,7 +124,14 @@
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del Patrocinador</mat-label>
-            <input matInput [ngModel]="ofertaBanner()?.patrocinador" (ngModelChange)="ofertaBanner.set({ id: 'oferta-central', image: ofertaBanner()?.image || '', patrocinador: $event, whatsapp: ofertaBanner()?.whatsapp, phoneFijo: ofertaBanner()?.phoneFijo })">
+            <input matInput [ngModel]="ofertaBanner()?.patrocinador" (ngModelChange)="ofertaBanner.set({ id: 'oferta-central', image: ofertaBanner()?.image || '', patrocinador: $event, whatsapp: ofertaBanner()?.whatsapp, phoneFijo: ofertaBanner()?.phoneFijo, fechaCaducidad: ofertaBanner()?.fechaCaducidad })">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Fecha de Caducidad (Opcional)</mat-label>
+            <input matInput [matDatepicker]="pickerOferta" [ngModel]="ofertaBanner()?.fechaCaducidad" (ngModelChange)="ofertaBanner.set({ id: 'oferta-central', image: ofertaBanner()?.image || '', patrocinador: ofertaBanner()?.patrocinador || '', whatsapp: ofertaBanner()?.whatsapp, phoneFijo: ofertaBanner()?.phoneFijo, fechaCaducidad: $event })">
+            <mat-datepicker-toggle matIconSuffix [for]="pickerOferta"></mat-datepicker-toggle>
+            <mat-datepicker #pickerOferta></mat-datepicker>
           </mat-form-field>
 
           <button mat-flat-button color="primary" class="save-btn" 

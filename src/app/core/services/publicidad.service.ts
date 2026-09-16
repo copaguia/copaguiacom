@@ -183,7 +183,8 @@ export class PublicidadService {
     file: File | null, 
     patrocinador: string,
     whatsapp?: number,
-    phoneFijo?: number
+    phoneFijo?: number,
+    fechaCaducidad?: string
   ): Promise<void> {
     try {
       let imageUrl = '';
@@ -204,6 +205,7 @@ export class PublicidadService {
       };
       if (whatsapp !== undefined) ofertaCentralSlot.whatsapp = whatsapp;
       if (phoneFijo !== undefined) ofertaCentralSlot.phoneFijo = phoneFijo;
+      if (fechaCaducidad) ofertaCentralSlot.fechaCaducidad = fechaCaducidad;
 
       const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, ofertaCentralSlot }, { merge: true });

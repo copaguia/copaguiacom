@@ -15,7 +15,6 @@ import { CarruselComponent } from '../../components/build/carrusel/carrusel.comp
 import { ScrollBotonesComponent } from '../../components/build/scroll-botones/scroll-botones.component';
 import { AuthorizationService } from '../../core/auth/authorization.service';
 import { NegocioVerificationService } from '../../core/auth/negocio-verification.service';
-import { BtnNotificationsComponent } from '../../components/build/btn-notifications/btn-notifications.component';
 import { GlobalNotificationService } from '../../core/services/global-notification.service';
 import { GlobalNotificationDialogComponent } from '../../components/build/global-notification-dialog/global-notification-dialog.component';
 import { CrearNotificacionDialogComponent } from '../../components/build/crear-notificacion-dialog/crear-notificacion-dialog.component';
@@ -26,7 +25,7 @@ import { BannerInterface } from '../../components/build/carrusel/carrusel.compon
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [CommonModule, MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, MatMenuModule, MatButtonModule, MatDialogModule, CarruselComponent, ScrollBotonesComponent, BtnNotificationsComponent],
+  imports: [CommonModule, MatTabsModule, MatIconModule, MatGridListModule, MatToolbarModule, MatDividerModule, MatMenuModule, MatButtonModule, MatDialogModule, CarruselComponent, ScrollBotonesComponent],
   templateUrl: './categorias.component.html',
   styleUrl: './categorias.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -62,6 +61,15 @@ export class CategoriasComponent {
       this.diccionarioBanners.update(d => ({...d, [categoriaId]: banners}));
     }
     const oferta = await this.publicidadService.obtenerOfertaCentralAd(categoriaId);
+    
+    if (oferta && oferta.fechaCaducidad) {
+      const ahora = new Date().toISOString();
+      if (oferta.fechaCaducidad < ahora) {
+        this.ofertaCentralBanner.set(null);
+        return;
+      }
+    }
+    
     this.ofertaCentralBanner.set(oferta);
   }
 

@@ -11,6 +11,7 @@ export interface BannerInterface {
   whatsapp?: number;
   phoneFijo?: number;
   patrocinador?: string;
+  fechaCaducidad?: string;
 }
 
 @Component({

@@ -24,8 +24,6 @@
     </button>
   }
 
-  <app-btn-notifications></app-btn-notifications>
-
   @for (notif of globalNotifService.unreadNotifications(); track notif.id) {
     <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification(notif)">
       <mat-icon class="shake-icon" 

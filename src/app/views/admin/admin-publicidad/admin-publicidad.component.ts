@@ -7,6 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PublicidadService } from '../../../core/services/publicidad.service';
 import { categoriaData } from '../../../data/categoriasData';
@@ -16,7 +18,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-publicidad',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatIconModule, MatSnackBarModule, MatRadioModule],
+  imports: [CommonModule, FormsModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatIconModule, MatSnackBarModule, MatRadioModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './admin-publicidad.component.html',
   styleUrl: './admin-publicidad.component.css'
 })
@@ -135,12 +137,18 @@ export class AdminPublicidadComponent {
         const banner = this.ofertaBanner();
         const file = this.archivoOfertaPendiente();
         
+        let fechaISO = banner?.fechaCaducidad;
+        if (fechaISO && typeof fechaISO !== 'string') {
+          fechaISO = (fechaISO as Date).toISOString();
+        }
+        
         await this.publicidadService.guardarOfertaCentralAd(
           catId,
           file,
           banner?.patrocinador || '',
           banner?.whatsapp,
-          banner?.phoneFijo
+          banner?.phoneFijo,
+          fechaISO
         );
         this.archivoOfertaPendiente.set(null);
       }
