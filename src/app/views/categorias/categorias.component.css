@@ -128,15 +128,22 @@ h2 {
 ::ng-deep .mdc-tab,
 ::ng-deep .mdc-tab__ripple,
 ::ng-deep .mat-mdc-tab-ripple,
-::ng-deep .mat-ripple {
+::ng-deep .mat-ripple,
+::ng-deep .mdc-tab__ripple::before,
+::ng-deep .mdc-tab__ripple::after {
   border-top-left-radius: 15px !important;
   border-top-right-radius: 15px !important;
   border-bottom-left-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
 
+/* Desactivar el hover nativo gris cuadrado de Material para evitar que sobresalga de las curvas */
+::ng-deep .mdc-tab:hover .mdc-tab__ripple::before {
+  opacity: 0 !important;
+}
+
 ::ng-deep .mdc-tab {
-  overflow: hidden !important;
+  overflow: visible !important; /* Permitir que las curvas inferiores salgan */
   height: 40px !important;
   min-height: 40px !important;
   transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease !important;
@@ -145,6 +152,58 @@ h2 {
 /* Estilo para la pestaña activa (color verde) */
 ::ng-deep .mdc-tab.mdc-tab--active {
   background-color: var(--corporativo) !important;
+  overflow: visible !important; /* Necesario para que las curvas se vean fuera de la pestaña */
+  position: relative;
+  z-index: 10 !important; /* Elevar la pestaña activa para que sus curvas no se oculten bajo otras pestañas */
+}
+
+/* Efecto Fluted Tabs (Curvas hacia afuera) para la pestaña ACTIVA */
+/* Anclado directamente a .mdc-tab, pero con directivas fuertes para evitar colisiones */
+::ng-deep .mdc-tab.mdc-tab--active::before,
+::ng-deep .mdc-tab.mdc-tab--active::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: 0 !important;
+  width: 15px !important;
+  height: 15px !important;
+  background-color: transparent !important;
+  pointer-events: none !important;
+  opacity: 0;
+  animation: fade-in-curves 0.4s ease forwards;
+  z-index: 20 !important;
+  display: block !important;
+  top: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  transform: none !important;
+}
+
+::ng-deep .mdc-tab.mdc-tab--active::before {
+  left: -15px !important;
+  right: auto !important;
+  width: 16px !important; /* +1px de ancho para solapar con la pestaña y tapar el hueco */
+  background: radial-gradient(circle at 0 0, transparent 15px, var(--corporativo) 15.5px) !important;
+}
+
+::ng-deep .mdc-tab.mdc-tab--active::after {
+  right: -15px !important;
+  left: auto !important;
+  width: 16px !important; /* +1px de ancho para solapar */
+  background: radial-gradient(circle at 100% 0, transparent 15px, var(--corporativo) 15.5px) !important;
+}
+
+/* Efecto Hover para pestañas inactivas (Curva hacia adentro / redondeada completa) */
+::ng-deep .mdc-tab:not(.mdc-tab--active):hover {
+  background-color: rgba(10, 65, 62, 0.6) !important; /* Corporativo translúcido */
+  border-radius: 15px !important; /* Redondea todas las esquinas (curva hacia adentro) */
+  transition: all 0.3s ease !important;
+  z-index: 9 !important;
+}
+
+@keyframes fade-in-curves {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 /* --- Animación sutil y elegante para el título del Toolbar --- */
