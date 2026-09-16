@@ -28,12 +28,14 @@ export class AdminPublicidadComponent {
   categoriasDisponibles = categoriaData.map(c => c.ruta);
   
   categoriaSeleccionada = signal<string>('');
-  tipoAnuncio = signal<'carrusel' | 'toolbar'>('carrusel');
+  tipoAnuncio = signal<'carrusel' | 'toolbar' | 'oferta'>('carrusel');
   banners = signal<BannerInterface[]>([]);
   toolbarBanner = signal<BannerInterface | null>(null);
+  ofertaBanner = signal<BannerInterface | null>(null);
   isSaving = signal<boolean>(false);
   archivosPendientes = signal<File[]>([]);
   archivoToolbarPendiente = signal<File | null>(null);
+  archivoOfertaPendiente = signal<File | null>(null);
 
   constructor() {
     effect(() => {
@@ -52,6 +54,10 @@ export class AdminPublicidadComponent {
     const toolbarData = await this.publicidadService.obtenerToolbarAd(categoriaId);
     this.toolbarBanner.set(toolbarData);
     this.archivoToolbarPendiente.set(null);
+
+    const ofertaData = await this.publicidadService.obtenerOfertaCentralAd(categoriaId);
+    this.ofertaBanner.set(ofertaData);
+    this.archivoOfertaPendiente.set(null);
   }
 
   onFileSelected(event: any, index: number) {
@@ -69,13 +75,22 @@ export class AdminPublicidadComponent {
           this.banners.set(bannersActuales);
         };
         reader.readAsDataURL(file);
-      } else {
+      } else if (this.tipoAnuncio() === 'toolbar') {
         this.archivoToolbarPendiente.set(file);
         
         const reader = new FileReader();
         reader.onload = (e: any) => {
           const bannerActual = this.toolbarBanner() || { id: 'toolbar', image: '', patrocinador: '' };
           this.toolbarBanner.set({ ...bannerActual, image: e.target.result });
+        };
+        reader.readAsDataURL(file);
+      } else {
+        this.archivoOfertaPendiente.set(file);
+        
+        const reader = new FileReader();
+        reader.onload = (e: any) => {
+          const bannerActual = this.ofertaBanner() || { id: 'oferta-central', image: '', patrocinador: '' };
+          this.ofertaBanner.set({ ...bannerActual, image: e.target.result });
         };
         reader.readAsDataURL(file);
       }
@@ -104,7 +119,7 @@ export class AdminPublicidadComponent {
         const current = [...this.archivosPendientes()];
         current[index] = null as any;
         this.archivosPendientes.set(current);
-      } else {
+      } else if (this.tipoAnuncio() === 'toolbar') {
         const banner = this.toolbarBanner();
         const file = this.archivoToolbarPendiente();
         
@@ -116,6 +131,18 @@ export class AdminPublicidadComponent {
           banner?.phoneFijo
         );
         this.archivoToolbarPendiente.set(null);
+      } else {
+        const banner = this.ofertaBanner();
+        const file = this.archivoOfertaPendiente();
+        
+        await this.publicidadService.guardarOfertaCentralAd(
+          catId,
+          file,
+          banner?.patrocinador || '',
+          banner?.whatsapp,
+          banner?.phoneFijo
+        );
+        this.archivoOfertaPendiente.set(null);
       }
       
       this.snackBar.open('Publicidad guardada con éxito', 'Cerrar', { duration: 3000 });
@@ -134,8 +161,10 @@ export class AdminPublicidadComponent {
       
       if (this.tipoAnuncio() === 'carrusel') {
         await this.publicidadService.eliminarBanner(catId, index);
-      } else {
+      } else if (this.tipoAnuncio() === 'toolbar') {
         await this.publicidadService.eliminarToolbarAd(catId);
+      } else {
+        await this.publicidadService.eliminarOfertaCentralAd(catId);
       }
       
       await this.cargarBanners(catId);

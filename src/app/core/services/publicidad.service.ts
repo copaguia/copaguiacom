@@ -8,6 +8,7 @@ export interface PublicidadCategoria {
   categoriaId: string;
   slots: BannerInterface[];
   toolbarSlot?: BannerInterface | null;
+  ofertaCentralSlot?: BannerInterface | null;
 }
 
 @Injectable({
@@ -20,6 +21,7 @@ export class PublicidadService {
   // Caché en memoria para evitar repetidas lecturas (Firestore-ultra-low cost strategy)
   private cache = new Map<string, BannerInterface[]>();
   private cacheToolbar = new Map<string, BannerInterface | null>();
+  private cacheOfertaCentral = new Map<string, BannerInterface | null>();
 
   constructor() {}
 
@@ -37,11 +39,13 @@ export class PublicidadService {
         const slots = data.slots && data.slots.length === 3 ? data.slots : this.generarSlotsVacios();
         this.cache.set(categoriaId, slots);
         this.cacheToolbar.set(categoriaId, data.toolbarSlot || null);
+        this.cacheOfertaCentral.set(categoriaId, data.ofertaCentralSlot || null);
         return slots;
       } else {
         const slotsVacios = this.generarSlotsVacios();
         this.cache.set(categoriaId, slotsVacios);
         this.cacheToolbar.set(categoriaId, null);
+        this.cacheOfertaCentral.set(categoriaId, null);
         return slotsVacios;
       }
     } catch (error) {
@@ -58,6 +62,15 @@ export class PublicidadService {
     // Si no está en caché, intentamos cargar los banners generales (que cargarán también el toolbar)
     await this.obtenerBanners(categoriaId);
     return this.cacheToolbar.get(categoriaId) || null;
+  }
+
+  async obtenerOfertaCentralAd(categoriaId: string): Promise<BannerInterface | null> {
+    if (this.cacheOfertaCentral.has(categoriaId)) {
+      return this.cacheOfertaCentral.get(categoriaId)!;
+    }
+    
+    await this.obtenerBanners(categoriaId);
+    return this.cacheOfertaCentral.get(categoriaId) || null;
   }
 
   async guardarBanner(
@@ -80,13 +93,15 @@ export class PublicidadService {
         imageUrl = currentBanners[slotIndex].image;
       }
 
-      currentBanners[slotIndex] = {
+      const currentBanner: BannerInterface = {
         id: slotIndex.toString(),
         image: imageUrl,
-        patrocinador: patrocinador || '',
-        whatsapp: whatsapp,
-        phoneFijo: phoneFijo
+        patrocinador: patrocinador || ''
       };
+      if (whatsapp !== undefined) currentBanner.whatsapp = whatsapp;
+      if (phoneFijo !== undefined) currentBanner.phoneFijo = phoneFijo;
+
+      currentBanners[slotIndex] = currentBanner;
 
       const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, slots: currentBanners }, { merge: true });
@@ -136,10 +151,10 @@ export class PublicidadService {
       const toolbarSlot: BannerInterface = {
         id: 'toolbar',
         image: imageUrl,
-        patrocinador: patrocinador || '',
-        whatsapp: whatsapp,
-        phoneFijo: phoneFijo
+        patrocinador: patrocinador || ''
       };
+      if (whatsapp !== undefined) toolbarSlot.whatsapp = whatsapp;
+      if (phoneFijo !== undefined) toolbarSlot.phoneFijo = phoneFijo;
 
       const docRef = doc(this.db, 'ads', categoriaId);
       await setDoc(docRef, { categoriaId, toolbarSlot }, { merge: true });
@@ -159,6 +174,55 @@ export class PublicidadService {
       this.cacheToolbar.set(categoriaId, null);
     } catch (error) {
       console.error('Error eliminando toolbar ad:', error);
+      throw error;
+    }
+  }
+
+  async guardarOfertaCentralAd(
+    categoriaId: string, 
+    file: File | null, 
+    patrocinador: string,
+    whatsapp?: number,
+    phoneFijo?: number
+  ): Promise<void> {
+    try {
+      let imageUrl = '';
+      const currentOfertaAd = await this.obtenerOfertaCentralAd(categoriaId);
+      
+      if (file) {
+        const storageRef = ref(this.storage, `publicidad/${categoriaId}/oferta-central-${Date.now()}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      } else {
+        imageUrl = currentOfertaAd?.image || '';
+      }
+
+      const ofertaCentralSlot: BannerInterface = {
+        id: 'oferta-central',
+        image: imageUrl,
+        patrocinador: patrocinador || ''
+      };
+      if (whatsapp !== undefined) ofertaCentralSlot.whatsapp = whatsapp;
+      if (phoneFijo !== undefined) ofertaCentralSlot.phoneFijo = phoneFijo;
+
+      const docRef = doc(this.db, 'ads', categoriaId);
+      await setDoc(docRef, { categoriaId, ofertaCentralSlot }, { merge: true });
+      
+      this.cacheOfertaCentral.set(categoriaId, ofertaCentralSlot);
+
+    } catch (error) {
+      console.error('Error guardando oferta central ad:', error);
+      throw error;
+    }
+  }
+
+  async eliminarOfertaCentralAd(categoriaId: string): Promise<void> {
+    try {
+      const docRef = doc(this.db, 'ads', categoriaId);
+      await setDoc(docRef, { categoriaId, ofertaCentralSlot: null }, { merge: true });
+      this.cacheOfertaCentral.set(categoriaId, null);
+    } catch (error) {
+      console.error('Error eliminando oferta central ad:', error);
       throw error;
     }
   }

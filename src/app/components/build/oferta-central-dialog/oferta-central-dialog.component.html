@@ -1,0 +1,19 @@
+<div class="oferta-container">
+  <button mat-icon-button class="close-btn" (click)="cerrar()">
+    <mat-icon>close</mat-icon>
+  </button>
+  
+  <div class="oferta-content">
+    <img [src]="data.banner.image" alt="Oferta Especial" class="oferta-img">
+  </div>
+
+  <div class="oferta-actions">
+    @if (data.banner.patrocinador) {
+      <p class="patrocinador-text">Patrocinado por: <strong>{{ data.banner.patrocinador }}</strong></p>
+    }
+    <button mat-flat-button class="wa-btn" (click)="contactarWhatsApp()">
+      <mat-icon svgIcon="whatsapp"></mat-icon>
+      Adquirir Oferta
+    </button>
+  </div>
+</div>

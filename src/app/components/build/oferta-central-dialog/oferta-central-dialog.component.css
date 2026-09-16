@@ -1,0 +1,56 @@
+.oferta-container {
+  position: relative;
+  background-color: #000;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 10;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+}
+
+.oferta-content {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #111;
+}
+
+.oferta-img {
+  width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.oferta-actions {
+  padding: 16px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.patrocinador-text {
+  margin: 0 0 12px 0;
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.wa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #25D366;
+  color: white;
+  border-radius: 24px;
+  padding: 8px 24px;
+  font-size: 1rem;
+  font-weight: bold;
+}

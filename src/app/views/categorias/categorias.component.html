@@ -1,5 +1,21 @@
 <mat-toolbar class="custom-toolbar">
-  <span><strong>{{ tituloToolbar() | uppercase }}</strong></span>
+  <span style="display: inline-flex; align-items: center; height: 100%; min-width: 150px;">
+    @for (item of [{ text: tituloToolbar(), key: animKey() }]; track item.key) {
+      <div class="animacion-titulo-tab d-flex align-items-center gap-2">
+        <mat-icon class="categoria-toolbar-icon">{{ getIconForCategory(item.text) }}</mat-icon>
+        <span class="categoria-toolbar-texto">{{ item.text | uppercase }}</span>
+      </div>
+    }
+  </span>
+  <span class="toolbar-spacer"></span>
+
+  @if (ofertaCentralBanner()?.image) {
+    <button class="oferta-central-btn pulse-anim" (click)="openOfertaCentralDialog()">
+      <mat-icon class="oferta-central-icon">local_offer</mat-icon>
+      <span class="oferta-central-text">ENTÉRATE !</span>
+    </button>
+  }
+
   <span class="toolbar-spacer"></span>
 
   @if (authService.perfilLectura(); as perfil) {

@@ -20,6 +20,7 @@
       <mat-radio-group [ngModel]="tipoAnuncio()" (ngModelChange)="tipoAnuncio.set($event)" color="primary">
         <mat-radio-button value="carrusel">Carrusel ADS</mat-radio-button>
         <mat-radio-button value="toolbar">Toolbar ADS</mat-radio-button>
+        <mat-radio-button value="oferta">Oferta Central ADS</mat-radio-button>
       </mat-radio-group>
     </div>
 
@@ -62,7 +63,7 @@
           </button>
         </div>
       }
-      } @else {
+      } @else if (tipoAnuncio() === 'toolbar') {
         <div class="slot-card">
           <div class="slot-header">
             <h3>Espacio Toolbar ADS</h3>
@@ -95,6 +96,41 @@
                   [disabled]="isSaving()" 
                   (click)="guardarBanner(0)">
             {{ isSaving() ? 'Guardando...' : 'Guardar Toolbar AD' }}
+          </button>
+        </div>
+      } @else {
+        <div class="slot-card">
+          <div class="slot-header">
+            <h3>Espacio Oferta Central ADS</h3>
+            @if (ofertaBanner()?.image && !archivoOfertaPendiente()) {
+              <button mat-icon-button color="warn" (click)="eliminarBanner(0)" title="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+
+          <div class="image-preview" (click)="fileInputOferta.click()">
+            @if (ofertaBanner()?.image) {
+              <img [src]="ofertaBanner()?.image" alt="Publicidad Oferta">
+            } @else {
+              <div class="empty-state">
+                <mat-icon>add_photo_alternate</mat-icon>
+                <span>Subir Imagen</span>
+              </div>
+            }
+          </div>
+          
+          <input type="file" #fileInputOferta hidden accept="image/*" (change)="onFileSelected($event, 0)">
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre del Patrocinador</mat-label>
+            <input matInput [ngModel]="ofertaBanner()?.patrocinador" (ngModelChange)="ofertaBanner.set({ id: 'oferta-central', image: ofertaBanner()?.image || '', patrocinador: $event, whatsapp: ofertaBanner()?.whatsapp, phoneFijo: ofertaBanner()?.phoneFijo })">
+          </mat-form-field>
+
+          <button mat-flat-button color="primary" class="save-btn" 
+                  [disabled]="isSaving()" 
+                  (click)="guardarBanner(0)">
+            {{ isSaving() ? 'Guardando...' : 'Guardar Oferta Central AD' }}
           </button>
         </div>
       }

@@ -110,3 +110,103 @@ h2 {
 ::ng-deep .mdc-tab.mdc-tab--active {
   background-color: var(--corporativo) !important;
 }
+
+/* --- Animación sutil y elegante para el título del Toolbar --- */
+.animacion-titulo-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  animation: sutil-aparecer 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+.categoria-toolbar-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--corporativo, #4CAF50); /* Color vibrante para el icono */
+}
+
+.categoria-toolbar-texto {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: rgba(255, 255, 255, 0.55); /* Texto aún más tenue */
+  position: relative;
+  display: inline-block;
+}
+
+/* Efecto de subrayado animado */
+.categoria-toolbar-texto::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--corporativo, #4CAF50);
+  border-radius: 2px;
+  animation: expandir-subrayado 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+}
+
+@keyframes expandir-subrayado {
+  0% {
+    width: 0;
+    opacity: 0;
+  }
+  100% {
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes sutil-aparecer {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Botón de Oferta Central */
+.oferta-central-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: rgba(255, 215, 0, 0.05);
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  border-radius: 20px;
+  padding: 4px 12px;
+  cursor: pointer;
+  outline: none;
+}
+
+.oferta-central-icon {
+  color: #FFD700;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.oferta-central-text {
+  color: #FFD700;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Animación pulsante para el botón de Oferta Central */
+.pulse-anim {
+  animation: pulse-gold 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulse-gold {
+  0% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
+}
