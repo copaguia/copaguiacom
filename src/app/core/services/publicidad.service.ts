@@ -36,7 +36,7 @@ export class PublicidadService {
 
       if (docSnap.exists()) {
         const data = docSnap.data() as PublicidadCategoria;
-        const slots = data.slots && data.slots.length === 3 ? data.slots : this.generarSlotsVacios();
+        const slots = data.slots && data.slots.length === 5 ? data.slots : this.generarSlotsVacios();
         this.cache.set(categoriaId, slots);
         this.cacheToolbar.set(categoriaId, data.toolbarSlot || null);
         this.cacheOfertaCentral.set(categoriaId, data.ofertaCentralSlot || null);
@@ -250,7 +250,9 @@ export class PublicidadService {
     return [
       { id: '0', image: '', patrocinador: '' },
       { id: '1', image: '', patrocinador: '' },
-      { id: '2', image: '', patrocinador: '' }
+      { id: '2', image: '', patrocinador: '' },
+      { id: '3', image: '', patrocinador: '' },
+      { id: '4', image: '', patrocinador: '' }
     ];
   }
 }

@@ -69,14 +69,16 @@ export class AdminPublicidadComponent implements OnInit {
   banners = signal<BannerInterface[]>([
     { id: '1', image: '', patrocinador: '' },
     { id: '2', image: '', patrocinador: '' },
-    { id: '3', image: '', patrocinador: '' }
+    { id: '3', image: '', patrocinador: '' },
+    { id: '4', image: '', patrocinador: '' },
+    { id: '5', image: '', patrocinador: '' }
   ]);
   
   toolbarBanner = signal<BannerInterface | null>(null);
   ofertaBanner = signal<BannerInterface | null>(null);
   
   isSaving = signal<boolean>(false);
-  archivosPendientes = signal<(File | null)[]>([null, null, null]);
+  archivosPendientes = signal<(File | null)[]>([null, null, null, null, null]);
   archivoToolbarPendiente = signal<File | null>(null);
   archivoOfertaPendiente = signal<File | null>(null);
 
@@ -127,7 +129,7 @@ export class AdminPublicidadComponent implements OnInit {
   async cargarBanners(categoriaId: string) {
     const data = await this.publicidadService.obtenerBanners(categoriaId);
     this.banners.set([...data]);
-    this.archivosPendientes.set([null as any, null as any, null as any]);
+    this.archivosPendientes.set([null as any, null as any, null as any, null as any, null as any]);
     
     const toolbarData = await this.publicidadService.obtenerToolbarAd(categoriaId);
     this.toolbarBanner.set(toolbarData);

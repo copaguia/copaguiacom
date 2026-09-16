@@ -29,7 +29,7 @@ export class SistemaPautasComponent {
   }
 
   calcularTotalProyectado(): number {
-    const carruselMes = this.totalCategorias * 3 * 50000 * 4;
+    const carruselMes = this.totalCategorias * 5 * 50000 * 4;
     const ofertaMes = this.totalCategorias * 80000 * 4;
     const toolbarMes = this.totalSubSecciones * 30000 * 2;
     // Asumiendo 10 negocios por cada sub-sección como proyección base
