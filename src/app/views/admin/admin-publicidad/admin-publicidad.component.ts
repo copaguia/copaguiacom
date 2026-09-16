@@ -1,4 +1,4 @@
-import { Component, signal, inject, effect } from '@angular/core';
+import { Component, signal, inject, effect, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
@@ -7,10 +7,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDividerModule } from '@angular/material/divider';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { PublicidadService } from '../../../core/services/publicidad.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { PublicidadService, PublicidadCategoria } from '../../../core/services/publicidad.service';
 import { categoriaData } from '../../../data/categoriasData';
 import { BannerInterface } from '../../../components/build/carrusel/carrusel.component';
 import { Router } from '@angular/router';
@@ -18,11 +25,31 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-publicidad',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatSelectModule, MatFormFieldModule, MatButtonModule, MatInputModule, MatIconModule, MatSnackBarModule, MatRadioModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatTabsModule,
+    MatCardModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatExpansionModule,
+    MatDividerModule,
+    MatBadgeModule,
+    MatTooltipModule,
+    MatRadioModule
+  ],
   templateUrl: './admin-publicidad.component.html',
   styleUrl: './admin-publicidad.component.css'
 })
-export class AdminPublicidadComponent {
+export class AdminPublicidadComponent implements OnInit {
   private publicidadService = inject(PublicidadService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
@@ -34,21 +61,67 @@ export class AdminPublicidadComponent {
   
   categoriaSeleccionada = signal<string>('');
   tipoAnuncio = signal<'carrusel' | 'toolbar' | 'oferta'>('carrusel');
-  banners = signal<BannerInterface[]>([]);
+  
+  // Dashboard state
+  modoDashboard = signal<boolean>(true);
+  todosLosAnuncios = signal<Record<string, PublicidadCategoria>>({});
+
+  banners = signal<BannerInterface[]>([
+    { id: '1', image: '', patrocinador: '' },
+    { id: '2', image: '', patrocinador: '' },
+    { id: '3', image: '', patrocinador: '' }
+  ]);
+  
   toolbarBanner = signal<BannerInterface | null>(null);
   ofertaBanner = signal<BannerInterface | null>(null);
+  
   isSaving = signal<boolean>(false);
-  archivosPendientes = signal<File[]>([]);
+  archivosPendientes = signal<(File | null)[]>([null, null, null]);
   archivoToolbarPendiente = signal<File | null>(null);
   archivoOfertaPendiente = signal<File | null>(null);
 
   constructor() {
     effect(() => {
       const cat = this.categoriaSeleccionada();
-      if (cat) {
+      if (cat && !this.modoDashboard()) {
         this.cargarBanners(cat);
       }
     });
+  }
+
+  ngOnInit() {
+    this.cargarTodosLosAnuncios();
+  }
+
+  async cargarTodosLosAnuncios() {
+    const data = await this.publicidadService.obtenerTodosLosAnuncios();
+    this.todosLosAnuncios.set(data);
+  }
+
+  abrirEditor(categoria: string, tipo: 'carrusel' | 'toolbar' | 'oferta') {
+    this.categoriaSeleccionada.set(categoria);
+    this.tipoAnuncio.set(tipo);
+    this.modoDashboard.set(false);
+    this.cargarBanners(categoria);
+  }
+
+  volverAlDashboard() {
+    this.modoDashboard.set(true);
+    this.categoriaSeleccionada.set('');
+    this.cargarTodosLosAnuncios();
+  }
+
+  estadoVencimiento(fechaISO?: string): 'vacio' | 'ok' | 'por-vencer' {
+    if (!fechaISO) return 'vacio';
+    
+    const caducidad = new Date(fechaISO);
+    const ahora = new Date();
+    
+    if (caducidad < ahora) return 'vacio';
+
+    const diasFaltantes = (caducidad.getTime() - ahora.getTime()) / (1000 * 3600 * 24);
+    if (diasFaltantes <= 2) return 'por-vencer';
+    return 'ok';
   }
 
   async cargarBanners(categoriaId: string) {

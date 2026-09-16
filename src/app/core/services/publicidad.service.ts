@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { getApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
 
@@ -51,6 +51,21 @@ export class PublicidadService {
     } catch (error) {
       console.error('Error obteniendo banners:', error);
       return this.generarSlotsVacios();
+    }
+  }
+
+  async obtenerTodosLosAnuncios(): Promise<Record<string, PublicidadCategoria>> {
+    const todos: Record<string, PublicidadCategoria> = {};
+    try {
+      const colRef = collection(this.db, 'ads');
+      const docsSnap = await getDocs(colRef);
+      docsSnap.forEach(doc => {
+        todos[doc.id] = doc.data() as PublicidadCategoria;
+      });
+      return todos;
+    } catch (error) {
+      console.error('Error obteniendo todos los anuncios:', error);
+      return todos;
     }
   }
 

@@ -6,21 +6,79 @@
     <h1>Gestión de Publicidad (Carrusel)</h1>
   </div>
 
-  <mat-form-field appearance="outline" class="select-categoria">
-    <mat-label>Selecciona una Categoría</mat-label>
-    <mat-select [ngModel]="categoriaSeleccionada()" (ngModelChange)="categoriaSeleccionada.set($event)">
-      @for (grupo of categoriasAgrupadas; track grupo.nombre) {
-        <mat-optgroup [label]="grupo.nombre">
-          <mat-option [value]="grupo.nombre">{{ grupo.nombre }} (Principal)</mat-option>
-          @for (sec of grupo.secciones; track sec) {
-            <mat-option [value]="sec">{{ sec }}</mat-option>
-          }
-        </mat-optgroup>
-      }
-    </mat-select>
-  </mat-form-field>
+  @if (modoDashboard()) {
+    <div class="dashboard-container">
+      <h2>Estado de Ocupación de Espacios</h2>
+      <p class="subtitle">Selecciona un espacio para gestionarlo</p>
+      
+      <mat-accordion class="category-accordion">
+        @for (grupo of categoriasAgrupadas; track grupo.nombre) {
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <strong>{{ grupo.nombre | uppercase }}</strong>
+              </mat-panel-title>
+              <mat-panel-description>
+                <div class="status-badges">
+                  <!-- Carrusel Status -->
+                  <span class="status-badge" [ngClass]="'status-' + estadoVencimiento(todosLosAnuncios()[grupo.nombre]?.slots?.[0]?.fechaCaducidad)" matTooltip="Carrusel Espacio 1">C1</span>
+                  <span class="status-badge" [ngClass]="'status-' + estadoVencimiento(todosLosAnuncios()[grupo.nombre]?.slots?.[1]?.fechaCaducidad)" matTooltip="Carrusel Espacio 2">C2</span>
+                  <span class="status-badge" [ngClass]="'status-' + estadoVencimiento(todosLosAnuncios()[grupo.nombre]?.slots?.[2]?.fechaCaducidad)" matTooltip="Carrusel Espacio 3">C3</span>
+                  
+                  <span class="badge-separator">|</span>
+                  <!-- Oferta Central Status -->
+                  <span class="status-badge" [ngClass]="'status-' + estadoVencimiento(todosLosAnuncios()[grupo.nombre]?.ofertaCentralSlot?.fechaCaducidad)" matTooltip="Oferta Central (ENTÉRATE)">OFERTA</span>
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-  @if (categoriaSeleccionada()) {
+            <div class="actions-grid">
+              <button mat-stroked-button (click)="abrirEditor(grupo.nombre, 'carrusel')">
+                <mat-icon>view_carousel</mat-icon> Editar Carrusel
+              </button>
+              <button mat-stroked-button color="accent" (click)="abrirEditor(grupo.nombre, 'oferta')">
+                <mat-icon>local_offer</mat-icon> Editar Oferta Central
+              </button>
+            </div>
+
+            <mat-divider style="margin: 16px 0;"></mat-divider>
+            
+            <h4>Sub-secciones (Toolbar ADS)</h4>
+            <div class="subsections-grid">
+              @for (sec of grupo.secciones; track sec) {
+                <div class="subsection-item" (click)="abrirEditor(sec, 'toolbar')" matTooltip="Editar Toolbar de {{ sec }}">
+                  <div class="status-dot" [ngClass]="'dot-' + (todosLosAnuncios()[sec]?.toolbarSlot ? 'ok' : 'vacio')"></div>
+                  <span>{{ sec }}</span>
+                </div>
+              }
+            </div>
+          </mat-expansion-panel>
+        }
+      </mat-accordion>
+    </div>
+  } @else {
+    <div class="editor-header">
+      <button mat-stroked-button (click)="volverAlDashboard()" style="margin-bottom: 16px;">
+        <mat-icon>arrow_back</mat-icon> Volver al Dashboard
+      </button>
+      <h2>Editando: {{ categoriaSeleccionada() | uppercase }}</h2>
+    </div>
+
+    <mat-form-field appearance="outline" class="select-categoria" style="display: none;">
+      <mat-label>Selecciona una Categoría</mat-label>
+      <mat-select [ngModel]="categoriaSeleccionada()" (ngModelChange)="categoriaSeleccionada.set($event)">
+        @for (grupo of categoriasAgrupadas; track grupo.nombre) {
+          <mat-optgroup [label]="grupo.nombre">
+            <mat-option [value]="grupo.nombre">{{ grupo.nombre }} (Principal)</mat-option>
+            @for (sec of grupo.secciones; track sec) {
+              <mat-option [value]="sec">{{ sec }}</mat-option>
+            }
+          </mat-optgroup>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    @if (categoriaSeleccionada()) {
     <div class="tipo-anuncio-container" style="margin-bottom: 20px; text-align: center;">
       <mat-radio-group [ngModel]="tipoAnuncio()" (ngModelChange)="tipoAnuncio.set($event)" color="primary">
         <mat-radio-button value="carrusel">Carrusel ADS</mat-radio-button>
@@ -154,5 +212,6 @@
         </div>
       }
     </div>
+  }
   }
 </div>
