@@ -139,6 +139,7 @@ h2 {
   overflow: hidden !important;
   height: 40px !important;
   min-height: 40px !important;
+  transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease !important;
 }
 
 /* Estilo para la pestaña activa (color verde) */
