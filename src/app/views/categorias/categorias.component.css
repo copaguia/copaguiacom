@@ -13,6 +13,25 @@
   overflow-x: hidden !important;
 }
 
+/* Animación suave para el contenido cuando la pestaña se activa (lazy loading) */
+.animacion-tab-content {
+  animation: sutil-aparecer-tab 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes sutil-aparecer-tab {
+  0% {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
 /* --- Estructura y Altura --- */
 mat-tab-group {
   width: 100%;
