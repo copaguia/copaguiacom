@@ -29,6 +29,7 @@ export class CarruselComponent implements AfterViewInit {
   
   private destroyRef = inject(DestroyRef);
   private dialog = inject(MatDialog);
+  private autoplayInterval: any;
 
   openInterestDialog(index: number) {
     this.dialog.open(InteresPublicidadDialogComponent, {
@@ -44,7 +45,7 @@ export class CarruselComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // Autoplay nativo para reemplazar a swiper JS
-    const interval = setInterval(() => {
+    this.autoplayInterval = setInterval(() => {
       if (!this.carouselContainer) return;
       const el = this.carouselContainer.nativeElement;
       const maxScroll = el.scrollWidth - el.clientWidth;
@@ -57,11 +58,34 @@ export class CarruselComponent implements AfterViewInit {
         const scrollAmount = el.clientWidth * 0.85 + 16; 
         el.scrollTo({ left: el.scrollLeft + scrollAmount, behavior: 'smooth' });
       }
-    }, 2500); // 2.5 segundos de delay
+    }, 8000); // 8 segundos de delay para que sea más relajado
 
     this.destroyRef.onDestroy(() => {
-      clearInterval(interval);
+      this.detenerAutoplay();
     });
+  }
+
+  detenerAutoplay() {
+    if (this.autoplayInterval) {
+      clearInterval(this.autoplayInterval);
+      this.autoplayInterval = null;
+    }
+  }
+
+  scrollLeft() {
+    this.detenerAutoplay();
+    if (!this.carouselContainer) return;
+    const el = this.carouselContainer.nativeElement;
+    const scrollAmount = el.clientWidth * 0.85 + 16;
+    el.scrollTo({ left: el.scrollLeft - scrollAmount, behavior: 'smooth' });
+  }
+
+  scrollRight() {
+    this.detenerAutoplay();
+    if (!this.carouselContainer) return;
+    const el = this.carouselContainer.nativeElement;
+    const scrollAmount = el.clientWidth * 0.85 + 16;
+    el.scrollTo({ left: el.scrollLeft + scrollAmount, behavior: 'smooth' });
   }
 
 }

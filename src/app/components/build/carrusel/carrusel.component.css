@@ -112,6 +112,37 @@
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.nav-btn {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100 !important;
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  color: #0df !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex !important; /* Siempre visibles */
+}
+
+.nav-btn:hover {
+  background-color: rgba(0, 221, 255, 0.2) !important;
+}
+
+.nav-left {
+  left: 10px;
+}
+
+.nav-right {
+  right: 10px;
+}
+
 @media (min-width: 768px) {
   .material-carousel {
     justify-content: center;

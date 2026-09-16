@@ -1,4 +1,13 @@
-<div class="material-carousel" #carouselContainer>
+<div class="carousel-wrapper">
+  <button mat-mini-fab class="nav-btn nav-left" (click)="scrollLeft()">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  
+  <button mat-mini-fab class="nav-btn nav-right" (click)="scrollRight()">
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+
+  <div class="material-carousel" #carouselContainer (touchstart)="detenerAutoplay()" (mouseenter)="detenerAutoplay()">
   @for (item of conector; track $index) {
     <div class="carousel-item">
       <mat-card class="example-card" appearance="outlined">
@@ -35,4 +44,5 @@
       </mat-card>
     </div>
   }
+  </div>
 </div>
