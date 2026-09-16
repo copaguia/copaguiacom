@@ -4,6 +4,7 @@ import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { collection, onSnapshot, query, where, DocumentData } from 'firebase/firestore';
 import { CommonModule } from '@angular/common';
@@ -31,6 +32,7 @@ enum LoadingState {
     CommonModule,
     ToolBarPageComponent,
     MatProgressSpinnerModule,
+    MatProgressBarModule,
     MatCardModule,
     MatListModule,
     MatIconModule,
@@ -61,6 +63,7 @@ export class CategoriaPageComponent implements OnInit {
   public negocios = signal<NegocioInterface[]>([]);
   public negociosFiltrados = signal<NegocioInterface[]>([]);
   public loadingState = signal<LoadingState>(LoadingState.Idle);
+  public loadingProgress = signal<number>(0);
   public error = signal<string | null>(null);
   public isLoading = computed(() => this.loadingState() === LoadingState.Loading);
   public terminoBusqueda = signal<string>('');
@@ -118,9 +121,23 @@ export class CategoriaPageComponent implements OnInit {
           return 0;
         });
 
-        this.negocios.set(negocios);
-        this.filtrarNegocios(); // Aplica el filtro si el usuario tiene una búsqueda activa
-        this.loadingState.set(LoadingState.Success);
+        const isFirstLoad = this.loadingState() === LoadingState.Loading;
+        if (isFirstLoad) {
+          this.loadingProgress.set(0);
+          const interval = setInterval(() => {
+            this.loadingProgress.update(val => Math.min(val + (100 / (4000 / 50)), 100));
+          }, 50);
+
+          setTimeout(() => {
+            clearInterval(interval);
+            this.negocios.set(negocios);
+            this.filtrarNegocios();
+            this.loadingState.set(LoadingState.Success);
+          }, 4000);
+        } else {
+          this.negocios.set(negocios);
+          this.filtrarNegocios();
+        }
       }, (e) => {
         console.error(e);
         this.error.set('Error al escuchar cambios en negocios');
@@ -236,6 +253,45 @@ export class CategoriaPageComponent implements OnInit {
         backdropClass: 'blur-backdrop'
       });
     }
+  }
+
+  public getFraseCarga(): string {
+    if (!this.title) return 'Cargando...';
+    
+    const titulo = this.title.toLowerCase();
+    
+    if (titulo.includes('restaurante') || titulo.includes('comida') || titulo.includes('pizza') || titulo.includes('hamburguesa') || titulo.includes('café') || titulo.includes('postre') || titulo.includes('licor')) {
+      return `Preparando la mesa con las mejores opciones de ${this.title}...`;
+    }
+    if (titulo.includes('ropa') || titulo.includes('moda') || titulo.includes('boutique') || titulo.includes('calzado')) {
+      return `Buscando el mejor estilo en ${this.title} para ti...`;
+    }
+    if (titulo.includes('salud') || titulo.includes('farmacia') || titulo.includes('médico') || titulo.includes('dental')) {
+      return `Priorizando tu bienestar, buscando en ${this.title}...`;
+    }
+    if (titulo.includes('mascota') || titulo.includes('veterinaria')) {
+      return `Rastreando los lugares perfectos para tus peluditos en ${this.title}...`;
+    }
+    if (titulo.includes('auto') || titulo.includes('moto') || titulo.includes('mecánic') || titulo.includes('taller')) {
+      return `Acelerando motores para encontrar lo mejor en ${this.title}...`;
+    }
+    if (titulo.includes('hogar') || titulo.includes('ferretería') || titulo.includes('mueble') || titulo.includes('construcción')) {
+      return `Construyendo la lista de los mejores sitios de ${this.title}...`;
+    }
+    if (titulo.includes('belleza') || titulo.includes('peluquería') || titulo.includes('barbería') || titulo.includes('spa')) {
+      return `Buscando el lugar ideal para resaltar tu estilo en ${this.title}...`;
+    }
+    if (titulo.includes('tecnología') || titulo.includes('celular') || titulo.includes('computador')) {
+      return `Procesando y conectando con lo mejor en ${this.title}...`;
+    }
+
+    const variaciones = [
+      `Explorando las mejores opciones de ${this.title}...`,
+      `Recolectando los sitios más destacados de ${this.title}...`,
+      `Filtrando la excelencia en ${this.title} para ti...`,
+      `Conectándote con los mejores negocios de ${this.title}...`
+    ];
+    return variaciones[titulo.length % variaciones.length];
   }
 }
 

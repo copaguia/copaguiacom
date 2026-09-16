@@ -9,16 +9,17 @@
     </button>
 
 
-    <span>{{ title }}<span *ngIf="count !== null" style="font-size: 0.8em; font-weight: 400; opacity: 0.8; margin-left: 4px;">({{ count }})</span></span>
+    <span class="animacion-entrada-titulo">{{ title }}<span *ngIf="count !== null" style="font-size: 0.8em; font-weight: 400; opacity: 0.8; margin-left: 4px;">({{ count }})</span></span>
 
     <span class="spacer"></span>
 
-    <!-- Added Promotion Icon -->
-    <button mat-icon-button class="promo-btn" (click)="openPromoDialog()" aria-label="Promoción">
-      <mat-icon [class.shake-icon-promo]="toolbarAd() !== null" 
-                [style.color]="toolbarAd() !== null ? '#00ff00' : '#cccccc'">
-        campaign
-      </mat-icon>
-    </button>
+    <span class="animacion-entrada-promo">
+      <button mat-icon-button class="promo-btn" (click)="openPromoDialog()" aria-label="Promoción">
+        <mat-icon [class.shake-icon-promo]="toolbarAd() !== null" 
+                  [style.color]="toolbarAd() !== null ? '#00ff00' : '#cccccc'">
+          campaign
+        </mat-icon>
+      </button>
+    </span>
 
   </mat-toolbar>
