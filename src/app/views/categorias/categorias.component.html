@@ -90,6 +90,11 @@
       <span>Sistema de Pautas ADS</span>
     </button>
     <mat-divider></mat-divider>
+    <button mat-menu-item [matMenuTriggerFor]="todasLasRutas">
+      <mat-icon color="warn">visibility</mat-icon>
+      <span>Revisar Vistas (Dev)</span>
+    </button>
+    <mat-divider></mat-divider>
   }
 
   <!-- Botones para DUENO: Condicional a si tiene negocio -->
@@ -111,4 +116,27 @@
     <mat-icon>exit_to_app</mat-icon>
     <span>Cerrar Sesión</span>
   </button>
+</mat-menu>
+
+<mat-menu #todasLasRutas="matMenu">
+  <button mat-menu-item (click)="navigateTo('login')">login</button>
+  <button mat-menu-item (click)="navigateTo('registro')">registro</button>
+  <button mat-menu-item (click)="navigateTo('onboarding-negocio-registro')">onboarding-negocio-registro</button>
+  <button mat-menu-item (click)="navigateTo('admin/promociones')">admin/promociones</button>
+  <button mat-menu-item (click)="navigateTo('admin/agregar-negocio')">admin/agregar-negocio</button>
+  <button mat-menu-item (click)="navigateTo('admin/estadisticas')">admin/estadisticas</button>
+  <button mat-menu-item (click)="navigateTo('admin/publicidad')">admin/publicidad</button>
+  <button mat-menu-item (click)="navigateTo('admin/sistema-pautas')">admin/sistema-pautas</button>
+  <button mat-menu-item (click)="navigateTo('nav')">nav-menu</button>
+  <button mat-menu-item (click)="navigateTo('buscar')">buscar</button>
+  <button mat-menu-item (click)="navigateTo('categorias')">categorias</button>
+  <button mat-menu-item (click)="navigateTo('seccion-page')">seccion-page</button>
+  <button mat-menu-item (click)="navigateTo('carrusel')">carrusel</button>
+  <button mat-menu-item (click)="navigateTo('marranito')">marranito</button>
+  <button mat-menu-item (click)="navigateTo('perfil-negocio-editor')">perfil-negocio-editor</button>
+  <button mat-menu-item (click)="navigateTo('carrito-pedido')">carrito-pedido</button>
+  <button mat-menu-item (click)="navigateTo('dashboard-dueno')">dashboard-dueno</button>
+  <button mat-menu-item (click)="navigateTo('gestion-catalogo')">gestion-catalogo</button>
+  <button mat-menu-item (click)="navigateTo('market-place-global')">market-place-global</button>
+  <button mat-menu-item (click)="navigateTo('soporte-consola')">soporte-consola</button>
 </mat-menu>

@@ -1,9 +1,6 @@
 import { Routes } from '@angular/router';
 import { NavMenuComponent } from './views/nav-menu/nav-menu.component';
-import { IntroComponent } from './views/intro/intro.component';
 import { RegistarNegociosComponent } from './views/registar-negocios/registar-negocios.component';
-import { ContactoComponent } from './views/contacto/contacto.component';
-import { NavegacionComponent } from './views/navegacion/navegacion.component';
 import { CategoriasComponent } from './views/categorias/categorias.component';
 import { SeccionPageComponent } from './components/build/seccion-page/seccion-page.component';
 import { LoginComponent } from './views/login/login.component';
@@ -21,7 +18,11 @@ import { EstadisticasComponent } from './views/admin/estadisticas/estadisticas.c
 import { AdminPublicidadComponent } from './views/admin/admin-publicidad/admin-publicidad.component';
 import { SistemaPautasComponent } from './views/admin/sistema-pautas/sistema-pautas.component';
 import { BuscadorMaestroComponent } from './components/build/buscador-maestro/buscador-maestro.component';
-
+import { CarritoPedidoComponent } from './views/carrito-pedido/carrito-pedido.component';
+import { DashboardDuenoComponent } from './views/dashboard-dueno/dashboard-dueno.component';
+import { GestionCatalogoComponent } from './views/gestion-catalogo/gestion-catalogo.component';
+import { MarketPlaceGlobalComponent } from './views/market-place-global/market-place-global.component';
+import { SoporteConsolaComponent } from './views/soporte-consola/soporte-consola.component';
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
 
@@ -29,10 +30,8 @@ import { categoriaData } from './data/categoriasData';
 const staticRoutes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    { path: 'intro', component: IntroComponent },
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
-    { path: 'contacto' , component: ContactoComponent },
     {
         path: 'admin/promociones', 
         component: AdminPromocionesComponent,
@@ -57,7 +56,6 @@ const staticRoutes: Routes = [
         children: [ ] 
     }, 
     { path: 'buscar', component: BuscadorMaestroComponent },
-    { path: 'navegacion', component: NavegacionComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
     { path: 'seccion-page/:id', component: SeccionPageComponent },
@@ -77,6 +75,11 @@ const staticRoutes: Routes = [
         path: 'public/:username',
         component: UserFeedComponent, 
     },
+    { path: 'carrito-pedido', component: CarritoPedidoComponent },
+    { path: 'dashboard-dueno', component: DashboardDuenoComponent },
+    { path: 'gestion-catalogo', component: GestionCatalogoComponent },
+    { path: 'market-place-global', component: MarketPlaceGlobalComponent },
+    { path: 'soporte-consola', component: SoporteConsolaComponent },
 ];
 
             // --- ESTA FUNCION CONSTRUYE LAS RUTAS A LARTIR DEL ARCHVIO UNICO DE CATEGORIASDATA---
