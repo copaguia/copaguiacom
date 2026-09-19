@@ -10,7 +10,7 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { DirectorioInterface } from '../../../interfaces/directorio-interface';
-import { GoogleMap } from '@angular/google-maps';
+import { GoogleMap, MapPolygon } from '@angular/google-maps';
 
 declare var google: any;
 
@@ -26,12 +26,13 @@ declare var google: any;
     MatInputModule,
     MatIconModule,
     MatSnackBarModule,
-    GoogleMap
+    GoogleMap,
+    MapPolygon
   ],
   templateUrl: './dev-dashboard.component.html',
   styleUrls: ['./dev-dashboard.component.css']
 })
-export class DevDashboardComponent implements AfterViewInit {
+export class DevDashboardComponent {
   private fb = inject(FormBuilder);
   private firestore = inject(InstanciaFirebase).firestore;
   private snackBar = inject(MatSnackBar);
@@ -42,10 +43,18 @@ export class DevDashboardComponent implements AfterViewInit {
   public mapOptions: google.maps.MapOptions = {
     center: { lat: 6.25184, lng: -75.56359 }, // Medellín by default
     zoom: 13,
+    disableDoubleClickZoom: true // Para evitar zoom al hacer doble clic rápido
   };
   
-  private drawingManager: any;
-  private currentPolygon: any = null;
+  public polygonOptions: google.maps.PolygonOptions = {
+    fillColor: '#FF0000',
+    fillOpacity: 0.3,
+    strokeWeight: 2,
+    clickable: false,
+    editable: false,
+    zIndex: 1,
+  };
+
   public limitePoligonal: Array<{lat: number, lng: number}> = [];
 
   public tenantForm = this.fb.group({
@@ -59,81 +68,18 @@ export class DevDashboardComponent implements AfterViewInit {
     agenteAsignadoId: ['']
   });
 
-  ngAfterViewInit() {
-    this.initDrawingManager();
-  }
-
-  private initDrawingManager() {
-    // Check if google maps is loaded and drawing library is available
-    if (typeof google === 'undefined' || !google.maps || !google.maps.drawing) {
-      console.warn('Google Maps API or Drawing Library not loaded yet.');
-      return;
+  onMapClick(event: google.maps.MapMouseEvent) {
+    if (event.latLng) {
+      // Agregar el nuevo punto
+      this.limitePoligonal = [...this.limitePoligonal, { 
+        lat: event.latLng.lat(), 
+        lng: event.latLng.lng() 
+      }];
     }
-
-    if (this.map && this.map.googleMap) {
-      this.drawingManager = new google.maps.drawing.DrawingManager({
-        drawingMode: google.maps.drawing.OverlayType.POLYGON,
-        drawingControl: true,
-        drawingControlOptions: {
-          position: google.maps.ControlPosition.TOP_CENTER,
-          drawingModes: [google.maps.drawing.OverlayType.POLYGON],
-        },
-        polygonOptions: {
-          fillColor: '#FF0000',
-          fillOpacity: 0.3,
-          strokeWeight: 2,
-          clickable: true,
-          editable: true,
-          zIndex: 1,
-        },
-      });
-
-      this.drawingManager.setMap(this.map.googleMap);
-
-      google.maps.event.addListener(this.drawingManager, 'overlaycomplete', (event: any) => {
-        if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-          // Si ya había un polígono, lo borramos para dejar solo uno
-          if (this.currentPolygon) {
-            this.currentPolygon.setMap(null);
-          }
-          this.currentPolygon = event.overlay;
-          
-          // Cambiar el cursor a la mano normal después de dibujar
-          this.drawingManager.setDrawingMode(null);
-          
-          this.extractPolygonPath();
-          
-          // Escuchar cambios si el usuario edita los vértices
-          const path = this.currentPolygon.getPath();
-          google.maps.event.addListener(path, 'set_at', () => this.extractPolygonPath());
-          google.maps.event.addListener(path, 'insert_at', () => this.extractPolygonPath());
-        }
-      });
-    }
-  }
-
-  private extractPolygonPath() {
-    if (!this.currentPolygon) return;
-    
-    const vertices = this.currentPolygon.getPath();
-    const coordinates: Array<{lat: number, lng: number}> = [];
-    
-    for (let i = 0; i < vertices.getLength(); i++) {
-      const xy = vertices.getAt(i);
-      coordinates.push({ lat: xy.lat(), lng: xy.lng() });
-    }
-    
-    this.limitePoligonal = coordinates;
-    this.snackBar.open(`Polígono de ${coordinates.length} vértices capturado.`, 'OK', { duration: 2000 });
   }
 
   borrarPoligono() {
-    if (this.currentPolygon) {
-      this.currentPolygon.setMap(null);
-      this.currentPolygon = null;
-      this.limitePoligonal = [];
-      this.drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-    }
+    this.limitePoligonal = [];
   }
 
   async onSubmit() {

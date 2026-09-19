@@ -56,9 +56,13 @@
 
         <div class="map-section">
           <h3>Trazar Zona de Influencia (Polígono)</h3>
-          <p class="map-hint">Usa la herramienta de dibujo para delimitar el área exacta del directorio. Solo los negocios dentro de esta línea roja serán capturados.</p>
+          <p class="map-hint">Haz clic en el mapa para ir marcando los puntos (vértices) que delimitarán el área exacta del directorio. Solo los negocios dentro de esta figura serán capturados.</p>
           <div class="map-container">
-            <google-map height="400px" width="100%" [options]="mapOptions"></google-map>
+            <google-map height="400px" width="100%" [options]="mapOptions" (mapClick)="onMapClick($event)">
+              @if (limitePoligonal.length > 0) {
+                <map-polygon [paths]="limitePoligonal" [options]="polygonOptions"></map-polygon>
+              }
+            </google-map>
           </div>
           @if (limitePoligonal.length > 0) {
             <div class="map-actions">
