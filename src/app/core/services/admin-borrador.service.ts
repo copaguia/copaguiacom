@@ -1,20 +1,36 @@
 import { inject, Injectable } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, writeBatch, getCountFromServer } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, writeBatch, getCountFromServer, QueryConstraint } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
+import { AuthService } from '../auth/auth.service';
+import { RolUsuario } from '../auth/rol-usuario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminBorradorService {
   private firestore = inject(InstanciaFirebase).firestore;
+  private authService = inject(AuthService);
+
+  private getFiltrosPorRol(): QueryConstraint[] {
+    const perfil = this.authService.perfilLectura();
+    const constraints: QueryConstraint[] = [];
+    
+    // Si es AGENTE y tiene zonas asignadas, filtramos obligatoriamente por esas zonas.
+    if (perfil?.rolUsuario === RolUsuario.AGENTE && perfil.zonasAsignadas && perfil.zonasAsignadas.length > 0) {
+      // Nota: Firestore permite 'in' hasta 10 elementos. 
+      constraints.push(where('zonaAsignada', 'in', perfil.zonasAsignadas));
+    }
+    
+    return constraints;
+  }
 
   /**
    * Obtiene todos los negocios en la colección negocios_borrador que están pendientes de revisión.
    */
   public async obtenerBorradoresPendientes(): Promise<any[]> {
     const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', 'Pendiente'));
+    const q = query(borradorRef, where('revisionManual', '==', 'Pendiente'), ...this.getFiltrosPorRol());
     
     try {
       const querySnapshot = await getDocs(q);
@@ -34,7 +50,7 @@ export class AdminBorradorService {
    */
   public async obtenerConteo(estado: 'Pendiente' | 'Aprobado'): Promise<number> {
     const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', estado));
+    const q = query(borradorRef, where('revisionManual', '==', estado), ...this.getFiltrosPorRol());
     
     try {
       const snapshot = await getCountFromServer(q);
@@ -51,7 +67,7 @@ export class AdminBorradorService {
    */
   public async obtenerRankingValidadores(): Promise<Array<{ email: string; total: number; ultimaFecha: string }>> {
     const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', 'Aprobado'));
+    const q = query(borradorRef, where('revisionManual', '==', 'Aprobado'), ...this.getFiltrosPorRol());
     
     try {
       const querySnapshot = await getDocs(q);

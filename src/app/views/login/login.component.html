@@ -1,23 +1,42 @@
 <div class="login-container">
-  <mat-card class="card">
+  <mat-card class="card mat-elevation-z8">
 
-    <!-- Sección del Logo y Mensaje de Bienvenida -->
+    <!-- Sección del Logo y Mensaje de Bienvenida Dinámico -->
     <mat-card-header>
       <div class="header-content">
-        <img [src]="logo" alt="Logo de la Aplicación" class="logo">
-        <mat-card-title>{{ mensaje }}</mat-card-title>
+        <img [src]="logo()" alt="Logo de la Aplicación" class="logo">
+        <mat-card-title class="dynamic-title">{{ mensaje() }}</mat-card-title>
+        <p class="dynamic-subtitle">{{ descripcion() }}</p>
       </div>
     </mat-card-header>
 
     <mat-card-content>
-      @if (isAuthLoading()) {
-        <!-- Muestra un spinner de carga mientras se verifica el estado de autenticación inicial -->
+      @if (tenantService.isCargando() || isAuthLoading()) {
+        <!-- Spinner mientras carga tenant o sesión -->
         <div class="spinner-container">
           <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
-          <p>Verificando sesión...</p>
+          <p>Preparando tu experiencia...</p>
         </div>
       } @else if (!authService.usuarioLectura()) {
-        <!-- Muestra nuestro nuevo componente de botón de login -->
+        <!-- Panel Inmersivo de Contexto Local (Estilo Lidertech) -->
+        <div class="context-panel">
+          <div class="context-item">
+            <mat-icon>calendar_today</mat-icon>
+            <span>{{ fechaActual() }}</span>
+          </div>
+          <div class="context-item">
+            <mat-icon>schedule</mat-icon>
+            <span>{{ horaActual() }}</span>
+          </div>
+          <div class="context-item">
+            <mat-icon>location_on</mat-icon>
+            <span>{{ ubicacionLocal() }}</span>
+          </div>
+        </div>
+
+        <mat-divider style="margin: 20px 0;"></mat-divider>
+
+        <!-- Botón de Login con Google -->
         <app-btn-login-google></app-btn-login-google>
       }
     </mat-card-content>

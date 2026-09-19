@@ -222,7 +222,7 @@ export class CategoriaPageComponent implements OnInit {
     if (!item.plan || item.plan === 'basico') {
       event.preventDefault();
       event.stopPropagation();
-      if (this.authorization.esDueno()) {
+      if (this.authorization.esComerciante()) {
         this.dialog.open(PlanesNegocioDialogComponent, {
           width: '95vw',
           maxWidth: '1000px',

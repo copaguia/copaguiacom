@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,6 +33,7 @@ import { AuthorizationService } from '../../../core/auth/authorization.service';
 export class DataBorradorComponent implements OnInit {
   private adminBorradorService = inject(AdminBorradorService);
   private router = inject(Router);
+  private location = inject(Location);
   public authorization = inject(AuthorizationService);
 
   public borradores = signal<any[]>([]);
@@ -40,7 +41,7 @@ export class DataBorradorComponent implements OnInit {
   public pendientes = signal<number>(0);
   public aprobados = signal<number>(0);
   public rankingValidadores = signal<Array<{ email: string; total: number; ultimaFecha: string }>>([]);
-  public displayedColumns: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'acciones'];
+  public displayedColumns: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
 
   async ngOnInit() {
     if (!this.authorization.esAdmin()) {
@@ -71,5 +72,9 @@ export class DataBorradorComponent implements OnInit {
 
   revisarBorrador(id: string) {
     this.router.navigate(['/admin/data-borrador/editar', id]);
+  }
+
+  goBack() {
+    this.location.back();
   }
 }

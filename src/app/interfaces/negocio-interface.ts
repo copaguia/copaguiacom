@@ -5,6 +5,7 @@ export interface NegocioInterface {
   imagen:       string;
     id:             string;
     duenoId:        string;
+    zonaAsignada?:  string; // ID de la zona/directorio (tenant) al que pertenece
     nombre:         string;
     slug:           string;
     categoria:      'Alimentos' | 'Comercios' | 'Servicios' | 'Entretenimiento' | 'Salud' | 'Comunidad' | 'Oportunidades' | 'Inmuebles' | 'Educación' | 'Pasatiempos' | 'Noticias';

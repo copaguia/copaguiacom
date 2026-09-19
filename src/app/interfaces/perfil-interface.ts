@@ -22,7 +22,9 @@ export interface PerfilInterface {
     detalles?     : string;
   };
 
-  negocioAsociadoId?: string; // ID del negocio si el rol es DUEÑO
+  negocioAsociadoId?: string; // ID del negocio si el rol es COMERCIANTE
+  zonasAsignadas?: string[]; // IDs de las zonas/directorios que administra si es AGENTE
+
   metadatos?: {
     totalPedidos?:  number;
     verificado?:    boolean;

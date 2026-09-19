@@ -109,8 +109,16 @@
     <mat-divider></mat-divider>
   }
 
-  <!-- Botones para DUENO: Condicional a si tiene negocio -->
-  @if (authorization.esDueno()) {
+  @if (authorization.esDev()) {
+    <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">
+      <mat-icon color="primary">settings_applications</mat-icon>
+      <span>Dev Dashboard (Tenants)</span>
+    </button>
+    <mat-divider></mat-divider>
+  }
+
+  <!-- Botones para COMERCIANTE: Condicional a si tiene negocio -->
+  @if (authorization.esComerciante()) {
     @if (negocioService.tieneNegocio()) {
       <button mat-menu-item (click)="navigateToEditBusiness()">
         <mat-icon>store</mat-icon>

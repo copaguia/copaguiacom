@@ -21,7 +21,7 @@ export class NegocioVerificationService {
       this.estaVerificando.set(true);
       const perfil = this.authService.perfilLectura();
 
-      if (perfil && perfil.rolUsuario === RolUsuario.DUENO) {
+      if (perfil && perfil.rolUsuario === RolUsuario.COMERCIANTE) {
         const uid = perfil.id;
         const q = query(collection(this.firestore, 'negocios'), where('duenoId', '==', uid));
         

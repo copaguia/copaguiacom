@@ -59,13 +59,19 @@ const staticRoutes: Routes = [
         path: 'admin/data-borrador', 
         component: DataBorradorComponent,
         canActivate: [rolesGuard],
-        data: { roles: ['admin'] }
+        data: { roles: ['admin', 'dev'] }
     },
     { 
         path: 'admin/data-borrador/editar/:id', 
         component: AdminBorradorEditorComponent,
         canActivate: [rolesGuard],
-        data: { roles: ['admin'] }
+        data: { roles: ['admin', 'dev'] }
+    },
+    {
+        path: 'admin/dev-dashboard',
+        loadComponent: () => import('./views/admin/dev-dashboard/dev-dashboard.component').then(m => m.DevDashboardComponent),
+        canActivate: [rolesGuard],
+        data: { roles: ['dev'] }
     },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 

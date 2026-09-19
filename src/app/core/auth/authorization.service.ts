@@ -20,17 +20,17 @@ export class AuthorizationService {
     const email = this.emailActual()?.toLowerCase();
     
     if (email === 'lidertech.net@gmail.com') return true;
-    if (rol === 'developer' || rol === 'dev' || rol === 'soporte' || rol === 'admin') return true;
+    if (rol === 'dev' || rol === 'admin') return true;
     return false;
   });
 
   // Signals públicas para cada rol
   
-  public esCliente:    Signal<boolean> = this.crearSignalRol(RolUsuario.CLIENTE);
-  public esDueno:      Signal<boolean> = this.crearSignalRol(RolUsuario.DUENO);
-  public esRepartidor: Signal<boolean> = this.crearSignalRol(RolUsuario.REPARTIDOR);
-  public esSoporte:    Signal<boolean> = this.crearSignalRol(RolUsuario.SOPORTE);
-  public esAdmin:      Signal<boolean> = this.crearSignalRol(RolUsuario.ADMIN);
+  public esVisitante:   Signal<boolean> = this.crearSignalRol(RolUsuario.VISITANTE);
+  public esComerciante: Signal<boolean> = this.crearSignalRol(RolUsuario.COMERCIANTE);
+  public esAgente:      Signal<boolean> = this.crearSignalRol(RolUsuario.AGENTE);
+  public esAdmin:       Signal<boolean> = this.crearSignalRol(RolUsuario.ADMIN);
+  public esDev:         Signal<boolean> = this.crearSignalRol(RolUsuario.DEV);
 
   /**
    * Crea una signal computada que devuelve `true` si el rol actual del usuario 

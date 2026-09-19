@@ -23,16 +23,13 @@ export class AutorizadorService {
   /** `true` si el rol del usuario es ADMIN. */
   public readonly esAdmin: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.ADMIN);
 
-  /** `true` si el rol del usuario es SOPORTE. */
-  public readonly esSoporte: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.SOPORTE);
+  /** `true` si el rol del usuario es AGENTE. */
+  public readonly esAgente: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.AGENTE);
 
-  /** `true` si el rol del usuario es DUENO (dueño de negocio). */
-  public readonly esDueno: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.DUENO);
+  /** `true` si el rol del usuario es COMERCIANTE. */
+  public readonly esComerciante: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.COMERCIANTE);
 
-  /** `true` si el rol del usuario es CLIENTE. */
-  public readonly esCliente: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.CLIENTE);
-
-  /** `true` si el rol del usuario es REPARTIDOR. */
-  public readonly esRepartidor: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.REPARTIDOR);
+  /** `true` si el rol del usuario es DEV. */
+  public readonly esDev: Signal<boolean> = computed(() => this.rolActual() === RolUsuario.DEV);
 
 }
