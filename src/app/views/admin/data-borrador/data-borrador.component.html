@@ -1,6 +1,11 @@
 <div class="borrador-container">
   <div class="header-section">
-    <h2>Administración de Borradores</h2>
+    <div class="header-titles">
+      <button mat-icon-button (click)="goBack()" class="back-button" aria-label="Volver">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>Administración de Borradores</h2>
+    </div>
     <div class="indicadores-container">
       <mat-chip-set>
         <mat-chip class="chip-aprobados">

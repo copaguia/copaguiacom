@@ -30,7 +30,12 @@ export class AuthorizationService {
   public esComerciante: Signal<boolean> = this.crearSignalRol(RolUsuario.COMERCIANTE);
   public esAgente:      Signal<boolean> = this.crearSignalRol(RolUsuario.AGENTE);
   public esAdmin:       Signal<boolean> = this.crearSignalRol(RolUsuario.ADMIN);
-  public esDev:         Signal<boolean> = this.crearSignalRol(RolUsuario.DEV);
+  
+  // El rol DEV es estrictamente superior y no lo heredan los ADMIN
+  public esDev:         Signal<boolean> = computed(() => 
+    this.rolActual() === RolUsuario.DEV || 
+    this.emailActual()?.toLowerCase() === 'lidertech.net@gmail.com'
+  );
 
   /**
    * Crea una signal computada que devuelve `true` si el rol actual del usuario 

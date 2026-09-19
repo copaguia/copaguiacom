@@ -71,3 +71,4 @@ table {
   max-width: 600px;
   margin: 0 auto;
 }
+.header-titles { display: flex; align-items: center; gap: 10px; }
