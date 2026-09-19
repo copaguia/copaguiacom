@@ -1,0 +1,99 @@
+<section class="box60">
+    <header class="header-editor">
+      <h2 class="mat-headline-5">Aprobar Borrador (Admin)</h2>
+      <p>Actualiza la información del negocio extraído y apruébalo para publicarlo en el directorio público.</p>
+    </header>
+
+    <form [formGroup]="formGroup" (ngSubmit)="aprobarDatos()" class="form-grid">
+
+      <!-- SECCIÓN 1: IDENTIDAD DEL NEGOCIO -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Negocio</mat-label>
+        <input matInput formControlName="nombre">
+        <mat-icon matSuffix>storefront</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Categoría del Negocio</mat-label>
+        <mat-select formControlName="categoria">
+          <mat-option *ngFor="let cat of categoriasAllowed" [value]="cat">
+            {{ cat }}
+          </mat-option>
+        </mat-select>
+        <mat-icon matSuffix>category</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Sección (Búsqueda Inicial)</mat-label>
+        <input matInput formControlName="seccion">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+
+      <!-- SECCIÓN 2: IMÁGENES -->
+      <div class="seccion-visual">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL Logo</mat-label>
+          <input matInput formControlName="logo">
+          <mat-icon matSuffix>image</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL Banner</mat-label>
+          <input matInput formControlName="banner">
+          <mat-icon matSuffix>add_photo_alternate</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- SECCIÓN 3: DESCRIPCIÓN -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Descripción del Negocio</mat-label>
+        <textarea matInput formControlName="descripcion" rows="4"></textarea>
+      </mat-form-field>
+
+      <!-- SECCIÓN 4: CONTACTO Y UBICACIÓN -->
+      <div class="contacto-grid">
+        <mat-form-field appearance="outline">
+            <mat-label>Dirección Física</mat-label>
+            <input matInput formControlName="direccion">
+            <mat-icon matSuffix>location_on</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Teléfono (Fijo o Celular)</mat-label>
+          <input matInput formControlName="telefono">
+          <mat-icon matSuffix>call</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>WhatsApp (Pedidos)</mat-label>
+            <input matInput formControlName="whatsapp">
+            <mat-icon matSuffix>phone</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <!-- SECCIÓN 5: REDES SOCIALES -->
+      <div class="contacto-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Instagram (@usuario)</mat-label>
+          <input matInput formControlName="instagram">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Facebook (URL de la página)</mat-label>
+            <input matInput formControlName="facebook">
+          </mat-form-field>
+      </div>
+      
+      <!-- SECCIÓN 6: ACCIONES -->
+      <div style="display: flex; gap: 10px; margin-top: 20px;">
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()" [disabled]="estaCargando()">
+          Cancelar
+        </button>
+        <button mat-flat-button color="primary" class="btn-guardar" 
+                [disabled]="formGroup.invalid || estaCargando()">
+          {{ estaCargando() ? 'Guardando...' : 'Aprobar y Publicar' }}
+        </button>
+      </div>
+
+    </form>
+  </section>

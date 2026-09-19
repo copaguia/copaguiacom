@@ -23,6 +23,8 @@ import { DashboardDuenoComponent } from './views/dashboard-dueno/dashboard-dueno
 import { GestionCatalogoComponent } from './views/gestion-catalogo/gestion-catalogo.component';
 import { MarketPlaceGlobalComponent } from './views/market-place-global/market-place-global.component';
 import { SoporteConsolaComponent } from './views/soporte-consola/soporte-consola.component';
+import { DataBorradorComponent } from './views/admin/data-borrador/data-borrador.component';
+import { AdminBorradorEditorComponent } from './views/admin/admin-borrador-editor/admin-borrador-editor.component';
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
 
@@ -52,6 +54,8 @@ const staticRoutes: Routes = [
         path: 'admin/sistema-pautas',
         component: SistemaPautasComponent
     },
+    { path: 'admin/data-borrador', component: DataBorradorComponent },
+    { path: 'admin/data-borrador/editar/:id', component: AdminBorradorEditorComponent },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 
     }, 

@@ -9,9 +9,11 @@ if (admin.apps.length === 0) {
   admin.initializeApp();
 }
 
+/*
 /**
  * Función programada que se ejecuta diariamente a las 3:00 AM (hora de Colombia)
- */
+ * TEMPORALMENTE DESHABILITADA POR POLÍTICAS DE GOOGLE PLACES API (TOS)
+ * /
 export const sincronizarNegociosCopacabana = onSchedule(
   {
     schedule: SYNC_CONFIG.schedule,
@@ -37,3 +39,4 @@ export const sincronizarNegociosCopacabana = onSchedule(
     }
   }
 );
+*/

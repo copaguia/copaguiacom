@@ -91,6 +91,16 @@ mat-tab-group {
   border-radius: 50%;
 }
 
+.user-avatar-menu {
+  width: 24px;
+  height: 24px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-right: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 h2 {
   letter-spacing: 1.5px;
   text-align: end;

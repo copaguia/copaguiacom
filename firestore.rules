@@ -63,5 +63,10 @@ service cloud.firestore {
       allow read: if true; // Cualquier persona puede ver los anuncios
       allow write: if hasRole('admin'); // Solo el administrador puede modificar la publicidad
     }
+
+    // Negocios Borrador (Herramienta Admin)
+    match /negocios_borrador/{borradorId} {
+      allow read, write: if hasRole('admin'); 
+    }
   }
 }

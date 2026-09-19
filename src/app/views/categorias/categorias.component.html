@@ -20,7 +20,11 @@
 
   @if (authService.perfilLectura(); as perfil) {
     <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
-      <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar">
+      @if (perfil.urlFoto && !avatarImageError()) {
+        <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar" (error)="onAvatarError()">
+      } @else {
+        <mat-icon>account_circle</mat-icon>
+      }
     </button>
   }
 
@@ -62,7 +66,11 @@
 <mat-menu #userMenu="matMenu">
 
   <button mat-menu-item (click)="navigateToProfile()">
-    <mat-icon>account_circle</mat-icon>
+    @if (authService.perfilLectura()?.urlFoto && !avatarImageError()) {
+      <img [src]="authService.perfilLectura()?.urlFoto" class="user-avatar-menu mat-icon" alt="Avatar" (error)="onAvatarError()">
+    } @else {
+      <mat-icon>account_circle</mat-icon>
+    }
     <span>Mi Perfil</span>
   </button>
 
@@ -75,6 +83,10 @@
     <button mat-menu-item (click)="navigateToCreateBusiness()">
       <mat-icon>add_business</mat-icon>
       <span>Agregar Negocio</span>
+    </button>
+    <button mat-menu-item (click)="navigateTo('admin/data-borrador')">
+      <mat-icon>checklist</mat-icon>
+      <span>Aprobar Negocios</span>
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="openCrearNotificacion()">

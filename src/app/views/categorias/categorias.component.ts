@@ -49,6 +49,7 @@ export class CategoriasComponent {
   ofertaCentralBanner = signal<BannerInterface | null>(null);
   animKey = signal(0);
   terminoGlobal = signal('');
+  avatarImageError = signal(false);
 
   constructor() {
     this.cargarBannersParaCategoriaActiva(this.tituloToolbar());
@@ -58,6 +59,10 @@ export class CategoriasComponent {
     this.tituloToolbar.set(event.tab.textLabel);
     this.animKey.update(v => v + 1);
     this.cargarBannersParaCategoriaActiva(event.tab.textLabel);
+  }
+
+  onAvatarError() {
+    this.avatarImageError.set(true);
   }
 
   async cargarBannersParaCategoriaActiva(categoriaId: string) {
