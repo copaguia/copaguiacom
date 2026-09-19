@@ -1,5 +1,19 @@
 <div class="borrador-container">
-  <h2>Administración de Borradores</h2>
+  <div class="header-section">
+    <h2>Administración de Borradores</h2>
+    <div class="indicadores-container">
+      <mat-chip-set>
+        <mat-chip class="chip-aprobados">
+          <mat-icon matChipAvatar>check_circle</mat-icon>
+          <strong>{{ aprobados() }}</strong> Aprobados
+        </mat-chip>
+        <mat-chip class="chip-pendientes">
+          <mat-icon matChipAvatar>pending_actions</mat-icon>
+          <strong>{{ pendientes() }}</strong> Pendientes
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </div>
   <p>Lista de negocios extraídos pendientes de validación y publicación.</p>
 
   @if (estaCargando()) {

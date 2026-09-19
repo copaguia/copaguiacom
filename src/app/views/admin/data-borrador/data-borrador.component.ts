@@ -5,6 +5,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { AdminBorradorService } from '../../../core/services/admin-borrador.service';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
@@ -18,6 +19,7 @@ import { AuthorizationService } from '../../../core/auth/authorization.service';
     MatButtonModule, 
     MatIconModule, 
     MatProgressSpinnerModule,
+    MatChipsModule,
     MatCardModule
   ],
   templateUrl: './data-borrador.component.html',
@@ -31,6 +33,8 @@ export class DataBorradorComponent implements OnInit {
 
   public borradores = signal<any[]>([]);
   public estaCargando = signal<boolean>(true);
+  public pendientes = signal<number>(0);
+  public aprobados = signal<number>(0);
   public displayedColumns: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'acciones'];
 
   async ngOnInit() {
@@ -46,6 +50,10 @@ export class DataBorradorComponent implements OnInit {
     try {
       const data = await this.adminBorradorService.obtenerBorradoresPendientes();
       this.borradores.set(data);
+      this.pendientes.set(data.length);
+      
+      const countAprobados = await this.adminBorradorService.obtenerConteo('Aprobado');
+      this.aprobados.set(countAprobados);
     } catch (error) {
       console.error('Error cargando borradores', error);
     } finally {

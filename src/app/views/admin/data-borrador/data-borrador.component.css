@@ -4,6 +4,36 @@
   margin: 0 auto;
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.indicadores-container {
+  display: flex;
+  gap: 15px;
+}
+
+.chip-aprobados {
+  --mdc-chip-elevated-container-color: #2e7d32;
+  --mdc-chip-label-text-color: #ffffff;
+}
+.chip-aprobados mat-icon {
+  color: #c8e6c9 !important;
+}
+
+.chip-pendientes {
+  --mdc-chip-elevated-container-color: #f57c00;
+  --mdc-chip-label-text-color: #ffffff;
+}
+.chip-pendientes mat-icon {
+  color: #ffe0b2 !important;
+}
+
 .loading-container {
   display: flex;
   flex-direction: column;

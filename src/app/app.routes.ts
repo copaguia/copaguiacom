@@ -27,6 +27,7 @@ import { DataBorradorComponent } from './views/admin/data-borrador/data-borrador
 import { AdminBorradorEditorComponent } from './views/admin/admin-borrador-editor/admin-borrador-editor.component';
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
+import { rolesGuard } from './guards/auth.guard';
 
 // --- Static routes of the application ---
 const staticRoutes: Routes = [
@@ -54,8 +55,18 @@ const staticRoutes: Routes = [
         path: 'admin/sistema-pautas',
         component: SistemaPautasComponent
     },
-    { path: 'admin/data-borrador', component: DataBorradorComponent },
-    { path: 'admin/data-borrador/editar/:id', component: AdminBorradorEditorComponent },
+    { 
+        path: 'admin/data-borrador', 
+        component: DataBorradorComponent,
+        canActivate: [rolesGuard],
+        data: { roles: ['admin'] }
+    },
+    { 
+        path: 'admin/data-borrador/editar/:id', 
+        component: AdminBorradorEditorComponent,
+        canActivate: [rolesGuard],
+        data: { roles: ['admin'] }
+    },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 
     }, 

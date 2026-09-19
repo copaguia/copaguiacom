@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, writeBatch } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, writeBatch, getCountFromServer } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 
 @Injectable({
@@ -26,6 +26,22 @@ export class AdminBorradorService {
     } catch (error) {
       console.error("Error al obtener borradores pendientes:", error);
       throw error;
+    }
+  }
+
+  /**
+   * Obtiene la cantidad de negocios en un estado específico.
+   */
+  public async obtenerConteo(estado: 'Pendiente' | 'Aprobado'): Promise<number> {
+    const borradorRef = collection(this.firestore, 'negocios_borrador');
+    const q = query(borradorRef, where('revisionManual', '==', estado));
+    
+    try {
+      const snapshot = await getCountFromServer(q);
+      return snapshot.data().count;
+    } catch (error) {
+      console.error(`Error al obtener conteo de ${estado}:`, error);
+      return 0;
     }
   }
 
