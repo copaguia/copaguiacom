@@ -46,6 +46,46 @@ export class AdminBorradorService {
   }
 
   /**
+   * Obtiene el ranking de validadores calculando la cantidad de negocios aprobados por cada email.
+   * Retorna un arreglo de objetos ordenados por total.
+   */
+  public async obtenerRankingValidadores(): Promise<Array<{ email: string; total: number; ultimaFecha: string }>> {
+    const borradorRef = collection(this.firestore, 'negocios_borrador');
+    const q = query(borradorRef, where('revisionManual', '==', 'Aprobado'));
+    
+    try {
+      const querySnapshot = await getDocs(q);
+      const conteoMap = new Map<string, { total: number; ultimaFecha: string }>();
+
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const email = data['aprobadoPorEmail'];
+        const fechaStr = data['fechaAprobacion'];
+        
+        if (email) {
+          const actual = conteoMap.get(email) || { total: 0, ultimaFecha: '' };
+          actual.total += 1;
+          
+          if (fechaStr && (!actual.ultimaFecha || new Date(fechaStr) > new Date(actual.ultimaFecha))) {
+            actual.ultimaFecha = fechaStr;
+          }
+          
+          conteoMap.set(email, actual);
+        }
+      });
+
+      const ranking = Array.from(conteoMap.entries()).map(([email, stats]) => {
+        return { email, total: stats.total, ultimaFecha: stats.ultimaFecha };
+      });
+
+      return ranking.sort((a, b) => b.total - a.total);
+    } catch (error) {
+      console.error("Error al obtener ranking de validadores:", error);
+      return [];
+    }
+  }
+
+  /**
    * Obtiene un documento específico de negocios_borrador por su ID.
    */
   public async obtenerBorrador(id: string): Promise<any | null> {
