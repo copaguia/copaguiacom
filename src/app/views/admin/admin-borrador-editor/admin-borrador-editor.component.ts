@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 // L10: Arquitectura Lidertech
 import { AdminBorradorService } from '../../../core/services/admin-borrador.service';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
+import { AuthService } from '../../../core/auth/auth.service';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 
 // L10: Componentes de UI reutilizables
@@ -41,6 +42,7 @@ export class AdminBorradorEditorComponent implements OnInit {
   private route           = inject(ActivatedRoute);
   private adminBorradorService = inject(AdminBorradorService);
   private authorization   = inject(AuthorizationService);
+  private authService     = inject(AuthService);
 
   public estaCargando = signal<boolean>(false);
   private borradorId = signal<string | null>(null);
@@ -148,8 +150,14 @@ export class AdminBorradorEditorComponent implements OnInit {
       metadatos: { origen: 'revision_manual_admin' }
     };
 
+    const usuario = this.authService.usuarioLectura();
+    const adminAprobador = {
+      uid: usuario?.uid || 'desconocido',
+      email: usuario?.email || 'desconocido'
+    };
+
     try {
-      await this.adminBorradorService.aprobarBorrador(id, negocioValidado);
+      await this.adminBorradorService.aprobarBorrador(id, negocioValidado, adminAprobador);
       this.snackBar.open('Negocio aprobado y publicado', 'OK', { duration: 3000 });
       this.router.navigate(['/admin/data-borrador']);
     } catch (error) {

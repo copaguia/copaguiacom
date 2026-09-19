@@ -85,8 +85,8 @@
       </div>
       
       <!-- SECCIÓN 6: ACCIONES -->
-      <div style="display: flex; gap: 10px; margin-top: 20px;">
-        <button mat-stroked-button color="warn" type="button" (click)="cancelar()" [disabled]="estaCargando()">
+      <div class="acciones-container">
+        <button mat-stroked-button color="warn" type="button" (click)="cancelar()" class="btn-cancelar" [disabled]="estaCargando()">
           Cancelar
         </button>
         <button mat-flat-button color="primary" class="btn-guardar" 

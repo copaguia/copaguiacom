@@ -68,7 +68,7 @@ export class AdminBorradorService {
    * 1. Guarda los datos validados en la colección 'negocios' (Público).
    * 2. Actualiza el documento en 'negocios_borrador' a revisionManual: "Aprobado".
    */
-  public async aprobarBorrador(id: string, datosValidados: Partial<NegocioInterface>): Promise<void> {
+  public async aprobarBorrador(id: string, datosValidados: Partial<NegocioInterface>, aprobadoPor: { uid: string, email: string }): Promise<void> {
     const batch = writeBatch(this.firestore);
 
     // 1. Escribir en la colección pública (si no existe, se crea; si existe, se actualiza)
@@ -79,7 +79,12 @@ export class AdminBorradorService {
 
     // 2. Actualizar el estado en la colección de borradores
     const borradorRef = doc(this.firestore, 'negocios_borrador', id);
-    batch.update(borradorRef, { revisionManual: 'Aprobado' });
+    batch.update(borradorRef, { 
+      revisionManual: 'Aprobado',
+      fechaAprobacion: new Date().toISOString(),
+      aprobadoPorUid: aprobadoPor.uid,
+      aprobadoPorEmail: aprobadoPor.email
+    });
 
     try {
       await batch.commit();
