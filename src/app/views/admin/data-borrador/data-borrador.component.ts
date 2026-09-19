@@ -44,7 +44,7 @@ export class DataBorradorComponent implements OnInit {
   public displayedColumns: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
 
   async ngOnInit() {
-    if (!this.authorization.esAdmin()) {
+    if (!this.authorization.esAdmin() && !this.authorization.esAgente()) {
       this.router.navigate(['/']);
       return;
     }

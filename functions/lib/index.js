@@ -33,38 +33,104 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.sincronizarNegociosCopacabana = void 0;
+exports.listarDominiosCloudflare = exports.recibirNegociosExtraidos = exports.provisionarNuevoDirectorio = void 0;
 const admin = __importStar(require("firebase-admin"));
-const scheduler_1 = require("firebase-functions/v2/scheduler");
-const sync_businesses_1 = require("./google/places/sync-businesses");
-const config_1 = require("./google/places/config");
-// Initialize Firebase Admin
-if (admin.apps.length === 0) {
+if (admin.apps.length === 0)
     admin.initializeApp();
-}
+const https_1 = require("firebase-functions/v2/https");
+const params_1 = require("firebase-functions/params");
+const cloudflareDomains_1 = require("./cloudflare/cloudflareDomains");
+const google_cloud_1 = require("./orchestrator/google-cloud");
+const extractor_1 = require("./orchestrator/extractor");
+// @ts-ignore
+const cloudflareToken = (0, params_1.defineString)('CLOUDFLARE_API_TOKEN');
+// @ts-ignore
+const cloudflareAccountId = (0, params_1.defineString)('CLOUDFLARE_ACCOUNT_ID');
+// @ts-ignore
+const apifyApiToken = (0, params_1.defineString)('APIFY_API_TOKEN');
+// @ts-ignore
+const mapsApiKeyId = (0, params_1.defineString)('GOOGLE_MAPS_KEY_ID');
 /**
- * Función programada que se ejecuta diariamente a las 3:00 AM (hora de Colombia)
+ * Orquestador principal Zero-Touch.
+ * Soporta dos modos:
+ *   - modoConexion: 'NUEVO'     → Compra el dominio en Cloudflare y configura DNS.
+ *   - modoConexion: 'EXISTENTE' → Conecta un dominio ya comprado (ej. niquia.com).
  */
-exports.sincronizarNegociosCopacabana = (0, scheduler_1.onSchedule)({
-    schedule: config_1.SYNC_CONFIG.schedule,
-    timeZone: config_1.SYNC_CONFIG.timeZone,
-    secrets: ['PLACES_API_KEY'],
-    timeoutSeconds: config_1.SYNC_CONFIG.timeoutSeconds,
-    memory: config_1.SYNC_CONFIG.memory,
-    invoker: 'private',
-}, async (event) => {
-    const apiKey = process.env.PLACES_API_KEY;
-    if (!apiKey) {
-        console.error('PLACES_API_KEY environment variable is not defined.');
-        return;
+exports.provisionarNuevoDirectorio = (0, https_1.onCall)(async (request) => {
+    const data = request.data;
+    if (!data.nombreDirectorio || !data.dominioObjetivo || !data.limitePoligonal) {
+        throw new https_1.HttpsError('invalid-argument', 'Faltan: nombreDirectorio, dominioObjetivo, limitePoligonal');
     }
-    console.log('Starting scheduled synchronization of Copacabana businesses from Google Places...');
+    const { nombreDirectorio, dominioObjetivo, limitePoligonal } = data;
+    const modoConexion = data.modoConexion ?? 'EXISTENTE'; // 'NUEVO' | 'EXISTENTE'
+    const projectId = process.env.GCLOUD_PROJECT || 'copaguia-53f7f';
     try {
-        const summary = await (0, sync_businesses_1.syncBusinesses)(apiKey);
-        console.log(`Sync completed successfully: Added ${summary.added}, Updated ${summary.updated}, Deleted ${summary.deleted}, Total: ${summary.total}`);
+        console.log(`Iniciando orquestación [${modoConexion}] para: ${dominioObjetivo}`);
+        // 1. Cloudflare: Comprar o Conectar dominio según el modo
+        const cfConfig = {
+            accountId: cloudflareAccountId.value(),
+            apiToken: cloudflareToken.value()
+        };
+        if (modoConexion === 'NUEVO') {
+            await (0, cloudflareDomains_1.comprarDominio)(dominioObjetivo, cfConfig);
+            await (0, cloudflareDomains_1.conectarDominioExistente)(dominioObjetivo, cfConfig);
+            console.log(`✅ Dominio comprado y DNS configurado: ${dominioObjetivo}`);
+        }
+        else {
+            await (0, cloudflareDomains_1.conectarDominioExistente)(dominioObjetivo, cfConfig);
+            console.log(`✅ Dominio existente conectado: ${dominioObjetivo}`);
+        }
+        // 2. Google Cloud: Añadir a Firebase Auth
+        await (0, google_cloud_1.addAuthorizedDomainAuth)(projectId, dominioObjetivo);
+        console.log(`✅ Auth autorizado para ${dominioObjetivo}`);
+        // 3. Google Cloud: Proteger API Key de Maps
+        await (0, google_cloud_1.updateMapsKeyRestrictions)(projectId, mapsApiKeyId.value(), dominioObjetivo);
+        console.log(`✅ Maps API Key protegida para ${dominioObjetivo}`);
+        // 4. Extracción de negocios: Lanzar sobre el polígono del directorio
+        const extractorConfig = { apiKey: apifyApiToken.value() };
+        const jobId = await (0, extractor_1.iniciarExtraccionNegocios)(limitePoligonal, extractorConfig);
+        console.log(`✅ Extracción iniciada con ID: ${jobId}`);
+        // 5. Guardar el directorio en Firestore con estado inicial
+        const directorioRef = admin.firestore().collection('Directorios').doc();
+        await directorioRef.set({
+            nombre: nombreDirectorio,
+            dominio: dominioObjetivo,
+            modoConexion: modoConexion,
+            limitePoligonal: limitePoligonal,
+            estado: 'PROVISIONANDO',
+            extractorJobId: jobId,
+            fechaCreacion: admin.firestore.FieldValue.serverTimestamp()
+        });
+        return {
+            success: true,
+            directorioId: directorioRef.id,
+            mensaje: `Directorio ${dominioObjetivo} en aprovisionamiento. Modo: ${modoConexion}.`
+        };
     }
     catch (error) {
-        console.error('Error during scheduled synchronization:', error);
+        console.error('Error en orquestador:', error);
+        throw new https_1.HttpsError('internal', `Fallo en el aprovisionamiento: ${error.message}`);
+    }
+});
+// Webhook genérico para recibir negocios extraídos desde cualquier fuente
+var negocios_receiver_1 = require("./webhooks/negocios-receiver");
+Object.defineProperty(exports, "recibirNegociosExtraidos", { enumerable: true, get: function () { return negocios_receiver_1.recibirNegociosExtraidos; } });
+/**
+ * Retorna la lista de dominios registrados en la cuenta Cloudflare del Dev.
+ * Usado por el Dev Dashboard para mostrar un selector de dominios disponibles.
+ */
+exports.listarDominiosCloudflare = (0, https_1.onCall)(async () => {
+    try {
+        const cfConfig = {
+            accountId: cloudflareAccountId.value(),
+            apiToken: cloudflareToken.value()
+        };
+        const dominios = await (0, cloudflareDomains_1.listarDominiosRegistrados)(cfConfig);
+        return { success: true, dominios };
+    }
+    catch (error) {
+        console.error('Error listando dominios:', error);
+        throw new https_1.HttpsError('internal', `No se pudo obtener la lista de dominios: ${error.message}`);
     }
 });
 //# sourceMappingURL=index.js.map

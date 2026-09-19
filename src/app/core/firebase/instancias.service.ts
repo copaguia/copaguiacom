@@ -5,6 +5,7 @@ import { Firestore, getFirestore } from 'firebase/firestore';
 import { getMessaging, Messaging } from 'firebase/messaging';
 import { FirebasePerformance, getPerformance } from 'firebase/performance';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
+import { Functions, getFunctions } from 'firebase/functions';
 import { environment } from '../../../environments/environment';
 
 /*** 1. INICIALIZACIÓN DE LA APLICACIÓN FIREBASE * Punto de entrada principal para todos los servicios */
@@ -21,6 +22,7 @@ export class InstanciaFirebase {
   public messaging:   Messaging           = getMessaging(app);
   public analytics:   Analytics           = getAnalytics(app);
   public performance: FirebasePerformance = getPerformance(app);
+  public functions:   Functions           = getFunctions(app, 'us-central1'); // Default region
 }
 
 

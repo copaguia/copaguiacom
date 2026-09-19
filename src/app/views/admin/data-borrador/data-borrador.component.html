@@ -4,37 +4,37 @@
       <button mat-icon-button (click)="goBack()" class="back-button" aria-label="Volver">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h2>Administración de Borradores</h2>
+      <h2>Validación de Negocios</h2>
     </div>
     <div class="indicadores-container">
       <mat-chip-set>
         <mat-chip class="chip-aprobados">
           <mat-icon matChipAvatar>check_circle</mat-icon>
-          <strong>{{ aprobados() }}</strong> Aprobados
+          <strong>{{ aprobados() }}</strong> Verificados
         </mat-chip>
         <mat-chip class="chip-pendientes">
           <mat-icon matChipAvatar>pending_actions</mat-icon>
-          <strong>{{ pendientes() }}</strong> Pendientes
+          <strong>{{ pendientes() }}</strong> No Verificados
         </mat-chip>
       </mat-chip-set>
     </div>
   </div>
-  <p>Lista de negocios extraídos pendientes de validación y publicación.</p>
+  <p>Lista de negocios del directorio público que requieren ser validados presencial o telefónicamente.</p>
 
   @if (estaCargando()) {
     <div class="loading-container">
       <mat-spinner diameter="40"></mat-spinner>
-      <p>Cargando borradores...</p>
+      <p>Cargando negocios...</p>
     </div>
   } @else {
     <mat-tab-group animationDuration="0ms">
       <!-- Pestaña de Pendientes -->
-      <mat-tab label="Pendientes de Revisión">
+      <mat-tab label="Pendientes de Verificación">
         <div class="tab-content-padded">
           @if (borradores().length === 0) {
             <mat-card class="empty-state">
               <mat-card-content>
-                No hay negocios pendientes de revisión.
+                ¡Excelente! Todos los negocios en tu zona están verificados.
               </mat-card-content>
             </mat-card>
           } @else {
@@ -80,8 +80,8 @@
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let element">
                     <button mat-raised-button color="primary" (click)="revisarBorrador(element.id)">
-                      <mat-icon>edit</mat-icon>
-                      Revisar
+                      <mat-icon>verified</mat-icon>
+                      Verificar
                     </button>
                   </td>
                 </ng-container>
@@ -100,11 +100,11 @@
           <mat-card class="ranking-card">
             <mat-card-header>
               <mat-card-title>Ranking del Equipo</mat-card-title>
-              <mat-card-subtitle>Negocios aprobados por administrador</mat-card-subtitle>
+              <mat-card-subtitle>Negocios verificados por agente</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
               @if (rankingValidadores().length === 0) {
-                <p style="margin-top: 15px; color: #888;">No hay datos de revisión aún.</p>
+                <p style="margin-top: 15px; color: #888;">No hay datos de verificación aún.</p>
               } @else {
                 <mat-list>
                   @for (validador of rankingValidadores(); track validador.email) {
@@ -112,7 +112,7 @@
                       <mat-icon matListItemIcon color="primary">admin_panel_settings</mat-icon>
                       <div matListItemTitle>{{ validador.email }}</div>
                       <div matListItemLine>
-                        Aprobados: <strong>{{ validador.total }}</strong>
+                        Verificados: <strong>{{ validador.total }}</strong>
                         - Última acción: {{ validador.ultimaFecha | date:'medium' }}
                       </div>
                     </mat-list-item>

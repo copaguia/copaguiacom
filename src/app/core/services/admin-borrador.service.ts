@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, query, where, getDocs, doc, getDoc, updateDoc, setDoc, writeBatch, getCountFromServer, QueryConstraint } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, writeBatch, getCountFromServer, QueryConstraint } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 import { AuthService } from '../auth/auth.service';
 import { RolUsuario } from '../auth/rol-usuario';
@@ -18,7 +18,6 @@ export class AdminBorradorService {
     
     // Si es AGENTE y tiene zonas asignadas, filtramos obligatoriamente por esas zonas.
     if (perfil?.rolUsuario === RolUsuario.AGENTE && perfil.zonasAsignadas && perfil.zonasAsignadas.length > 0) {
-      // Nota: Firestore permite 'in' hasta 10 elementos. 
       constraints.push(where('zonaAsignada', 'in', perfil.zonasAsignadas));
     }
     
@@ -26,11 +25,11 @@ export class AdminBorradorService {
   }
 
   /**
-   * Obtiene todos los negocios en la colección negocios_borrador que están pendientes de revisión.
+   * Obtiene todos los negocios en la colección "negocios" que NO están verificados.
    */
   public async obtenerBorradoresPendientes(): Promise<any[]> {
-    const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', 'Pendiente'), ...this.getFiltrosPorRol());
+    const negociosRef = collection(this.firestore, 'negocios');
+    const q = query(negociosRef, where('verificado', '==', false), ...this.getFiltrosPorRol());
     
     try {
       const querySnapshot = await getDocs(q);
@@ -40,17 +39,19 @@ export class AdminBorradorService {
       });
       return borradores;
     } catch (error) {
-      console.error("Error al obtener borradores pendientes:", error);
+      console.error("Error al obtener negocios no verificados:", error);
       throw error;
     }
   }
 
   /**
    * Obtiene la cantidad de negocios en un estado específico.
+   * En este caso, mapeamos "Pendiente" a verificado=false y "Aprobado" a verificado=true.
    */
   public async obtenerConteo(estado: 'Pendiente' | 'Aprobado'): Promise<number> {
-    const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', estado), ...this.getFiltrosPorRol());
+    const negociosRef = collection(this.firestore, 'negocios');
+    const isVerificado = estado === 'Aprobado';
+    const q = query(negociosRef, where('verificado', '==', isVerificado), ...this.getFiltrosPorRol());
     
     try {
       const snapshot = await getCountFromServer(q);
@@ -62,12 +63,12 @@ export class AdminBorradorService {
   }
 
   /**
-   * Obtiene el ranking de validadores calculando la cantidad de negocios aprobados por cada email.
+   * Obtiene el ranking de validadores calculando la cantidad de negocios verificados por cada email.
    * Retorna un arreglo de objetos ordenados por total.
    */
   public async obtenerRankingValidadores(): Promise<Array<{ email: string; total: number; ultimaFecha: string }>> {
-    const borradorRef = collection(this.firestore, 'negocios_borrador');
-    const q = query(borradorRef, where('revisionManual', '==', 'Aprobado'), ...this.getFiltrosPorRol());
+    const negociosRef = collection(this.firestore, 'negocios');
+    const q = query(negociosRef, where('verificado', '==', true), ...this.getFiltrosPorRol());
     
     try {
       const querySnapshot = await getDocs(q);
@@ -75,8 +76,8 @@ export class AdminBorradorService {
 
       querySnapshot.forEach((docSnap) => {
         const data = docSnap.data();
-        const email = data['aprobadoPorEmail'];
-        const fechaStr = data['fechaAprobacion'];
+        const email = data['verificadoPorEmail']; // Campo nuevo
+        const fechaStr = data['fechaVerificacion']; // Campo nuevo
         
         if (email) {
           const actual = conteoMap.get(email) || { total: 0, ultimaFecha: '' };
@@ -102,10 +103,10 @@ export class AdminBorradorService {
   }
 
   /**
-   * Obtiene un documento específico de negocios_borrador por su ID.
+   * Obtiene un documento específico de negocios por su ID.
    */
   public async obtenerBorrador(id: string): Promise<any | null> {
-    const docRef = doc(this.firestore, 'negocios_borrador', id);
+    const docRef = doc(this.firestore, 'negocios', id);
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
@@ -114,38 +115,36 @@ export class AdminBorradorService {
         return null;
       }
     } catch (error) {
-      console.error("Error al obtener el borrador:", error);
+      console.error("Error al obtener el negocio:", error);
       throw error;
     }
   }
 
   /**
-   * Aprueba un borrador:
-   * 1. Guarda los datos validados en la colección 'negocios' (Público).
-   * 2. Actualiza el documento en 'negocios_borrador' a revisionManual: "Aprobado".
+   * Verifica un negocio:
+   * Como ya está en la colección pública ('negocios'), solo actualizamos el flag a verificado=true
+   * y guardamos los datos del validador.
    */
   public async aprobarBorrador(id: string, datosValidados: Partial<NegocioInterface>, aprobadoPor: { uid: string, email: string }): Promise<void> {
     const batch = writeBatch(this.firestore);
 
-    // 1. Escribir en la colección pública (si no existe, se crea; si existe, se actualiza)
-    const negocioPublicoRef = doc(this.firestore, 'negocios', id);
-    // Aseguramos que tenga su ID dentro del payload si tu interfaz lo requiere
-    const payloadPublico = { ...datosValidados, id };
-    batch.set(negocioPublicoRef, payloadPublico, { merge: true });
-
-    // 2. Actualizar el estado en la colección de borradores
-    const borradorRef = doc(this.firestore, 'negocios_borrador', id);
-    batch.update(borradorRef, { 
-      revisionManual: 'Aprobado',
-      fechaAprobacion: new Date().toISOString(),
-      aprobadoPorUid: aprobadoPor.uid,
-      aprobadoPorEmail: aprobadoPor.email
-    });
+    const negocioRef = doc(this.firestore, 'negocios', id);
+    
+    const payloadActualizado = { 
+      ...datosValidados, 
+      id,
+      verificado: true,
+      fechaVerificacion: new Date().toISOString(),
+      verificadoPorUid: aprobadoPor.uid,
+      verificadoPorEmail: aprobadoPor.email
+    };
+    
+    batch.update(negocioRef, payloadActualizado);
 
     try {
       await batch.commit();
     } catch (error) {
-      console.error("Error en la transacción de aprobación:", error);
+      console.error("Error en la transacción de validación:", error);
       throw error;
     }
   }
