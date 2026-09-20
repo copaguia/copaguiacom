@@ -10,13 +10,13 @@ export const environment = {
     // - appId: ID único que Firebase asigna a tu aplicación web.
     // - measurementId: Llave de Google Analytics (GA4) vinculada a este proyecto.
     firebaseConfig : {
-        apiKey: "AIzaSyDWfuWkDTun9xzbasmW7Y-ctevQm1i-o2k",
-        authDomain: "copaguia-53f7f.firebaseapp.com",
-        projectId: "copaguia-53f7f",
-        storageBucket: "copaguia-53f7f.appspot.com",
-        messagingSenderId: "719139766457",
-        appId: "1:719139766457:web:1f75352dca7771537e1b68",
-        measurementId: "G-DDJYYD9THN"
+        apiKey: "AIzaSyAzP5_cqEl40eldTiiR6FPPO2tBVpxrBk0",
+        authDomain: "directorio-paisa.firebaseapp.com",
+        projectId: "directorio-paisa",
+        storageBucket: "directorio-paisa.firebasestorage.app",
+        messagingSenderId: "743750203663",
+        appId: "1:743750203663:web:ef0cefedb499330699e67a",
+        measurementId: "G-S50VSB4YS0"
       },
      
       // Recuerda que se debe instalar Java
