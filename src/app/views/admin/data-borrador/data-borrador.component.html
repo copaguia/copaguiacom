@@ -79,10 +79,18 @@
                 <ng-container matColumnDef="acciones">
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let element">
-                    <button mat-raised-button color="primary" (click)="revisarBorrador(element.id)">
-                      <mat-icon>verified</mat-icon>
-                      Verificar
-                    </button>
+                    <div style="display: flex; gap: 8px;">
+                      <button mat-raised-button color="primary" (click)="revisarBorrador(element.id)">
+                        <mat-icon>verified</mat-icon>
+                        Revisar
+                      </button>
+                      
+                      <button mat-stroked-button color="accent" (click)="copiarLinkMagico(element.id)" 
+                              matTooltip="Copiar Link de Autopago Wompi para enviarlo por WhatsApp">
+                        <mat-icon>link</mat-icon>
+                        Copiar Link
+                      </button>
+                    </div>
                   </td>
                 </ng-container>
 

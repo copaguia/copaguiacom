@@ -17,6 +17,10 @@
     ],
     "rewrites": [
       {
+        "source": "/api/wompi-webhook",
+        "function": "wompiWebhook"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

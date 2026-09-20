@@ -107,6 +107,10 @@ const staticRoutes: Routes = [
         path: 'negocio/:slug', component: DetalleNegocioComponent
     },
     {
+        path: 'reclamar/:id',
+        loadComponent: () => import('./views/reclamar-negocio/reclamar-negocio.component').then(m => m.ReclamarNegocioComponent)
+    },
+    {
         path: 'public/:username',
         component: UserFeedComponent, 
     },

@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.generarTokenSSO = exports.checkDomainAvailability = exports.listarDominiosCloudflare = exports.recibirNegociosExtraidos = exports.provisionarNuevoDirectorio = void 0;
+exports.generarTokenSSO = exports.checkDomainAvailability = exports.listarDominiosCloudflare = exports.wompiWebhook = exports.recibirNegociosExtraidos = exports.provisionarNuevoDirectorio = void 0;
 const admin = __importStar(require("firebase-admin"));
 if (admin.apps.length === 0)
     admin.initializeApp();
@@ -117,6 +117,9 @@ exports.provisionarNuevoDirectorio = (0, https_1.onCall)(async (request) => {
 // Webhook genérico para recibir negocios extraídos desde cualquier fuente
 var negocios_receiver_1 = require("./webhooks/negocios-receiver");
 Object.defineProperty(exports, "recibirNegociosExtraidos", { enumerable: true, get: function () { return negocios_receiver_1.recibirNegociosExtraidos; } });
+// Webhook para procesar pagos y activaciones automáticas de Wompi
+var webhook_1 = require("./wompi/webhook");
+Object.defineProperty(exports, "wompiWebhook", { enumerable: true, get: function () { return webhook_1.wompiWebhook; } });
 /**
  * Retorna la lista de dominios registrados en la cuenta Cloudflare del Dev.
  * Usado por el Dev Dashboard para mostrar un selector de dominios disponibles.

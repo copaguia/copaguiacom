@@ -15,7 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { RouterModule } from '@angular/router';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PlanesNegocioDialogComponent } from '../planes-negocio-dialog/planes-negocio-dialog.component';
 
 enum LoadingState {
@@ -234,7 +234,8 @@ export class CategoriaPageComponent implements OnInit {
           width: '90vw',
           maxWidth: '400px',
           panelClass: 'custom-dialog-container',
-          backdropClass: 'blur-backdrop'
+          backdropClass: 'blur-backdrop',
+          data: { negocioId: item.id }
         });
       }
     }
@@ -337,7 +338,7 @@ export class NegocioCerradoDialogComponent {
 @Component({
   selector: 'app-perfil-no-creado-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, RouterModule],
   template: `
     <div style="padding: 32px 24px; text-align: center; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);">
       <div style="display: flex; justify-content: center; margin-bottom: 16px;">
@@ -349,15 +350,23 @@ export class NegocioCerradoDialogComponent {
       <p style="color: #4b5563; margin: 0 0 24px; font-size: 1.05rem; line-height: 1.5;">
         Este negocio aún no ha creado su Perfil Profesional en nuestra plataforma.
       </p>
-      <button mat-flat-button color="primary" style="width: 100%; padding: 8px 0; border-radius: 8px; font-size: 1rem; font-weight: 600;" (click)="cerrar()">
-        Entendido
-      </button>
+      
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <button mat-stroked-button color="primary" style="width: 100%; padding: 8px 0; border-radius: 8px; font-size: 1rem; font-weight: 600;" (click)="cerrar()" [routerLink]="['/reclamar', data.negocioId]">
+          <mat-icon>storefront</mat-icon> ¿Eres el dueño? Reclamar
+        </button>
+        <button mat-flat-button color="primary" style="width: 100%; padding: 8px 0; border-radius: 8px; font-size: 1rem; font-weight: 600;" (click)="cerrar()">
+          Entendido
+        </button>
+      </div>
     </div>
   `
 })
 export class PerfilNoCreadoDialogComponent {
   dialogRef = inject(MatDialogRef<PerfilNoCreadoDialogComponent>);
+  public data = inject(MAT_DIALOG_DATA);
   cerrar() {
     this.dialogRef.close();
   }
 }
+

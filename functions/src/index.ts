@@ -94,6 +94,9 @@ export const provisionarNuevoDirectorio = onCall(async (request) => {
 // Webhook genérico para recibir negocios extraídos desde cualquier fuente
 export { recibirNegociosExtraidos } from './webhooks/negocios-receiver';
 
+// Webhook para procesar pagos y activaciones automáticas de Wompi
+export { wompiWebhook } from './wompi/webhook';
+
 /**
  * Retorna la lista de dominios registrados en la cuenta Cloudflare del Dev.
  * Usado por el Dev Dashboard para mostrar un selector de dominios disponibles.

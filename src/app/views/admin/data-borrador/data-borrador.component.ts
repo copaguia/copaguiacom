@@ -9,6 +9,8 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatListModule } from '@angular/material/list';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminBorradorService } from '../../../core/services/admin-borrador.service';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
 
@@ -24,7 +26,8 @@ import { AuthorizationService } from '../../../core/auth/authorization.service';
     MatChipsModule,
     MatCardModule,
     MatTabsModule,
-    MatListModule
+    MatListModule,
+    MatTooltipModule
   ],
   templateUrl: './data-borrador.component.html',
   styleUrls: ['./data-borrador.component.css'],
@@ -35,6 +38,7 @@ export class DataBorradorComponent implements OnInit {
   private router = inject(Router);
   private location = inject(Location);
   public authorization = inject(AuthorizationService);
+  private snackBar = inject(MatSnackBar);
 
   public borradores = signal<any[]>([]);
   public estaCargando = signal<boolean>(true);
@@ -67,6 +71,18 @@ export class DataBorradorComponent implements OnInit {
       console.error('Error cargando borradores', error);
     } finally {
       this.estaCargando.set(false);
+    }
+  }
+
+  // Método para copiar el link mágico de Wompi al portapapeles
+  async copiarLinkMagico(id: string) {
+    const link = `${window.location.origin}/reclamar/${id}`;
+    try {
+      await navigator.clipboard.writeText(link);
+      this.snackBar.open('¡Link Mágico copiado al portapapeles!', 'OK', { duration: 3000 });
+    } catch (err) {
+      console.error('Error al copiar el link: ', err);
+      this.snackBar.open('Error al copiar el link.', 'OK', { duration: 3000 });
     }
   }
 

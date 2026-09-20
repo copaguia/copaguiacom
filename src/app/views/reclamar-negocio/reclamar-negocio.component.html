@@ -1,0 +1,75 @@
+<div class="reclamar-container">
+  @if (estaCargando()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Cargando información del negocio...</p>
+    </div>
+  } @else if (error()) {
+    <div class="error-state">
+      <mat-icon color="warn">error</mat-icon>
+      <h2>Oops! Algo salió mal</h2>
+      <p>{{ error() }}</p>
+      <button mat-stroked-button color="primary" routerLink="/">Volver al Inicio</button>
+    </div>
+  } @else if (negocio()) {
+    <div class="header">
+      <div class="logo-box">
+        <img [src]="negocio()?.imagen || 'assets/brand/business-placeholder.png'" alt="Logo negocio">
+      </div>
+      <h1>Reclama tu negocio: <br><span class="highlight">{{ negocio()?.nombre }}</span></h1>
+      <p class="subtitle">Activa tu perfil y comienza a recibir clientes de toda la ciudad.</p>
+    </div>
+
+    <!-- Si el usuario NO está autenticado -->
+    @if (!authService.perfilLectura()) {
+      <mat-card class="auth-card">
+        <mat-card-header>
+          <mat-card-title>Paso 1: Identificación</mat-card-title>
+          <mat-card-subtitle>Para garantizar tu seguridad y la propiedad legal del negocio, necesitamos verificar tu identidad.</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="auth-content">
+          <button mat-flat-button class="btn-google" (click)="ingresarConGoogle()">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" width="20">
+            Ingresar con Google para Continuar
+          </button>
+          <p class="info-text"><mat-icon>lock</mat-icon> Al ingresar, el correo se asociará como dueño oficial del establecimiento comercial.</p>
+        </mat-card-content>
+      </mat-card>
+    } @else {
+      <!-- Si el usuario SI está autenticado -->
+      <div class="planes-section">
+        <h2>Paso 2: Elige tu Plan de Activación</h2>
+        <p class="subtitle">Tu cuenta actual <strong>({{ authService.perfilLectura()?.email }})</strong> quedará como dueña del negocio. <br>
+          Al realizar el pago estás autorizando la publicación de los datos comerciales y aceptando nuestros términos de servicio.
+        </p>
+
+        <div class="planes-grid">
+          @for (plan of planes; track plan.id) {
+            <mat-card class="plan-card" [class.destacado]="plan.id === 'destacado'">
+              <mat-card-header>
+                <mat-card-title>{{ plan.nombre }}</mat-card-title>
+                <mat-card-subtitle>{{ plan.descripcion }}</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="precio-box">
+                  <span class="precio">{{ plan.precio | currency:'USD':'symbol':'1.0-0' }}</span>
+                  <span class="moneda">COP</span>
+                </div>
+                <ul class="beneficios-list">
+                  @for (ben of plan.beneficios; track ben) {
+                    <li><mat-icon color="primary">check_circle</mat-icon> {{ ben }}</li>
+                  }
+                </ul>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-flat-button color="primary" class="w-100 btn-pagar" (click)="pagarConWompi(plan)">
+                  <mat-icon>payment</mat-icon> Pagar y Activar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          }
+        </div>
+      </div>
+    }
+  }
+</div>

@@ -24,4 +24,7 @@ export const environment = {
     
     // Llave pública de Google Maps para cargar los scripts de mapas en la interfaz (Restringida por dominio HTTP).
     googleMapsApiKey: 'AIzaSyBtix74P-qV8WDEf57HG8nkuKdvnZCcG10',
+
+    // Llave pública de Wompi para inicializar el Widget de Pagos (Test o Producción)
+    wompiPublicKey: 'pub_prod_heskeRUAAYIm5kIEm45B5RyThBFwpYbG'
 };
