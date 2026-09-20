@@ -33,6 +33,14 @@ import { rolesGuard } from './guards/auth.guard';
 const staticRoutes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
+    {
+        path: 'auth-hub',
+        loadComponent: () => import('./views/auth-hub/auth-hub.component').then(m => m.AuthHubComponent)
+    },
+    {
+        path: 'auth-callback',
+        loadComponent: () => import('./views/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent)
+    },
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
     {
@@ -71,7 +79,13 @@ const staticRoutes: Routes = [
         path: 'admin/dev-dashboard',
         loadComponent: () => import('./views/admin/dev-dashboard/dev-dashboard.component').then(m => m.DevDashboardComponent),
         canActivate: [rolesGuard],
-        data: { roles: ['dev'] }
+        data: { roles: ['dev', 'admin'] }
+    },
+    {
+        path: 'admin/hub-antioquia',
+        loadComponent: () => import('./views/admin/admin-municipios-hub/admin-municipios-hub.component').then(m => m.AdminMunicipiosHubComponent),
+        canActivate: [rolesGuard],
+        data: { roles: ['dev', 'admin'] }
     },
     { path: 'nav', component: NavMenuComponent, 
         children: [ ] 

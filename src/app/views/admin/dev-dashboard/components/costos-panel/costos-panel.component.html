@@ -1,0 +1,78 @@
+<div class="costos-container">
+  
+  <div class="header-actions">
+    <h3>📊 Estimación de Costos (Real-Time)</h3>
+    <button mat-icon-button color="primary" (click)="recargar()" [disabled]="costoService.cargando()" matTooltip="Recalcular">
+      <mat-icon>refresh</mat-icon>
+    </button>
+  </div>
+
+  @if (costoService.cargando()) {
+    <div class="loading-state">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Calculando proyecciones de Firebase y Cloudflare...</p>
+    </div>
+  } @else if (costoService.reporte(); as reporte) {
+    
+    <!-- Tarjetas de Resumen -->
+    <div class="kpi-grid">
+      <mat-card class="kpi-card">
+        <mat-card-header>
+          <div mat-card-avatar class="kpi-icon"><mat-icon>public</mat-icon></div>
+          <mat-card-title>{{ reporte.totalDirectorios }}</mat-card-title>
+          <mat-card-subtitle>Directorios / Dominios</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="kpi-card">
+        <mat-card-header>
+          <div mat-card-avatar class="kpi-icon"><mat-icon>storefront</mat-icon></div>
+          <mat-card-title>{{ reporte.totalNegocios }}</mat-card-title>
+          <mat-card-subtitle>Negocios Totales</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+
+      <mat-card class="kpi-card">
+        <mat-card-header>
+          <div mat-card-avatar class="kpi-icon"><mat-icon>group</mat-icon></div>
+          <mat-card-title>{{ reporte.totalUsuariosEstimados }}</mat-card-title>
+          <mat-card-subtitle>Usuarios Estimados</mat-card-subtitle>
+        </mat-card-header>
+      </mat-card>
+    </div>
+
+    <!-- Gráfico Simple Material (Barra Apilada) -->
+    <mat-card class="chart-card">
+      <mat-card-content>
+        <div class="chart-header">
+          <h4>Costo Total Estimado:</h4>
+          <span class="total-cost">{{ reporte.totalUsdMes | currency:'USD' }}<small>/mes</small></span>
+        </div>
+        
+        <div class="stacked-bar">
+          @for (item of reporte.desglose; track item.concepto) {
+            <div class="bar-segment" 
+                 [style.width.%]="item.porcentaje" 
+                 [style.backgroundColor]="item.colorMaterial"
+                 [matTooltip]="item.concepto + ': ' + (item.montoUsd | currency:'USD')">
+            </div>
+          }
+        </div>
+
+        <div class="legend-container">
+          @for (item of reporte.desglose; track item.concepto) {
+            <div class="legend-item">
+              <span class="color-dot" [style.backgroundColor]="item.colorMaterial"></span>
+              <div class="legend-text">
+                <span class="concepto">{{ item.concepto }}</span>
+                <span class="monto">{{ item.montoUsd | currency:'USD' }}</span>
+                <small class="detalle">{{ item.detalles }}</small>
+              </div>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  }
+</div>

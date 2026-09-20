@@ -40,12 +40,12 @@ export class LoginComponent implements OnInit {
   // Computadas para Branding Dinámico
   public logo = computed(() => {
     const tenant = this.tenantService.currentTenant();
-    return tenant?.logoUrl || 'assets/brand/copaguia-intro.gif';
+    return tenant?.logoUrl || 'assets/brand/dp-logo.png';
   });
 
   public mensaje = computed(() => {
     const tenant = this.tenantService.currentTenant();
-    return tenant ? `Bienvenido a ${tenant.nombre}` : 'Bienvenido a Copa Guia';
+    return tenant ? `Bienvenido a ${tenant.nombre}` : 'Bienvenido a Directorio Paisa';
   });
 
   public descripcion = computed(() => {
@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
   public ubicacionLocal = signal<string>('Detectando ubicación...');
 
   // Signal que indica si el servicio de autenticación todavía está en su fase inicial de carga.
-  isAuthLoading = computed(() => this.authService.usuarioLectura() === undefined);
+  isAuthLoading = computed(() => !this.authService.authLista());
 
   constructor() {
     effect(() => {

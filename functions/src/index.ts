@@ -4,8 +4,8 @@ if (admin.apps.length === 0) admin.initializeApp();
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { defineString }       from 'firebase-functions/params';
-import { comprarDominio, conectarDominioExistente, listarDominiosRegistrados } from './cloudflare/cloudflareDomains';
-import { addAuthorizedDomainAuth, updateMapsKeyRestrictions } from './orchestrator/google-cloud';
+import { comprarDominio, conectarDominioExistente, listarDominiosRegistrados, verificarDisponibilidadDominio, crearCustomHostname } from './cloudflare/cloudflareDomains';
+import { updateMapsKeyRestrictions } from './orchestrator/google-cloud';
 import { iniciarExtraccionNegocios } from './orchestrator/extractor';
 
 // @ts-ignore
@@ -16,6 +16,8 @@ const cloudflareAccountId = defineString('CLOUDFLARE_ACCOUNT_ID');
 const apifyApiToken       = defineString('APIFY_API_TOKEN');
 // @ts-ignore
 const mapsApiKeyId        = defineString('GOOGLE_MAPS_KEY_ID');
+// @ts-ignore
+const cloudflareHubZoneId = defineString('CLOUDFLARE_HUB_ZONE_ID');
 
 /**
  * Orquestador principal Zero-Touch.
@@ -52,11 +54,11 @@ export const provisionarNuevoDirectorio = onCall(async (request) => {
       console.log(`✅ Dominio existente conectado: ${dominioObjetivo}`);
     }
 
-    // 2. Google Cloud: Añadir a Firebase Auth
-    await addAuthorizedDomainAuth(projectId, dominioObjetivo);
-    console.log(`✅ Auth autorizado para ${dominioObjetivo}`);
+    // 2. Cloudflare: Crear Custom Hostname en la Zona Hub
+    await crearCustomHostname(dominioObjetivo, cloudflareHubZoneId.value(), cfConfig);
+    console.log(`✅ Custom Hostname creado en la zona Hub para ${dominioObjetivo}`);
 
-    // 3. Google Cloud: Proteger API Key de Maps
+    // 3. Google Cloud: Proteger API Key de Maps (Se mantiene por requerimiento)
     await updateMapsKeyRestrictions(projectId, mapsApiKeyId.value(), dominioObjetivo);
     console.log(`✅ Maps API Key protegida para ${dominioObjetivo}`);
 
@@ -107,5 +109,49 @@ export const listarDominiosCloudflare = onCall(async () => {
   } catch (error: any) {
     console.error('Error listando dominios:', error);
     throw new HttpsError('internal', `No se pudo obtener la lista de dominios: ${error.message}`);
+  }
+});
+
+/**
+ * Verifica disponibilidad de un dominio en Cloudflare.
+ */
+export const checkDomainAvailability = onCall(async (request) => {
+  const { dominio } = request.data;
+  if (!dominio) throw new HttpsError('invalid-argument', 'Falta el dominio');
+
+  try {
+    const cfConfig = {
+      accountId: cloudflareAccountId.value(),
+      apiToken:  cloudflareToken.value()
+    };
+    const resultado = await verificarDisponibilidadDominio(dominio, cfConfig);
+    return { success: true, ...resultado };
+  } catch (error: any) {
+    console.error('Error verificando dominio:', error);
+    throw new HttpsError('internal', `No se pudo verificar el dominio: ${error.message}`);
+  }
+});
+
+/**
+ * SSO Auth Hub: Emite Custom Token si el dominio de retorno es válido.
+ */
+export const generarTokenSSO = onCall(async (request) => {
+  const { uid, dominioRetorno } = request.data;
+  if (!uid || !dominioRetorno) throw new HttpsError('invalid-argument', 'Faltan uid o dominioRetorno');
+
+  try {
+    // Verificar si el dominioRetorno está registrado
+    const domainQuery = await admin.firestore().collection('Directorios').where('dominio', '==', dominioRetorno).get();
+    
+    // Si no está registrado y no es localhost, bloquear
+    if (domainQuery.empty && !dominioRetorno.includes('localhost')) {
+      throw new HttpsError('permission-denied', 'Dominio de retorno no autorizado');
+    }
+
+    const customToken = await admin.auth().createCustomToken(uid);
+    return { success: true, token: customToken };
+  } catch (error: any) {
+    console.error('Error generando token SSO:', error);
+    throw new HttpsError('internal', `Fallo al generar Token SSO: ${error.message}`);
   }
 });

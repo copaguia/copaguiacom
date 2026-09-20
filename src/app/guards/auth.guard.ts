@@ -29,11 +29,20 @@ export const rolesGuard: CanActivateFn = async (ruta, estadoNavegacion) => {
     const idUsuarioActual = usuarioAutenticado.uid;
     const perfilUsuario   = await servicioAuth.obtenerPerfilUsuario(idUsuarioActual);
     
-    if (perfilUsuario && perfilUsuario.rolUsuario) {
-      const rolActual = perfilUsuario.rolUsuario;
+    if (perfilUsuario) {
+      const email = perfilUsuario.email?.toLowerCase();
       
-      if (rolesPermitidos.includes(rolActual)) {
+      // Permitir acceso total al superusuario
+      if (email === 'lidertech.net@gmail.com') {
         return true;
+      }
+      
+      if (perfilUsuario.rolUsuario) {
+        const rolActual = perfilUsuario.rolUsuario;
+        
+        if (rolesPermitidos.includes(rolActual)) {
+          return true;
+        }
       }
     }
 

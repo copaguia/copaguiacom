@@ -11,7 +11,7 @@ export const environment = {
     // - measurementId: Llave de Google Analytics (GA4) vinculada a este proyecto.
     firebaseConfig : {
         apiKey: "AIzaSyAzP5_cqEl40eldTiiR6FPPO2tBVpxrBk0",
-        authDomain: "directorio-paisa.firebaseapp.com",
+        authDomain: "directoriopaisa.com",
         projectId: "directorio-paisa",
         storageBucket: "directorio-paisa.firebasestorage.app",
         messagingSenderId: "743750203663",

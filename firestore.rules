@@ -58,6 +58,12 @@ service cloud.firestore {
       }
     }
 
+    // Directorios (Tenants / Municipios)
+    match /directorios/{directorioId} {
+      allow read: if true; // El frontend necesita leer esto para el branding dinámico
+      allow write: if hasRole('admin'); 
+    }
+
     // Publicidad (Carrusel)
     match /ads/{categoriaId} {
       allow read: if true; // Cualquier persona puede ver los anuncios

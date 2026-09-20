@@ -11,9 +11,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
 import { httpsCallable } from 'firebase/functions';
+import { CostosPanelComponent } from './components/costos-panel/costos-panel.component';
 
 declare var google: any;
 
@@ -40,8 +42,10 @@ interface CloudflareDominio {
     MatProgressSpinnerModule,
     MatDividerModule,
     MatTooltipModule,
+    MatTabsModule,
     GoogleMap,
-    MapPolygon
+    MapPolygon,
+    CostosPanelComponent
   ],
   templateUrl: './dev-dashboard.component.html',
   styleUrls:   ['./dev-dashboard.component.css']

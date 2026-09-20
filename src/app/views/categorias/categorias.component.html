@@ -112,7 +112,7 @@
   @if (authorization.esDev()) {
     <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">
       <mat-icon color="primary">settings_applications</mat-icon>
-      <span>Dev Dashboard (Tenants)</span>
+      <span>Dev Dashboard (Tenants & Costos)</span>
     </button>
     <mat-divider></mat-divider>
   }
@@ -159,4 +159,5 @@
   <button mat-menu-item (click)="navigateTo('gestion-catalogo')">gestion-catalogo</button>
   <button mat-menu-item (click)="navigateTo('market-place-global')">market-place-global</button>
   <button mat-menu-item (click)="navigateTo('soporte-consola')">soporte-consola</button>
+  <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">admin/dev-dashboard (Costos)</button>
 </mat-menu>

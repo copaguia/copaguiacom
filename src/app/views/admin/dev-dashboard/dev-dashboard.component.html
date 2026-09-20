@@ -1,8 +1,12 @@
 <div class="dev-container">
   <h2>⚙️ Consola Dev (Multi-Tenant)</h2>
-  <p>Desde aquí puedes registrar nuevos dominios y aperturar directorios locales.</p>
+  
+  <mat-tab-group>
+    <!-- Tab: Orquestación -->
+    <mat-tab label="Apertura y Orquestación">
+      <p class="tab-description">Desde aquí puedes registrar nuevos dominios y aperturar directorios locales.</p>
 
-  <mat-card class="form-card">
+      <mat-card class="form-card">
     <mat-card-header>
       <mat-card-title>Aperturar Nuevo Directorio</mat-card-title>
     </mat-card-header>
@@ -138,4 +142,11 @@
       </form>
     </mat-card-content>
   </mat-card>
+    </mat-tab>
+
+    <!-- Tab: Costos e Infraestructura -->
+    <mat-tab label="Costos Real-Time">
+      <app-costos-panel></app-costos-panel>
+    </mat-tab>
+  </mat-tab-group>
 </div>

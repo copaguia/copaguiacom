@@ -1,0 +1,66 @@
+<div class="admin-container">
+  <div class="header-section">
+    <h1>Hub de Aprovisionamiento: Antioquia (125 Municipios)</h1>
+    <p>Gestiona y activa directorios locales con dominios Zero-Touch.</p>
+  </div>
+
+  <div class="filters-card mat-elevation-z2">
+    <mat-form-field appearance="outline">
+      <mat-label>Filtrar por Subregión</mat-label>
+      <mat-select [ngModel]="subregionSeleccionada()" (ngModelChange)="subregionSeleccionada.set($event)">
+        @for (subregion of subregiones; track subregion) {
+          <mat-option [value]="subregion">{{ subregion }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Buscar Municipio</mat-label>
+      <input matInput [ngModel]="busquedaTexto()" (ngModelChange)="busquedaTexto.set($event)" placeholder="Ej. Itagüí">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div class="cards-grid">
+    @for (municipio of municipiosFiltrados(); track municipio.id) {
+      <mat-card class="municipio-card" [class.active-card]="municipio.estado === 'ACTIVO'">
+        <mat-card-header>
+          <div mat-card-avatar class="header-avatar">
+            <mat-icon>location_city</mat-icon>
+          </div>
+          <mat-card-title>{{ municipio.nombre }}</mat-card-title>
+          <mat-card-subtitle>{{ municipio.subregion }}</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="description-text">{{ municipio.descripcion }}</p>
+          
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Dominio a Provisionar</mat-label>
+            <input matInput [(ngModel)]="municipio.dominioPropuesto">
+          </mat-form-field>
+
+          <div class="status-chip-container">
+            <mat-chip-set>
+              <mat-chip [color]="municipio.estado === 'PENDIENTE' ? 'warn' : 'primary'" highlighted>
+                {{ municipio.estado }}
+              </mat-chip>
+            </mat-chip-set>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button mat-stroked-button color="primary" (click)="verificarDominio(municipio)">
+            <mat-icon>search</mat-icon> Verificar
+          </button>
+          <button mat-flat-button color="accent" [disabled]="municipio.estado === 'PENDIENTE'" (click)="activarDirectorio(municipio)">
+            <mat-icon>rocket_launch</mat-icon> Activar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    }
+    @empty {
+      <div class="empty-state">No se encontraron municipios.</div>
+    }
+  </div>
+</div>

@@ -4,6 +4,8 @@ import { MaterialModule } from './tools/material/material.module';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
+import { TenantService } from './core/services/tenant.service';
+import { effect } from '@angular/core';
 
 @Component({
     selector: 'app-root',
@@ -17,9 +19,20 @@ export class AppComponent {
   constructor() {
     const iconRegistry = inject(MatIconRegistry);
     const sanitizer = inject(DomSanitizer);
+    const tenantService = inject(TenantService);
+
     iconRegistry.addSvgIcon('whatsapp', sanitizer.bypassSecurityTrustResourceUrl('assets/iconos/whatsapp.svg'));
 
     this.loadGoogleMaps();
+
+    effect(() => {
+      const tenant = tenantService.currentTenant();
+      if (tenant && tenant.tema) {
+        document.documentElement.style.setProperty('--corporativo', tenant.tema.corporativo);
+        document.documentElement.style.setProperty('--secundario', tenant.tema.secundario);
+        document.documentElement.style.setProperty('--resaltante', tenant.tema.resaltante);
+      }
+    });
   }
 
   private loadGoogleMaps() {

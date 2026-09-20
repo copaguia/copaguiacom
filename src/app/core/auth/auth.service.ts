@@ -1,6 +1,6 @@
-import { Injectable, inject, signal, Signal } from '@angular/core';
+import { Injectable, inject, signal, Signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
-import { GoogleAuthProvider, User, browserLocalPersistence, onAuthStateChanged, setPersistence, signInWithPopup, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, User, browserLocalPersistence, onAuthStateChanged, setPersistence, signInWithPopup, signOut, signInWithCustomToken } from 'firebase/auth';
 import { collection, doc, getDoc, getDocs, query, setDoc, where, runTransaction } from 'firebase/firestore';
 import { RolUsuario } from '../auth/rol-usuario';
 import { InstanciaFirebase } from '../firebase/instancias.service';
@@ -22,6 +22,9 @@ export class AuthService {
   public  perfilLectura        = this.perfilEscritura.asReadonly();
 
   public  estado               = signal<StateEnum>(StateEnum.INICIAL);
+  public  authLista            = signal<boolean>(false);
+  // Signal que indica si el servicio de autenticación todavía está en su fase inicial de carga.
+  public  isAuthLoading        = computed(() => !this.authLista());
   readonly nombreColeccion     = signal<string>('Usuarios');
 
   constructor() {
@@ -36,6 +39,7 @@ export class AuthService {
 
       onAuthStateChanged(this.auth, async (usuarioActual) => {
         console.log('Auth Service: onAuthStateChanged disparado. Usuario:', usuarioActual ? usuarioActual.uid : 'null');
+        this.authLista.set(true);
         this.usuarioEscritura.set(usuarioActual);
 
         if (usuarioActual) {
@@ -82,7 +86,16 @@ export class AuthService {
     }
   }
 
-  async loginConGoogle(): Promise<User> {
+  async loginConGoogle(): Promise<User | void> {
+    const hostname = window.location.hostname;
+    
+    // Si no estamos en el Hub principal ni en local, redirigir al Hub
+    if (hostname !== 'directoriopaisa.com' && hostname !== 'localhost' && hostname !== '127.0.0.1') {
+      const urlRetorno = encodeURIComponent(window.location.origin);
+      window.location.href = `https://directoriopaisa.com/auth-hub?retorno=${urlRetorno}`;
+      return;
+    }
+
     const proveedorGoogle = new GoogleAuthProvider();
     
     proveedorGoogle.addScope('profile');
@@ -127,6 +140,15 @@ export class AuthService {
     
     throw new Error(mensajeError);
   }
+  }
+
+  async loginConToken(customToken: string): Promise<User> {
+    try {
+      const credencial = await signInWithCustomToken(this.auth, customToken);
+      return credencial.user;
+    } catch (error: any) {
+      throw new Error(`Fallo el inicio de sesión SSO: ${error.message}`);
+    }
   }
 
   async desloguear(): Promise<void> {

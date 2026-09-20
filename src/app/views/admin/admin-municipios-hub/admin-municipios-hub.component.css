@@ -1,0 +1,78 @@
+.admin-container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header-section h1 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.header-section p {
+  margin: 0;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.filters-card {
+  display: flex;
+  gap: 16px;
+  padding: 16px;
+  background-color: var(--mat-sys-surface);
+  border-radius: 8px;
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.municipio-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.municipio-card.active-card {
+  border: 1px solid var(--mat-sys-primary);
+}
+
+.header-avatar {
+  background-color: var(--mat-sys-surface-variant);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.description-text {
+  font-size: 14px;
+  color: var(--mat-sys-on-surface-variant);
+  margin-top: 8px;
+  margin-bottom: 16px;
+  min-height: 40px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.status-chip-container {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+mat-card-actions {
+  margin-top: auto;
+  padding: 16px !important;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 48px;
+  color: var(--mat-sys-on-surface-variant);
+}

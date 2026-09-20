@@ -21,4 +21,11 @@ export interface DirectorioInterface {
   
   // Coordenadas geográficas exactas (trazadas por el DEV en el mapa)
   limitePoligonal?: Array<{lat: number, lng: number}>;
+
+  // Tema visual personalizado
+  tema?: {
+    corporativo: string;
+    secundario: string;
+    resaltante: string;
+  };
 }

@@ -94,6 +94,9 @@ export async function conectarDominioExistente(domainName: string, config: Cloud
     // 2. Configurar DNS apuntando a Firebase
     await configurarDNSFirebase(zoneId, domainName, config);
 
+    // 3. Asignar ruta de Worker para enmascarar Host
+    await asignarWorkerRoute(zoneId, domainName, config);
+
     return zoneId;
   } catch (error: any) {
     console.error('Error conectando dominio existente:', error.response?.data || error.message);
@@ -109,26 +112,27 @@ export async function conectarDominioExistente(domainName: string, config: Cloud
  */
 export async function configurarDNSFirebase(zoneId: string, domainName: string, config: CloudflareConfig) {
   try {
+    const fallbackOrigin = 'directoriopaisa.com'; // Fallback Origin para Cloudflare for SaaS
     const dnsUrl = `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records`;
     const headers  = {
       'Authorization': `Bearer ${config.apiToken}`,
       'Content-Type':  'application/json'
     };
 
-    // Registro CNAME raíz → Firebase Hosting
+    // Registro CNAME raíz → Fallback Origin
     await axios.post(dnsUrl, {
       type:    'CNAME',
       name:    '@',
-      content: 'copaguia-53f7f.firebaseapp.com',
+      content: fallbackOrigin,
       proxied: true,
       comment: 'Configurado automáticamente por Copaguia Zero-Touch'
     }, { headers });
 
-    // Registro CNAME www → Firebase Hosting
+    // Registro CNAME www → Fallback Origin
     await axios.post(dnsUrl, {
       type:    'CNAME',
       name:    'www',
-      content: 'copaguia-53f7f.firebaseapp.com',
+      content: fallbackOrigin,
       proxied: true,
       comment: 'www - Configurado automáticamente por Copaguia Zero-Touch'
     }, { headers });
@@ -142,5 +146,96 @@ export async function configurarDNSFirebase(zoneId: string, domainName: string, 
     }
     console.error('Error configurando DNS en Cloudflare:', error.response?.data || error.message);
     throw new Error('Fallo al configurar DNS');
+  }
+}
+
+/**
+ * Verifica la disponibilidad y precio de un dominio en Cloudflare Registrar.
+ * @param domainName Nombre del dominio a buscar (ej. guianiquia.com)
+ * @param config Configuración con Token y Account ID
+ */
+export async function verificarDisponibilidadDominio(domainName: string, config: CloudflareConfig) {
+  try {
+    const url = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/registrar/domains/search`;
+    const response = await axios.post(url, { name: domainName }, {
+      headers: {
+        'Authorization': `Bearer ${config.apiToken}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    const result = response.data.result;
+    return {
+      disponible: result.available || false,
+      precio: result.price || 0,
+      moneda: result.currency || 'USD'
+    };
+  } catch (error: any) {
+    console.error('Error verificando disponibilidad en Cloudflare:', error.response?.data || error.message);
+    throw new Error('Fallo al verificar disponibilidad del dominio en Cloudflare');
+  }
+}
+
+/**
+ * Crea un Custom Hostname (Cloudflare for SaaS) en la Zona Hub para un dominio de Tenant.
+ * @param tenantDomain El dominio del tenant (ej. guianiquia.com)
+ * @param hubZoneId El ID de la zona principal (ej. directoriopaisa.com)
+ * @param config Configuración con Token
+ */
+export async function crearCustomHostname(tenantDomain: string, hubZoneId: string, config: CloudflareConfig) {
+  try {
+    const url = `https://api.cloudflare.com/client/v4/zones/${hubZoneId}/custom_hostnames`;
+    const response = await axios.post(url, {
+      hostname: tenantDomain,
+      ssl: {
+        method: "http",
+        type: "dv"
+      }
+    }, {
+      headers: {
+        'Authorization': `Bearer ${config.apiToken}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    return response.data.result;
+  } catch (error: any) {
+    console.error('Error creando Custom Hostname:', error.response?.data || error.message);
+    throw new Error(`Fallo al crear Custom Hostname para ${tenantDomain}`);
+  }
+}
+
+/**
+ * Asigna la ruta del Worker `firebase-mask` a la zona del dominio
+ * para enmascarar la cabecera Host hacia Firebase.
+ * @param zoneId ID de la zona Cloudflare del nuevo dominio
+ * @param domainName Nombre del dominio (ej. niquia.com)
+ * @param config Configuración con Token
+ */
+export async function asignarWorkerRoute(zoneId: string, domainName: string, config: CloudflareConfig) {
+  try {
+    const url = `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/routes`;
+    const payload = {
+      pattern: `*${domainName}/*`,
+      script: 'firebase-mask'
+    };
+
+    const response = await axios.post(url, payload, {
+      headers: {
+        'Authorization': `Bearer ${config.apiToken}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    console.log(`✅ Worker 'firebase-mask' asignado a la ruta *${domainName}/*`);
+    return response.data;
+  } catch (error: any) {
+    // Si la ruta ya existe, el código de error suele ser 10020
+    if (error.response?.data?.errors?.[0]?.code === 10020) {
+      console.log(`ℹ️ La ruta del Worker ya estaba asignada para ${domainName}, omitiendo.`);
+      return;
+    }
+    console.error('Error asignando Worker Route en Cloudflare:', error.response?.data || error.message);
+    throw new Error(`Fallo al asignar Worker a ${domainName}`);
   }
 }
