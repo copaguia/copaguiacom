@@ -14,6 +14,12 @@ service cloud.firestore {
         get(/databases/$(database)/documents/Usuarios/$(request.auth.uid)).data.rolUsuario == role;
     }
 
+    // Admin o Dev tienen acceso privilegiado
+    function isPrivileged() {
+      let rol = get(/databases/$(database)/documents/Usuarios/$(request.auth.uid)).data.rolUsuario;
+      return isAuthenticated() && (rol == 'admin' || rol == 'dev');
+    }
+
     // --- COLECCIONES ---
 
     // Usuarios: Cualquiera autenticado puede leer. Solo el dueño o un admin puede editar.
@@ -26,8 +32,8 @@ service cloud.firestore {
     // Notificaciones Globales
     match /NotificacionesApp/{notificacionId} {
       allow read: if true; // Cualquier persona puede recibir las notificaciones globales
-      allow create, delete: if hasRole('admin'); // Solo los administradores pueden crearlas o borrarlas
-      allow update: if hasRole('admin') || 
+      allow create, delete: if isPrivileged(); // Solo los administradores pueden crearlas o borrarlas
+      allow update: if isPrivileged() || 
                     (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['vistasTotales']) &&
                      request.resource.data.vistasTotales == resource.data.vistasTotales + 1);
     }
@@ -61,18 +67,18 @@ service cloud.firestore {
     // Directorios (Tenants / Municipios)
     match /directorios/{directorioId} {
       allow read: if true; // El frontend necesita leer esto para el branding dinámico
-      allow write: if hasRole('admin'); 
+      allow write: if isPrivileged(); 
     }
 
     // Publicidad (Carrusel)
     match /ads/{categoriaId} {
       allow read: if true; // Cualquier persona puede ver los anuncios
-      allow write: if hasRole('admin'); // Solo el administrador puede modificar la publicidad
+      allow write: if isPrivileged(); // Solo admin/dev pueden modificar la publicidad
     }
 
     // Negocios Borrador (Herramienta Admin)
     match /negocios_borrador/{borradorId} {
-      allow read, write: if hasRole('admin'); 
+      allow read, write: if isPrivileged(); 
     }
   }
 }

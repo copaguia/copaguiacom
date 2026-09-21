@@ -59,6 +59,8 @@ export class ToolBarPageComponent {
   openPromoDialog(): void {
     const ad = this.toolbarAd();
     if (ad) {
+      this.publicidadService.marcarPromoVista(this._title);
+      this.publicidadService.registrarVistaEnFirestore(this._title);
       this.dialog.open(ToolbarAdDialogComponent, {
         data: ad,
         width: '90%',

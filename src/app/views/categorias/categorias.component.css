@@ -65,7 +65,7 @@ mat-tab-group {
   align-items: center;
   padding: 0 16px;
   background-color: rgb(18, 18, 19);
-  color: white;
+  color: rgb(155, 71, 71);
   height: 64px;
   position: sticky;
   top: 0;
@@ -254,9 +254,9 @@ h2 {
 }
 
 .categoria-toolbar-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+  font-size: 25px;
+  width: 25px;
+  height: 25px;
   color: var(--corporativo, #4CAF50);
   /* Color vibrante para el icono */
 }
@@ -265,7 +265,7 @@ h2 {
   font-size: 0.95rem;
   font-weight: 500;
   letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.758);
   /* Texto aún más tenue */
   position: relative;
   display: inline-block;
@@ -370,7 +370,12 @@ h2 {
   align-items: flex-start;
 }
 
-.mini-fab-item { display: flex; flex-direction: row; align-items: center; gap: 10px; }
+.mini-fab-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
 
 .mini-fab-btn {
   display: inline-flex;
@@ -387,9 +392,15 @@ h2 {
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.mini-fab-btn:hover { background: rgba(255,255,255,0.12); }
+.mini-fab-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
 
-.mini-fab-btn mat-icon { font-size: 20px; width: 20px; height: 20px; }
+.mini-fab-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
 
 .acceso-fab {
   width: 90% !important;

@@ -14,15 +14,6 @@ export class AuthorizationService {
   private rolActual: Signal<RolUsuario | string | undefined> = computed(() => this.auth.perfilLectura()?.rolUsuario);
   private emailActual: Signal<string | undefined> = computed(() => this.auth.perfilLectura()?.email);
 
-  // Computamos si el usuario es superusuario (para tener permisos en TODAS las vistas y probar la app)
-  private esSuperUsuario = computed(() => {
-    const rol = this.rolActual()?.toString().toLowerCase();
-    const email = this.emailActual()?.toLowerCase();
-    
-    if (email === 'lidertech.net@gmail.com') return true;
-    if (rol === 'dev' || rol === 'admin') return true;
-    return false;
-  });
 
   // Signals públicas para cada rol
   
@@ -33,17 +24,16 @@ export class AuthorizationService {
   
   // El rol DEV es estrictamente superior y no lo heredan los ADMIN
   public esDev:         Signal<boolean> = computed(() => 
-    this.rolActual() === RolUsuario.DEV || 
-    this.emailActual()?.toLowerCase() === 'lidertech.net@gmail.com'
+    this.rolActual() === RolUsuario.DEV
   );
 
   /**
    * Crea una signal computada que devuelve `true` si el rol actual del usuario 
-   * coincide con el rol proporcionado, o si es un superusuario.
+   * coincide con el rol proporcionado.
    * @param rol El rol a verificar.
    * @returns Una signal booleana.
    */
   private crearSignalRol(rol: RolUsuario): Signal<boolean> {
-    return computed(() => this.esSuperUsuario() || this.rolActual() === rol);
+    return computed(() => this.rolActual() === rol);
   }
 }

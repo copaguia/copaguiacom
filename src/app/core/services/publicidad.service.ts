@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { getApp } from 'firebase/app';
-import { getFirestore, doc, setDoc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, collection, getDocs, onSnapshot, updateDoc, increment } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
 
@@ -19,11 +19,36 @@ export class PublicidadService {
   private storage = getStorage(getApp());
 
   // Caché en memoria para evitar repetidas lecturas (Firestore-ultra-low cost strategy)
-  private cache = new Map<string, BannerInterface[]>();
-  private cacheToolbar = new Map<string, BannerInterface | null>();
+  private cache             = new Map<string, BannerInterface[]>();
+  private cacheToolbar      = new Map<string, BannerInterface | null>();
   private cacheOfertaCentral = new Map<string, BannerInterface | null>();
 
-  constructor() {}
+  // Signal: Set de categoríaIds cuya promo ya vio este usuario (persiste en localStorage)
+  promosVistasLocalmente = signal<Set<string>>(this.leerVistasLocales());
+
+  private leerVistasLocales(): Set<string> {
+    try {
+      const raw = localStorage.getItem('promos_vistas') ?? '[]';
+      return new Set<string>(JSON.parse(raw));
+    } catch { return new Set(); }
+  }
+
+  marcarPromoVista(categoriaId: string): void {
+    const actual = new Set(this.promosVistasLocalmente());
+    actual.add(categoriaId);
+    this.promosVistasLocalmente.set(actual);
+    try { localStorage.setItem('promos_vistas', JSON.stringify([...actual])); } catch {}
+  }
+
+  async registrarVistaEnFirestore(categoriaId: string): Promise<void> {
+    const sessionKey = `promo_vista_session_${categoriaId}`;
+    if (sessionStorage.getItem(sessionKey)) return;
+    sessionStorage.setItem(sessionKey, '1');
+    try {
+      const docRef = doc(this.db, 'ads', categoriaId);
+      await updateDoc(docRef, { toolbarSlotVistas: increment(1) });
+    } catch {}
+  }
 
   async obtenerBanners(categoriaId: string): Promise<BannerInterface[]> {
     if (this.cache.has(categoriaId)) {
@@ -67,6 +92,39 @@ export class PublicidadService {
       console.error('Error obteniendo todos los anuncios:', error);
       return todos;
     }
+  }
+
+  async obtenerCategoriasConPromo(categoriaIds: string[]): Promise<Set<string>> {
+    const conPromo = new Set<string>();
+    await Promise.all(
+      categoriaIds.map(async id => {
+        const ad = await this.obtenerToolbarAd(id);
+        if (ad?.image) conPromo.add(id);
+      })
+    );
+    return conPromo;
+  }
+
+  escucharPromocionesActivas(
+    categoriaIds: string[],
+    onUpdate: (conPromo: Set<string>) => void
+  ): () => void {
+    const idsSet = new Set(categoriaIds);
+    const colRef  = collection(this.db, 'ads');
+    const unsub   = onSnapshot(colRef, snapshot => {
+      const conPromo = new Set<string>();
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data() as PublicidadCategoria;
+        if (idsSet.has(docSnap.id) && data.toolbarSlot?.image) {
+          conPromo.add(docSnap.id);
+          this.cacheToolbar.set(docSnap.id, data.toolbarSlot);
+        } else {
+          this.cacheToolbar.set(docSnap.id, null);
+        }
+      });
+      onUpdate(conPromo);
+    });
+    return unsub;
   }
 
   async obtenerToolbarAd(categoriaId: string): Promise<BannerInterface | null> {

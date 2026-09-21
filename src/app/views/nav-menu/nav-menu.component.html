@@ -5,7 +5,12 @@
     <mat-toolbar>Negocios</mat-toolbar>
     <mat-nav-list>
       @for (item of categorias(); track $index) {
-      <a mat-list-item routerLink="{{ item.ruta }}">{{ item.ruta }}</a>
+      <a mat-list-item routerLink="{{ item.ruta }}" class="nav-item">
+        <span class="nav-label">{{ item.ruta }}</span>
+        @if (categoriasConPromo().has(item.ruta) && !publicidadService.promosVistasLocalmente().has(item.ruta)) {
+          <span class="promo-dot" aria-label="Promoción activa"></span>
+        }
+      </a>
       }
 
     </mat-nav-list>

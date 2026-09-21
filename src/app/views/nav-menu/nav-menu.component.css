@@ -26,3 +26,31 @@
   font-size: 14px !important;
   line-height: 36px !important;
 }
+
+/* Layout interno del nav-item */
+.nav-item {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+
+.nav-label {
+  flex: 1;
+}
+
+/* Punto titilante de promo activa */
+.promo-dot {
+  width:  8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00e676;
+  box-shadow: 0 0 6px #00e676, 0 0 12px #00e67688;
+  flex-shrink: 0;
+  animation: promo-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes promo-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);    }
+  50%       { opacity: 0.3; transform: scale(0.65); }
+}
