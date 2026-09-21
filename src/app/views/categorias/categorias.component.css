@@ -47,7 +47,7 @@ mat-tab-group {
   background-color: #041a18 !important;
   /* Tonalidad súper oscura basada en --corporativo (#0a413e) */
   z-index: 999999 !important;
-  padding: 12px 15px !important;
+  padding: 6px 15px !important;
   display: flex !important;
   justify-content: center !important;
   box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.8) !important;
@@ -358,7 +358,7 @@ h2 {
 
 /* --- Botones Clasificados y Marketplace --- */
 .accesos-directos-grid {
-  margin: 16px auto;
+  margin: 6px auto;
   max-width: 800px;
   padding: 0 16px;
 }

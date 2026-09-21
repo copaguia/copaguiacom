@@ -9,7 +9,7 @@
   box-sizing: border-box;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 .material-carousel::-webkit-scrollbar {

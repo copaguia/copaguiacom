@@ -7,14 +7,15 @@
 
 @media (max-width: 768px) {
   :host {
-    width: 80%;
+    width: 90%;
   }
 }
 
 .gemini-search-bar {
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #041a18 0%, var(--corporativo) 100%); /* Degradación exacta del corporativo */
+  background: linear-gradient(135deg, #041a18 0%, var(--corporativo) 100%);
+  /* Degradación exacta del corporativo */
   border-radius: 50px;
   padding: 8px 12px;
   width: 100%;
@@ -29,7 +30,8 @@
 }
 
 .gemini-search-bar:focus-within {
-  background: linear-gradient(135deg, #072b29 0%, #0c4d49 100%); /* Ligeramente más claro al enfocar */
+  background: linear-gradient(135deg, #072b29 0%, #0c4d49 100%);
+  /* Ligeramente más claro al enfocar */
   border-color: var(--corporativo);
   box-shadow: 0 10px 40px rgba(10, 65, 62, 0.6), 0 0 15px rgba(10, 65, 62, 0.3);
 }
@@ -46,9 +48,12 @@
 
 /* Cuando hay texto, el botón de enviar se enciende con el color solicitado */
 .has-text .send-btn {
-  background-color: #00e5ff; /* Cian vibrante */
-  color: #000000; /* Ícono oscuro para contrastar con el cian */
-  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.4); /* Brillo sutil cian */
+  background-color: #00e5ff;
+  /* Cian vibrante */
+  color: #000000;
+  /* Ícono oscuro para contrastar con el cian */
+  box-shadow: 0 0 0 1px #005748, 0 0 3px 3px rgba(0, 229, 255, 0.85);
+  /* Borde negro + glow cian intenso */
 }
 
 .gemini-input {
@@ -67,11 +72,19 @@
 
 /* Animación del Micrófono */
 .listening mat-icon {
-  color: #ef4444 !important; /* Rojo vibrante cuando escucha */
+  color: #ef4444 !important;
+  /* Rojo vibrante cuando escucha */
   animation: pulse-mic 1s infinite alternate;
 }
 
 @keyframes pulse-mic {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(1.3); opacity: 1; }
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
 }
