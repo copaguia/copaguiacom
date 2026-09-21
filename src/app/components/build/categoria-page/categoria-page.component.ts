@@ -107,12 +107,14 @@ export class CategoriaPageComponent implements OnInit {
         q = query(
           collection(this.firestore, 'negocios'),
           where('categoria', '==', this.categoria),
-          where('seccion', '==', this.seccion)
+          where('seccion', '==', this.seccion),
+          where('verificado', '==', true)
         );
       } else {
         q = query(
             collection(this.firestore, 'negocios'),
-            where('categoria', '==', this.categoria)
+            where('categoria', '==', this.categoria),
+            where('verificado', '==', true)
         );
       }
 

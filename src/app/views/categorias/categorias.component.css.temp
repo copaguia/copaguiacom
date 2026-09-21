@@ -1,0 +1,43 @@
+/* Agrega esto al final del archivo */
+.accesos-directos-grid {
+  margin: 16px auto;
+  max-width: 800px;
+  padding: 0 16px;
+}
+
+.acceso-btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  font-size: 1.1rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.acceso-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.acceso-btn mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 8px;
+}
+
+.clasificados-btn {
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
+  color: white !important;
+}
+
+.marketplace-btn {
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important;
+  color: white !important;
+}

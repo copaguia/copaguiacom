@@ -25,6 +25,8 @@ import { MarketPlaceGlobalComponent } from './views/market-place-global/market-p
 import { SoporteConsolaComponent } from './views/soporte-consola/soporte-consola.component';
 import { DataBorradorComponent } from './views/admin/data-borrador/data-borrador.component';
 import { AdminBorradorEditorComponent } from './views/admin/admin-borrador-editor/admin-borrador-editor.component';
+import { ClasificadosComponent } from './views/clasificados/clasificados.component';
+import { MarketplaceComponent } from './views/marketplace/marketplace.component';
 // Import category data to be the single source of truth
 import { categoriaData } from './data/categoriasData';
 import { rolesGuard } from './guards/auth.guard';
@@ -119,6 +121,8 @@ const staticRoutes: Routes = [
     { path: 'gestion-catalogo', component: GestionCatalogoComponent },
     { path: 'market-place-global', component: MarketPlaceGlobalComponent },
     { path: 'soporte-consola', component: SoporteConsolaComponent },
+    { path: 'clasificados', component: ClasificadosComponent },
+    { path: 'marketplace', component: MarketplaceComponent },
 ];
 
             // --- ESTA FUNCION CONSTRUYE LAS RUTAS A LARTIR DEL ARCHVIO UNICO DE CATEGORIASDATA---

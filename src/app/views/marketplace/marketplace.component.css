@@ -1,0 +1,185 @@
+.marketplace-toolbar {
+  background-color: #ffffff !important;
+  color: #050505 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  position: relative;
+}
+
+.titulo-marketplace {
+  font-weight: bold;
+  font-size: 1.5rem;
+  letter-spacing: -0.5px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.action-btn {
+  background-color: #e4e6eb;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.marketplace-container {
+  background-color: #f0f2f5;
+  min-height: calc(100vh - 64px);
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.actions-header {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.vender-btn {
+  background-color: #e4e6eb !important;
+  color: #050505 !important;
+  border-radius: 20px !important;
+  font-weight: bold;
+}
+
+.categoria-btn {
+  border-radius: 20px !important;
+  border-color: #ced0d4 !important;
+  color: #050505 !important;
+  font-weight: bold;
+}
+
+.seccion-titulo {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #050505;
+}
+
+.marketplace-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .marketplace-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+  }
+}
+
+.marketplace-card {
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.marketplace-card:hover {
+  transform: translateY(-2px);
+}
+
+.image-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: #f0f2f5;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 12px !important;
+}
+
+.precio {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #050505;
+  margin-bottom: 4px;
+}
+
+.titulo {
+  font-size: 0.95rem;
+  color: #050505;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.ubicacion {
+  font-size: 0.8rem;
+  color: #65676b;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 40px;
+  color: #65676b;
+}
+
+/* ── Modo oscuro ───────────────────────────────────────────── */
+@media (prefers-color-scheme: dark) {
+  .marketplace-toolbar {
+    background-color: #242526 !important;
+    color: #e4e6eb !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+  }
+
+  .action-btn {
+    background-color: #3a3b3c;
+    color: #e4e6eb;
+  }
+
+  .marketplace-container {
+    background-color: #18191a;
+  }
+
+  .vender-btn {
+    background-color: #3a3b3c !important;
+    color: #e4e6eb !important;
+  }
+
+  .categoria-btn {
+    border-color: #3a3b3c !important;
+    color: #e4e6eb !important;
+  }
+
+  .seccion-titulo {
+    color: #e4e6eb;
+  }
+
+  .marketplace-card {
+    background-color: #242526;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .image-container {
+    background-color: #3a3b3c;
+  }
+
+  .precio {
+    color: #e4e6eb;
+  }
+
+  .titulo {
+    color: #e4e6eb;
+  }
+
+  .ubicacion {
+    color: #b0b3b8;
+  }
+
+  .loading-state {
+    color: #b0b3b8;
+  }
+}

@@ -8,11 +8,10 @@
 }
 
 
-
 /* --- Bloque de Estilos para Componentes de Material Design --- */
 /* Estilos para el grupo de pestañas de Material Design */
 .mat-tab-group {
-  margin-bottom: 48px;
+  margin-bottom: 5px;
   /* Añade un margen inferior de 48px */
 }
 
@@ -149,7 +148,8 @@ body ::-webkit-scrollbar-thumb:hover {
   border-radius: 14px !important;
   line-height: 28px !important;
   padding: 0 12px !important;
-  border: 1px solid rgba(150, 150, 150, 0.25) !important; /* Atenuado de borde más sutil */
+  border: 1px solid rgba(150, 150, 150, 0.25) !important;
+  /* Atenuado de borde más sutil */
 }
 
 ::ng-deep .cdk-scrollable button.mat-mdc-outlined-button,

@@ -1,0 +1,43 @@
+<mat-toolbar color="primary" class="marketplace-toolbar">
+  <button mat-icon-button (click)="volver()">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
+  <span class="titulo-marketplace">Marketplace</span>
+  <span class="toolbar-spacer"></span>
+  <button mat-icon-button class="action-btn">
+    <mat-icon>person</mat-icon>
+  </button>
+  <button mat-icon-button class="action-btn">
+    <mat-icon>search</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="marketplace-container">
+  <div class="actions-header">
+    <button mat-flat-button class="vender-btn">
+      <mat-icon>edit_square</mat-icon> Vender
+    </button>
+    <button mat-stroked-button class="categoria-btn">Categorías</button>
+  </div>
+
+  <h2 class="seccion-titulo">Sugerencias para ti</h2>
+
+  @if (cargando()) {
+    <div class="loading-state">Cargando productos...</div>
+  } @else {
+    <div class="marketplace-grid">
+      @for (item of items(); track item.id) {
+        <mat-card class="marketplace-card">
+          <div class="image-container">
+            <img [src]="item.imagenUrl" [alt]="item.titulo" class="card-img">
+          </div>
+          <mat-card-content class="card-content">
+            <div class="precio">{{ item.precio | currency:'COP':'symbol-narrow':'1.0-0' }}</div>
+            <div class="titulo">{{ item.titulo }}</div>
+            <div class="ubicacion">{{ item.ubicacion }}</div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
+</div>

@@ -49,6 +49,19 @@
           <div class="carrusel-content">
             <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []" [categoriaId]="categoria.ruta"></app-carrusel>
           </div>
+
+          <div class="accesos-directos-grid">
+            <div class="mini-fab-row">
+              <button class="mini-fab-btn" (click)="navigateTo('clasificados')">
+                <mat-icon>newspaper</mat-icon>
+                <span>Clasificados</span>
+              </button>
+              <button class="mini-fab-btn" (click)="navigateTo('marketplace')">
+                <mat-icon>storefront</mat-icon>
+                <span>Marketplace</span>
+              </button>
+            </div>
+          </div>
         </div>
       </ng-template>
     </mat-tab>
