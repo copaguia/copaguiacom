@@ -1,72 +1,85 @@
 <mat-toolbar class="custom-toolbar">
   <span style="display: inline-flex; align-items: center; height: 100%; min-width: 150px;">
     @for (item of [{ text: tituloToolbar(), key: animKey() }]; track item.key) {
-      <div class="animacion-titulo-tab d-flex align-items-center gap-2">
-        <mat-icon class="categoria-toolbar-icon">{{ getIconForCategory(item.text) }}</mat-icon>
-        <span class="categoria-toolbar-texto">{{ item.text | uppercase }}</span>
-      </div>
+    <div class="animacion-titulo-tab d-flex align-items-center gap-2">
+      <mat-icon class="categoria-toolbar-icon">{{ getIconForCategory(item.text) }}</mat-icon>
+      <span class="categoria-toolbar-texto">{{ item.text | uppercase }}</span>
+    </div>
     }
   </span>
   <span class="toolbar-spacer"></span>
 
   @if (ofertaCentralBanner()?.image) {
-    <button class="oferta-central-btn pulse-anim" (click)="openOfertaCentralDialog()">
-      <mat-icon class="oferta-central-icon">local_offer</mat-icon>
-      <span class="oferta-central-text">ENTÉRATE !</span>
-    </button>
+  <button class="oferta-central-btn pulse-anim" (click)="openOfertaCentralDialog()">
+    <mat-icon class="oferta-central-icon">local_offer</mat-icon>
+    <span class="oferta-central-text">ENTÉRATE !</span>
+  </button>
   }
 
   <span class="toolbar-spacer"></span>
 
   @if (authService.perfilLectura(); as perfil) {
-    <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
-      @if (perfil.urlFoto && !avatarImageError()) {
-        <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar" (error)="onAvatarError()">
-      } @else {
-        <mat-icon>account_circle</mat-icon>
-      }
-    </button>
+  <button mat-icon-button [matMenuTriggerFor]="userMenu" class="avatar-button">
+    @if (perfil.urlFoto && !avatarImageError()) {
+    <img [src]="perfil.urlFoto" class="user-avatar" alt="Avatar" (error)="onAvatarError()">
+    } @else {
+    <mat-icon>account_circle</mat-icon>
+    }
+  </button>
   }
 
   @for (notif of globalNotifService.unreadNotifications(); track notif.id) {
-    <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification(notif)">
-      <mat-icon class="shake-icon" 
-                [style.color]="globalNotifService.getColorNotificacion(notif.tipo || '')">
-        {{ globalNotifService.getIconoNotificacion(notif.tipo || '') }}
-      </mat-icon>
-    </button>
+  <button mat-icon-button class="global-notif-btn" (click)="openGlobalNotification(notif)">
+    <mat-icon class="shake-icon" [style.color]="globalNotifService.getColorNotificacion(notif.tipo || '')">
+      {{ globalNotifService.getIconoNotificacion(notif.tipo || '') }}
+    </mat-icon>
+  </button>
   }
 </mat-toolbar>
 
-<mat-tab-group fitInkBarToContent headerPosition="above"(selectedTabChange)="onTabChange($event)">
-  
-  @for (categoria of categorias(); track $index) {
-    <mat-tab [label]="categoria.ruta">
-      <ng-template matTabContent>
-        <div class="animacion-tab-content">
-          <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
-          
-          <div class="carrusel-content">
-            <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []" [categoriaId]="categoria.ruta"></app-carrusel>
-          </div>
+<mat-tab-group fitInkBarToContent headerPosition="above" (selectedTabChange)="onTabChange($event)">
 
-          <div class="accesos-directos-grid">
-            <div class="mini-fab-row">
-              <button class="mini-fab-btn" (click)="navigateTo('clasificados')">
-                <mat-icon>newspaper</mat-icon>
-                <span>Clasificados</span>
-              </button>
-              <button class="mini-fab-btn" (click)="navigateTo('marketplace')">
-                <mat-icon>storefront</mat-icon>
-                <span>Marketplace</span>
-              </button>
-            </div>
+  @for (categoria of categorias(); track $index) {
+  <mat-tab [label]="categoria.ruta">
+    <ng-template matTabContent>
+      <div class="animacion-tab-content">
+        <app-scroll-botones [conector]="categoria.seccion"></app-scroll-botones>
+
+        <div class="carrusel-content">
+          <app-carrusel [conector]="diccionarioBanners()[categoria.ruta] || []"
+            [categoriaId]="categoria.ruta"></app-carrusel>
+        </div>
+
+        <!-- Grupo de Botones de Clasificados y MarketPlace.[cdkFooterRowDef]="" -->
+        <div class="accesos-directos-grid">
+          <div class="mini-fab-row">
+            <button class="mini-fab-btn" (click)="navigateTo('clasificados')">
+              <mat-icon>newspaper</mat-icon>
+              <span>Clasificados</span>
+            </button>
+            <button class="mini-fab-btn" (click)="navigateTo('marketplace')">
+              <mat-icon>storefront</mat-icon>
+              <span>Marketplace</span>
+            </button>
           </div>
         </div>
-      </ng-template>
-    </mat-tab>
+
+
+      </div>
+    </ng-template>
+  </mat-tab>
   }
 </mat-tab-group>
+
+
+
+
+
+
+
+
+
+
 
 <!-- Barra de Búsqueda Fija Abajo (Buscador Global) -->
 <div class="search-fixed-bottom">
@@ -80,69 +93,70 @@
 
   <button mat-menu-item (click)="navigateToProfile()">
     @if (authService.perfilLectura()?.urlFoto && !avatarImageError()) {
-      <img [src]="authService.perfilLectura()?.urlFoto" class="user-avatar-menu mat-icon" alt="Avatar" (error)="onAvatarError()">
+    <img [src]="authService.perfilLectura()?.urlFoto" class="user-avatar-menu mat-icon" alt="Avatar"
+      (error)="onAvatarError()">
     } @else {
-      <mat-icon>account_circle</mat-icon>
+    <mat-icon>account_circle</mat-icon>
     }
     <span>Mi Perfil</span>
   </button>
 
   <!-- Botón para ADMIN: Siempre visible si es admin -->
   @if (authorization.esAdmin()) {
-    <button mat-menu-item (click)="navigateToEstadisticas()">
-      <mat-icon color="primary">bar_chart</mat-icon>
-      <span>Estadísticas</span>
-    </button>
-    <button mat-menu-item (click)="navigateToCreateBusiness()">
-      <mat-icon>add_business</mat-icon>
-      <span>Agregar Negocio</span>
-    </button>
-    <button mat-menu-item (click)="navigateTo('admin/data-borrador')">
-      <mat-icon>checklist</mat-icon>
-      <span>Aprobar Negocios</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item (click)="openCrearNotificacion()">
-      <mat-icon color="accent">notification_add</mat-icon>
-      <span>Crear Notificación Global</span>
-    </button>
-    <button mat-menu-item (click)="navigateTo('admin/publicidad')">
-      <mat-icon color="accent">view_carousel</mat-icon>
-      <span>Gestión de Publicidad</span>
-    </button>
-    <button mat-menu-item (click)="navigateTo('admin/sistema-pautas')">
-      <mat-icon color="accent">local_atm</mat-icon>
-      <span>Sistema de Pautas ADS</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item [matMenuTriggerFor]="todasLasRutas">
-      <mat-icon color="warn">visibility</mat-icon>
-      <span>Revisar Vistas (Dev)</span>
-    </button>
-    <mat-divider></mat-divider>
+  <button mat-menu-item (click)="navigateToEstadisticas()">
+    <mat-icon color="primary">bar_chart</mat-icon>
+    <span>Estadísticas</span>
+  </button>
+  <button mat-menu-item (click)="navigateToCreateBusiness()">
+    <mat-icon>add_business</mat-icon>
+    <span>Agregar Negocio</span>
+  </button>
+  <button mat-menu-item (click)="navigateTo('admin/data-borrador')">
+    <mat-icon>checklist</mat-icon>
+    <span>Aprobar Negocios</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item (click)="openCrearNotificacion()">
+    <mat-icon color="accent">notification_add</mat-icon>
+    <span>Crear Notificación Global</span>
+  </button>
+  <button mat-menu-item (click)="navigateTo('admin/publicidad')">
+    <mat-icon color="accent">view_carousel</mat-icon>
+    <span>Gestión de Publicidad</span>
+  </button>
+  <button mat-menu-item (click)="navigateTo('admin/sistema-pautas')">
+    <mat-icon color="accent">local_atm</mat-icon>
+    <span>Sistema de Pautas ADS</span>
+  </button>
+  <mat-divider></mat-divider>
+  <button mat-menu-item [matMenuTriggerFor]="todasLasRutas">
+    <mat-icon color="warn">visibility</mat-icon>
+    <span>Revisar Vistas (Dev)</span>
+  </button>
+  <mat-divider></mat-divider>
   }
 
   @if (authorization.esDev()) {
-    <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">
-      <mat-icon color="primary">settings_applications</mat-icon>
-      <span>Dev Dashboard (Tenants & Costos)</span>
-    </button>
-    <mat-divider></mat-divider>
+  <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">
+    <mat-icon color="primary">settings_applications</mat-icon>
+    <span>Dev Dashboard (Tenants & Costos)</span>
+  </button>
+  <mat-divider></mat-divider>
   }
 
   <!-- Botones para COMERCIANTE: Condicional a si tiene negocio -->
   @if (authorization.esComerciante()) {
-    @if (negocioService.tieneNegocio()) {
-      <button mat-menu-item (click)="navigateToEditBusiness()">
-        <mat-icon>store</mat-icon>
-        <span>Editar Negocio</span>
-      </button>
-    } @else {
-      <button mat-menu-item (click)="navigateToCreateBusiness()">
-        <mat-icon>add_business</mat-icon>
-        <span>Crear Negocio</span>
-      </button>
-    }
+  @if (negocioService.tieneNegocio()) {
+  <button mat-menu-item (click)="navigateToEditBusiness()">
+    <mat-icon>store</mat-icon>
+    <span>Editar Negocio</span>
+  </button>
+  } @else {
+  <button mat-menu-item (click)="navigateToCreateBusiness()">
+    <mat-icon>add_business</mat-icon>
+    <span>Crear Negocio</span>
+  </button>
+  }
   }
 
   <button mat-menu-item (click)="logout()">

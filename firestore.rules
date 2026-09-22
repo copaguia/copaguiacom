@@ -32,8 +32,8 @@ service cloud.firestore {
     // Notificaciones Globales
     match /NotificacionesApp/{notificacionId} {
       allow read: if true; // Cualquier persona puede recibir las notificaciones globales
-      allow create, delete: if isPrivileged(); // Solo los administradores pueden crearlas o borrarlas
-      allow update: if isPrivileged() || 
+      allow create, delete: if hasRole('admin'); // Solo los administradores pueden crearlas o borrarlas
+      allow update: if hasRole('admin') || 
                     (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['vistasTotales']) &&
                      request.resource.data.vistasTotales == resource.data.vistasTotales + 1);
     }
@@ -44,11 +44,10 @@ service cloud.firestore {
       
       // IDEAL: Permitir que cualquier usuario registrado cree su negocio.
       // Si quieres restringirlo a 'admin', cambia 'isAuthenticated()' por 'hasRole("admin")'
-      allow create: if isAuthenticated(); 
+      allow create: if isPrivileged() || hasRole('agente') || (hasRole('comerciante') && request.resource.data.duenoId == request.auth.uid);
 
       // Solo el dueño (grabado en el documento) o un admin pueden editar/borrar
-      allow update, delete: if isAuthenticated() && 
-        (request.auth.uid == resource.data.duenoId || hasRole('admin'));
+      allow update, delete: if isPrivileged() || hasRole('agente') || (hasRole('comerciante') && request.auth.uid == resource.data.duenoId);
 
       // Pedidos (Subcolección)
       match /pedidos/{pedidoId} {
@@ -67,18 +66,18 @@ service cloud.firestore {
     // Directorios (Tenants / Municipios)
     match /directorios/{directorioId} {
       allow read: if true; // El frontend necesita leer esto para el branding dinámico
-      allow write: if isPrivileged(); 
+      allow write: if hasRole('admin'); 
     }
 
     // Publicidad (Carrusel)
     match /ads/{categoriaId} {
       allow read: if true; // Cualquier persona puede ver los anuncios
-      allow write: if isPrivileged(); // Solo admin/dev pueden modificar la publicidad
+      allow write: if hasRole('admin'); // Solo el administrador puede modificar la publicidad
     }
 
     // Negocios Borrador (Herramienta Admin)
     match /negocios_borrador/{borradorId} {
-      allow read, write: if isPrivileged(); 
+      allow read, write: if hasRole('admin'); 
     }
   }
 }
