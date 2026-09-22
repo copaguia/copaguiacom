@@ -10,8 +10,6 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../core/auth/auth.service';
-import { InstanciaFirebase } from '../../core/firebase/instancias.service';
-import { collection, getDocs, DocumentData } from 'firebase/firestore';
 import { categoriaData } from '../../data/categoriasData';
 import { CarruselComponent } from '../../components/build/carrusel/carrusel.component';
 import { ScrollBotonesComponent } from '../../components/build/scroll-botones/scroll-botones.component';
@@ -24,6 +22,7 @@ import { CrearNotificacionDialogComponent } from '../../components/build/crear-n
 import { PublicidadService } from '../../core/services/publicidad.service';
 import { OfertaCentralDialogComponent } from '../../components/build/oferta-central-dialog/oferta-central-dialog.component';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
+import { NegociosService } from '../../core/services/negocios.service';
 
 @Component({
   selector: 'app-categorias',
@@ -37,11 +36,11 @@ export class CategoriasComponent {
   authorization = inject(AuthorizationService);
   authService = inject(AuthService);
   negocioService = inject(NegocioVerificationService);
+  negociosService = inject(NegociosService);
   globalNotifService = inject(GlobalNotificationService);
   publicidadService = inject(PublicidadService);
   dialog = inject(MatDialog);
   router = inject(Router);
-  firestore = inject(InstanciaFirebase).firestore;
 
   categorias = signal(categoriaData);
   tituloToolbar = signal(categoriaData[0]?.ruta || 'CATEGORIAS');
@@ -178,22 +177,11 @@ export class CategoriasComponent {
 
     if (searchTerm.length > 0) {
       try {
-        // Obtenemos todos los negocios para hacer una búsqueda completa
-        // Nota: en una app masiva esto debe ir a un backend o Algolia, pero para este tamaño funciona bien.
-        const querySnapshot = await getDocs(collection(this.firestore, 'negocios'));
-        const negocios = querySnapshot.docs.map(doc => doc.data() as DocumentData);
+        const negocioEncontrado = await this.negociosService.buscarNegocioPorTermino(searchTerm);
 
-        // Encontrar el primer negocio que coincida con el nombre o descripción
-        const negocioEncontrado = negocios.find(n =>
-          (n['nombre'] && n['nombre'].toLowerCase().includes(searchTerm)) ||
-          (n['descripcion'] && n['descripcion'].toLowerCase().includes(searchTerm))
-        );
-
-        if (negocioEncontrado && negocioEncontrado['seccion']) {
-          // Si lo encuentra, redirige a su sección específica con el término de búsqueda
-          this.router.navigate(['/categorias', negocioEncontrado['seccion']], { queryParams: { q: term } });
+        if (negocioEncontrado && negocioEncontrado.seccion) {
+          this.router.navigate(['/categorias', negocioEncontrado.seccion], { queryParams: { q: term } });
         } else {
-          // Si no encuentra sección o no hay negocio, puede ir al maestro global
           this.router.navigate(['/buscar'], { queryParams: { q: term } });
         }
       } catch (e) {
@@ -201,7 +189,7 @@ export class CategoriasComponent {
         this.router.navigate(['/buscar'], { queryParams: { q: term } });
       }
 
-      this.terminoGlobal.set(''); // reset so it's clean if they come back
+      this.terminoGlobal.set('');
     }
   }
 }

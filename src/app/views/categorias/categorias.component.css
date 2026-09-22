@@ -3,6 +3,10 @@
   width: 100%;
   max-width: 100vw;
   overflow-x: hidden;
+  /* Esto mata la barra de scroll abajo */
+  overflow-y: visible;
+  padding-bottom: 20px;
+  padding-top: 15px;
 }
 
 /* Forzar el bloqueo en el contenedor interno de Angular Material */
@@ -47,7 +51,7 @@ mat-tab-group {
   background-color: #041a18 !important;
   /* Tonalidad súper oscura basada en --corporativo (#0a413e) */
   z-index: 999999 !important;
-  padding: 6px 15px !important;
+  padding: 12px 15px !important;
   display: flex !important;
   justify-content: center !important;
   box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.8) !important;

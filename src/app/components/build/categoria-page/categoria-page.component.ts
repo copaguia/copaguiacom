@@ -1,12 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal, DestroyRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToolBarPageComponent } from '../tool-bar-page/tool-bar-page.component';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
-import { collection, onSnapshot, query, where, DocumentData } from 'firebase/firestore';
+import { NegociosService } from '../../../core/services/negocios.service';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
@@ -48,12 +47,9 @@ enum LoadingState {
 })
 export class CategoriaPageComponent implements OnInit {
 
-  private firestore = inject(InstanciaFirebase).firestore;
+  private negociosService = inject(NegociosService);
   private route = inject(ActivatedRoute);
   public authorization = inject(AuthorizationService);
-
-  private destroyRef = inject(DestroyRef);
-  private unsubscribeSnapshot: (() => void) | null = null;
 
   public title: string = '';
   public categoria: string = '';
@@ -80,8 +76,6 @@ export class CategoriaPageComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['q']) {
         this.terminoBusqueda.set(params['q']);
-        // Como los negocios podrían no haber cargado aún, filtrarNegocios se llama cuando lleguen,
-        // pero por si acaso, lo llamamos también aquí si ya llegaron.
         if (this.negocios().length > 0) {
           this.filtrarNegocios();
         }
@@ -89,83 +83,32 @@ export class CategoriaPageComponent implements OnInit {
     });
   }
 
-  buscarNegocios() {
+  async buscarNegocios() {
     if (!this.categoria) return;
 
     this.loadingState.set(LoadingState.Loading);
     this.error.set(null);
+    this.loadingProgress.set(0);
 
-    // Limpiar suscripción previa si la hay
-    if (this.unsubscribeSnapshot) {
-      this.unsubscribeSnapshot();
-      this.unsubscribeSnapshot = null;
-    }
+    const interval = setInterval(() => {
+      this.loadingProgress.update(val => Math.min(val + (100 / (4000 / 50)), 100));
+    }, 50);
 
     try {
-      let q;
-      if (this.categoria && this.seccion) {
-        q = query(
-          collection(this.firestore, 'negocios'),
-          where('categoria', '==', this.categoria),
-          where('seccion', '==', this.seccion),
-          where('verificado', '==', true)
-        );
-      } else {
-        q = query(
-            collection(this.firestore, 'negocios'),
-            where('categoria', '==', this.categoria),
-            where('verificado', '==', true)
-        );
-      }
+      const negocios = await this.negociosService.obtenerNegociosPorSeccion(
+        this.categoria,
+        this.seccion || undefined
+      );
 
-      this.unsubscribeSnapshot = onSnapshot(q, (querySnapshot) => {
-        let negocios = querySnapshot.docs.map(doc => {
-          const data = doc.data() as DocumentData;
-          return { id: doc.id, ...data } as NegocioInterface;
-        });
-
-        // Ordenar: Plus Premium primero (o verificados)
-        negocios = negocios.sort((a, b) => {
-          if (a.plan === 'plus Premium' && b.plan !== 'plus Premium') return -1;
-          if (a.plan !== 'plus Premium' && b.plan === 'plus Premium') return 1;
-          if (a.verificado && !b.verificado) return -1;
-          if (!a.verificado && b.verificado) return 1;
-          return 0;
-        });
-
-        const isFirstLoad = this.loadingState() === LoadingState.Loading;
-        if (isFirstLoad) {
-          this.loadingProgress.set(0);
-          const interval = setInterval(() => {
-            this.loadingProgress.update(val => Math.min(val + (100 / (4000 / 50)), 100));
-          }, 50);
-
-          setTimeout(() => {
-            clearInterval(interval);
-            this.negocios.set(negocios);
-            this.filtrarNegocios();
-            this.loadingState.set(LoadingState.Success);
-          }, 4000);
-        } else {
-          this.negocios.set(negocios);
-          this.filtrarNegocios();
-        }
-      }, (e) => {
-        console.error(e);
-        this.error.set('Error al escuchar cambios en negocios');
-        this.loadingState.set(LoadingState.Error);
-      });
-
-      // Asegurar que nos desuscribimos al destruir el componente
-      this.destroyRef.onDestroy(() => {
-        if (this.unsubscribeSnapshot) {
-          this.unsubscribeSnapshot();
-        }
-      });
-
+      clearInterval(interval);
+      this.negocios.set(negocios);
+      this.negociosFiltrados.set(negocios);
+      this.filtrarNegocios();
+      this.loadingState.set(LoadingState.Success);
     } catch (e) {
+      clearInterval(interval);
       console.error(e);
-      this.error.set('Error al inicializar consulta');
+      this.error.set('Error al buscar negocios');
       this.loadingState.set(LoadingState.Error);
     }
   }
