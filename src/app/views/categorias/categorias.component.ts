@@ -68,7 +68,7 @@ export class CategoriasComponent {
   async cargarBannersParaCategoriaActiva(categoriaId: string) {
     if (!this.diccionarioBanners()[categoriaId]) {
       let banners = await this.publicidadService.obtenerBanners(categoriaId);
-      
+
       // Filtrar banners expirados
       const ahora = new Date().toISOString();
       banners = banners.map(b => {
@@ -78,10 +78,10 @@ export class CategoriasComponent {
         return b;
       });
 
-      this.diccionarioBanners.update(d => ({...d, [categoriaId]: banners}));
+      this.diccionarioBanners.update(d => ({ ...d, [categoriaId]: banners }));
     }
     const oferta = await this.publicidadService.obtenerOfertaCentralAd(categoriaId);
-    
+
     if (oferta && oferta.fechaCaducidad) {
       const ahora = new Date().toISOString();
       if (oferta.fechaCaducidad < ahora) {
@@ -89,7 +89,7 @@ export class CategoriasComponent {
         return;
       }
     }
-    
+
     this.ofertaCentralBanner.set(oferta);
   }
 
@@ -175,16 +175,16 @@ export class CategoriasComponent {
   async onSearchChange(term: string) {
     this.terminoGlobal.set(term);
     const searchTerm = term.trim().toLowerCase();
-    
+
     if (searchTerm.length > 0) {
       try {
         // Obtenemos todos los negocios para hacer una búsqueda completa
         // Nota: en una app masiva esto debe ir a un backend o Algolia, pero para este tamaño funciona bien.
         const querySnapshot = await getDocs(collection(this.firestore, 'negocios'));
         const negocios = querySnapshot.docs.map(doc => doc.data() as DocumentData);
-        
+
         // Encontrar el primer negocio que coincida con el nombre o descripción
-        const negocioEncontrado = negocios.find(n => 
+        const negocioEncontrado = negocios.find(n =>
           (n['nombre'] && n['nombre'].toLowerCase().includes(searchTerm)) ||
           (n['descripcion'] && n['descripcion'].toLowerCase().includes(searchTerm))
         );

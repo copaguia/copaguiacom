@@ -1,16 +1,13 @@
 <div class="example-button-row container cdk-virtual-scroll-data-source-example ">
 
-    <cdk-virtual-scroll-viewport 
-        orientation="horizontal" 
-        itemSize="50" 
-        class="example-viewport cdk-scrollable">
+    <cdk-virtual-scroll-viewport orientation="horizontal" itemSize="50" class="example-viewport cdk-scrollable">
         @for (item of conector; track $index) {
-            <button matButton="outlined" routerLink="{{item.ruta}}" matTooltip="identificado" >
-                <!-- Agregaremos al tenerlo todos
+        <button matButton="outlined" routerLink="{{item.ruta}}" matTooltip="identificado">
+            <!-- Agregaremos al tenerlo todos
                 <mat-icon>{{item.icono}}</mat-icon>-->
-                <span style="letter-spacing: 0.5px; font-size: 13px;">{{item.ruta}}</span>
-            </button>
-            
+            <span style="letter-spacing: 0.5px; font-size: 13px;">{{item.ruta}}</span>
+        </button>
+
         }
     </cdk-virtual-scroll-viewport>
 
