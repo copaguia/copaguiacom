@@ -16,19 +16,14 @@ import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
 import { httpsCallable } from 'firebase/functions';
 import { CostosPanelComponent } from './components/costos-panel/costos-panel.component';
+import { CloudFlareDominioInterface } from '../../../interfaces/cloud-flare-dominio-interface';
 
 declare var google: any;
 
-interface CloudflareDominio {
-  nombre:     string;
-  expiracion: string;
-  autoRenew:  boolean;
-  estado:     string;
-}
 
 @Component({
-  selector:    'app-dev-dashboard',
-  standalone:  true,
+  selector: 'app-dev-dashboard',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -48,47 +43,47 @@ interface CloudflareDominio {
     CostosPanelComponent
   ],
   templateUrl: './dev-dashboard.component.html',
-  styleUrls:   ['./dev-dashboard.component.css']
+  styleUrls: ['./dev-dashboard.component.css']
 })
 export class DevDashboardComponent implements OnInit {
-  private fb       = inject(FormBuilder);
+  private fb = inject(FormBuilder);
   private firebase = inject(InstanciaFirebase);
   private snackBar = inject(MatSnackBar);
 
-  @ViewChild(GoogleMap,   { static: false }) map!: GoogleMap;
+  @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
   @ViewChild(MapPolygon, { static: false }) polygonRef!: MapPolygon;
 
-  public isSubmitting       = signal(false);
-  public cargandoDominios   = signal(false);
-  public dominiosCloudflare = signal<CloudflareDominio[]>([]);
+  public isSubmitting = signal(false);
+  public cargandoDominios = signal(false);
+  public dominiosCloudflare = signal<CloudFlareDominioInterface[]>([]);
 
   public mapOptions: google.maps.MapOptions = {
-    center:                 { lat: 6.25184, lng: -75.56359 },
-    zoom:                   13,
+    center: { lat: 6.25184, lng: -75.56359 },
+    zoom: 13,
     disableDoubleClickZoom: true
   };
 
   public polygonOptions: google.maps.PolygonOptions = {
-    fillColor:    '#1976D2',
-    fillOpacity:  0.25,
-    strokeColor:  '#1976D2',
+    fillColor: '#1976D2',
+    fillOpacity: 0.25,
+    strokeColor: '#1976D2',
     strokeWeight: 2,
-    clickable:    false,
-    editable:     true,  // Vértices arrastrables
-    zIndex:       1,
+    clickable: false,
+    editable: true,  // Vértices arrastrables
+    zIndex: 1,
   };
 
   public limitePoligonal: Array<{ lat: number; lng: number }> = [];
 
   public tenantForm = this.fb.group({
-    id:               ['', Validators.required],
-    dominio:          ['', Validators.required],
-    modoConexion:     ['EXISTENTE', Validators.required],
-    nombre:           ['', Validators.required],
-    descripcion:      [''],
-    logoUrl:          [''],
-    municipio:        ['', Validators.required],
-    sector:           ['', Validators.required],
+    id: ['', Validators.required],
+    dominio: ['', Validators.required],
+    modoConexion: ['EXISTENTE', Validators.required],
+    nombre: ['', Validators.required],
+    descripcion: [''],
+    logoUrl: [''],
+    municipio: ['', Validators.required],
+    sector: ['', Validators.required],
     agenteAsignadoId: ['']
   });
 
@@ -99,10 +94,10 @@ export class DevDashboardComponent implements OnInit {
   async cargarDominiosCloudflare() {
     this.cargandoDominios.set(true);
     try {
-      const fn      = httpsCallable<void, { success: boolean; dominios: CloudflareDominio[] }>(
+      const fn = httpsCallable<void, { success: boolean; dominios: CloudFlareDominioInterface[] }>(
         this.firebase.functions, 'listarDominiosCloudflare'
       );
-      const result  = await fn();
+      const result = await fn();
       this.dominiosCloudflare.set(result.data.dominios ?? []);
     } catch (error: any) {
       console.warn('No se pudieron cargar dominios de Cloudflare:', error.message);
@@ -157,9 +152,9 @@ export class DevDashboardComponent implements OnInit {
 
       const response = await provisionDirectoryFn({
         nombreDirectorio: formValue.nombre,
-        dominioObjetivo:  formValue.dominio,
-        modoConexion:     formValue.modoConexion,
-        limitePoligonal:  this.limitePoligonal
+        dominioObjetivo: formValue.dominio,
+        modoConexion: formValue.modoConexion,
+        limitePoligonal: this.limitePoligonal
       });
 
       console.log('Respuesta Orquestador:', response.data);
