@@ -23,7 +23,7 @@ import { PublicidadService } from '../../core/services/publicidad.service';
 import { OfertaCentralDialogComponent } from '../../components/build/oferta-central-dialog/oferta-central-dialog.component';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
 import { NegociosService } from '../../core/services/negocios.service';
-import { RUTAS_POR_ROL, RUTAS_MENU_ADMIN, ACCESOS_DIRECTOS } from './rutas.categorias';
+import { RUTAS_VISITANTE, RUTAS_COMERCIANTE, RUTAS_AGENTE, RUTAS_ADMIN, RUTAS_DEV, ACCESOS_DIRECTOS } from './rutas.categorias';
 
 @Component({
   selector: 'app-categorias',
@@ -51,8 +51,11 @@ export class CategoriasComponent {
   terminoGlobal = signal('');
   avatarImageError = signal(false);
 
-  rutas = RUTAS_POR_ROL;
-  rutasAdmin = RUTAS_MENU_ADMIN;
+  rutasVisitante = RUTAS_VISITANTE;
+  rutasComerciante = RUTAS_COMERCIANTE;
+  rutasAgente = RUTAS_AGENTE;
+  rutasAdmin = RUTAS_ADMIN;
+  rutasDev = RUTAS_DEV;
   accesosDirectos = ACCESOS_DIRECTOS;
 
   constructor() { this.cargarBannersParaCategoriaActiva(this.tituloToolbar()); }

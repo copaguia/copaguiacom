@@ -109,35 +109,64 @@
 
 
 
-  <!-- Botón para ADMIN: Siempre visible si es admin -->
-  @if (authorization.esAdmin()) {
-  @for (item of rutasAdmin; track item.etiqueta) {
-  <button mat-menu-item (click)="item.accion === 'notificacion' ? openCrearNotificacion() : navigateTo(item.ruta!)">
-    <mat-icon [color]="item.color || null">{{ item.icono }}</mat-icon>
+  <mat-divider></mat-divider>
+
+  <!-- Rol Visitante: accesible para todos -->
+  <button mat-menu-item [matMenuTriggerFor]="menuVisitante">
+    <mat-icon>visibility</mat-icon>
+    <span>Visitante</span>
+  </button>
+
+  <!-- Rol Comerciante: permitido a comerciante y dev -->
+  @if (authorization.esComerciante() || authorization.esDev()) {
+  <button mat-menu-item [matMenuTriggerFor]="menuComerciante">
+    <mat-icon>store</mat-icon>
+    <span>Comerciante</span>
+  </button>
+  }
+
+  <!-- Rol Agente: permitido a agente y dev -->
+  @if (authorization.esAgente() || authorization.esDev()) {
+  <button mat-menu-item [matMenuTriggerFor]="menuAgente">
+    <mat-icon>support_agent</mat-icon>
+    <span>Agente</span>
+  </button>
+  }
+
+  <!-- Rol Admin: permitido a admin y dev -->
+  @if (authorization.esAdmin() || authorization.esDev()) {
+  <button mat-menu-item [matMenuTriggerFor]="menuAdmin">
+    <mat-icon color="warn">admin_panel_settings</mat-icon>
+    <span>Admin</span>
+  </button>
+  }
+
+  <!-- Rol Dev: solo dev -->
+  @if (authorization.esDev()) {
+  <button mat-menu-item [matMenuTriggerFor]="menuDev">
+    <mat-icon color="primary">code</mat-icon>
+    <span>Dev</span>
+  </button>
+  }
+
+  <mat-divider></mat-divider>
+
+  <button mat-menu-item (click)="logout()">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Cerrar Sesión</span>
+  </button>
+</mat-menu>
+
+<mat-menu #menuVisitante="matMenu">
+  @for (item of rutasVisitante; track item.ruta) {
+  <button mat-menu-item (click)="navigateTo(item.ruta)">
+    <mat-icon>{{ item.icono }}</mat-icon>
     <span>{{ item.etiqueta }}</span>
   </button>
-  @if (item.divisorDespues) {
-  <mat-divider></mat-divider>
   }
-  }
-  <button mat-menu-item [matMenuTriggerFor]="todasLasRutas">
-    <mat-icon color="warn">visibility</mat-icon>
-    <span>Revisar Vistas (Dev)</span>
-  </button>
-  <mat-divider></mat-divider>
-  }
+</mat-menu>
 
-  @if (authorization.esDev()) {
-  <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">
-    <mat-icon color="primary">settings_applications</mat-icon>
-    <span>Dev Dashboard (Tenants & Costos)</span>
-  </button>
-  <mat-divider></mat-divider>
-  }
-
-
-  <!-- Botones para COMERCIANTE: Condicional a si tiene negocio -->
-  @if (authorization.esComerciante()) {
+<mat-menu #menuComerciante="matMenu">
   @if (negocioService.tieneNegocio()) {
   <button mat-menu-item (click)="navigateToEditBusiness()">
     <mat-icon>store</mat-icon>
@@ -149,28 +178,40 @@
     <span>Crear Negocio</span>
   </button>
   }
-  }
-
-  <button mat-menu-item (click)="logout()">
-    <mat-icon>exit_to_app</mat-icon>
-    <span>Cerrar Sesión</span>
+  <mat-divider></mat-divider>
+  @for (item of rutasComerciante; track item.ruta) {
+  <button mat-menu-item (click)="navigateTo(item.ruta)">
+    <mat-icon>{{ item.icono }}</mat-icon>
+    <span>{{ item.etiqueta }}</span>
   </button>
+  }
 </mat-menu>
 
-<mat-menu #todasLasRutas="matMenu">
-  @for (item of rutas; track item.ruta) {
-  @if ($first || item.rol !== rutas[$index - 1].rol) {
-  @if (!$first) {
-  <mat-divider></mat-divider>
-  }
-  <button mat-menu-item disabled>
-    <strong>{{ item.rol | uppercase }}</strong>
+<mat-menu #menuAgente="matMenu">
+  @for (item of rutasAgente; track item.ruta) {
+  <button mat-menu-item (click)="navigateTo(item.ruta)">
+    <mat-icon>{{ item.icono }}</mat-icon>
+    <span>{{ item.etiqueta }}</span>
   </button>
   }
-  <button mat-menu-item (click)="navigateTo(item.ruta)">
-    @if (item.icono) {
+</mat-menu>
+
+<mat-menu #menuAdmin="matMenu">
+  @for (item of rutasAdmin; track item.etiqueta) {
+  <button mat-menu-item (click)="item.accion === 'notificacion' ? openCrearNotificacion() : navigateTo(item.ruta!)">
     <mat-icon [color]="item.color || null">{{ item.icono }}</mat-icon>
-    }
+    <span>{{ item.etiqueta }}</span>
+  </button>
+  @if (item.divisorDespues) {
+  <mat-divider></mat-divider>
+  }
+  }
+</mat-menu>
+
+<mat-menu #menuDev="matMenu">
+  @for (item of rutasDev; track item.ruta) {
+  <button mat-menu-item (click)="navigateTo(item.ruta)">
+    <mat-icon [color]="item.color || null">{{ item.icono }}</mat-icon>
     <span>{{ item.etiqueta }}</span>
   </button>
   }
