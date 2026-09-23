@@ -21,7 +21,6 @@ import { BuscadorMaestroComponent } from './components/build/buscador-maestro/bu
 import { CarritoPedidoComponent } from './views/carrito-pedido/carrito-pedido.component';
 import { DashboardDuenoComponent } from './views/dashboard-dueno/dashboard-dueno.component';
 import { GestionCatalogoComponent } from './views/gestion-catalogo/gestion-catalogo.component';
-import { MarketPlaceGlobalComponent } from './views/market-place-global/market-place-global.component';
 import { SoporteConsolaComponent } from './views/soporte-consola/soporte-consola.component';
 import { DataBorradorComponent } from './views/admin/data-borrador/data-borrador.component';
 import { AdminBorradorEditorComponent } from './views/admin/admin-borrador-editor/admin-borrador-editor.component';
@@ -46,7 +45,7 @@ const staticRoutes: Routes = [
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
     {
-        path: 'admin/promociones', 
+        path: 'admin/promociones',
         component: AdminPromocionesComponent,
     },
     {
@@ -65,14 +64,14 @@ const staticRoutes: Routes = [
         path: 'admin/sistema-pautas',
         component: SistemaPautasComponent
     },
-    { 
-        path: 'admin/data-borrador', 
+    {
+        path: 'admin/data-borrador',
         component: DataBorradorComponent,
         canActivate: [rolesGuard],
         data: { roles: ['admin', 'dev'] }
     },
-    { 
-        path: 'admin/data-borrador/editar/:id', 
+    {
+        path: 'admin/data-borrador/editar/:id',
         component: AdminBorradorEditorComponent,
         canActivate: [rolesGuard],
         data: { roles: ['admin', 'dev'] }
@@ -89,9 +88,10 @@ const staticRoutes: Routes = [
         canActivate: [rolesGuard],
         data: { roles: ['dev', 'admin'] }
     },
-    { path: 'nav', component: NavMenuComponent, 
-        children: [ ] 
-    }, 
+    {
+        path: 'nav', component: NavMenuComponent,
+        children: []
+    },
     { path: 'buscar', component: BuscadorMaestroComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
@@ -114,32 +114,31 @@ const staticRoutes: Routes = [
     },
     {
         path: 'public/:username',
-        component: UserFeedComponent, 
+        component: UserFeedComponent,
     },
     { path: 'carrito-pedido', component: CarritoPedidoComponent },
     { path: 'dashboard-dueno', component: DashboardDuenoComponent },
     { path: 'gestion-catalogo', component: GestionCatalogoComponent },
-    { path: 'market-place-global', component: MarketPlaceGlobalComponent },
     { path: 'soporte-consola', component: SoporteConsolaComponent },
     { path: 'clasificados', component: ClasificadosComponent },
     { path: 'marketplace', component: MarketplaceComponent },
 ];
 
-            // --- ESTA FUNCION CONSTRUYE LAS RUTAS A LARTIR DEL ARCHVIO UNICO DE CATEGORIASDATA---
-            const categoryRoutes: Routes = [];
-            categoriaData.forEach(category => {
-                if (category.seccion) {
-                    category.seccion.forEach(section => {
-                        if (section.ruta) {
-                            categoryRoutes.push({
-                                path: `categorias/${section.ruta}`,
-                                component: CategoriaPageComponent,
-                                data: { title: section.ruta, categoria: category.ruta, seccion: section.ruta }
-                            });
-                        }
-                    });
-                }
-            });
+// --- ESTA FUNCION CONSTRUYE LAS RUTAS A LARTIR DEL ARCHVIO UNICO DE CATEGORIASDATA---
+const categoryRoutes: Routes = [];
+categoriaData.forEach(category => {
+    if (category.seccion) {
+        category.seccion.forEach(section => {
+            if (section.ruta) {
+                categoryRoutes.push({
+                    path: `categorias/${section.ruta}`,
+                    component: CategoriaPageComponent,
+                    data: { title: section.ruta, categoria: category.ruta, seccion: section.ruta }
+                });
+            }
+        });
+    }
+});
 
 
 // --- Final routes configuration ---
