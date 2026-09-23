@@ -43,8 +43,8 @@
             @if (item.verificado) {
             <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
             }
-            @if (authorization.esAdmin() || authorization.esDev()) {
-              <button mat-icon-button color="primary" (click)="abrirEdicionAdmin(item, $event)" matTooltip="Editar Negocio (Admin/Dev)" style="width: 24px; height: 24px; padding: 0; line-height: 24px;">
+            @if (authorization.esAdmin() || authorization.esAgente() || authorization.esDev()) {
+              <button mat-icon-button color="primary" (click)="abrirEdicionAdmin(item, $event)" matTooltip="Editar Negocio" style="width: 24px; height: 24px; padding: 0; line-height: 24px;">
                 <mat-icon style="font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">edit</mat-icon>
               </button>
             }
@@ -89,8 +89,8 @@
                 @if (item.verificado) {
                 <mat-icon style="color: #1DA1F2; font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">verified</mat-icon>
                 }
-                @if (authorization.esAdmin() || authorization.esDev()) {
-                  <button mat-icon-button color="primary" (click)="abrirEdicionAdmin(item, $event)" matTooltip="Editar Negocio (Admin/Dev)" style="width: 24px; height: 24px; padding: 0; line-height: 24px;">
+                @if (authorization.esAdmin() || authorization.esAgente() || authorization.esDev()) {
+                  <button mat-icon-button color="primary" (click)="abrirEdicionAdmin(item, $event)" matTooltip="Editar Negocio" style="width: 24px; height: 24px; padding: 0; line-height: 24px;">
                     <mat-icon style="font-size: 1.2rem; height: 1.2rem; width: 1.2rem;">edit</mat-icon>
                   </button>
                 }

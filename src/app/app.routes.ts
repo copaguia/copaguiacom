@@ -47,13 +47,13 @@ const staticRoutes: Routes = [
         path: 'admin/data-borrador',
         component: DataBorradorComponent,
         canActivate: [rolesGuard],
-        data: { roles: ['admin', 'dev'] }
+        data: { roles: ['admin', 'dev', 'agente'] }
     },
     {
         path: 'admin/data-borrador/editar/:id',
         component: AdminBorradorEditorComponent,
         canActivate: [rolesGuard],
-        data: { roles: ['admin', 'dev'] }
+        data: { roles: ['admin', 'dev', 'agente'] }
     },
     {
         path: 'admin/dev-dashboard',

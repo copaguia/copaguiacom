@@ -64,7 +64,7 @@ export class AdminBorradorEditorComponent implements OnInit {
   });
 
   ngOnInit() {
-    if (!this.authorization.esAdmin()) {
+    if (!this.authorization.esAdmin() && !this.authorization.esAgente() && !this.authorization.esDev()) {
       this.router.navigate(['/']);
       return;
     }

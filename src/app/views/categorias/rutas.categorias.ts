@@ -33,8 +33,9 @@ export const RUTAS_COMERCIANTE: RutaItem[] = [
 ];
 
 export const RUTAS_AGENTE: RutaItem[] = [
-  { ruta: 'market-place-global', etiqueta: 'Marketplace Global', icono: 'storefront' },
-  { ruta: 'soporte-consola', etiqueta: 'Soporte Consola', icono: 'support_agent' }
+  { ruta: 'soporte-consola', etiqueta: 'Editar Negocios', icono: 'edit_note' },
+  { ruta: 'admin/data-borrador', etiqueta: 'Revisar y Aprobar Negocios', icono: 'checklist' },
+  { ruta: 'market-place-global', etiqueta: 'Marketplace Global', icono: 'storefront' }
 ];
 
 export const RUTAS_ADMIN: RutaMenuAccion[] = [
