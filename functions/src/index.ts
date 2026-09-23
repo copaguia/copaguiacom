@@ -4,7 +4,7 @@ if (admin.apps.length === 0) admin.initializeApp();
 
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 import { defineString }       from 'firebase-functions/params';
-import { comprarDominio, conectarDominioExistente, listarDominiosRegistrados, verificarDisponibilidadDominio, crearCustomHostname } from './cloudflare/cloudflareDomains';
+import { comprarDominio, conectarDominioExistente, listarDominiosRegistrados, verificarDisponibilidadDominio, crearCustomHostname, crearSubdominio } from './cloudflare/cloudflareDomains';
 import { updateMapsKeyRestrictions } from './orchestrator/google-cloud';
 import { iniciarExtraccionNegocios } from './orchestrator/extractor';
 
@@ -49,14 +49,18 @@ export const provisionarNuevoDirectorio = onCall(async (request) => {
       await comprarDominio(dominioObjetivo, cfConfig);
       await conectarDominioExistente(dominioObjetivo, cfConfig);
       console.log(`✅ Dominio comprado y DNS configurado: ${dominioObjetivo}`);
+      await crearCustomHostname(dominioObjetivo, cloudflareHubZoneId.value(), cfConfig);
+      console.log(`✅ Custom Hostname creado en la zona Hub para ${dominioObjetivo}`);
+    } else if (modoConexion === 'SUBDOMINIO') {
+      await crearSubdominio(dominioObjetivo, cloudflareHubZoneId.value(), cfConfig);
+      console.log(`✅ Subdominio configurado exitosamente: ${dominioObjetivo}`);
+      // Para subdominios bajo la misma zona no es necesario Custom Hostname
     } else {
       await conectarDominioExistente(dominioObjetivo, cfConfig);
       console.log(`✅ Dominio existente conectado: ${dominioObjetivo}`);
+      await crearCustomHostname(dominioObjetivo, cloudflareHubZoneId.value(), cfConfig);
+      console.log(`✅ Custom Hostname creado en la zona Hub para ${dominioObjetivo}`);
     }
-
-    // 2. Cloudflare: Crear Custom Hostname en la Zona Hub
-    await crearCustomHostname(dominioObjetivo, cloudflareHubZoneId.value(), cfConfig);
-    console.log(`✅ Custom Hostname creado en la zona Hub para ${dominioObjetivo}`);
 
     // 3. Google Cloud: Proteger API Key de Maps (Se mantiene por requerimiento)
     await updateMapsKeyRestrictions(projectId, mapsApiKeyId.value(), dominioObjetivo);

@@ -38,6 +38,24 @@
     } @else {
       <!-- Si el usuario SI está autenticado -->
       <div class="planes-section">
+        <mat-card class="legal-card mat-elevation-z2" style="margin-bottom: 20px; border-left: 4px solid #3f51b5;">
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="primary">gavel</mat-icon>
+            <mat-card-title>Declaración de Propiedad y Tratamiento de Datos</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p class="legal-text">
+              Para cumplir con la <strong>Ley 1581 de 2012 (Habeas Data)</strong> de Colombia y las políticas de 
+              Directrices de Representación de Google, debes confirmar tu autorización legal antes de continuar.
+            </p>
+            <mat-checkbox [ngModel]="terminosAceptados()" (ngModelChange)="terminosAceptados.set($event)" color="primary">
+              Declaro bajo la gravedad de juramento que soy el propietario o representante legal autorizado de 
+              <strong>{{ negocio()?.nombre }}</strong>. Acepto los Términos y Condiciones, autorizo el tratamiento 
+              de mis datos comerciales y personales, y certifico que la información cumple con las Políticas de Contenido de Google.
+            </mat-checkbox>
+          </mat-card-content>
+        </mat-card>
+
         <h2>Paso 2: Elige tu Plan de Activación</h2>
         <p class="subtitle">Tu cuenta actual <strong>({{ authService.perfilLectura()?.email }})</strong> quedará como dueña del negocio. <br>
           Al realizar el pago estás autorizando la publicación de los datos comerciales y aceptando nuestros términos de servicio.
@@ -62,7 +80,7 @@
                 </ul>
               </mat-card-content>
               <mat-card-actions>
-                <button mat-flat-button color="primary" class="w-100 btn-pagar" (click)="pagarConWompi(plan)">
+                <button mat-flat-button color="primary" class="w-100 btn-pagar" [disabled]="!terminosAceptados()" (click)="pagarConWompi(plan)">
                   <mat-icon>payment</mat-icon> Pagar y Activar
                 </button>
               </mat-card-actions>

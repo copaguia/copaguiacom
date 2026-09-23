@@ -239,3 +239,42 @@ export async function asignarWorkerRoute(zoneId: string, domainName: string, con
     throw new Error(`Fallo al asignar Worker a ${domainName}`);
   }
 }
+
+/**
+ * Crea un registro CNAME para un subdominio bajo la zona principal (Hub Zone).
+ * @param tenantDomain El subdominio completo (ej. barrioobrero.directoriopaisa.com)
+ * @param hubZoneId El ID de la zona principal
+ * @param config Configuración con Token
+ */
+export async function crearSubdominio(tenantDomain: string, hubZoneId: string, config: CloudflareConfig) {
+  try {
+    const dnsUrl = `https://api.cloudflare.com/client/v4/zones/${hubZoneId}/dns_records`;
+    
+    // Extraer solo la parte del subdominio (ej: "barrioobrero" de "barrioobrero.directoriopaisa.com")
+    // Opcionalmente podemos mandar el nombre completo y CF lo recorta.
+    const payload = {
+      type: 'CNAME',
+      name: tenantDomain,
+      content: 'directoriopaisa.com', // El fallback origin o root
+      proxied: true,
+      comment: 'Subdominio Zero-Cost creado automáticamente'
+    };
+
+    const response = await axios.post(dnsUrl, payload, {
+      headers: {
+        'Authorization': `Bearer ${config.apiToken}`,
+        'Content-Type':  'application/json'
+      }
+    });
+
+    console.log(`✅ Subdominio CNAME creado: ${tenantDomain}`);
+    return response.data.result;
+  } catch (error: any) {
+    if (error.response?.data?.errors?.[0]?.code === 81053) {
+      console.log(`ℹ️ El subdominio ya existía en DNS: ${tenantDomain}, omitiendo.`);
+      return;
+    }
+    console.error('Error creando subdominio:', error.response?.data || error.message);
+    throw new Error(`Fallo al crear subdominio para ${tenantDomain}`);
+  }
+}

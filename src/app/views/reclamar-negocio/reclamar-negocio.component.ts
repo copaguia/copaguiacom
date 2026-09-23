@@ -2,12 +2,15 @@ import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@ang
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminBorradorService } from '../../core/services/admin-borrador.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { environment } from '../../../environments/environment';
+import { Firestore, collection, addDoc, serverTimestamp } from '@angular/fire/firestore';
 
 declare var WidgetCheckout: any;
 
@@ -28,6 +31,8 @@ interface PlanWompi {
     MatCardModule,
     MatButtonModule,
     MatIconModule,
+    MatCheckboxModule,
+    FormsModule,
     MatProgressSpinnerModule,
     CurrencyPipe
   ],
@@ -40,10 +45,13 @@ export class ReclamarNegocioComponent implements OnInit {
   private router = inject(Router);
   private borradorService = inject(AdminBorradorService);
   public authService = inject(AuthService);
+  private firestore = inject(Firestore);
 
   public negocio = signal<any | null>(null);
   public estaCargando = signal<boolean>(true);
   public error = signal<string>('');
+  
+  public terminosAceptados = signal<boolean>(false);
 
   // Definir los planes basados en los precios del sistema
   public planes: PlanWompi[] = [
@@ -121,9 +129,27 @@ export class ReclamarNegocioComponent implements OnInit {
       redirectUrl: window.location.origin + '/categorias', // Redirigir al inicio después de pagar
     });
 
-    checkout.open((result: any) => {
+    checkout.open(async (result: any) => {
       const transaction = result.transaction;
       if (transaction.status === 'APPROVED') {
+        
+        // 1. Guardar Firma Digital de Aceptación Legal
+        try {
+          const auditoriaRef = collection(this.firestore, 'AuditoriaLegal');
+          await addDoc(auditoriaRef, {
+            negocioId: negocioActual.id,
+            negocioNombre: negocioActual.nombre,
+            usuarioId: perfilActual.id,
+            email: perfilActual.email,
+            fechaAceptacion: serverTimestamp(),
+            planAdquirido: plan.id,
+            textoAceptado: "Declaro bajo la gravedad de juramento que soy el propietario o representante legal autorizado de este establecimiento. Acepto los Términos y Condiciones, autorizo a DirectorioPaisa.com para el tratamiento de datos (Ley 1581 de 2012) y certifico que la información del negocio cumple con las Políticas de Contenido de Google.",
+            ipReferencial: "Capturada por Firebase/Cloudflare"
+          });
+        } catch (err) {
+          console.error("Error guardando auditoría legal:", err);
+        }
+
         alert('¡Pago exitoso! Tu negocio se activará automáticamente en unos segundos.');
         this.router.navigate(['/categorias']);
       } else {
