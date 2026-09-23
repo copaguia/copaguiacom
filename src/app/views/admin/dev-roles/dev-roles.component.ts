@@ -1,6 +1,5 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -12,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
 import { UsuariosService } from '../../../core/firebase/firestore/usuarios.service';
 import { RolUsuario } from '../../../core/auth/rol-usuario';
 import { PerfilInterface } from '../../../interfaces/perfil-interface';
@@ -21,7 +21,6 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -31,10 +30,11 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDividerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatTabsModule
   ],
   styles: [`
-    .roles-page-container { min-height: 100vh; background: #121212; color: #ffffff; padding: 24px 16px; box-sizing: border-box; }
+    .roles-page-container { min-height: 100vh; background: #121212; color: #ffffff; padding: 24px 16px; box-sizing: border-box; transform: translateZ(0); }
     .roles-inner { max-width: 960px; margin: 0 auto; }
     .roles-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 16px; }
     .roles-titulo-box { display: flex; align-items: center; gap: 12px; }
@@ -42,6 +42,12 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
     .btn-volver { color: #ffffff !important; }
     .buscador-card { background: #1e1e1e !important; border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 12px; margin-bottom: 20px; padding: 8px 16px; }
     .buscador-card mat-form-field { width: 100%; margin-bottom: -1.25em; }
+    .roles-tabs { margin-top: 8px; }
+    .tab-label-box { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+    .tab-icon { font-size: 1.2rem; width: 1.2rem; height: 1.2rem; }
+    .tab-etiqueta { font-weight: 600; font-size: 0.88rem; letter-spacing: 0.3px; }
+    .tab-badge { background: rgba(129, 212, 250, 0.18); color: #81d4fa; font-size: 0.75rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; min-width: 18px; text-align: center; }
+    .tab-cuerpo { padding-top: 20px; }
     .usuarios-lista { display: flex; flex-direction: column; gap: 14px; }
     .usuario-card { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-radius: 14px; background: #1e1e1e; border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4); gap: 16px; flex-wrap: wrap; }
     .usuario-info { display: flex; align-items: center; gap: 16px; min-width: 240px; flex: 1; }
@@ -57,6 +63,10 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
     .rol-box { width: 190px; flex-shrink: 0; margin-bottom: -1.25em; }
     .spinner-caja { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; gap: 16px; color: #b0bec5; }
     .vacio-box { text-align: center; padding: 60px 20px; color: #78909c; }
+    ::ng-deep .roles-tabs .mat-mdc-tab-header { border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+    ::ng-deep .roles-tabs .mat-mdc-tab .mdc-tab__text-label { color: #b0bec5; }
+    ::ng-deep .roles-tabs .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label { color: #81d4fa; }
+    ::ng-deep .roles-tabs .mat-mdc-tab-header-pagination { color: #ffffff; }
     @media (max-width: 600px) {
       .usuario-card { flex-direction: column; align-items: stretch; }
       .rol-box { width: 100%; margin-top: 12px; margin-bottom: 0; }
@@ -84,7 +94,7 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
         <mat-card class="buscador-card">
           <mat-form-field appearance="outline">
             <mat-label>Buscar por nombre, correo o rol</mat-label>
-            <input matInput [ngModel]="usuariosService.terminoBusqueda()" (ngModelChange)="usuariosService.terminoBusqueda.set($event)" placeholder="Ej. Juan, dev, admin...">
+            <input matInput [value]="usuariosService.terminoBusqueda()" (input)="actualizarBusqueda($event)" placeholder="Ej. Juan, dev, admin...">
             <mat-icon matPrefix>search</mat-icon>
           </mat-form-field>
         </mat-card>
@@ -94,53 +104,71 @@ import { PerfilInterface } from '../../../interfaces/perfil-interface';
             <mat-spinner diameter="44"></mat-spinner>
             <span>Cargando lista de usuarios...</span>
           </div>
-        } @else if (usuariosService.usuariosFiltrados().length === 0) {
-          <div class="vacio-box">
-            <mat-icon style="font-size: 48px; height: 48px; width: 48px;">group_off</mat-icon>
-            <p>No se encontraron usuarios registrados.</p>
-          </div>
         } @else {
-          <section class="usuarios-lista">
-            @for (usuario of usuariosService.usuariosFiltrados(); track usuario.id) {
-              <article class="usuario-card">
-                <div class="usuario-info">
-                  <div class="avatar-wrapper">
-                    @if (usuario.urlFoto && !avatarErrores()[usuario.id]) {
-                      <img [src]="usuario.urlFoto" [alt]="usuario.nombreMostrado || 'Avatar'" class="avatar-img" referrerpolicy="no-referrer" (error)="registrarErrorAvatar(usuario.id)">
-                    } @else {
-                      <span class="avatar-fallback">{{ obtenerInicial(usuario) }}</span>
-                    }
+          <mat-tab-group class="roles-tabs" animationDuration="200ms">
+            @for (tab of pestanasRoles; track tab.clave) {
+              <mat-tab>
+                <ng-template mat-tab-label>
+                  <div class="tab-label-box">
+                    <mat-icon class="tab-icon">{{ tab.icono }}</mat-icon>
+                    <span class="tab-etiqueta">{{ tab.etiqueta }}</span>
+                    <span class="tab-badge">{{ conteoPorRol(tab.clave) }}</span>
                   </div>
+                </ng-template>
 
-                  <div class="usuario-datos">
-                    <span class="usuario-nombre">{{ usuario.nombreMostrado || usuario.nombreUsuario || 'Sin nombre registrado' }}</span>
-                    <div class="usuario-email-box">
-                      <mat-icon>email</mat-icon>
-                      <span>{{ usuario.email || 'Sin correo asociado' }}</span>
+                <div class="tab-cuerpo">
+                  @if (obtenerUsuariosPorTab(tab.clave).length === 0) {
+                    <div class="vacio-box">
+                      <mat-icon style="font-size: 48px; height: 48px; width: 48px;">group_off</mat-icon>
+                      <p>No se encontraron usuarios en la categoría "{{ tab.etiqueta }}".</p>
                     </div>
-                    <span class="usuario-meta">Rol actual: <strong>{{ usuario.rolUsuario || 'visitante' }}</strong></span>
-                  </div>
-                </div>
-
-                <div class="rol-box">
-                  @if (guardandoId() === usuario.id) {
-                    <mat-spinner diameter="24"></mat-spinner>
                   } @else {
-                    <mat-form-field appearance="outline" style="width: 100%;">
-                      <mat-label>Rol Asignado</mat-label>
-                      <mat-select [value]="usuario.rolUsuario || rolVisitante" (selectionChange)="cambiarRol(usuario.id, $event.value)">
-                        @for (rol of rolesDisponibles; track rol) {
-                          <mat-option [value]="rol">
-                            {{ rol | uppercase }}
-                          </mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
+                    <section class="usuarios-lista">
+                      @for (usuario of obtenerUsuariosPorTab(tab.clave); track usuario.id) {
+                        <article class="usuario-card">
+                          <div class="usuario-info">
+                            <div class="avatar-wrapper">
+                              @if (usuario.urlFoto && !avatarErrores()[usuario.id]) {
+                                <img [src]="usuario.urlFoto" [alt]="usuario.nombreMostrado || 'Avatar'" class="avatar-img" referrerpolicy="no-referrer" (error)="registrarErrorAvatar(usuario.id)">
+                              } @else {
+                                <span class="avatar-fallback">{{ obtenerInicial(usuario) }}</span>
+                              }
+                            </div>
+
+                            <div class="usuario-datos">
+                              <span class="usuario-nombre">{{ usuario.nombreMostrado || usuario.nombreUsuario || 'Sin nombre registrado' }}</span>
+                              <div class="usuario-email-box">
+                                <mat-icon>email</mat-icon>
+                                <span>{{ usuario.email || 'Sin correo asociado' }}</span>
+                              </div>
+                              <span class="usuario-meta">Rol actual: <strong>{{ usuario.rolUsuario || 'visitante' }}</strong></span>
+                            </div>
+                          </div>
+
+                          <div class="rol-box">
+                            @if (guardandoId() === usuario.id) {
+                              <mat-spinner diameter="24"></mat-spinner>
+                            } @else {
+                              <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Rol Asignado</mat-label>
+                                <mat-select [value]="usuario.rolUsuario || rolVisitante" (selectionChange)="cambiarRol(usuario.id, $event.value)">
+                                  @for (rol of rolesDisponibles; track rol) {
+                                    <mat-option [value]="rol">
+                                      {{ rol | uppercase }}
+                                    </mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                            }
+                          </div>
+                        </article>
+                      }
+                    </section>
                   }
                 </div>
-              </article>
+              </mat-tab>
             }
-          </section>
+          </mat-tab-group>
         }
       </div>
     </main>
@@ -160,8 +188,38 @@ export class DevRolesComponent implements OnInit {
     RolUsuario.DEV
   ];
 
+  public readonly pestanasRoles = [
+    { clave: 'todos', etiqueta: 'Todos', icono: 'group' },
+    { clave: RolUsuario.DEV, etiqueta: 'Dev', icono: 'terminal' },
+    { clave: RolUsuario.ADMIN, etiqueta: 'Admin', icono: 'admin_panel_settings' },
+    { clave: RolUsuario.AGENTE, etiqueta: 'Agente', icono: 'support_agent' },
+    { clave: RolUsuario.COMERCIANTE, etiqueta: 'Comerciante', icono: 'storefront' },
+    { clave: RolUsuario.VISITANTE, etiqueta: 'Visitante', icono: 'person' }
+  ];
+
   public guardandoId   = signal<string | null>(null);
   public avatarErrores = signal<Record<string, boolean>>({});
+
+  public usuariosPorRol = computed(() => {
+    const filtrados = this.usuariosService.usuariosFiltrados();
+    const mapa: Record<string, PerfilInterface[]> = {
+      todos: filtrados,
+      [RolUsuario.DEV]: [],
+      [RolUsuario.ADMIN]: [],
+      [RolUsuario.AGENTE]: [],
+      [RolUsuario.COMERCIANTE]: [],
+      [RolUsuario.VISITANTE]: []
+    };
+    for (const usuario of filtrados) {
+      const rol = (usuario.rolUsuario || RolUsuario.VISITANTE) as RolUsuario;
+      if (mapa[rol]) {
+        mapa[rol].push(usuario);
+      } else {
+        mapa[RolUsuario.VISITANTE].push(usuario);
+      }
+    }
+    return mapa;
+  });
 
   ngOnInit() {
     this.usuariosService.cargarUsuarios();
@@ -169,6 +227,19 @@ export class DevRolesComponent implements OnInit {
 
   recargarUsuarios() {
     this.usuariosService.cargarUsuarios();
+  }
+
+  actualizarBusqueda(evento: Event) {
+    const input = evento.target as HTMLInputElement;
+    this.usuariosService.terminoBusqueda.set(input.value);
+  }
+
+  conteoPorRol(clave: string): number {
+    return this.usuariosPorRol()[clave]?.length ?? 0;
+  }
+
+  obtenerUsuariosPorTab(clave: string): PerfilInterface[] {
+    return this.usuariosPorRol()[clave] ?? [];
   }
 
   registrarErrorAvatar(id: string) {
