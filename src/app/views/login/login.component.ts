@@ -66,6 +66,14 @@ export class LoginComponent implements OnInit {
     return 'La guía comercial más completa de tu ciudad.';
   });
 
+  public backgroundImage = computed(() => {
+    const tenant = this.tenantService.currentTenant();
+    if (tenant === 'copaguia') return 'url("assets/backgrounds/copacabana-bg.jpg")';
+    if (tenant === 'niquia') return 'url("assets/backgrounds/niquia-bg.jpg")';
+    if (tenant === 'elhueco') return 'url("assets/backgrounds/centro-medellin-bg.jpg")';
+    return 'url("assets/backgrounds/dp-bg.jpg")';
+  });
+
   public rutaRedireccion = signal<string>('/categorias');
 
   // Estado del widget de contexto

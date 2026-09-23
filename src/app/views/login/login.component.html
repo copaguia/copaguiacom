@@ -1,4 +1,4 @@
-<div class="login-container">
+<div class="login-container" [style.background-image]="backgroundImage()">
   <mat-card class="card mat-elevation-z8">
 
     <!-- Sección del Logo y Mensaje de Bienvenida Dinámico -->
@@ -49,4 +49,14 @@
     </mat-card-content>
 
   </mat-card>
+  
+  <div class="login-footer">
+    <div class="footer-network">
+      <img src="assets/brand/dp-logo.png" alt="DP Logo" class="footer-dp-logo">
+      <span>Red de Directorios DirectorioPaisa.com</span>
+    </div>
+    <div class="footer-creator">
+      <span>Creada por Lidertech.work</span>
+    </div>
+  </div>
 </div>

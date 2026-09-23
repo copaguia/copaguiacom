@@ -1,9 +1,46 @@
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center; /* Centra horizontalmente */
   align-items: center;    /* Centra verticalmente */
-  height: 100vh;          /* Hace que el contenedor ocupe toda la altura de la pantalla */
+  min-height: 100vh;      /* Hace que el contenedor ocupe toda la altura de la pantalla */
   background-color: #031e1d; /* Un fondo suave para que la tarjeta resalte */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.login-footer {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #ffffff;
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+  font-family: 'Inter', sans-serif;
+  gap: 8px;
+}
+
+.footer-network {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.footer-dp-logo {
+  height: 30px;
+  width: auto;
+  border-radius: 4px;
+}
+
+.footer-creator {
+  font-size: 0.8rem;
+  opacity: 0.9;
 }
 
 .card {
