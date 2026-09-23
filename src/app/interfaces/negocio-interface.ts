@@ -6,7 +6,8 @@ export interface NegocioInterface {
     id:             string;
     nit?:           string;
     duenoId:        string;
-    zonaAsignada?:  string; // ID de la zona/directorio (tenant) al que pertenece
+    zonaAsignada?:  string; // Obsoleto
+    zonasAsignadas?: string[]; // IDs de las zonas/directorios a los que pertenece
     nombre:         string;
     slug:           string;
     categoria:      'Alimentos' | 'Comercios' | 'Servicios' | 'Entretenimiento' | 'Salud' | 'Comunidad' | 'Oportunidades' | 'Inmuebles' | 'Educación' | 'Pasatiempos' | 'Noticias';

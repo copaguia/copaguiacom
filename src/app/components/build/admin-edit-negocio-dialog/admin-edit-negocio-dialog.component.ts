@@ -93,8 +93,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
               </mat-form-field>
 
               <mat-form-field appearance="outline">
-                <mat-label>Zona Asignada (Tenant)</mat-label>
-                <input matInput formControlName="zonaAsignada" />
+                <mat-label>Zonas Asignadas (Directorios)</mat-label>
+                <mat-select formControlName="zonasAsignadas" multiple>
+                  <mat-option value="copaguia">Copaguia</mat-option>
+                  <mat-option value="niquia">Niquia</mat-option>
+                  <mat-option value="elhueco">El Hueco Online</mat-option>
+                </mat-select>
               </mat-form-field>
             </div>
           </mat-tab>
@@ -323,7 +327,7 @@ export class AdminEditNegocioDialogComponent {
       seccion: [n.seccion || ''],
       descripcion: [n.descripcion || ''],
       duenoId: [n.duenoId || ''],
-      zonaAsignada: [n.zonaAsignada || ''],
+      zonasAsignadas: [n.zonasAsignadas || (n.zonaAsignada ? [n.zonaAsignada] : [])],
       plan: [n.plan || 'basico'],
       verificado: [Boolean(n.verificado)],
       destacado: [Boolean(n.destacado)],
@@ -388,7 +392,7 @@ export class AdminEditNegocioDialogComponent {
         seccion: v.seccion,
         descripcion: v.descripcion,
         duenoId: v.duenoId,
-        zonaAsignada: v.zonaAsignada,
+        zonasAsignadas: v.zonasAsignadas,
         plan: v.plan,
         verificado: v.verificado,
         destacado: v.destacado,

@@ -17,7 +17,7 @@ export class AdminBorradorService {
     const constraints: QueryConstraint[] = [];
     
     if (perfil?.rolUsuario === RolUsuario.AGENTE && perfil.zonasAsignadas && perfil.zonasAsignadas.length > 0) {
-      constraints.push(where('zonaAsignada', 'in', perfil.zonasAsignadas));
+      constraints.push(where('zonasAsignadas', 'array-contains-any', perfil.zonasAsignadas));
     }
     
     return constraints;

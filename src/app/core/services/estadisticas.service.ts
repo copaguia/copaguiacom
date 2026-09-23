@@ -33,7 +33,7 @@ export class EstadisticasService {
       const tenant = this.tenantService.currentTenant();
       const constraints = [];
       if (tenant && tenant !== 'default') {
-        constraints.push(where('zonaAsignada', '==', tenant));
+        constraints.push(where('zonasAsignadas', 'array-contains', tenant));
       }
       const negociosColl = query(collection(this.firestore, 'negocios'), ...constraints);
       const negociosSnapshot = await getDocs(negociosColl);

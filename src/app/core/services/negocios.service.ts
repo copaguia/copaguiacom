@@ -24,7 +24,7 @@ export class NegociosService {
     
     // Filtro crucial: Solo traer negocios que pertenecen al directorio actual
     if (tenant && tenant !== 'default') {
-      constraints.push(where('zonaAsignada', '==', tenant));
+      constraints.push(where('zonasAsignadas', 'array-contains', tenant));
     }
 
     const filtros = query(collection(this.firestore, 'negocios'), ...constraints);
@@ -46,7 +46,7 @@ export class NegociosService {
     const tenant = this.tenantService.currentTenant();
     const constraints: QueryConstraint[] = [];
     if (tenant && tenant !== 'default') {
-      constraints.push(where('zonaAsignada', '==', tenant));
+      constraints.push(where('zonasAsignadas', 'array-contains', tenant));
     }
     
     const snapshot = await getDocs(query(collection(this.firestore, 'negocios'), ...constraints));
