@@ -13,9 +13,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AdminBorradorService } from '../../../core/services/admin-borrador.service';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
+import { UsuariosService } from '../../../core/firebase/firestore/usuarios.service';
 import { NegocioInterface } from '../../../interfaces/negocio-interface';
+import { PerfilInterface } from '../../../interfaces/perfil-interface';
+import { RankingValidadorInterface, RankingRolInterface } from '../../../interfaces/ranking-validador-interface';
 
 @Component({
   selector: 'app-data-borrador',
@@ -32,7 +36,8 @@ import { NegocioInterface } from '../../../interfaces/negocio-interface';
     MatListModule,
     MatTooltipModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatProgressBarModule
   ],
   templateUrl: './data-borrador.component.html',
   styleUrls: ['./data-borrador.component.css'],
@@ -40,6 +45,7 @@ import { NegocioInterface } from '../../../interfaces/negocio-interface';
 })
 export class DataBorradorComponent implements OnInit {
   private adminBorradorService = inject(AdminBorradorService);
+  public usuariosService       = inject(UsuariosService);
   private router               = inject(Router);
   private location             = inject(Location);
   public authorization         = inject(AuthorizationService);
@@ -50,11 +56,13 @@ export class DataBorradorComponent implements OnInit {
   public estaCargando          = signal<boolean>(true);
   public pendientes            = signal<number>(0);
   public aprobados             = signal<number>(0);
-  public rankingValidadores    = signal<Array<{ email: string; total: number; ultimaFecha: string }>>([]);
   public terminoBusqueda       = signal<string>('');
-  public columnasPendientes: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
-  public columnasVerificados: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'validador', 'acciones'];
-  public displayedColumns: string[] = this.columnasPendientes;
+  public vistaRanking          = signal<'usuario' | 'rol'>('usuario');
+
+  public columnasPendientes: string[]     = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
+  public columnasVerificados: string[]    = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'validador', 'acciones'];
+  public columnasRankingUsuario: string[] = ['posicion', 'validador', 'rol', 'total', 'porcentaje', 'ultimaFecha'];
+  public columnasRankingRol: string[]     = ['posicion', 'rol', 'validadores', 'total', 'porcentaje', 'ultimaFecha'];
 
   public borradoresFiltrados = computed(() => {
     const termino = this.normalizarTexto(this.terminoBusqueda());
@@ -70,6 +78,158 @@ export class DataBorradorComponent implements OnInit {
     return lista.filter(item => this.coincideCriterioBusqueda(item, termino));
   });
 
+  public rankingUsuarios = computed<RankingValidadorInterface[]>(() => {
+    const listaNegocios = this.verificados();
+    const listaUsuarios = this.usuariosService.usuarios();
+    if (!listaNegocios || listaNegocios.length === 0) return [];
+
+    const mapaPorUid   = new Map<string, PerfilInterface>();
+    const mapaPorEmail = new Map<string, PerfilInterface>();
+
+    for (const u of listaUsuarios) {
+      if (u.id) mapaPorUid.set(u.id, u);
+      if (u.email) mapaPorEmail.set(u.email.toLowerCase().trim(), u);
+    }
+
+    const validadorMap = new Map<string, {
+      uid: string;
+      nombre: string;
+      email: string;
+      rol: string;
+      total: number;
+      ultimaFecha: string;
+      urlFoto?: string;
+    }>();
+
+    for (const negocio of listaNegocios) {
+      const email = (negocio.verificadoPorEmail || '').trim();
+      const uid   = (negocio.verificadoPorUid || '').trim();
+      const fecha = (negocio.fechaVerificacion || '') as string;
+      
+      const emailKey = email.toLowerCase();
+      const clave    = uid || emailKey || 'sistema';
+
+      const usuario       = uid ? mapaPorUid.get(uid) : (emailKey ? mapaPorEmail.get(emailKey) : undefined);
+      const nombreUsuario = usuario?.nombreMostrado || usuario?.nombreUsuario || (email ? email.split('@')[0] : 'Sistema');
+      const emailUsuario  = usuario?.email || email || 'sistema@directoriopaisa.com';
+      const rolUsuario    = (usuario?.rolUsuario || (clave === 'sistema' ? 'sistema' : 'sin rol')).toLowerCase();
+      const foto          = usuario?.urlFoto || undefined;
+
+      const existente = validadorMap.get(clave);
+      if (existente) {
+        existente.total += 1;
+        if (!existente.uid && uid) existente.uid = uid;
+        if (!existente.urlFoto && foto) existente.urlFoto = foto;
+        if (fecha && (!existente.ultimaFecha || new Date(fecha) > new Date(existente.ultimaFecha))) {
+          existente.ultimaFecha = fecha;
+        }
+      } else {
+        validadorMap.set(clave, {
+          uid,
+          nombre: nombreUsuario,
+          email: emailUsuario,
+          rol: rolUsuario,
+          total: 1,
+          ultimaFecha: fecha,
+          urlFoto: foto
+        });
+      }
+    }
+
+    const items            = Array.from(validadorMap.values());
+    const totalVerificados = items.reduce((sum, item) => sum + item.total, 0) || 1;
+
+    items.sort((a, b) => b.total - a.total);
+
+    return items.map((item, index) => ({
+      posicion:    index + 1,
+      uid:         item.uid,
+      nombre:      item.nombre,
+      email:       item.email,
+      rol:         item.rol,
+      total:       item.total,
+      porcentaje:  Math.round((item.total / totalVerificados) * 1000) / 10,
+      ultimaFecha: item.ultimaFecha,
+      urlFoto:     item.urlFoto
+    }));
+  });
+
+  public rankingUsuariosFiltrados = computed<RankingValidadorInterface[]>(() => {
+    const termino = this.normalizarTexto(this.terminoBusqueda());
+    const ranking = this.rankingUsuarios();
+    if (!termino) return ranking;
+    return ranking.filter(v => 
+      this.normalizarTexto(v.nombre).includes(termino) ||
+      this.normalizarTexto(v.email).includes(termino) ||
+      this.normalizarTexto(v.rol).includes(termino)
+    );
+  });
+
+  public rankingRoles = computed<RankingRolInterface[]>(() => {
+    const validadores = this.rankingUsuarios();
+    if (!validadores || validadores.length === 0) return [];
+
+    const totalGeneral = validadores.reduce((sum, v) => sum + v.total, 0) || 1;
+    const mapaRoles    = new Map<string, {
+      rol: string;
+      total: number;
+      validadoresSet: Set<string>;
+      ultimaFecha: string;
+    }>();
+
+    for (const v of validadores) {
+      const rolKey    = v.rol.toLowerCase().trim();
+      const existente = mapaRoles.get(rolKey);
+      if (existente) {
+        existente.total += v.total;
+        existente.validadoresSet.add(v.email || v.uid || v.nombre);
+        if (v.ultimaFecha && (!existente.ultimaFecha || new Date(v.ultimaFecha) > new Date(existente.ultimaFecha))) {
+          existente.ultimaFecha = v.ultimaFecha;
+        }
+      } else {
+        mapaRoles.set(rolKey, {
+          rol: v.rol,
+          total: v.total,
+          validadoresSet: new Set([v.email || v.uid || v.nombre]),
+          ultimaFecha: v.ultimaFecha
+        });
+      }
+    }
+
+    const items = Array.from(mapaRoles.values()).map(r => ({
+      rol:              r.rol,
+      total:            r.total,
+      porcentaje:       Math.round((r.total / totalGeneral) * 1000) / 10,
+      totalValidadores: r.validadoresSet.size,
+      ultimaFecha:      r.ultimaFecha
+    }));
+
+    items.sort((a, b) => b.total - a.total);
+
+    return items.map((item, index) => ({
+      posicion: index + 1,
+      ...item
+    }));
+  });
+
+  public totalVerificacionesRanking = computed(() => {
+    return this.rankingUsuarios().reduce((sum, item) => sum + item.total, 0);
+  });
+
+  public totalValidadoresActivos = computed(() => {
+    return this.rankingUsuarios().length;
+  });
+
+  public topValidador = computed<RankingValidadorInterface | null>(() => {
+    const lista = this.rankingUsuarios();
+    return lista.length > 0 ? lista[0] : null;
+  });
+
+  public topRol = computed<RankingRolInterface | null>(() => {
+    const lista = this.rankingRoles();
+    return lista.length > 0 ? lista[0] : null;
+  });
+
   async ngOnInit(): Promise<void> {
     if (!this.authorization.esAdmin() && !this.authorization.esAgente() && !this.authorization.esDev()) {
       this.router.navigate(['/']);
@@ -81,17 +241,16 @@ export class DataBorradorComponent implements OnInit {
   async cargarBorradores(): Promise<void> {
     this.estaCargando.set(true);
     try {
-      const [dataPendientes, dataVerificados, countAprobados, ranking] = await Promise.all([
+      const [dataPendientes, dataVerificados, countAprobados] = await Promise.all([
         this.adminBorradorService.obtenerBorradoresPendientes(),
         this.adminBorradorService.obtenerNegociosVerificados(),
         this.adminBorradorService.obtenerConteo('Aprobado'),
-        this.adminBorradorService.obtenerRankingValidadores()
+        this.usuariosService.cargarUsuarios()
       ]);
       this.borradores.set(dataPendientes);
       this.verificados.set(dataVerificados);
       this.pendientes.set(dataPendientes.length);
       this.aprobados.set(countAprobados);
-      this.rankingValidadores.set(ranking);
     } catch (error) {
       console.error('Error cargando borradores', error);
       this.snackBar.open('Error al cargar la información', 'OK', { duration: 3000 });
@@ -137,6 +296,34 @@ export class DataBorradorComponent implements OnInit {
 
   limpiarBusqueda(): void {
     this.terminoBusqueda.set('');
+  }
+
+  cambiarVistaRanking(vista: 'usuario' | 'rol'): void {
+    this.vistaRanking.set(vista);
+  }
+
+  obtenerInicial(nombre: string): string {
+    return (nombre || 'U').trim().charAt(0).toUpperCase();
+  }
+
+  obtenerIconoRol(rol: string): string {
+    switch (rol.toLowerCase()) {
+      case 'admin': return 'admin_panel_settings';
+      case 'dev': return 'terminal';
+      case 'agente': return 'support_agent';
+      case 'comerciante': return 'storefront';
+      case 'visitante': return 'person';
+      default: return 'verified_user';
+    }
+  }
+
+  obtenerClaseRol(rol: string): string {
+    const r = rol.toLowerCase().trim();
+    if (r.includes('admin')) return 'rol-chip-admin';
+    if (r.includes('dev')) return 'rol-chip-dev';
+    if (r.includes('agente')) return 'rol-chip-agente';
+    if (r.includes('comerciante')) return 'rol-chip-comerciante';
+    return 'rol-chip-otro';
   }
 
   private normalizarTexto(texto: string): string {

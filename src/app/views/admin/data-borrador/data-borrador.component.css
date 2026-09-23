@@ -86,3 +86,342 @@ table {
 .id-badge { font-size: 11px; font-family: monospace; background-color: rgba(255, 255, 255, 0.08); color: #90caf9; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(144, 202, 249, 0.3); cursor: help; }
 .nit-badge { font-size: 11px; font-family: monospace; background-color: rgba(255, 255, 255, 0.08); color: #a5d6a7; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(165, 214, 167, 0.3); }
 
+/* --- Ranking Métricas Grid --- */
+.ranking-metricas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metrica-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.metrica-item:hover {
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.metrica-destacada {
+  border-color: rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.04);
+}
+
+.metrica-icono {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.metrica-icono mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.icon-verificados { background: rgba(76, 175, 80, 0.15); color: #81c784; }
+.icon-validadores { background: rgba(33, 150, 243, 0.15); color: #64b5f6; }
+.icon-oro { background: rgba(255, 215, 0, 0.18); color: #ffd54f; }
+.icon-rol { background: rgba(171, 71, 188, 0.18); color: #ba68c8; }
+
+.metrica-datos {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.metrica-valor {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
+}
+
+.metrica-valor.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.metrica-valor.uppercase {
+  text-transform: uppercase;
+}
+
+.metrica-etiqueta {
+  font-size: 0.75rem;
+  color: #90a4ae;
+  margin-top: 2px;
+}
+
+/* --- Ranking Controles --- */
+.ranking-controles {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+}
+
+.segmento-botones {
+  display: inline-flex;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.btn-segmento {
+  font-size: 0.82rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-segmento mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+/* --- Tabla Compacta de Ranking --- */
+.tabla-compacta .mat-mdc-cell,
+.tabla-compacta .mat-mdc-header-cell {
+  padding: 10px 14px;
+}
+
+.th-posicion, .td-posicion {
+  width: 44px;
+  text-align: center;
+}
+
+.badge-posicion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-weight: 700;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: #b0bec5;
+}
+
+.badge-posicion.pos-1 {
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+}
+
+.badge-posicion.pos-2 {
+  background: rgba(192, 192, 192, 0.2);
+  color: #e0e0e0;
+  border: 1px solid rgba(192, 192, 192, 0.4);
+}
+
+.badge-posicion.pos-3 {
+  background: rgba(205, 127, 50, 0.2);
+  color: #ffab91;
+  border: 1px solid rgba(205, 127, 50, 0.4);
+}
+
+/* --- Validador Celda --- */
+.validador-celda {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-mini {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #263238;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.avatar-mini-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-mini-fallback {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #81d4fa;
+}
+
+.validador-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.validador-nombre {
+  font-weight: 600;
+  font-size: 0.88rem;
+  color: #ffffff;
+}
+
+.validador-correo {
+  font-size: 0.76rem;
+  color: #90caf9;
+}
+
+/* --- Chips de Rol --- */
+.chip-rol {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.icono-rol-chip {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+.rol-chip-admin {
+  background: rgba(171, 71, 188, 0.18);
+  color: #ce93d8;
+  border: 1px solid rgba(171, 71, 188, 0.35);
+}
+
+.rol-chip-dev {
+  background: rgba(102, 187, 106, 0.18);
+  color: #a5d6a7;
+  border: 1px solid rgba(102, 187, 106, 0.35);
+}
+
+.rol-chip-agente {
+  background: rgba(41, 182, 246, 0.18);
+  color: #81d4fa;
+  border: 1px solid rgba(41, 182, 246, 0.35);
+}
+
+.rol-chip-comerciante {
+  background: rgba(255, 167, 38, 0.18);
+  color: #ffcc80;
+  border: 1px solid rgba(255, 167, 38, 0.35);
+}
+
+.rol-chip-otro {
+  background: rgba(255, 255, 255, 0.08);
+  color: #b0bec5;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* --- Conteo y Números --- */
+.th-numero, .td-numero {
+  text-align: center;
+  width: 120px;
+}
+
+.total-badge {
+  display: inline-block;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.agentes-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #81d4fa;
+  background: rgba(129, 212, 250, 0.12);
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.icono-agente {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+}
+
+/* --- Porcentaje Visual --- */
+.th-porcentaje, .td-porcentaje {
+  min-width: 140px;
+}
+
+.porcentaje-caja {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.barra-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+  min-width: 60px;
+}
+
+.barra-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b4d8 0%, #48cae4 100%);
+  border-radius: 4px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.porcentaje-etiqueta {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 42px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Fecha Celda --- */
+.fecha-celda {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  color: #b0bec5;
+}
+
+.icono-reloj {
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+  color: #78909c;
+}
+
+
