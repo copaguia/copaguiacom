@@ -4,6 +4,7 @@ export interface NegocioInterface {
   seccion:      string;
   imagen:       string;
     id:             string;
+    nit?:           string;
     duenoId:        string;
     zonaAsignada?:  string; // ID de la zona/directorio (tenant) al que pertenece
     nombre:         string;

@@ -77,5 +77,12 @@ table {
 .icono-contacto { font-size: 16px; width: 16px; height: 16px; vertical-align: middle; }
 .sin-dato { color: #888; }
 .info-validador { display: block; font-weight: 500; }
-.fecha-validador { color: #888; display: block; font-size: 11px; }
 .sin-ranking { margin-top: 15px; color: #888; }
+.buscador-barra { margin: 16px 0 8px 0; width: 100%; }
+.buscador-campo { width: 100%; }
+.nombre-box { display: flex; flex-direction: column; gap: 4px; padding: 4px 0; }
+.nombre-texto { font-weight: 500; }
+.chips-identificadores { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.id-badge { font-size: 11px; font-family: monospace; background-color: rgba(255, 255, 255, 0.08); color: #90caf9; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(144, 202, 249, 0.3); cursor: help; }
+.nit-badge { font-size: 11px; font-family: monospace; background-color: rgba(255, 255, 255, 0.08); color: #a5d6a7; padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(165, 214, 167, 0.3); }
+

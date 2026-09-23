@@ -27,22 +27,49 @@
       <p>Cargando negocios...</p>
     </div>
   } @else {
+    <div class="buscador-barra">
+      <mat-form-field appearance="outline" class="buscador-campo">
+        <mat-label>Buscar por ID (últimos 6 caracteres), NIT o teléfono</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [value]="terminoBusqueda()" (input)="actualizarBusqueda($event)" placeholder="Ej. a1b2c3, 900123456, 3001234567">
+        @if (terminoBusqueda()) {
+          <button mat-icon-button matSuffix (click)="limpiarBusqueda()" aria-label="Limpiar búsqueda">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </div>
+
     <mat-tab-group animationDuration="0ms">
-      <mat-tab [label]="'Agregados (' + pendientes() + ')'">
+      <mat-tab [label]="'Agregados (' + borradoresFiltrados().length + ')'">
         <div class="tab-content-padded">
-          @if (borradores().length === 0) {
+          @if (borradoresFiltrados().length === 0) {
             <mat-card class="empty-state">
               <mat-card-content>
-                No hay negocios pendientes de verificación.
+                @if (terminoBusqueda()) {
+                  No se encontraron negocios pendientes que coincidan con "{{ terminoBusqueda() }}".
+                } @else {
+                  No hay negocios pendientes de verificación.
+                }
               </mat-card-content>
             </mat-card>
           } @else {
             <div class="table-container">
-              <table mat-table [dataSource]="borradores()" class="mat-elevation-z8">
+              <table mat-table [dataSource]="borradoresFiltrados()" class="mat-elevation-z8">
                 
                 <ng-container matColumnDef="nombre">
                   <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="nombre-box">
+                      <span class="nombre-texto">{{element.nombre}}</span>
+                      <div class="chips-identificadores">
+                        <span class="id-badge" [matTooltip]="element.id">ID: ...{{element.id.slice(-6)}}</span>
+                        @if (element.nit || element.metadatos?.['nit']) {
+                          <span class="nit-badge">NIT: {{ element.nit || element.metadatos?.['nit'] }}</span>
+                        }
+                      </div>
+                    </div>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="categoria">
@@ -101,21 +128,35 @@
         </div>
       </mat-tab>
 
-      <mat-tab [label]="'Verificados (' + aprobados() + ')'">
+      <mat-tab [label]="'Verificados (' + verificadosFiltrados().length + ')'">
         <div class="tab-content-padded">
-          @if (verificados().length === 0) {
+          @if (verificadosFiltrados().length === 0) {
             <mat-card class="empty-state">
               <mat-card-content>
-                No hay negocios verificados registrados.
+                @if (terminoBusqueda()) {
+                  No se encontraron negocios verificados que coincidan con "{{ terminoBusqueda() }}".
+                } @else {
+                  No hay negocios verificados registrados.
+                }
               </mat-card-content>
             </mat-card>
           } @else {
             <div class="table-container">
-              <table mat-table [dataSource]="verificados()" class="mat-elevation-z8">
+              <table mat-table [dataSource]="verificadosFiltrados()" class="mat-elevation-z8">
                 
                 <ng-container matColumnDef="nombre">
                   <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="nombre-box">
+                      <span class="nombre-texto">{{element.nombre}}</span>
+                      <div class="chips-identificadores">
+                        <span class="id-badge" [matTooltip]="element.id">ID: ...{{element.id.slice(-6)}}</span>
+                        @if (element.nit || element.metadatos?.['nit']) {
+                          <span class="nit-badge">NIT: {{ element.nit || element.metadatos?.['nit'] }}</span>
+                        }
+                      </div>
+                    </div>
+                  </td>
                 </ng-container>
 
                 <ng-container matColumnDef="categoria">
