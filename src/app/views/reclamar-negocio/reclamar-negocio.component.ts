@@ -10,7 +10,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AdminBorradorService } from '../../core/services/admin-borrador.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { environment } from '../../../environments/environment';
-import { Firestore, collection, addDoc, serverTimestamp } from '@angular/fire/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { InstanciaFirebase } from '../../core/firebase/instancias.service';
 
 declare var WidgetCheckout: any;
 
@@ -45,7 +46,7 @@ export class ReclamarNegocioComponent implements OnInit {
   private router = inject(Router);
   private borradorService = inject(AdminBorradorService);
   public authService = inject(AuthService);
-  private firestore = inject(Firestore);
+  private firebase = inject(InstanciaFirebase);
 
   public negocio = signal<any | null>(null);
   public estaCargando = signal<boolean>(true);
@@ -135,7 +136,7 @@ export class ReclamarNegocioComponent implements OnInit {
         
         // 1. Guardar Firma Digital de Aceptación Legal
         try {
-          const auditoriaRef = collection(this.firestore, 'AuditoriaLegal');
+          const auditoriaRef = collection(this.firebase.firestore, 'AuditoriaLegal');
           await addDoc(auditoriaRef, {
             negocioId: negocioActual.id,
             negocioNombre: negocioActual.nombre,

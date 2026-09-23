@@ -5,6 +5,8 @@ export interface MunicipioAntioquia {
   dominioPropuesto: string;
   descripcion: string;
   estado: "PENDIENTE" | "PROVISIONANDO" | "ACTIVO";
+  mapaActivo?: boolean;
+  limitePoligonal?: any;
 }
 
 export const MUNICIPIOS_ANTIOQUIA: MunicipioAntioquia[] = [

@@ -76,3 +76,32 @@ mat-card-actions {
   padding: 48px;
   color: var(--mat-sys-on-surface-variant);
 }
+
+/* MAP CLASSES */
+.map-section {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.map-container {
+  width: 100%;
+  height: 300px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+.map-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.geo-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: #4caf50;
+}
+.geo-status.warn {
+  color: #ff9800;
+}

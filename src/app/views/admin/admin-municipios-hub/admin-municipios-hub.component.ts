@@ -12,6 +12,10 @@ import { MUNICIPIOS_ANTIOQUIA, MunicipioAntioquia } from '../../../data/municipi
 import { httpsCallable } from 'firebase/functions';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { GoogleMapsLoaderService } from '../../../core/services/google-maps-loader.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-admin-municipios-hub',
@@ -26,7 +30,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatIconModule,
     MatChipsModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   templateUrl: './admin-municipios-hub.component.html',
   styleUrl: './admin-municipios-hub.component.css'
@@ -34,6 +39,12 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 export class AdminMunicipiosHubComponent {
   private firebase = inject(InstanciaFirebase);
   private snackBar = inject(MatSnackBar);
+  private mapsLoader = inject(GoogleMapsLoaderService);
+
+  // Guardar instancias de mapas y drawing managers por municipio id
+  private mapas: { [key: string]: any } = {};
+  private drawingManagers: { [key: string]: any } = {};
+  private currentPolygons: { [key: string]: any } = {};
 
   public subregionSeleccionada = signal<string>('Todas');
   public busquedaTexto = signal<string>('');
@@ -99,8 +110,8 @@ export class AdminMunicipiosHubComponent {
       const res = await provisionar({
         nombreDirectorio: municipio.nombre,
         dominioObjetivo: municipio.dominioPropuesto,
-        limitePoligonal: {}, // Aquí deberías pasar el GeoJSON si lo tienes
-        modoConexion: 'NUEVO'
+        limitePoligonal: municipio.limitePoligonal || {},
+        modoConexion: 'SUBDOMINIO'
       }) as any;
 
       if (res.data.success) {
@@ -112,5 +123,115 @@ export class AdminMunicipiosHubComponent {
       this.snackBar.open(`Error de aprovisionamiento: ${error.message}`, 'Cerrar', { duration: 5000 });
       municipio.estado = 'PENDIENTE';
     }
+  }
+
+  // Lógica del Mapa Interactivo
+  public async abrirMapa(municipio: any) {
+    try {
+      this.snackBar.open('Cargando Google Maps...', '', { duration: 1500 });
+      await this.mapsLoader.load();
+      municipio.mapaActivo = true;
+
+      // Esperar un tick de Angular para que el div se renderice
+      setTimeout(() => {
+        this.initMap(municipio);
+      }, 100);
+    } catch (error) {
+      console.error('Error cargando Maps', error);
+      this.snackBar.open('Error al cargar el mapa. Verifica tu API Key.', 'OK', { duration: 4000 });
+    }
+  }
+
+  private initMap(municipio: any) {
+    const mapElement = document.getElementById('map-' + municipio.id);
+    if (!mapElement) return;
+
+    // Medellín por defecto, o podríamos usar las coords del municipio si las tuviéramos
+    const center = { lat: 6.2442, lng: -75.5812 }; 
+    
+    const map = new google.maps.Map(mapElement, {
+      center: center,
+      zoom: 12,
+      mapTypeId: 'roadmap',
+      streetViewControl: false,
+      mapTypeControl: false
+    });
+    this.mapas[municipio.id] = map;
+
+    const drawingManager = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ['polygon']
+      },
+      polygonOptions: {
+        fillColor: '#3f51b5',
+        fillOpacity: 0.3,
+        strokeWeight: 2,
+        clickable: false,
+        editable: true,
+        zIndex: 1
+      }
+    });
+
+    drawingManager.setMap(map);
+    this.drawingManagers[municipio.id] = drawingManager;
+
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', (event: any) => {
+      if (event.type === 'polygon') {
+        const polygon = event.overlay;
+        this.currentPolygons[municipio.id] = polygon;
+        
+        // Bloquear para no dibujar más de uno
+        drawingManager.setDrawingMode(null);
+        drawingManager.setOptions({ drawingControl: false });
+
+        this.generarGeoJson(municipio, polygon);
+
+        // Escuchar si lo editan para regenerar el GeoJSON
+        polygon.getPath().addListener('set_at', () => this.generarGeoJson(municipio, polygon));
+        polygon.getPath().addListener('insert_at', () => this.generarGeoJson(municipio, polygon));
+      }
+    });
+  }
+
+  private generarGeoJson(municipio: any, polygon: any) {
+    const path = polygon.getPath();
+    const coordinates: number[][] = [];
+    
+    for (let i = 0; i < path.getLength(); i++) {
+      const xy = path.getAt(i);
+      coordinates.push([xy.lng(), xy.lat()]); // GeoJSON es [Longitud, Latitud]
+    }
+    
+    // Cerrar el polígono repitiendo el primer punto al final
+    if (coordinates.length > 0) {
+      coordinates.push([...coordinates[0]]);
+    }
+
+    municipio.limitePoligonal = {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [coordinates]
+      }
+    };
+  }
+
+  public limpiarPoligono(municipio: any) {
+    const polygon = this.currentPolygons[municipio.id];
+    if (polygon) {
+      polygon.setMap(null);
+      delete this.currentPolygons[municipio.id];
+    }
+    
+    const drawingManager = this.drawingManagers[municipio.id];
+    if (drawingManager) {
+      drawingManager.setOptions({ drawingControl: true });
+      drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
+    }
+
+    municipio.limitePoligonal = {};
   }
 }

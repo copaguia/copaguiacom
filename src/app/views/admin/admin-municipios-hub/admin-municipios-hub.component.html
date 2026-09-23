@@ -35,10 +35,31 @@
         <mat-card-content>
           <p class="description-text">{{ municipio.descripcion }}</p>
           
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Dominio a Provisionar</mat-label>
-            <input matInput [(ngModel)]="municipio.dominioPropuesto">
-          </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dominio a Provisionar</mat-label>
+              <input matInput [(ngModel)]="municipio.dominioPropuesto">
+            </mat-form-field>
+  
+            <!-- MAPA PARA DIBUJAR EL POLÍGONO -->
+            <div class="map-section">
+              <button mat-stroked-button color="primary" (click)="abrirMapa(municipio)" *ngIf="!municipio.mapaActivo && municipio.estado !== 'ACTIVO'">
+                <mat-icon>map</mat-icon> Dibujar Zona de Extracción
+              </button>
+              
+              <div [id]="'map-' + municipio.id" class="map-container" [style.display]="municipio.mapaActivo ? 'block' : 'none'"></div>
+              
+              <div class="map-actions" *ngIf="municipio.mapaActivo">
+                <span class="geo-status" *ngIf="municipio.limitePoligonal && municipio.limitePoligonal.type">
+                  <mat-icon color="primary">check_circle</mat-icon> Polígono capturado
+                </span>
+                <span class="geo-status warn" *ngIf="!municipio.limitePoligonal || !municipio.limitePoligonal.type">
+                  Dibuja un polígono para limitar la extracción
+                </span>
+                <button mat-icon-button color="warn" (click)="limpiarPoligono(municipio)" matTooltip="Borrar dibujo">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
 
           <div class="status-chip-container">
             <mat-chip-set>
