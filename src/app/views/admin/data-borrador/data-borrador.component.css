@@ -72,3 +72,10 @@ table {
   margin: 0 auto;
 }
 .header-titles { display: flex; align-items: center; gap: 10px; }
+.acciones-celda { display: flex; gap: 8px; align-items: center; }
+.enlace-telefono { color: #4fc3f7; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; }
+.icono-contacto { font-size: 16px; width: 16px; height: 16px; vertical-align: middle; }
+.sin-dato { color: #888; }
+.info-validador { display: block; font-weight: 500; }
+.fecha-validador { color: #888; display: block; font-size: 11px; }
+.sin-ranking { margin-top: 15px; color: #888; }

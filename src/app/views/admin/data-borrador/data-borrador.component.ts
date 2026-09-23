@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AdminBorradorService } from '../../../core/services/admin-borrador.service';
 import { AuthorizationService } from '../../../core/auth/authorization.service';
+import { NegocioInterface } from '../../../interfaces/negocio-interface';
 
 @Component({
   selector: 'app-data-borrador',
@@ -40,14 +41,17 @@ export class DataBorradorComponent implements OnInit {
   public authorization = inject(AuthorizationService);
   private snackBar = inject(MatSnackBar);
 
-  public borradores = signal<any[]>([]);
+  public borradores = signal<NegocioInterface[]>([]);
+  public verificados = signal<NegocioInterface[]>([]);
   public estaCargando = signal<boolean>(true);
   public pendientes = signal<number>(0);
   public aprobados = signal<number>(0);
   public rankingValidadores = signal<Array<{ email: string; total: number; ultimaFecha: string }>>([]);
-  public displayedColumns: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
+  public columnasPendientes: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'acciones'];
+  public columnasVerificados: string[] = ['nombre', 'categoria', 'seccion', 'direccion', 'telefono', 'validador', 'acciones'];
+  public displayedColumns: string[] = this.columnasPendientes;
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     if (!this.authorization.esAdmin() && !this.authorization.esAgente() && !this.authorization.esDev()) {
       this.router.navigate(['/']);
       return;
@@ -55,27 +59,29 @@ export class DataBorradorComponent implements OnInit {
     await this.cargarBorradores();
   }
 
-  async cargarBorradores() {
+  async cargarBorradores(): Promise<void> {
     this.estaCargando.set(true);
     try {
-      const data = await this.adminBorradorService.obtenerBorradoresPendientes();
-      this.borradores.set(data);
-      this.pendientes.set(data.length);
-      
-      const countAprobados = await this.adminBorradorService.obtenerConteo('Aprobado');
+      const [dataPendientes, dataVerificados, countAprobados, ranking] = await Promise.all([
+        this.adminBorradorService.obtenerBorradoresPendientes(),
+        this.adminBorradorService.obtenerNegociosVerificados(),
+        this.adminBorradorService.obtenerConteo('Aprobado'),
+        this.adminBorradorService.obtenerRankingValidadores()
+      ]);
+      this.borradores.set(dataPendientes);
+      this.verificados.set(dataVerificados);
+      this.pendientes.set(dataPendientes.length);
       this.aprobados.set(countAprobados);
-
-      const ranking = await this.adminBorradorService.obtenerRankingValidadores();
       this.rankingValidadores.set(ranking);
     } catch (error) {
       console.error('Error cargando borradores', error);
+      this.snackBar.open('Error al cargar la información', 'OK', { duration: 3000 });
     } finally {
       this.estaCargando.set(false);
     }
   }
 
-  // Método para copiar el link mágico de Wompi al portapapeles
-  async copiarLinkMagico(id: string) {
+  async copiarLinkMagico(id: string): Promise<void> {
     const link = `${window.location.origin}/reclamar/${id}`;
     try {
       await navigator.clipboard.writeText(link);
@@ -86,11 +92,26 @@ export class DataBorradorComponent implements OnInit {
     }
   }
 
-  revisarBorrador(id: string) {
+  async quitarVerificacion(id: string): Promise<void> {
+    if (!this.authorization.esAdmin() && !this.authorization.esDev()) {
+      this.snackBar.open('No tienes permisos para quitar la verificación', 'OK', { duration: 3000 });
+      return;
+    }
+    try {
+      await this.adminBorradorService.desverificarNegocio(id);
+      this.snackBar.open('Verificación removida exitosamente', 'OK', { duration: 3000 });
+      await this.cargarBorradores();
+    } catch (error) {
+      console.error('Error al quitar verificación', error);
+      this.snackBar.open('Error al remover la verificación', 'OK', { duration: 3000 });
+    }
+  }
+
+  revisarBorrador(id: string): void {
     this.router.navigate(['/admin/data-borrador/editar', id]);
   }
 
-  goBack() {
+  goBack(): void {
     this.location.back();
   }
 }

@@ -14,12 +14,12 @@
         </mat-chip>
         <mat-chip class="chip-pendientes">
           <mat-icon matChipAvatar>pending_actions</mat-icon>
-          <strong>{{ pendientes() }}</strong> No Verificados
+          <strong>{{ pendientes() }}</strong> Agregados
         </mat-chip>
       </mat-chip-set>
     </div>
   </div>
-  <p>Lista de negocios del directorio público que requieren ser validados presencial o telefónicamente.</p>
+  <p>Gestión y validación de negocios agregados y verificados del directorio comercial.</p>
 
   @if (estaCargando()) {
     <div class="loading-container">
@@ -28,13 +28,12 @@
     </div>
   } @else {
     <mat-tab-group animationDuration="0ms">
-      <!-- Pestaña de Pendientes -->
-      <mat-tab label="Pendientes de Verificación">
+      <mat-tab [label]="'Agregados (' + pendientes() + ')'">
         <div class="tab-content-padded">
           @if (borradores().length === 0) {
             <mat-card class="empty-state">
               <mat-card-content>
-                ¡Excelente! Todos los negocios en tu zona están verificados.
+                No hay negocios pendientes de verificación.
               </mat-card-content>
             </mat-card>
           } @else {
@@ -66,12 +65,12 @@
                   <td mat-cell *matCellDef="let element"> 
                     @if (element.contacto?.telefono || element.contacto?.whatsapp) {
                       <a [href]="'tel:' + (element.contacto?.telefono || element.contacto?.whatsapp)" 
-                         style="color: #4fc3f7; text-decoration: none;">
-                        <mat-icon style="font-size: 16px; width: 16px; height: 16px; vertical-align: middle;">call</mat-icon>
+                         class="enlace-telefono">
+                        <mat-icon class="icono-contacto">call</mat-icon>
                         {{element.contacto?.telefono || element.contacto?.whatsapp}}
                       </a>
                     } @else {
-                      <span style="color: #888;">N/A</span>
+                      <span class="sin-dato">N/A</span>
                     }
                   </td>
                 </ng-container>
@@ -79,7 +78,7 @@
                 <ng-container matColumnDef="acciones">
                   <th mat-header-cell *matHeaderCellDef> Acciones </th>
                   <td mat-cell *matCellDef="let element">
-                    <div style="display: flex; gap: 8px;">
+                    <div class="acciones-celda">
                       <button mat-raised-button color="primary" (click)="revisarBorrador(element.id)">
                         <mat-icon>verified</mat-icon>
                         Revisar
@@ -94,15 +93,103 @@
                   </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-header-row *matHeaderRowDef="columnasPendientes"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasPendientes;"></tr>
               </table>
             </div>
           }
         </div>
       </mat-tab>
 
-      <!-- Pestaña de Estadísticas (Top Validadores) -->
+      <mat-tab [label]="'Verificados (' + aprobados() + ')'">
+        <div class="tab-content-padded">
+          @if (verificados().length === 0) {
+            <mat-card class="empty-state">
+              <mat-card-content>
+                No hay negocios verificados registrados.
+              </mat-card-content>
+            </mat-card>
+          } @else {
+            <div class="table-container">
+              <table mat-table [dataSource]="verificados()" class="mat-elevation-z8">
+                
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="categoria">
+                  <th mat-header-cell *matHeaderCellDef> Categoría </th>
+                  <td mat-cell *matCellDef="let element"> {{element.categoria}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="seccion">
+                  <th mat-header-cell *matHeaderCellDef> Sección </th>
+                  <td mat-cell *matCellDef="let element"> {{element.seccion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="direccion">
+                  <th mat-header-cell *matHeaderCellDef> Dirección </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ubicacion?.direccion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="telefono">
+                  <th mat-header-cell *matHeaderCellDef> Teléfono </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    @if (element.contacto?.telefono || element.contacto?.whatsapp) {
+                      <a [href]="'tel:' + (element.contacto?.telefono || element.contacto?.whatsapp)" 
+                         class="enlace-telefono">
+                        <mat-icon class="icono-contacto">call</mat-icon>
+                        {{element.contacto?.telefono || element.contacto?.whatsapp}}
+                      </a>
+                    } @else {
+                      <span class="sin-dato">N/A</span>
+                    }
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="validador">
+                  <th mat-header-cell *matHeaderCellDef> Validado Por </th>
+                  <td mat-cell *matCellDef="let element">
+                    <span class="info-validador">
+                      {{ element.verificadoPorEmail || 'Sistema' }}
+                    </span>
+                    @if (element.fechaVerificacion) {
+                      <small class="fecha-validador">
+                        {{ element.fechaVerificacion | date:'shortDate' }}
+                      </small>
+                    }
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="acciones-celda">
+                      <button mat-raised-button color="primary" (click)="revisarBorrador(element.id)">
+                        <mat-icon>edit</mat-icon>
+                        Editar
+                      </button>
+
+                      @if (authorization.esAdmin() || authorization.esDev()) {
+                        <button mat-stroked-button color="warn" (click)="quitarVerificacion(element.id)" 
+                                matTooltip="Quitar verificación (retornar a agregados pendientes)">
+                          <mat-icon>unpublished</mat-icon>
+                          Quitar Verificación
+                        </button>
+                      }
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnasVerificados"></tr>
+                <tr mat-row *matRowDef="let row; columns: columnasVerificados;"></tr>
+              </table>
+            </div>
+          }
+        </div>
+      </mat-tab>
+
       <mat-tab label="Top Validadores">
         <div class="tab-content-padded">
           <mat-card class="ranking-card">
@@ -112,7 +199,7 @@
             </mat-card-header>
             <mat-card-content>
               @if (rankingValidadores().length === 0) {
-                <p style="margin-top: 15px; color: #888;">No hay datos de verificación aún.</p>
+                <p class="sin-ranking">No hay datos de verificación aún.</p>
               } @else {
                 <mat-list>
                   @for (validador of rankingValidadores(); track validador.email) {

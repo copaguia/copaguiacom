@@ -64,10 +64,13 @@ export interface NegocioInterface {
       costoDomicilio?:    number;
       pedidoMinimo?:      number;
     };
-    rating:         number;
-    totalResenas:   number;
-    verificado:     boolean;
-    destacado:      boolean;
-    fechaRegistro:  string;
-    metadatos:      Record<string, any>;
+    rating:              number;
+    totalResenas:        number;
+    verificado:          boolean;
+    destacado:           boolean;
+    fechaRegistro:       string;
+    fechaVerificacion?:  string | null;
+    verificadoPorUid?:   string | null;
+    verificadoPorEmail?: string | null;
+    metadatos:           Record<string, unknown>;
   }

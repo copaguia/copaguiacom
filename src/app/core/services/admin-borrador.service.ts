@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { InstanciaFirebase } from '../firebase/instancias.service';
-import { collection, query, where, getDocs, doc, getDoc, writeBatch, getCountFromServer, QueryConstraint } from 'firebase/firestore';
+import { collection, query, where, getDocs, doc, getDoc, writeBatch, getCountFromServer, QueryConstraint, updateDoc } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 import { AuthService } from '../auth/auth.service';
 import { RolUsuario } from '../auth/rol-usuario';
@@ -16,7 +16,6 @@ export class AdminBorradorService {
     const perfil = this.authService.perfilLectura();
     const constraints: QueryConstraint[] = [];
     
-    // Si es AGENTE y tiene zonas asignadas, filtramos obligatoriamente por esas zonas.
     if (perfil?.rolUsuario === RolUsuario.AGENTE && perfil.zonasAsignadas && perfil.zonasAsignadas.length > 0) {
       constraints.push(where('zonaAsignada', 'in', perfil.zonasAsignadas));
     }
@@ -24,22 +23,36 @@ export class AdminBorradorService {
     return constraints;
   }
 
-  /**
-   * Obtiene todos los negocios en la colección "negocios" que NO están verificados.
-   */
-  public async obtenerBorradoresPendientes(): Promise<any[]> {
+  public async obtenerBorradoresPendientes(): Promise<NegocioInterface[]> {
     const negociosRef = collection(this.firestore, 'negocios');
     const q = query(negociosRef, where('verificado', '==', false), ...this.getFiltrosPorRol());
     
     try {
       const querySnapshot = await getDocs(q);
-      const borradores: any[] = [];
-      querySnapshot.forEach((doc) => {
-        borradores.push({ id: doc.id, ...doc.data() });
+      const borradores: NegocioInterface[] = [];
+      querySnapshot.forEach((docSnap) => {
+        borradores.push({ id: docSnap.id, ...docSnap.data() } as NegocioInterface);
       });
       return borradores;
     } catch (error) {
       console.error("Error al obtener negocios no verificados:", error);
+      throw error;
+    }
+  }
+
+  public async obtenerNegociosVerificados(): Promise<NegocioInterface[]> {
+    const negociosRef = collection(this.firestore, 'negocios');
+    const q = query(negociosRef, where('verificado', '==', true), ...this.getFiltrosPorRol());
+    
+    try {
+      const querySnapshot = await getDocs(q);
+      const verificados: NegocioInterface[] = [];
+      querySnapshot.forEach((docSnap) => {
+        verificados.push({ id: docSnap.id, ...docSnap.data() } as NegocioInterface);
+      });
+      return verificados;
+    } catch (error) {
+      console.error("Error al obtener negocios verificados:", error);
       throw error;
     }
   }
@@ -105,12 +118,12 @@ export class AdminBorradorService {
   /**
    * Obtiene un documento específico de negocios por su ID.
    */
-  public async obtenerBorrador(id: string): Promise<any | null> {
+  public async obtenerBorrador(id: string): Promise<NegocioInterface | null> {
     const docRef = doc(this.firestore, 'negocios', id);
     try {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        return { id: docSnap.id, ...docSnap.data() };
+        return { id: docSnap.id, ...docSnap.data() } as NegocioInterface;
       } else {
         return null;
       }
@@ -120,11 +133,6 @@ export class AdminBorradorService {
     }
   }
 
-  /**
-   * Verifica un negocio:
-   * Como ya está en la colección pública ('negocios'), solo actualizamos el flag a verificado=true
-   * y guardamos los datos del validador.
-   */
   public async aprobarBorrador(id: string, datosValidados: Partial<NegocioInterface>, aprobadoPor: { uid: string, email: string }): Promise<void> {
     const batch = writeBatch(this.firestore);
 
@@ -145,6 +153,21 @@ export class AdminBorradorService {
       await batch.commit();
     } catch (error) {
       console.error("Error en la transacción de validación:", error);
+      throw error;
+    }
+  }
+
+  public async desverificarNegocio(id: string): Promise<void> {
+    const negocioRef = doc(this.firestore, 'negocios', id);
+    try {
+      await updateDoc(negocioRef, {
+        verificado: false,
+        fechaVerificacion: null,
+        verificadoPorUid: null,
+        verificadoPorEmail: null
+      });
+    } catch (error) {
+      console.error("Error al quitar verificación del negocio:", error);
       throw error;
     }
   }
