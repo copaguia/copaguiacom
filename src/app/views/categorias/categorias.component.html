@@ -57,17 +57,15 @@
 
 
 
-        <!-- Grupo de Botones de Clasificados y MarketPlace" -->
+        <!-- Grupo de Botones de Clasificados y MarketPlace -->
         <div class="accesos-directos-grid">
           <div class="mini-fab-row">
-            <button class="mini-fab-btn" (click)="navigateTo('clasificados')">
-              <mat-icon>newspaper</mat-icon>
-              <span>Clasificados</span>
+            @for (acceso of accesosDirectos; track acceso.ruta) {
+            <button class="mini-fab-btn" (click)="navigateTo(acceso.ruta)">
+              <mat-icon>{{ acceso.icono }}</mat-icon>
+              <span>{{ acceso.etiqueta }}</span>
             </button>
-            <button class="mini-fab-btn" (click)="navigateTo('marketplace')">
-              <mat-icon>storefront</mat-icon>
-              <span>Marketplace</span>
-            </button>
+            }
           </div>
         </div>
 
@@ -113,32 +111,15 @@
 
   <!-- Botón para ADMIN: Siempre visible si es admin -->
   @if (authorization.esAdmin()) {
-  <button mat-menu-item (click)="navigateToEstadisticas()">
-    <mat-icon color="primary">bar_chart</mat-icon>
-    <span>Estadísticas</span>
+  @for (item of rutasAdmin; track item.etiqueta) {
+  <button mat-menu-item (click)="item.accion === 'notificacion' ? openCrearNotificacion() : navigateTo(item.ruta!)">
+    <mat-icon [color]="item.color || null">{{ item.icono }}</mat-icon>
+    <span>{{ item.etiqueta }}</span>
   </button>
-  <button mat-menu-item (click)="navigateToCreateBusiness()">
-    <mat-icon>add_business</mat-icon>
-    <span>Agregar Negocio</span>
-  </button>
-  <button mat-menu-item (click)="navigateTo('admin/data-borrador')">
-    <mat-icon>checklist</mat-icon>
-    <span>Aprobar Negocios</span>
-  </button>
+  @if (item.divisorDespues) {
   <mat-divider></mat-divider>
-  <button mat-menu-item (click)="openCrearNotificacion()">
-    <mat-icon color="accent">notification_add</mat-icon>
-    <span>Crear Notificación Global</span>
-  </button>
-  <button mat-menu-item (click)="navigateTo('admin/publicidad')">
-    <mat-icon color="accent">view_carousel</mat-icon>
-    <span>Gestión de Publicidad</span>
-  </button>
-  <button mat-menu-item (click)="navigateTo('admin/sistema-pautas')">
-    <mat-icon color="accent">local_atm</mat-icon>
-    <span>Sistema de Pautas ADS</span>
-  </button>
-  <mat-divider></mat-divider>
+  }
+  }
   <button mat-menu-item [matMenuTriggerFor]="todasLasRutas">
     <mat-icon color="warn">visibility</mat-icon>
     <span>Revisar Vistas (Dev)</span>
@@ -187,6 +168,9 @@
   </button>
   }
   <button mat-menu-item (click)="navigateTo(item.ruta)">
+    @if (item.icono) {
+    <mat-icon [color]="item.color || null">{{ item.icono }}</mat-icon>
+    }
     <span>{{ item.etiqueta }}</span>
   </button>
   }

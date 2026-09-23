@@ -1,32 +1,64 @@
-export const RUTAS_POR_ROL = [
+export interface RutaItem {
+  rol: string;
+  ruta: string;
+  etiqueta: string;
+  icono?: string;
+  color?: string;
+}
+
+export interface RutaMenuAccion {
+  ruta?: string;
+  accion?: 'notificacion';
+  etiqueta: string;
+  icono: string;
+  color?: string;
+  divisorDespues?: boolean;
+}
+
+export const RUTAS_MENU_ADMIN: RutaMenuAccion[] = [
+  { ruta: 'admin/estadisticas',   etiqueta: 'Estadísticas',              icono: 'bar_chart',         color: 'primary' },
+  { ruta: 'admin/agregar-negocio',etiqueta: 'Agregar Negocio',           icono: 'add_business' },
+  { ruta: 'admin/data-borrador',  etiqueta: 'Aprobar Negocios',          icono: 'checklist',         divisorDespues: true },
+  { accion: 'notificacion',       etiqueta: 'Crear Notificación Global', icono: 'notification_add',  color: 'accent' },
+  { ruta: 'admin/publicidad',     etiqueta: 'Gestión de Publicidad',     icono: 'view_carousel',     color: 'accent' },
+  { ruta: 'admin/sistema-pautas', etiqueta: 'Sistema de Pautas ADS',     icono: 'local_atm',         color: 'accent', divisorDespues: true }
+];
+
+export const ACCESOS_DIRECTOS = [
+  { ruta: 'clasificados', etiqueta: 'Clasificados', icono: 'newspaper' },
+  { ruta: 'marketplace',  etiqueta: 'Marketplace',  icono: 'storefront' }
+] as const;
+
+export const RUTAS_POR_ROL: RutaItem[] = [
   // Visitante
-  { rol: 'visitante',   ruta: 'login',                        etiqueta: 'login' },
-  { rol: 'visitante',   ruta: 'registro',                     etiqueta: 'registro' },
-  { rol: 'visitante',   ruta: 'nav',                          etiqueta: 'nav-menu' },
-  { rol: 'visitante',   ruta: 'buscar',                       etiqueta: 'buscar' },
-  { rol: 'visitante',   ruta: 'categorias',                   etiqueta: 'categorias' },
-  { rol: 'visitante',   ruta: 'seccion-page',                 etiqueta: 'seccion-page' },
-  { rol: 'visitante',   ruta: 'carrusel',                     etiqueta: 'carrusel' },
-  { rol: 'visitante',   ruta: 'carrito-pedido',               etiqueta: 'carrito-pedido' },
+  { rol: 'visitante',   ruta: 'login',                        etiqueta: 'Login',                    icono: 'login' },
+  { rol: 'visitante',   ruta: 'registro',                     etiqueta: 'Registro',                 icono: 'person_add' },
+  { rol: 'visitante',   ruta: 'nav',                          etiqueta: 'Nav Menu',                 icono: 'menu' },
+  { rol: 'visitante',   ruta: 'buscar',                       etiqueta: 'Buscar',                   icono: 'search' },
+  { rol: 'visitante',   ruta: 'categorias',                   etiqueta: 'Categorías',               icono: 'category' },
+  { rol: 'visitante',   ruta: 'seccion-page',                 etiqueta: 'Sección',                  icono: 'view_agenda' },
+  { rol: 'visitante',   ruta: 'carrusel',                     etiqueta: 'Carrusel',                 icono: 'view_carousel' },
+  { rol: 'visitante',   ruta: 'carrito-pedido',               etiqueta: 'Carrito Pedido',           icono: 'shopping_cart' },
 
   // Comerciante
-  { rol: 'comerciante', ruta: 'onboarding-negocio-registro',  etiqueta: 'onboarding-negocio-registro' },
-  { rol: 'comerciante', ruta: 'marranito',                    etiqueta: 'marranito' },
-  { rol: 'comerciante', ruta: 'perfil-negocio-editor',        etiqueta: 'perfil-negocio-editor' },
-  { rol: 'comerciante', ruta: 'dashboard-dueno',              etiqueta: 'dashboard-dueno' },
-  { rol: 'comerciante', ruta: 'gestion-catalogo',             etiqueta: 'gestion-catalogo' },
+  { rol: 'comerciante', ruta: 'onboarding-negocio-registro',  etiqueta: 'Onboarding Negocio',       icono: 'how_to_reg' },
+  { rol: 'comerciante', ruta: 'marranito',                    etiqueta: 'Marranito',                icono: 'savings' },
+  { rol: 'comerciante', ruta: 'perfil-negocio-editor',        etiqueta: 'Editor Negocio',           icono: 'edit' },
+  { rol: 'comerciante', ruta: 'dashboard-dueno',              etiqueta: 'Dashboard Dueño',          icono: 'dashboard' },
+  { rol: 'comerciante', ruta: 'gestion-catalogo',             etiqueta: 'Gestión Catálogo',         icono: 'inventory' },
 
   // Agente
-  { rol: 'agente',      ruta: 'market-place-global',          etiqueta: 'market-place-global' },
-  { rol: 'agente',      ruta: 'soporte-consola',              etiqueta: 'soporte-consola' },
+  { rol: 'agente',      ruta: 'market-place-global',          etiqueta: 'Marketplace Global',       icono: 'storefront' },
+  { rol: 'agente',      ruta: 'soporte-consola',              etiqueta: 'Soporte Consola',          icono: 'support_agent' },
 
   // Admin
-  { rol: 'admin',       ruta: 'admin/promociones',            etiqueta: 'admin/promociones' },
-  { rol: 'admin',       ruta: 'admin/agregar-negocio',        etiqueta: 'admin/agregar-negocio' },
-  { rol: 'admin',       ruta: 'admin/estadisticas',           etiqueta: 'admin/estadisticas' },
-  { rol: 'admin',       ruta: 'admin/publicidad',             etiqueta: 'admin/publicidad' },
-  { rol: 'admin',       ruta: 'admin/sistema-pautas',         etiqueta: 'admin/sistema-pautas' },
+  { rol: 'admin',       ruta: 'admin/promociones',            etiqueta: 'Promociones',              icono: 'local_offer' },
+  { rol: 'admin',       ruta: 'admin/agregar-negocio',        etiqueta: 'Agregar Negocio',          icono: 'add_business' },
+  { rol: 'admin',       ruta: 'admin/estadisticas',           etiqueta: 'Estadísticas',             icono: 'bar_chart',     color: 'primary' },
+  { rol: 'admin',       ruta: 'admin/data-borrador',          etiqueta: 'Aprobar Negocios',         icono: 'checklist' },
+  { rol: 'admin',       ruta: 'admin/publicidad',             etiqueta: 'Gestión Publicidad',       icono: 'view_carousel', color: 'accent' },
+  { rol: 'admin',       ruta: 'admin/sistema-pautas',         etiqueta: 'Sistema Pautas ADS',       icono: 'local_atm',     color: 'accent' },
 
   // Dev
-  { rol: 'dev',         ruta: 'admin/dev-dashboard',          etiqueta: 'admin/dev-dashboard (Costos)' }
-] as const;
+  { rol: 'dev',         ruta: 'admin/dev-dashboard',          etiqueta: 'Dev Dashboard (Costos)',   icono: 'settings_applications', color: 'primary' }
+];

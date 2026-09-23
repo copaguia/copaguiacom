@@ -23,7 +23,7 @@ import { PublicidadService } from '../../core/services/publicidad.service';
 import { OfertaCentralDialogComponent } from '../../components/build/oferta-central-dialog/oferta-central-dialog.component';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
 import { NegociosService } from '../../core/services/negocios.service';
-import { RUTAS_POR_ROL } from './rutas.categorias';
+import { RUTAS_POR_ROL, RUTAS_MENU_ADMIN, ACCESOS_DIRECTOS } from './rutas.categorias';
 
 @Component({
   selector: 'app-categorias',
@@ -52,6 +52,8 @@ export class CategoriasComponent {
   avatarImageError = signal(false);
 
   rutas = RUTAS_POR_ROL;
+  rutasAdmin = RUTAS_MENU_ADMIN;
+  accesosDirectos = ACCESOS_DIRECTOS;
 
   constructor() { this.cargarBannersParaCategoriaActiva(this.tituloToolbar()); }
 
@@ -156,10 +158,6 @@ export class CategoriasComponent {
     if (cat.includes('educación') || cat.includes('colegio') || cat.includes('academia')) return 'school';
     if (cat.includes('servicio') || cat.includes('profesional')) return 'work';
     return 'category';
-  }
-
-  navigateToEstadisticas() {
-    this.router.navigate(['/admin/estadisticas']);
   }
 
   logout(): void {
