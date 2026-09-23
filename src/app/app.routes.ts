@@ -34,36 +34,15 @@ import { rolesGuard } from './guards/auth.guard';
 const staticRoutes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
-    {
-        path: 'auth-hub',
-        loadComponent: () => import('./views/auth-hub/auth-hub.component').then(m => m.AuthHubComponent)
-    },
-    {
-        path: 'auth-callback',
-        loadComponent: () => import('./views/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent)
-    },
+    { path: 'auth-hub', loadComponent: () => import('./views/auth-hub/auth-hub.component').then(m => m.AuthHubComponent) },
+    { path: 'auth-callback', loadComponent: () => import('./views/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent) },
     { path: 'registro', component: RegistarNegociosComponent },
     { path: 'onboarding-negocio-registro', component: OnboardingNegocioRegistroComponent },
-    {
-        path: 'admin/promociones',
-        component: AdminPromocionesComponent,
-    },
-    {
-        path: 'admin/agregar-negocio',
-        component: AgregarNegocioComponent
-    },
-    {
-        path: 'admin/estadisticas',
-        component: EstadisticasComponent
-    },
-    {
-        path: 'admin/publicidad',
-        component: AdminPublicidadComponent
-    },
-    {
-        path: 'admin/sistema-pautas',
-        component: SistemaPautasComponent
-    },
+    { path: 'admin/promociones', component: AdminPromocionesComponent, },
+    { path: 'admin/agregar-negocio', component: AgregarNegocioComponent },
+    { path: 'admin/estadisticas', component: EstadisticasComponent },
+    { path: 'admin/publicidad', component: AdminPublicidadComponent },
+    { path: 'admin/sistema-pautas', component: SistemaPautasComponent },
     {
         path: 'admin/data-borrador',
         component: DataBorradorComponent,
@@ -88,34 +67,20 @@ const staticRoutes: Routes = [
         canActivate: [rolesGuard],
         data: { roles: ['dev', 'admin'] }
     },
-    {
-        path: 'nav', component: NavMenuComponent,
-        children: []
-    },
+    { path: 'nav', component: NavMenuComponent, children: [] },
     { path: 'buscar', component: BuscadorMaestroComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
     { path: 'seccion-page/:id', component: SeccionPageComponent },
     { path: 'carrusel', component: CarruselComponent },
     { path: 'marranito', component: MarranitoComponent },
+    { path: 'perfil/:username', component: UserFeedComponent, },
+    { path: 'perfil-negocio-editor', component: PerfilNegocioEditorComponent },
+    { path: 'negocio/:slug', component: DetalleNegocioComponent },
     {
-        path: 'perfil/:username',
-        component: UserFeedComponent,
+        path: 'reclamar/:id', loadComponent: () => import('./views/reclamar-negocio/reclamar-negocio.component').then(m => m.ReclamarNegocioComponent)
     },
-    {
-        path: 'perfil-negocio-editor', component: PerfilNegocioEditorComponent
-    },
-    {
-        path: 'negocio/:slug', component: DetalleNegocioComponent
-    },
-    {
-        path: 'reclamar/:id',
-        loadComponent: () => import('./views/reclamar-negocio/reclamar-negocio.component').then(m => m.ReclamarNegocioComponent)
-    },
-    {
-        path: 'public/:username',
-        component: UserFeedComponent,
-    },
+    { path: 'public/:username', component: UserFeedComponent, },
     { path: 'carrito-pedido', component: CarritoPedidoComponent },
     { path: 'dashboard-dueno', component: DashboardDuenoComponent },
     { path: 'gestion-catalogo', component: GestionCatalogoComponent },

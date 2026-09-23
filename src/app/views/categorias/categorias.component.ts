@@ -23,6 +23,7 @@ import { PublicidadService } from '../../core/services/publicidad.service';
 import { OfertaCentralDialogComponent } from '../../components/build/oferta-central-dialog/oferta-central-dialog.component';
 import { BannerInterface } from '../../components/build/carrusel/carrusel.component';
 import { NegociosService } from '../../core/services/negocios.service';
+import { RUTAS_POR_ROL } from './rutas.categorias';
 
 @Component({
   selector: 'app-categorias',
@@ -50,19 +51,13 @@ export class CategoriasComponent {
   terminoGlobal = signal('');
   avatarImageError = signal(false);
 
-  constructor() {
-    this.cargarBannersParaCategoriaActiva(this.tituloToolbar());
-  }
+  rutas = RUTAS_POR_ROL;
 
-  onTabChange(event: MatTabChangeEvent) {
-    this.tituloToolbar.set(event.tab.textLabel);
-    this.animKey.update(v => v + 1);
-    this.cargarBannersParaCategoriaActiva(event.tab.textLabel);
-  }
+  constructor() { this.cargarBannersParaCategoriaActiva(this.tituloToolbar()); }
 
-  onAvatarError() {
-    this.avatarImageError.set(true);
-  }
+  onTabChange(event: MatTabChangeEvent) { this.tituloToolbar.set(event.tab.textLabel); this.animKey.update(v => v + 1); this.cargarBannersParaCategoriaActiva(event.tab.textLabel); }
+
+  onAvatarError() { this.avatarImageError.set(true); }
 
   async cargarBannersParaCategoriaActiva(categoriaId: string) {
     if (!this.diccionarioBanners()[categoriaId]) {

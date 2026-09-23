@@ -39,6 +39,8 @@
 
 <mat-tab-group fitInkBarToContent headerPosition="above" (selectedTabChange)="onTabChange($event)">
 
+
+
   @for (categoria of categorias(); track $index) {
   <mat-tab [label]="categoria.ruta">
     <ng-template matTabContent>
@@ -50,7 +52,12 @@
             [categoriaId]="categoria.ruta"></app-carrusel>
         </div>
 
-        <!-- Grupo de Botones de Clasificados y MarketPlace.[cdkFooterRowDef]="" -->
+
+
+
+
+
+        <!-- Grupo de Botones de Clasificados y MarketPlace" -->
         <div class="accesos-directos-grid">
           <div class="mini-fab-row">
             <button class="mini-fab-btn" (click)="navigateTo('clasificados')">
@@ -101,6 +108,9 @@
     <span>Mi Perfil</span>
   </button>
 
+
+
+
   <!-- Botón para ADMIN: Siempre visible si es admin -->
   @if (authorization.esAdmin()) {
   <button mat-menu-item (click)="navigateToEstadisticas()">
@@ -144,6 +154,7 @@
   <mat-divider></mat-divider>
   }
 
+
   <!-- Botones para COMERCIANTE: Condicional a si tiene negocio -->
   @if (authorization.esComerciante()) {
   @if (negocioService.tieneNegocio()) {
@@ -166,25 +177,17 @@
 </mat-menu>
 
 <mat-menu #todasLasRutas="matMenu">
-  <button mat-menu-item (click)="navigateTo('login')">login</button>
-  <button mat-menu-item (click)="navigateTo('registro')">registro</button>
-  <button mat-menu-item (click)="navigateTo('onboarding-negocio-registro')">onboarding-negocio-registro</button>
-  <button mat-menu-item (click)="navigateTo('admin/promociones')">admin/promociones</button>
-  <button mat-menu-item (click)="navigateTo('admin/agregar-negocio')">admin/agregar-negocio</button>
-  <button mat-menu-item (click)="navigateTo('admin/estadisticas')">admin/estadisticas</button>
-  <button mat-menu-item (click)="navigateTo('admin/publicidad')">admin/publicidad</button>
-  <button mat-menu-item (click)="navigateTo('admin/sistema-pautas')">admin/sistema-pautas</button>
-  <button mat-menu-item (click)="navigateTo('nav')">nav-menu</button>
-  <button mat-menu-item (click)="navigateTo('buscar')">buscar</button>
-  <button mat-menu-item (click)="navigateTo('categorias')">categorias</button>
-  <button mat-menu-item (click)="navigateTo('seccion-page')">seccion-page</button>
-  <button mat-menu-item (click)="navigateTo('carrusel')">carrusel</button>
-  <button mat-menu-item (click)="navigateTo('marranito')">marranito</button>
-  <button mat-menu-item (click)="navigateTo('perfil-negocio-editor')">perfil-negocio-editor</button>
-  <button mat-menu-item (click)="navigateTo('carrito-pedido')">carrito-pedido</button>
-  <button mat-menu-item (click)="navigateTo('dashboard-dueno')">dashboard-dueno</button>
-  <button mat-menu-item (click)="navigateTo('gestion-catalogo')">gestion-catalogo</button>
-  <button mat-menu-item (click)="navigateTo('market-place-global')">market-place-global</button>
-  <button mat-menu-item (click)="navigateTo('soporte-consola')">soporte-consola</button>
-  <button mat-menu-item (click)="navigateTo('admin/dev-dashboard')">admin/dev-dashboard (Costos)</button>
+  @for (item of rutas; track item.ruta) {
+  @if ($first || item.rol !== rutas[$index - 1].rol) {
+  @if (!$first) {
+  <mat-divider></mat-divider>
+  }
+  <button mat-menu-item disabled>
+    <strong>{{ item.rol | uppercase }}</strong>
+  </button>
+  }
+  <button mat-menu-item (click)="navigateTo(item.ruta)">
+    <span>{{ item.etiqueta }}</span>
+  </button>
+  }
 </mat-menu>
