@@ -12,11 +12,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
 import { GoogleMap, MapPolygon } from '@angular/google-maps';
 import { httpsCallable } from 'firebase/functions';
 import { CostosPanelComponent } from './components/costos-panel/costos-panel.component';
 import { CloudFlareDominioInterface } from '../../../interfaces/cloud-flare-dominio-interface';
+import { GestorRolesDialogComponent } from '../../../components/build/gestor-roles-dialog/gestor-roles-dialog.component';
 
 declare var google: any;
 
@@ -38,6 +40,7 @@ declare var google: any;
     MatDividerModule,
     MatTooltipModule,
     MatTabsModule,
+    MatDialogModule,
     GoogleMap,
     MapPolygon,
     CostosPanelComponent
@@ -49,6 +52,7 @@ export class DevDashboardComponent implements OnInit {
   private fb = inject(FormBuilder);
   private firebase = inject(InstanciaFirebase);
   private snackBar = inject(MatSnackBar);
+  private dialog = inject(MatDialog);
 
   @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
   @ViewChild(MapPolygon, { static: false }) polygonRef!: MapPolygon;
@@ -168,5 +172,12 @@ export class DevDashboardComponent implements OnInit {
     } finally {
       this.isSubmitting.set(false);
     }
+  }
+
+  abrirGestorRoles() {
+    this.dialog.open(GestorRolesDialogComponent, {
+      width: '680px',
+      maxWidth: '95vw'
+    });
   }
 }

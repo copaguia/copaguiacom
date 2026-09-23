@@ -21,7 +21,6 @@ import { BuscadorMaestroComponent } from './components/build/buscador-maestro/bu
 import { CarritoPedidoComponent } from './views/carrito-pedido/carrito-pedido.component';
 import { DashboardDuenoComponent } from './views/dashboard-dueno/dashboard-dueno.component';
 import { GestionCatalogoComponent } from './views/gestion-catalogo/gestion-catalogo.component';
-import { SoporteConsolaComponent } from './views/soporte-consola/soporte-consola.component';
 import { DataBorradorComponent } from './views/admin/data-borrador/data-borrador.component';
 import { AdminBorradorEditorComponent } from './views/admin/admin-borrador-editor/admin-borrador-editor.component';
 import { ClasificadosComponent } from './views/clasificados/clasificados.component';
@@ -62,6 +61,12 @@ const staticRoutes: Routes = [
         data: { roles: ['dev', 'admin'] }
     },
     {
+        path: 'admin/dev-roles',
+        loadComponent: () => import('./views/admin/dev-roles/dev-roles.component').then(m => m.DevRolesComponent),
+        canActivate: [rolesGuard],
+        data: { roles: ['dev'] }
+    },
+    {
         path: 'admin/hub-antioquia',
         loadComponent: () => import('./views/admin/admin-municipios-hub/admin-municipios-hub.component').then(m => m.AdminMunicipiosHubComponent),
         canActivate: [rolesGuard],
@@ -84,7 +89,6 @@ const staticRoutes: Routes = [
     { path: 'carrito-pedido', component: CarritoPedidoComponent },
     { path: 'dashboard-dueno', component: DashboardDuenoComponent },
     { path: 'gestion-catalogo', component: GestionCatalogoComponent },
-    { path: 'soporte-consola', component: SoporteConsolaComponent },
     { path: 'clasificados', component: ClasificadosComponent },
     { path: 'marketplace', component: MarketplaceComponent },
 ];

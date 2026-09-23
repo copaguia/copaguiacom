@@ -33,7 +33,6 @@ export const RUTAS_COMERCIANTE: RutaItem[] = [
 ];
 
 export const RUTAS_AGENTE: RutaItem[] = [
-  { ruta: 'soporte-consola', etiqueta: 'Editar Negocios', icono: 'edit_note' },
   { ruta: 'admin/data-borrador', etiqueta: 'Revisar y Aprobar Negocios', icono: 'checklist' },
   { ruta: 'market-place-global', etiqueta: 'Marketplace Global', icono: 'storefront' }
 ];
@@ -49,5 +48,6 @@ export const RUTAS_ADMIN: RutaMenuAccion[] = [
 ];
 
 export const RUTAS_DEV: RutaItem[] = [
-  { ruta: 'admin/dev-dashboard', etiqueta: 'Dev Dashboard (Tenants & Costos)', icono: 'settings_applications', color: 'primary' }
+  { ruta: 'admin/dev-dashboard', etiqueta: 'Dev Dashboard (Tenants & Costos)', icono: 'settings_applications', color: 'primary' },
+  { ruta: 'admin/dev-roles', etiqueta: 'Gestor de Roles', icono: 'manage_accounts', color: 'accent' }
 ];

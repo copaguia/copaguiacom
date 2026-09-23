@@ -22,11 +22,15 @@ service cloud.firestore {
 
     // --- COLECCIONES ---
 
-    // Usuarios: Cualquiera autenticado puede leer. Solo el dueño o un admin puede editar.
+    // Usuarios: Lectura para autenticados. Modificación de roles exclusiva para dev.
     match /Usuarios/{uid} {
       allow read: if isAuthenticated();
-      allow create: if isAuthenticated() && request.auth.uid == uid;
-      allow write: if isAuthenticated() && (request.auth.uid == uid || hasRole('admin'));
+      allow create: if isAuthenticated() && request.auth.uid == uid && (!('rolUsuario' in request.resource.data) || request.resource.data.rolUsuario == 'visitante');
+      allow update: if isAuthenticated() && (
+        hasRole('dev') ||
+        ((request.auth.uid == uid || hasRole('admin')) && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['rolUsuario']))
+      );
+      allow delete: if hasRole('dev');
     }
 
     // Notificaciones Globales
