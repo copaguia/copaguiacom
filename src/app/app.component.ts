@@ -27,11 +27,18 @@ export class AppComponent {
 
     effect(() => {
       const tenant = tenantService.currentTenant();
-      if (tenant && tenant.tema) {
-        document.documentElement.style.setProperty('--corporativo', tenant.tema.corporativo);
-        document.documentElement.style.setProperty('--secundario', tenant.tema.secundario);
-        document.documentElement.style.setProperty('--resaltante', tenant.tema.resaltante);
-      }
+      const temas: Record<string, {corporativo: string, secundario: string, resaltante: string}> = {
+        'copaguia': { corporativo: '#0056b3', secundario: '#e9ecef', resaltante: '#ffc107' },
+        'niquia': { corporativo: '#28a745', secundario: '#e9ecef', resaltante: '#ffc107' },
+        'elhueco': { corporativo: '#dc3545', secundario: '#e9ecef', resaltante: '#ffc107' },
+        'default': { corporativo: '#1a73e8', secundario: '#f8f9fa', resaltante: '#ff9800' }
+      };
+
+      const tema = temas[tenant] || temas['default'];
+      document.documentElement.style.setProperty('--corporativo', tema.corporativo);
+      document.documentElement.style.setProperty('--secundario', tema.secundario);
+      document.documentElement.style.setProperty('--resaltante', tema.resaltante);
+
     });
   }
 

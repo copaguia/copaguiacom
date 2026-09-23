@@ -3,12 +3,14 @@ import { InstanciaFirebase } from '../firebase/instancias.service';
 import { collection, getCountFromServer, getDocs, query, where } from 'firebase/firestore';
 import { NegocioInterface } from '../../interfaces/negocio-interface';
 import { NotificacionGlobal } from '../../interfaces/notificacion-global';
+import { TenantService } from './tenant.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadisticasService {
   private firestore = inject(InstanciaFirebase).firestore;
+  private tenantService = inject(TenantService);
 
   public totalUsuarios = signal<number | null>(null);
   public totalNegocios = signal<number | null>(null);
@@ -28,7 +30,12 @@ export class EstadisticasService {
       this.totalUsuarios.set(countUsuarios.data().count);
 
       // 2. Total Negocios y Negocios Activos
-      const negociosColl = collection(this.firestore, 'negocios');
+      const tenant = this.tenantService.currentTenant();
+      const constraints = [];
+      if (tenant && tenant !== 'default') {
+        constraints.push(where('zonaAsignada', '==', tenant));
+      }
+      const negociosColl = query(collection(this.firestore, 'negocios'), ...constraints);
       const negociosSnapshot = await getDocs(negociosColl);
       this.totalNegocios.set(negociosSnapshot.size);
 

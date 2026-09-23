@@ -2,8 +2,8 @@ name = "worker-multitenants-directoriopaisa"
 main = "index.ts"
 compatibility_date = "2023-10-30"
 
-# Opcional: Puedes definir variables de entorno, rutas, etc.
-# routes = [
-#   { pattern = "*copaguia.com/*", custom_domain = true },
-#   { pattern = "*niquia.com/*", custom_domain = true }
-# ]
+routes = [
+  { pattern = "*copaguia.com/*", zone_name = "copaguia.com" },
+  { pattern = "*niquia.com/*", zone_name = "niquia.com" },
+  { pattern = "*elhueco.online/*", zone_name = "elhueco.online" }
+]

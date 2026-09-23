@@ -18,11 +18,24 @@ export default {
 
     const newHeaders = new Headers(request.headers);
     newHeaders.set('x-tenant-id', tenantId);
+    // CRÍTICO: Firebase usa la cabecera 'Host' para saber qué sitio mostrar. 
+    // Debemos sobrescribirla para que coincida con el proxy, de lo contrario Firebase fallará de nuevo.
+    newHeaders.set('Host', 'directorio-paisa.web.app');
 
-    const modifiedRequest = new Request(request, {
-      headers: newHeaders
+    // Reescribimos el destino hacia el proyecto base de Firebase para que Firebase no lo rechace
+    const proxyUrl = new URL(request.url);
+    proxyUrl.hostname = 'directorio-paisa.web.app';
+
+    const modifiedRequest = new Request(proxyUrl.toString(), {
+      headers: newHeaders,
+      method: request.method,
+      body: request.body,
+      redirect: request.redirect
     });
 
-    return fetch(modifiedRequest);
+    const response = await fetch(modifiedRequest);
+    const newResponse = new Response(response.body, response);
+    // newResponse.headers.set('x-worker-debug', 'executed-multitenant');
+    return newResponse;
   },
 };
