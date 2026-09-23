@@ -1,0 +1,33 @@
+<div class="portal-container">
+  <div class="header">
+    <h1>Directorio Paisa</h1>
+    <p>Selecciona tu directorio local para explorar los mejores negocios y servicios de tu zona.</p>
+  </div>
+
+  <div class="cards-grid">
+    <!-- Tarjeta Copaguia -->
+    <div class="card" (click)="irADirectorio('https://copaguia.com')">
+      <h2>Copacabana</h2>
+      <p>Entrar a Copaguia</p>
+      <div class="btn">Explorar</div>
+    </div>
+
+    <!-- Tarjeta Niquia -->
+    <div class="card" (click)="irADirectorio('https://niquia.com')">
+      <h2>Niquía</h2>
+      <p>Entrar al directorio de Niquía</p>
+      <div class="btn">Explorar</div>
+    </div>
+
+    <!-- Tarjeta El Hueco -->
+    <div class="card" (click)="irADirectorio('https://elhueco.online')">
+      <h2>El Hueco Online</h2>
+      <p>Tu comercio digital</p>
+      <div class="btn">Explorar</div>
+    </div>
+  </div>
+
+  <div class="footer-actions">
+    <a href="/login" class="login-link">¿Eres dueño de un negocio? Inicia Sesión</a>
+  </div>
+</div>

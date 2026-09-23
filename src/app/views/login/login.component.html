@@ -11,7 +11,7 @@
     </mat-card-header>
 
     <mat-card-content>
-      @if (tenantService.isCargando() || isAuthLoading()) {
+      @if (isAuthLoading()) {
         <!-- Spinner mientras carga tenant o sesión -->
         <div class="spinner-container">
           <mat-progress-spinner mode="indeterminate" diameter="50"></mat-progress-spinner>
@@ -38,6 +38,13 @@
 
         <!-- Botón de Login con Google -->
         <app-btn-login-google></app-btn-login-google>
+
+        <div style="text-align: center; margin-top: 15px;">
+          <button mat-stroked-button color="primary" routerLink="/categorias">
+            <mat-icon>visibility</mat-icon>
+            Entrar a Mirar
+          </button>
+        </div>
       }
     </mat-card-content>
 

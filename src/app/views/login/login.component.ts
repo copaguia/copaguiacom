@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 // Componentes de la aplicación
 import { BtnLoginGoogleComponent } from '../../components/extension/btnLoginGoogle/btnLoginGoogle.component';
@@ -25,7 +27,9 @@ import { MatDivider } from '@angular/material/divider';
     MatProgressSpinnerModule,
     MatIconModule,
     BtnLoginGoogleComponent,
-    MatDivider
+    MatDivider,
+    MatButtonModule,
+    RouterModule
   ],
   standalone: true,
   templateUrl: './login.component.html',
@@ -40,17 +44,26 @@ export class LoginComponent implements OnInit {
   // Computadas para Branding Dinámico
   public logo = computed(() => {
     const tenant = this.tenantService.currentTenant();
-    return tenant?.logoUrl || 'assets/brand/dp-logo.png';
+    if (tenant === 'copaguia') return 'assets/brand/copaguia-logo.png';
+    if (tenant === 'niquia') return 'assets/brand/niquia-logo.png';
+    if (tenant === 'elhueco') return 'assets/brand/elhueco-logo.png';
+    return 'assets/brand/dp-logo.png';
   });
 
   public mensaje = computed(() => {
     const tenant = this.tenantService.currentTenant();
-    return tenant ? `Bienvenido a ${tenant.nombre}` : 'Bienvenido a Directorio Paisa';
+    if (tenant === 'copaguia') return 'Bienvenido a Copacabana';
+    if (tenant === 'niquia') return 'Bienvenido a Niquia';
+    if (tenant === 'elhueco') return 'Bienvenido a El Hueco Online';
+    return 'Bienvenido a Directorio Paisa';
   });
 
   public descripcion = computed(() => {
     const tenant = this.tenantService.currentTenant();
-    return tenant?.descripcion || 'La guía comercial más completa de tu ciudad.';
+    if (tenant === 'copaguia') return 'La guía comercial más completa de Copacabana.';
+    if (tenant === 'niquia') return 'La guía comercial más completa de Niquia.';
+    if (tenant === 'elhueco') return 'Tu comercio digital en El Hueco.';
+    return 'La guía comercial más completa de tu ciudad.';
   });
 
   public rutaRedireccion = signal<string>('/categorias');

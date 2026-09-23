@@ -1,4 +1,7 @@
-import { Routes } from '@angular/router';
+import { Routes, RedirectCommand } from '@angular/router';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { TenantService } from './core/services/tenant.service';
 
 import { RegistarNegociosComponent } from './views/registar-negocios/registar-negocios.component';
 import { CategoriasComponent } from './views/categorias/categorias.component';
@@ -31,7 +34,16 @@ import { rolesGuard } from './guards/auth.guard';
 
 // --- Static routes of the application ---
 const staticRoutes: Routes = [
-    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: () => {
+            const tenant = inject(TenantService).currentTenant();
+            const router = inject(Router);
+            return tenant === 'default' ? router.parseUrl('/portal') : router.parseUrl('/categorias');
+        }
+    },
+    { path: 'portal', loadComponent: () => import('./views/portal/portal.component').then(m => m.PortalComponent) },
     { path: 'login', component: LoginComponent },
     { path: 'auth-hub', loadComponent: () => import('./views/auth-hub/auth-hub.component').then(m => m.AuthHubComponent) },
     { path: 'auth-callback', loadComponent: () => import('./views/auth-callback/auth-callback.component').then(m => m.AuthCallbackComponent) },
