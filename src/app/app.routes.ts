@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { NavMenuComponent } from './views/nav-menu/nav-menu.component';
+
 import { RegistarNegociosComponent } from './views/registar-negocios/registar-negocios.component';
 import { CategoriasComponent } from './views/categorias/categorias.component';
 import { SeccionPageComponent } from './components/build/seccion-page/seccion-page.component';
@@ -67,7 +67,7 @@ const staticRoutes: Routes = [
         canActivate: [rolesGuard],
         data: { roles: ['dev', 'admin'] }
     },
-    { path: 'nav', component: NavMenuComponent, children: [] },
+
     { path: 'buscar', component: BuscadorMaestroComponent },
     { path: 'categorias', component: CategoriasComponent },
     { path: 'seccion-page', component: SeccionPageComponent },
