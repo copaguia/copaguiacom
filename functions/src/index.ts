@@ -162,3 +162,10 @@ export const generarTokenSSO = onCall(async (request) => {
     throw new HttpsError('internal', `Fallo al generar Token SSO: ${error.message}`);
   }
 });
+
+// ==========================================
+// ORQUESTACIÓN EXCLUSIVA DE LIDERTECH (CTO)
+// ==========================================
+export * from "./ia/conection-modelos-ia";
+export * from "./ia/documentos/procesarDocumentoIa";
+export * from "./ia/proveedores/auditor-mensual";
