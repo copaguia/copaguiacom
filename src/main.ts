@@ -17,3 +17,13 @@ const analytics = getAnalytics(app);
 
 bootstrapApplication(AppComponent, appConfig)
   .catch((err) => console.error(err));
+
+// Kill Switch: Desinstalar Service Workers antiguos para evitar problemas de caché zombie
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(registrations => {
+    for (const registration of registrations) {
+      registration.unregister();
+      console.log('PWA Service Worker desinstalado exitosamente.');
+    }
+  });
+}
