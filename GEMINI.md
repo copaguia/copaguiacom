@@ -24,7 +24,7 @@ cmd_jep:="jep_ini→pure_machine_notation"
 cmd_lep_edit:="if(add|edit rule)→use(High-Density Symbolic Pseudo-code INI format)∧symbols(⊂,∧,→,!)∧∅(human_words)∧max_compression"
 cmd_lider_dev:="if(lider dev)→EXEC(ng new .)∧scaffold(10_FOLDERS,scripts,environments)∧install(db_stack,ui_stack)∧apply(intent)"
 [ARCH]
-app:="src/app⊂[components,core,data,directives,enums,global,interfaces,tools,utils,views]∧!shared"
+app:="src/app⊂[components,core,data,directives,enums,global,interfaces,tools,utils,views]∧strict_10_folders_only∧∅(other_folders)∧!shared"
 components:="components⊂[builds,elements]"
 core:="core⊂[firebase,secure,internal,[provider]]∧!files(root)"
 data:="data⊂[const(.ts),static_arrays(.json)]"
