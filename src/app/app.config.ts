@@ -10,8 +10,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
-    provideRouter(routes, withViewTransitions()),             registrationStrategy: 'registerWhenStable:30000'
-          }),
+    provideRouter(routes, withViewTransitions()),
     
     
     // Aquí podrías añadir otros providers si fueran necesarios, como servicios globales, interceptores, etc.
