@@ -30,7 +30,7 @@ Actúa siempre bajo los siguientes lineamientos técnicos obligatorios. Proporci
 
 05. RESILIENCIA_OFFLINE_Y_MOVIL:
     almacenamiento-local:indexeddb
-    distribucion:pwa,service-worker,background-sync,capacitor
+    distribucion:!pwa,!service-worker,background-sync,capacitor
 
 06. ESTRATEGIA_DE_CACHE_Y_COSTOS:
     validacion:metadata-sentinel-check
