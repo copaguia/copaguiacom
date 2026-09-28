@@ -90,18 +90,15 @@ export class DevDashboardComponent implements OnInit {
 
   // Sincroniza el arreglo de coordenadas cuando el usuario arrastra un vértice
   sincronizarPoligono() {
-    if (!this.polygonRef?.polygon) return;
+    if (!this.polygonRef?.polygon) 
+      return;
     const path = this.polygonRef.polygon.getPath();
     const puntos: Array<{ lat: number; lng: number }> = [];
-    path.forEach((latLng: google.maps.LatLng) => {
-      puntos.push({ lat: latLng.lat(), lng: latLng.lng() });
-    });
+    path.forEach((latLng: google.maps.LatLng) => { puntos.push({ lat: latLng.lat(), lng: latLng.lng() }); });
     this.limitePoligonal = puntos;
   }
 
-  borrarPoligono() {
-    this.limitePoligonal = [];
-  }
+  borrarPoligono() { this.limitePoligonal = []; }
 
   async onSubmit() {
     if (this.tenantForm.invalid) return;
