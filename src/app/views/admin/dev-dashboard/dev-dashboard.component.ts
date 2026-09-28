@@ -26,33 +26,15 @@ declare var google: any;
 @Component({
   selector: 'app-dev-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatIconModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    MatProgressSpinnerModule,
-    MatDividerModule,
-    MatTooltipModule,
-    MatTabsModule,
-    MatDialogModule,
-    GoogleMap,
-    MapPolygon,
-    CostosPanelComponent
-  ],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatIconModule, MatSnackBarModule, MatSelectModule, MatProgressSpinnerModule, MatDividerModule, MatTooltipModule, MatTabsModule, MatDialogModule, GoogleMap, MapPolygon, CostosPanelComponent],
   templateUrl: './dev-dashboard.component.html',
   styleUrls: ['./dev-dashboard.component.css']
 })
 export class DevDashboardComponent implements OnInit {
-  private fb = inject(FormBuilder);
-  private firebase = inject(InstanciaFirebase);
-  private snackBar = inject(MatSnackBar);
-  private dialog = inject(MatDialog);
+  private fb        = inject(FormBuilder);
+  private firebase  = inject(InstanciaFirebase);
+  private snackBar  = inject(MatSnackBar);
+  private dialog    = inject(MatDialog);
 
   @ViewChild(GoogleMap, { static: false }) map!: GoogleMap;
   @ViewChild(MapPolygon, { static: false }) polygonRef!: MapPolygon;
@@ -61,11 +43,7 @@ export class DevDashboardComponent implements OnInit {
   public cargandoDominios = signal(false);
   public dominiosCloudflare = signal<CloudFlareDominioInterface[]>([]);
 
-  public mapOptions: google.maps.MapOptions = {
-    center: { lat: 6.25184, lng: -75.56359 },
-    zoom: 13,
-    disableDoubleClickZoom: true
-  };
+  public mapOptions: google.maps.MapOptions = { center: { lat: 6.25184, lng: -75.56359 }, zoom: 13, disableDoubleClickZoom: true };
 
   public polygonOptions: google.maps.PolygonOptions = {
     fillColor: '#1976D2',
@@ -80,40 +58,26 @@ export class DevDashboardComponent implements OnInit {
   public limitePoligonal: Array<{ lat: number; lng: number }> = [];
 
   public tenantForm = this.fb.group({
-    id: ['', Validators.required],
-    dominio: ['', Validators.required],
-    modoConexion: ['EXISTENTE', Validators.required],
-    nombre: ['', Validators.required],
-    descripcion: [''],
-    logoUrl: [''],
-    municipio: ['', Validators.required],
-    sector: ['', Validators.required],
-    agenteAsignadoId: ['']
+    id:                 ['', Validators.required],
+    dominio:            ['', Validators.required],
+    modoConexion:       ['EXISTENTE', Validators.required],
+    nombre:             ['', Validators.required],
+    descripcion:        [''],
+    logoUrl:            [''],
+    municipio:          ['', Validators.required],
+    sector:             ['', Validators.required],
+    agenteAsignadoId:   ['']
   });
 
-  async ngOnInit() {
-    await this.cargarDominiosCloudflare();
-  }
+  async ngOnInit() {  await this.cargarDominiosCloudflare();  }
 
   async cargarDominiosCloudflare() {
     this.cargandoDominios.set(true);
-    try {
-      const fn = httpsCallable<void, { success: boolean; dominios: CloudFlareDominioInterface[] }>(
-        this.firebase.functions, 'listarDominiosCloudflare'
-      );
-      const result = await fn();
-      this.dominiosCloudflare.set(result.data.dominios ?? []);
-    } catch (error: any) {
-      console.warn('No se pudieron cargar dominios de Cloudflare:', error.message);
-      this.dominiosCloudflare.set([]);
-    } finally {
-      this.cargandoDominios.set(false);
-    }
+    try {     const fn = httpsCallable<void, { success: boolean; dominios: CloudFlareDominioInterface[] }>(      this.firebase.functions, 'listarDominiosCloudflare'      );    const result = await fn();   this.dominiosCloudflare.set(result.data.dominios ?? []);
+    } catch (error: any) {      console.warn('No se pudieron cargar dominios de Cloudflare:', error.message);      this.dominiosCloudflare.set([]);    } finally {      this.cargandoDominios.set(false);    }
   }
 
-  onDominioSeleccionado(dominio: string) {
-    this.tenantForm.patchValue({ dominio, modoConexion: 'EXISTENTE' });
-  }
+  onDominioSeleccionado(dominio: string) {   this.tenantForm.patchValue({ dominio, modoConexion: 'EXISTENTE' });  }
 
   onMapClick(event: google.maps.MapMouseEvent) {
     if (event.latLng) {

@@ -1,7 +1,6 @@
----
 name: leader
 description: ADN Lidertech (JEP/LEP). CTO_Virtual supreme.
----
+
 [DNA]id:LIDERTECH_GLOBAL;protocol:JEP;role:CTO_Virtual(Supreme)
 [ACT]always:1;human_prompt:0
 [ENV]v:"3.3.0"
@@ -50,5 +49,6 @@ ai_backend:="firebase_ai(vertex)→AI_BACKEND_TEMPLATE"
 qa_testing:="unit_tests(required)∧mocks(strict)∧!skip_tests"
 perf_vitals:="ssr(mandatory)∧max_initial_load(300kb)∧max_render(1s)∧lazy_load_all_views(@defer_strict)∧img(NgOptimizedImage)∧max_lcp(1s)∧!bundle_bloat"
 security:="dom_manipulation(Renderer2|Signals)∧!innerHTML∧!document_object"
-cross_platform:="if(req=native_mobile)→capacitor_sdk∧!cordova : !pwa∧!service_worker(strict)∧direct_connection_only"
-env_security:="scripts/(hidden_secrets,apis)→.gitignore : src/environments/(public_firebase,recaptcha) : src/assets/"
+mobile_stack:="if(req=native_mobile)→(capacitor_sdk∧!cordova)"
+web_runtime:="!pwa ∧ !service_worker(strict) ∧ direct_connection_only"
+env_security:="scripts/(hidden_secrets,apis)→.gitignore ∧ src/environments/(public_firebase,recaptcha)→public_only ∧ src/assets/→static_only"

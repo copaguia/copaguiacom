@@ -6,148 +6,145 @@
       Gestor de Roles
     </button>
   </div>
-  
+
   <mat-tab-group>
     <!-- Tab: Orquestación -->
     <mat-tab label="Apertura y Orquestación">
       <p class="tab-description">Desde aquí puedes registrar nuevos dominios y aperturar directorios locales.</p>
 
       <mat-card class="form-card">
-    <mat-card-header>
-      <mat-card-title>Aperturar Nuevo Directorio</mat-card-title>
-    </mat-card-header>
+        <mat-card-header>
+          <mat-card-title>Aperturar Nuevo Directorio</mat-card-title>
+        </mat-card-header>
 
-    <mat-card-content>
-      <form [formGroup]="tenantForm" (ngSubmit)="onSubmit()" class="tenant-form">
+        <mat-card-content>
+          <form [formGroup]="tenantForm" (ngSubmit)="onSubmit()" class="tenant-form">
 
-        <!-- Selector de Dominio desde Cloudflare -->
-        <div class="section-label">
-          <mat-icon>language</mat-icon>
-          <span>1. Selecciona el dominio</span>
-        </div>
+            <!-- Selector de Dominio desde Cloudflare -->
+            <div class="section-label">
+              <mat-icon>language</mat-icon>
+              <span>1. Selecciona el dominio</span>
+            </div>
 
-        @if (cargandoDominios()) {
-          <div class="loading-dominios">
-            <mat-spinner diameter="24"></mat-spinner>
-            <span>Cargando dominios desde Cloudflare...</span>
-          </div>
-        } @else if (dominiosCloudflare().length > 0) {
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Dominios en tu cuenta Cloudflare</mat-label>
-            <mat-select formControlName="dominio" (selectionChange)="onDominioSeleccionado($event.value)">
-              @for (dominio of dominiosCloudflare(); track dominio.nombre) {
+            @if (cargandoDominios()) {
+            <div class="loading-dominios">
+              <mat-spinner diameter="24"></mat-spinner>
+              <span>Cargando dominios desde Cloudflare...</span>
+            </div>
+            } @else if (dominiosCloudflare().length > 0) {
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dominios en tu cuenta Cloudflare</mat-label>
+              <mat-select formControlName="dominio" (selectionChange)="onDominioSeleccionado($event.value)">
+                @for (dominio of dominiosCloudflare(); track dominio.nombre) {
                 <mat-option [value]="dominio.nombre">
                   <span class="dominio-option">
                     <strong>{{ dominio.nombre }}</strong>
                     <small>Expira: {{ dominio.expiracion | date:'mediumDate' }} · {{ dominio.estado }}</small>
                   </span>
                 </mat-option>
-              }
-            </mat-select>
-            <mat-hint>O escribe un dominio nuevo abajo para comprarlo</mat-hint>
-          </mat-form-field>
-        }
+                }
+              </mat-select>
+              <mat-hint>O escribe un dominio nuevo abajo para comprarlo</mat-hint>
+            </mat-form-field>
+            }
 
-        <mat-divider></mat-divider>
+            <mat-divider></mat-divider>
 
-        <div class="row" style="margin-top: 16px;">
-          <mat-form-field appearance="outline">
-            <mat-label>ID del Tenant (ej. niquia_medellin)</mat-label>
-            <input matInput formControlName="id" placeholder="ID único" required>
-          </mat-form-field>
+            <div class="row" style="margin-top: 16px;">
+              <mat-form-field appearance="outline">
+                <mat-label>ID del Tenant (ej. niquia_medellin)</mat-label>
+                <input matInput formControlName="id" placeholder="ID único" required>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Dominio (ej. niquia.com)</mat-label>
-            <input matInput formControlName="dominio" placeholder="URL o hostname" required>
-          </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Dominio (ej. niquia.com)</mat-label>
+                <input matInput formControlName="dominio" placeholder="URL o hostname" required>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Modo de Conexión</mat-label>
-            <mat-select formControlName="modoConexion">
-              <mat-option value="EXISTENTE">🔗 Conectar dominio existente</mat-option>
-              <mat-option value="NUEVO">🛒 Comprar dominio nuevo</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Modo de Conexión</mat-label>
+                <mat-select formControlName="modoConexion">
+                  <mat-option value="EXISTENTE">🔗 Conectar dominio existente</mat-option>
+                  <mat-option value="NUEVO">🛒 Comprar dominio nuevo</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-        <div class="row">
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre Público</mat-label>
-            <input matInput formControlName="nombre" placeholder="Ej. Guía Niquía" required>
-          </mat-form-field>
+            <div class="row">
+              <mat-form-field appearance="outline">
+                <mat-label>Nombre Público</mat-label>
+                <input matInput formControlName="nombre" placeholder="Ej. Guía Niquía" required>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Municipio</mat-label>
-            <input matInput formControlName="municipio" required>
-          </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Municipio</mat-label>
+                <input matInput formControlName="municipio" required>
+              </mat-form-field>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Sector</mat-label>
-            <input matInput formControlName="sector" required>
-          </mat-form-field>
-        </div>
+              <mat-form-field appearance="outline">
+                <mat-label>Sector</mat-label>
+                <input matInput formControlName="sector" required>
+              </mat-form-field>
+            </div>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Descripción / Sumario (SEO)</mat-label>
-          <textarea matInput formControlName="descripcion" rows="2"></textarea>
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Descripción / Sumario (SEO)</mat-label>
+              <textarea matInput formControlName="descripcion" rows="2"></textarea>
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>URL del Logo</mat-label>
-          <input matInput formControlName="logoUrl">
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>URL del Logo</mat-label>
+              <input matInput formControlName="logoUrl">
+            </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>ID del Agente Asignado (Opcional)</mat-label>
-          <input matInput formControlName="agenteAsignadoId">
-        </mat-form-field>
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>ID del Agente Asignado (Opcional)</mat-label>
+              <input matInput formControlName="agenteAsignadoId">
+            </mat-form-field>
 
-        <!-- Mapa de Polígono -->
-        <div class="section-label" style="margin-top: 8px;">
-          <mat-icon>map</mat-icon>
-          <span>2. Traza la Zona de Influencia (Polígono)</span>
-        </div>
-        <p class="map-hint">Haz clic en el mapa para ir marcando los vértices del área del directorio.</p>
+            <!-- Mapa de Polígono -->
+            <div class="section-label" style="margin-top: 8px;">
+              <mat-icon>map</mat-icon>
+              <span>2. Traza la Zona de Influencia (Polígono)</span>
+            </div>
+            <p class="map-hint">Haz clic en el mapa para ir marcando los vértices del área del directorio.</p>
 
-        <div class="map-container">
-          <google-map height="400px" width="100%" [options]="mapOptions" (mapClick)="onMapClick($event)">
+            <div class="map-container">
+              <google-map height="650px" width="100%" [options]="mapOptions" (mapClick)="onMapClick($event)">
+                @if (limitePoligonal.length > 0) {
+                <map-polygon [paths]="limitePoligonal" [options]="polygonOptions" (polyMouseup)="sincronizarPoligono()"
+                  (polyDragend)="sincronizarPoligono()">
+                </map-polygon>
+                }
+              </google-map>
+            </div>
+
             @if (limitePoligonal.length > 0) {
-              <map-polygon
-                [paths]="limitePoligonal"
-                [options]="polygonOptions"
-                (polyMouseup)="sincronizarPoligono()"
-                (polyDragend)="sincronizarPoligono()">
-              </map-polygon>
+            <div class="map-actions">
+              <span class="success-text">
+                <mat-icon>check_circle</mat-icon>
+                Polígono trazado ({{ limitePoligonal.length }} vértices)
+              </span>
+              <button mat-button color="warn" type="button" (click)="borrarPoligono()">Borrar y redibujar</button>
+            </div>
             }
-          </google-map>
-        </div>
 
-        @if (limitePoligonal.length > 0) {
-          <div class="map-actions">
-            <span class="success-text">
-              <mat-icon>check_circle</mat-icon>
-              Polígono trazado ({{ limitePoligonal.length }} vértices)
-            </span>
-            <button mat-button color="warn" type="button" (click)="borrarPoligono()">Borrar y redibujar</button>
-          </div>
-        }
+            <!-- Acciones -->
+            <div class="actions">
+              <button mat-flat-button color="primary" type="submit"
+                [disabled]="tenantForm.invalid || isSubmitting() || limitePoligonal.length < 3">
+                @if (isSubmitting()) {
+                <mat-spinner diameter="20"></mat-spinner>
+                } @else {
+                <mat-icon>rocket_launch</mat-icon>
+                }
+                Lanzar Directorio Zero-Touch
+              </button>
+            </div>
 
-        <!-- Acciones -->
-        <div class="actions">
-          <button mat-flat-button color="primary" type="submit"
-            [disabled]="tenantForm.invalid || isSubmitting() || limitePoligonal.length < 3">
-            @if (isSubmitting()) {
-              <mat-spinner diameter="20"></mat-spinner>
-            } @else {
-              <mat-icon>rocket_launch</mat-icon>
-            }
-            Lanzar Directorio Zero-Touch
-          </button>
-        </div>
-
-      </form>
-    </mat-card-content>
-  </mat-card>
+          </form>
+        </mat-card-content>
+      </mat-card>
     </mat-tab>
 
     <!-- Tab: Costos e Infraestructura -->

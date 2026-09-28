@@ -5,5 +5,13 @@
     "titleBar.inactiveBackground": "#1e3a8a",
     "activityBar.background": "#1e40af",
     "statusBar.background": "#1e40af"
-  }
+  },
+  // Desactiva el autoformateo al guardar solo para este proyecto
+  "editor.formatOnSave": false,
+  // Tamaño de tabulación que prefieres (2 o 4)
+  "editor.tabSize": 2,
+  // true para convertir tabs en espacios, false para mantener tabs reales
+  "editor.insertSpaces": true,
+  // Evita que VS Code intente adivinar la tabulación del archivo abierto
+  "editor.detectIndentation": false
 }
