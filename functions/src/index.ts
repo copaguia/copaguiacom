@@ -22,8 +22,6 @@ export { generarTokenSSO }          from './firebase/tokenSSOAuthIntercambioDomi
 
 
 
-
-
 // ============================================================================
 // CREACIÓN Y PROVISIÓN DE DIRECTORIOS - orquesta la creacion del nuevo disrectorio.
 // ============================================================================
