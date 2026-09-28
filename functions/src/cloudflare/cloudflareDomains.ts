@@ -1,30 +1,13 @@
-import axios from 'axios';
+import { AxiosInstance } from 'axios';
+import { CloudflareConfig } from '../interfaces/cloudflareconfig.interface';
+import { CloudflareDominio } from './dominio.interface';
+import { crearClienteCloudflare } from './coneccionAxiosCloudlfare';
 
-// Interfaces
-export interface CloudflareConfig {
-  accountId: string;
-  apiToken:  string;
-}
-
-export interface CloudflareDominio {
-  nombre:     string;
-  expiracion: string;
-  autoRenew:  boolean;
-  estado:     string;
-}
-
-/**
- * Lista todos los dominios registrados en la cuenta Cloudflare Registrar.
- * Retorna solo los campos necesarios para el selector del Dev Dashboard.
- */
-export async function listarDominiosRegistrados(config: CloudflareConfig): Promise<CloudflareDominio[]> {
+export async function listarDominiosRegistrados(config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const url = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/registrar/domains`;
-    const response = await axios.get(url, {
-      headers: { 'Authorization': `Bearer ${config.apiToken}` }
-    });
-
-    const dominios: CloudflareDominio[] = (response.data.result || []).map((d: any) => ({
+    const respuesta = await cliente.get(`/accounts/${config.accountId}/registrar/domains`);
+    const dominios: CloudflareDominio[] = (respuesta.data.result || []).map((d: any) => ({
       nombre:     d.name,
       expiracion: d.expires_at,
       autoRenew:  d.auto_renew,
@@ -38,137 +21,78 @@ export async function listarDominiosRegistrados(config: CloudflareConfig): Promi
   }
 }
 
-/**
- * Registra un NUEVO dominio usando Cloudflare Registrar (lo compra).
- * Requiere método de pago pre-configurado en la cuenta Cloudflare.
- * @param domainName Nombre del dominio (ej. guianiquia.com)
- * @param config Configuración con Token y Account ID
- */
 export async function comprarDominio(domainName: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const url = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/registrar/domains`;
-
     const payload = {
       name:       domainName,
       auto_renew: true,
       years:      1
     };
 
-    const response = await axios.post(url, payload, {
-      headers: {
-        'Authorization': `Bearer ${config.apiToken}`,
-        'Content-Type':  'application/json'
-      }
-    });
-
-    return response.data;
+    const respuesta = await cliente.post(`/accounts/${config.accountId}/registrar/domains`, payload);
+    return respuesta.data;
   } catch (error: any) {
     console.error('Error comprando dominio en Cloudflare:', error.response?.data || error.message);
     throw new Error('Fallo al comprar dominio en Cloudflare');
   }
 }
 
-/**
- * Conecta un dominio YA EXISTENTE en Cloudflare al proyecto Firebase.
- * Obtiene el Zone ID del dominio existente y configura los registros DNS.
- * Útil para dominios comprados manualmente como niquia.com.
- * @param domainName Nombre del dominio ya registrado (ej. niquia.com)
- * @param config Configuración con Token y Account ID
- */
-export async function conectarDominioExistente(domainName: string, config: CloudflareConfig): Promise<string> {
+export async function conectarDominioExistente(domainName: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    // 1. Obtener el Zone ID del dominio existente en la cuenta
-    const zonesUrl = `https://api.cloudflare.com/client/v4/zones?name=${domainName}&account.id=${config.accountId}`;
-    const zonesRes = await axios.get(zonesUrl, {
-      headers: { 'Authorization': `Bearer ${config.apiToken}` }
-    });
+    const respuestaZonas = await cliente.get(`/zones?name=\({domainName}&account.id=\){config.accountId}`);
+    const zonas          = respuestaZonas.data.result;
 
-    const zones = zonesRes.data.result;
-    if (!zones || zones.length === 0) {
+    if (!zonas || zonas.length === 0) {
       throw new Error(`No se encontró la zona para el dominio ${domainName} en tu cuenta Cloudflare`);
     }
 
-    const zoneId = zones[0].id;
-    console.log(`✅ Zona encontrada para ${domainName}: ${zoneId}`);
+    const zoneId = zonas[0].id;
+    console.log(`✅ Zona encontrada para \({domainName}:\){zoneId}`);
 
-    // 2. Configurar DNS apuntando a Firebase
-    await configurarDNSFirebase(zoneId, domainName, config);
-
-    // 3. Asignar ruta de Worker para enmascarar Host
+    await configurarDNSCloudflare(zoneId, domainName, config);
     await asignarWorkerRoute(zoneId, domainName, config);
 
     return zoneId;
   } catch (error: any) {
     console.error('Error conectando dominio existente:', error.response?.data || error.message);
-    throw new Error(`Fallo al conectar ${domainName}: ${error.message}`);
+    throw new Error(`Fallo al conectar \({domainName}:\){error.message}`);
   }
 }
 
-/**
- * Configura los registros DNS (CNAME + TXT) en una zona existente apuntando a Firebase Hosting.
- * @param zoneId ID de la zona Cloudflare
- * @param domainName Nombre del dominio
- * @param config Configuración con Token
- */
-export async function configurarDNSFirebase(zoneId: string, domainName: string, config: CloudflareConfig) {
+export async function configurarDNSCloudflare(zoneId: string, domainName: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const fallbackOrigin = 'directoriopaisa.com'; // Fallback Origin para Cloudflare for SaaS
-    const dnsUrl = `https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records`;
-    const headers  = {
-      'Authorization': `Bearer ${config.apiToken}`,
-      'Content-Type':  'application/json'
-    };
-
-    // Registro CNAME raíz → Fallback Origin
-    await axios.post(dnsUrl, {
-      type:    'CNAME',
+    await cliente.post(`/zones/${zoneId}/dns_records`, {
+      type:    'A',
       name:    '@',
-      content: fallbackOrigin,
+      content: '192.0.2.1',
       proxied: true,
-      comment: 'Configurado automáticamente por Copaguia Zero-Touch'
-    }, { headers });
-
-    // Registro CNAME www → Fallback Origin
-    await axios.post(dnsUrl, {
-      type:    'CNAME',
-      name:    'www',
-      content: fallbackOrigin,
-      proxied: true,
-      comment: 'www - Configurado automáticamente por Copaguia Zero-Touch'
-    }, { headers });
-
-    console.log(`✅ DNS configurado para ${domainName} → Firebase Hosting`);
-  } catch (error: any) {
-    // Si el registro ya existe (code 81053), no es un error fatal
-    if (error.response?.data?.errors?.[0]?.code === 81053) {
-      console.log(`ℹ️ DNS ya estaba configurado para ${domainName}, omitiendo.`);
-      return;
-    }
-    console.error('Error configurando DNS en Cloudflare:', error.response?.data || error.message);
-    throw new Error('Fallo al configurar DNS');
-  }
-}
-
-/**
- * Verifica la disponibilidad y precio de un dominio en Cloudflare Registrar.
- * @param domainName Nombre del dominio a buscar (ej. guianiquia.com)
- * @param config Configuración con Token y Account ID
- */
-export async function verificarDisponibilidadDominio(domainName: string, config: CloudflareConfig) {
-  try {
-    const url = `https://api.cloudflare.com/client/v4/accounts/${config.accountId}/registrar/domains/search`;
-    const response = await axios.post(url, { name: domainName }, {
-      headers: {
-        'Authorization': `Bearer ${config.apiToken}`,
-        'Content-Type':  'application/json'
-      }
+      comment: 'Configurado automáticamente por Copaguia'
     });
 
-    const result = response.data.result;
+    console.log(`✅ Registro A (192.0.2.1 proxied) creado para ${domainName}`);
+  } catch (error: any) {
+    if (error.response?.data?.errors?.[0]?.code === 81053) {
+      console.log(`ℹ️ Registro DNS ya existía para ${domainName}, omitiendo.`);
+      return;
+    }
+    console.error('Error configurando DNS Cloudflare:', error.response?.data || error.message);
+    throw new Error('Fallo al configurar DNS en Cloudflare');
+  }
+}
+
+export async function verificarDisponibilidadDominio(domainName: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
+  try {
+    const respuesta = await cliente.post(`/accounts/${config.accountId}/registrar/domains/search`, { name: domainName });
+    const result    = respuesta.data.result;
+
     return {
-      disponible: result.available || false,
-      precio: result.price || 0,
-      moneda: result.currency || 'USD'
+      disponible: result?.available || false,
+      precio:     result?.price || 0,
+      moneda:     result?.currency || 'USD'
     };
   } catch (error: any) {
     console.error('Error verificando disponibilidad en Cloudflare:', error.response?.data || error.message);
@@ -176,61 +100,36 @@ export async function verificarDisponibilidadDominio(domainName: string, config:
   }
 }
 
-/**
- * Crea un Custom Hostname (Cloudflare for SaaS) en la Zona Hub para un dominio de Tenant.
- * @param tenantDomain El dominio del tenant (ej. guianiquia.com)
- * @param hubZoneId El ID de la zona principal (ej. directoriopaisa.com)
- * @param config Configuración con Token
- */
 export async function crearCustomHostname(tenantDomain: string, hubZoneId: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const url = `https://api.cloudflare.com/client/v4/zones/${hubZoneId}/custom_hostnames`;
-    const response = await axios.post(url, {
+    const respuesta = await cliente.post(`/zones/${hubZoneId}/custom_hostnames`, {
       hostname: tenantDomain,
       ssl: {
-        method: "http",
-        type: "dv"
-      }
-    }, {
-      headers: {
-        'Authorization': `Bearer ${config.apiToken}`,
-        'Content-Type':  'application/json'
+        method: 'http',
+        type:   'dv'
       }
     });
 
-    return response.data.result;
+    return respuesta.data.result;
   } catch (error: any) {
     console.error('Error creando Custom Hostname:', error.response?.data || error.message);
     throw new Error(`Fallo al crear Custom Hostname para ${tenantDomain}`);
   }
 }
 
-/**
- * Asigna la ruta del Worker `firebase-mask` a la zona del dominio
- * para enmascarar la cabecera Host hacia Firebase.
- * @param zoneId ID de la zona Cloudflare del nuevo dominio
- * @param domainName Nombre del dominio (ej. niquia.com)
- * @param config Configuración con Token
- */
 export async function asignarWorkerRoute(zoneId: string, domainName: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const url = `https://api.cloudflare.com/client/v4/zones/${zoneId}/workers/routes`;
     const payload = {
       pattern: `*${domainName}/*`,
-      script: 'firebase-mask'
+      script:  'firebase-mask'
     };
 
-    const response = await axios.post(url, payload, {
-      headers: {
-        'Authorization': `Bearer ${config.apiToken}`,
-        'Content-Type':  'application/json'
-      }
-    });
-
+    const respuesta = await cliente.post(`/zones/${zoneId}/workers/routes`, payload);
     console.log(`✅ Worker 'firebase-mask' asignado a la ruta *${domainName}/*`);
-    return response.data;
+    return respuesta.data;
   } catch (error: any) {
-    // Si la ruta ya existe, el código de error suele ser 10020
     if (error.response?.data?.errors?.[0]?.code === 10020) {
       console.log(`ℹ️ La ruta del Worker ya estaba asignada para ${domainName}, omitiendo.`);
       return;
@@ -240,35 +139,20 @@ export async function asignarWorkerRoute(zoneId: string, domainName: string, con
   }
 }
 
-/**
- * Crea un registro CNAME para un subdominio bajo la zona principal (Hub Zone).
- * @param tenantDomain El subdominio completo (ej. barrioobrero.directoriopaisa.com)
- * @param hubZoneId El ID de la zona principal
- * @param config Configuración con Token
- */
 export async function crearSubdominio(tenantDomain: string, hubZoneId: string, config: CloudflareConfig) {
+  const cliente: AxiosInstance = crearClienteCloudflare(config);
   try {
-    const dnsUrl = `https://api.cloudflare.com/client/v4/zones/${hubZoneId}/dns_records`;
-    
-    // Extraer solo la parte del subdominio (ej: "barrioobrero" de "barrioobrero.directoriopaisa.com")
-    // Opcionalmente podemos mandar el nombre completo y CF lo recorta.
     const payload = {
-      type: 'CNAME',
-      name: tenantDomain,
-      content: 'directoriopaisa.com', // El fallback origin o root
+      type:    'CNAME',
+      name:    tenantDomain,
+      content: 'directoriopaisa.com',
       proxied: true,
       comment: 'Subdominio Zero-Cost creado automáticamente'
     };
 
-    const response = await axios.post(dnsUrl, payload, {
-      headers: {
-        'Authorization': `Bearer ${config.apiToken}`,
-        'Content-Type':  'application/json'
-      }
-    });
-
+    const respuesta = await cliente.post(`/zones/${hubZoneId}/dns_records`, payload);
     console.log(`✅ Subdominio CNAME creado: ${tenantDomain}`);
-    return response.data.result;
+    return respuesta.data.result;
   } catch (error: any) {
     if (error.response?.data?.errors?.[0]?.code === 81053) {
       console.log(`ℹ️ El subdominio ya existía en DNS: ${tenantDomain}, omitiendo.`);

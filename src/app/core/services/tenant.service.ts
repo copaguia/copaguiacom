@@ -5,10 +5,10 @@ import { DOCUMENT } from '@angular/common';
 export class TenantService {
   private readonly document = inject(DOCUMENT);
 
-  readonly currentTenant = signal<string>('default');
-  readonly isCopaguia = computed(() => this.currentTenant() === 'copaguia');
-  readonly isNiquia = computed(() => this.currentTenant() === 'niquia');
-  readonly isElHueco = computed(() => this.currentTenant() === 'elhueco');
+  readonly currentTenant  = signal<string>('default');
+  readonly isCopaguia     = computed(() => this.currentTenant() === 'copaguia');
+  readonly isNiquia       = computed(() => this.currentTenant() === 'niquia');
+  readonly isElHueco      = computed(() => this.currentTenant() === 'elhueco');
 
   constructor() {
     this.detectarTenant();

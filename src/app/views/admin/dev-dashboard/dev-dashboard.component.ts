@@ -142,3 +142,35 @@ export class DevDashboardComponent implements OnInit {
     });
   }
 }
+
+
+
+
+/**
+ * ============================================================================
+ * PENDIENTE REFACTORIZACIÓN - SESIÓN SIGUIENTE (CREACIÓN & CONEXIÓN MULTITENANT)
+ * ============================================================================
+ * 
+ * CONTEXTO DE INTEGRACIÓN:
+ * Este componente orquesta el alta de nuevos directorios/municipios delegando
+ * toda la complejidad al backend mediante la función 'provisionarNuevoDirectorio'.
+ * 
+ * FLUJO PREVISTO:
+ * 1. Formulario Reactivo (formGroup / formBuilder):
+ *    - Captura nombre, dominio, modoConexion y polígono geográfico.
+ *    - Integrado con componentes de Angular Material (SEO y semántica).
+ * 
+ * 2. Invocación al Orquestador (Backend):
+ *    - Dispara httpsCallable('provisionarNuevoDirectorio') enviando los metadatos.
+ *    - El backend aprovisiona Cloudflare (DNS/Custom Hostnames), guarda el directorio
+ *      en Firestore e inicia el crawling en Apify con el webhook de retorno.
+ * 
+ * 3. Tareas para la sesión de mañana:
+ *    - Unificar la llamada dentro de un servicio único de Angular (evitar llamadas
+ *      directas dispersas de httpsCallable en los componentes).
+ *    - Manejo de estado reactivo con Signals para la respuesta y carga (loading).
+ *    - Limpieza de suscripciones con ngOnDestroy / takeUntilDestroyed para prevenir memory leaks.
+ *    - Nota BD: Si se implementan filtros dobles (ej. directorioId + categoria/estado),
+ *      verificar la existencia del índice compuesto en Firestore.
+ * ============================================================================
+ */
