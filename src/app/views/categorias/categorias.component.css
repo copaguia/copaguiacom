@@ -5,8 +5,8 @@
   overflow-x: hidden;
   /* Esto mata la barra de scroll abajo */
   overflow-y: visible;
-  padding-bottom: 20px;
-  padding-top: 15px;
+  padding-bottom: 2px;
+  padding-top: 5px;
 }
 
 /* Forzar el bloqueo en el contenedor interno de Angular Material */
@@ -362,9 +362,8 @@ h2 {
 
 /* --- Botones Clasificados y Marketplace --- */
 .accesos-directos-grid {
-  margin: 6px auto;
+  margin: 0px auto;
   max-width: 800px;
-  padding: 0 16px;
 }
 
 .mini-fab-row {

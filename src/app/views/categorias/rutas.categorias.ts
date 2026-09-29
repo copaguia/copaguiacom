@@ -16,7 +16,7 @@ export interface RutaMenuAccion {
 
 export const ACCESOS_DIRECTOS = [
   { ruta: 'clasificados', etiqueta: 'Clasificados', icono: 'newspaper' },
-  { ruta: 'marketplace', etiqueta: 'Marketplace', icono: 'storefront' }
+  //{ ruta: 'marketplace', etiqueta: 'Marketplace', icono: 'storefront' }
 ] as const;
 
 export const RUTAS_VISITANTE: RutaItem[] = [

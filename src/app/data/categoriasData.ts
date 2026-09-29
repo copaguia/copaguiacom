@@ -418,6 +418,11 @@ export const categoriaData: CategoriasInterface[] = [
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comunidad',
         seccion: [
+          {
+                ruta: 'Parroquias',
+                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
+            },
+          
             {
                 ruta: 'Comunicados',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
@@ -430,22 +435,8 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta: 'Cultura',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {
-                ruta: 'Instituciones',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Trámites Institucionales',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Bancos y Coperativas',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Parroquias',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
+                                 
+            
 
         ],
 
@@ -471,7 +462,7 @@ export const categoriaData: CategoriasInterface[] = [
 
     },
 
-    // . Inmuebles
+    /*. Inmuebles
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Inmuebles',
@@ -503,7 +494,7 @@ export const categoriaData: CategoriasInterface[] = [
 
         ],
 
-    },
+    },*/ 
 
     // . Educacion
     {
@@ -526,14 +517,8 @@ export const categoriaData: CategoriasInterface[] = [
                 ruta: 'Apoyo Escolar',
                 icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
             },
-            {
-                ruta: 'Teso IA',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            },
-            {
-                ruta: 'Bibliotecas',
-                icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'
-            }
+            //{ ruta: 'Teso IA', icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'    },
+            //{ ruta: 'Bibliotecas', icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif'  }
 
         ],
 
