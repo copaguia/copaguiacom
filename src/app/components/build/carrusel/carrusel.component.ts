@@ -12,6 +12,7 @@ export interface BannerInterface {
   phoneFijo?: number;
   patrocinador?: string;
   fechaCaducidad?: string;
+  url?: string;
 }
 
 @Component({
