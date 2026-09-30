@@ -1,14 +1,15 @@
 <div class="marquee-container">
   <div class="marquee-title" style="display:flex; justify-content:center; align-items:center; gap: 1rem; text-transform: uppercase;">
     EMPRESAS QUE LE METEN EL HOMBRO A LO NUESTRO
-    <button mat-flat-button color="accent" (click)="openInterestDialog()" style="height: 28px; line-height: 28px; font-size: 11px; font-weight: bold; padding: 0 12px; border-radius: 16px;">
-      <mat-icon style="font-size: 16px; width: 16px; height: 16px; margin-right: 4px;">handshake</mat-icon> ¡Únete Aquí!
+    <button class="unete-btn pulse-cyan" (click)="openInterestDialog()">
+      <mat-icon class="unete-icon">handshake</mat-icon>
+      <span class="unete-text">¡ÚNETE AQUÍ!</span>
     </button>
   </div>
   <div class="marquee-content">
     <!-- Duplicamos la lista para lograr el efecto infinito -->
     @for (sponsor of sponsors; track sponsor.id) {
-      <div class="sponsor-card" (click)="sponsor.id === 'disponible' ? openInterestDialog() : abrirEnlace(sponsor)" [title]="sponsor.patrocinador">
+      <div class="sponsor-card" (click)="!sponsor.image ? openInterestDialog() : abrirEnlace(sponsor)" [title]="sponsor.patrocinador">
         @if (sponsor.image) {
           <img [src]="sponsor.image" [alt]="sponsor.patrocinador">
         } @else {
@@ -20,7 +21,7 @@
       </div>
     }
     @for (sponsor of sponsors; track sponsor.id + '-dup') {
-      <div class="sponsor-card" (click)="sponsor.id === 'disponible' ? openInterestDialog() : abrirEnlace(sponsor)" [title]="sponsor.patrocinador">
+      <div class="sponsor-card" (click)="!sponsor.image ? openInterestDialog() : abrirEnlace(sponsor)" [title]="sponsor.patrocinador">
         @if (sponsor.image) {
           <img [src]="sponsor.image" [alt]="sponsor.patrocinador">
         } @else {

@@ -4,27 +4,38 @@
   </div>
   
   <div class="dialog-content">
-    <p>Has seleccionado un espacio premium disponible en Copaguía:</p>
+    <p>Al reservar este espacio en <strong>{{ data.categoria }}</strong>, tu marca se verá de esta forma atractiva para nuestros usuarios:</p>
     
-    <div class="info-card">
-      <div class="info-row">
-        <mat-icon>category</mat-icon>
-        <span>Categoría: <strong>{{ data.categoria }}</strong></span>
+    <!-- MOCKUP VISUAL DEL ANUNCIO -->
+    <div class="mockup-ad-container">
+      <div class="mockup-header">
+        <mat-icon>verified</mat-icon> Patrocinador Oficial
       </div>
-      <div class="info-row">
-        <mat-icon>view_carousel</mat-icon>
-        <span>Espacio: <strong>{{ data.espacio }}</strong></span>
+      <div class="mockup-image-placeholder">
+        <mat-icon>image</mat-icon>
+        <span>Aquí irá tu Logo o Publicidad</span>
+      </div>
+      <div class="mockup-body">
+        <div class="mockup-message">
+          "Un mensaje de apoyo a la región o un eslogan corto sobre tu marca, exactamente como tú nos digas que lo pongamos."
+        </div>
+        <button mat-flat-button color="primary" class="mockup-btn">
+          <mat-icon>link</mat-icon>
+          Tu Enlace Web o Contacto
+        </button>
       </div>
     </div>
     
-    <p class="subtitle">Comunícate con nuestro equipo comercial vía WhatsApp para conocer tarifas y reservar este espacio para tu marca antes de que otro negocio lo tome.</p>
+    <p class="subtitle" style="margin-top: 20px;">
+      Comunícate ahora mismo para asegurar este espacio premium antes de que sea tomado por otro negocio de tu sector.
+    </p>
   </div>
 
   <div class="dialog-actions">
-    <button mat-button (click)="cerrar()">Cancelar</button>
+    <button mat-button (click)="cerrar()" style="color: #ccc;">Cerrar</button>
     <button mat-flat-button class="btn-whatsapp" (click)="contactarWhatsApp()">
       <mat-icon>whatsapp</mat-icon>
-      Contactar por WhatsApp
+      Solicitar este espacio
     </button>
   </div>
 </div>

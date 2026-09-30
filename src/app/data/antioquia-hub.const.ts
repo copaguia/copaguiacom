@@ -34,7 +34,7 @@ export const ANTIOQUIA_HUB: Record<string, MunicipioGlobal> = {
         "dominio": "elhueco.online",
         "descripcion": "Directorio de El Hueco de Medellín",
         "logoUrl": "/assets/logos/elhueco.png",
-        "fondoUrl": "https://images.unsplash.com/photo-1591834220025-06ec5199650d?q=80&w=2000&auto=format&fit=crop",
+        "fondoUrl": "/assets/fondos/medellin.jpg",
         "seoConfig": {
           "titleTemplate": "El Hueco | %s",
           "metaDescription": "Directorio oficial de El Hueco en Medellín",
@@ -69,7 +69,7 @@ export const ANTIOQUIA_HUB: Record<string, MunicipioGlobal> = {
         "nombre": "Bello",
         "descripcion": "Directorio comercial y cultural del municipio de Bello, Antioquia",
         "logoUrl": "/assets/logos/default.png",
-        "fondoUrl": "https://images.unsplash.com/photo-1585863581566-7f41584285fb?q=80&w=2000&auto=format&fit=crop",
+        "fondoUrl": "https://www.bancamia.com.co/wp-content/uploads/2023/04/Regiones-27-de-Septiembre.png",
         "seoConfig": {
           "titleTemplate": "Bello | %s",
           "metaDescription": "Directorio comercial y cultural del municipio de Bello, Antioquia",
@@ -91,7 +91,7 @@ export const ANTIOQUIA_HUB: Record<string, MunicipioGlobal> = {
         "dominio": "niquia.com",
         "descripcion": "Directorio de Niquía",
         "logoUrl": "/assets/logos/niquia.png",
-        "fondoUrl": "https://images.unsplash.com/photo-1585863581566-7f41584285fb?q=80&w=2000&auto=format&fit=crop",
+        "fondoUrl": "/assets/fondos/bello.jpg",
         "seoConfig": {
           "titleTemplate": "Niquía | %s",
           "metaDescription": "El mejor directorio de Niquía",
@@ -212,7 +212,7 @@ export const ANTIOQUIA_HUB: Record<string, MunicipioGlobal> = {
         "dominio": "copaguia.com",
         "descripcion": "Directorio de Copacabana",
         "logoUrl": "/assets/logos/copaguia.png",
-        "fondoUrl": "https://images.unsplash.com/photo-1577457788107-1602bd51bce1?q=80&w=2000&auto=format&fit=crop",
+        "fondoUrl": "/assets/fondos/copacabana.jpg",
         "seoConfig": {
           "titleTemplate": "Copaguía | %s",
           "metaDescription": "El mejor directorio de Copacabana",

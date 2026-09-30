@@ -68,7 +68,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  color: #ff9800;
+  color: #0f4c9c;
   font-weight: bold;
   font-size: 10px;
   text-align: center;
@@ -81,4 +81,48 @@
   width: 20px;
   height: 20px;
   margin-bottom: 2px;
+}
+
+/* Botón ÚNETE AQUÍ */
+.unete-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #00E5FF;
+  border: none;
+  border-radius: 20px;
+  padding: 4px 14px;
+  cursor: pointer;
+  outline: none;
+  height: 28px;
+  transition: transform 0.2s;
+}
+
+.unete-btn:hover {
+  transform: scale(1.05);
+}
+
+.unete-icon {
+  color: #000;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.unete-text {
+  color: #000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Animación pulsante Cyan */
+.pulse-cyan {
+  animation: pulse-cyan 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulse-cyan {
+  0% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 229, 255, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 229, 255, 0); }
 }

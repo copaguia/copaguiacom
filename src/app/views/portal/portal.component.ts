@@ -31,17 +31,25 @@ export class PortalComponent implements OnInit, OnDestroy {
   }
 
   configurarFondosAleatorios() {
-    // Tomamos todos los que tienen fondo
-    const disponibles = this.listaMunicipios.filter(m => m.directorios['principal']?.fondoUrl);
-    // Mezclamos
+    // Solo tomamos municipios que tienen al menos un directorio (principal o sector) activo
+    const activos = this.listaMunicipios.filter(m => this.isMunicipioActivo(m));
+    
+    // Obtenemos el fondoUrl correspondiente. Si el principal está activo, usamos ese. Si no, usamos el del primer sector activo.
+    const disponibles = activos.map(m => {
+      let url = m.directorios['principal']?.fondoUrl;
+      if (!m.directorios['principal']?.activo) {
+        const sectorActivo = Object.values(m.directorios).find(d => d.sector !== 'Principal' && d.activo);
+        if (sectorActivo?.fondoUrl) {
+          url = sectorActivo.fondoUrl;
+        }
+      }
+      return { url: url!, name: m.nombre };
+    }).filter(bg => bg.url); // Aseguramos que haya URL
+
     const mezclados = [...disponibles].sort(() => 0.5 - Math.random());
-    // Seleccionamos 10 al azar para no sobrecargar el navegador con 125 imágenes HD
     const seleccionados = mezclados.slice(0, 10);
     
-    // Convertimos al formato BgImage
-    this.backgrounds.set(
-      seleccionados.map(m => ({ url: m.directorios['principal'].fondoUrl!, name: m.nombre }))
-    );
+    this.backgrounds.set(seleccionados);
   }
 
   iniciarCarrusel() {
