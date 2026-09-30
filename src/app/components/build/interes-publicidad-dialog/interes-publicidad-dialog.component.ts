@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,10 +28,12 @@ export interface InteresData {
   templateUrl: './interes-publicidad-dialog.component.html',
   styleUrl: './interes-publicidad-dialog.component.css'
 })
-export class InteresPublicidadDialogComponent {
+export class InteresPublicidadDialogComponent implements OnInit {
   
   private firestore = getFirestore(getApp());
   leadForm: FormGroup;
+  userLat: number | null = null;
+  userLng: number | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<InteresPublicidadDialogComponent>,
@@ -45,6 +47,25 @@ export class InteresPublicidadDialogComponent {
     });
   }
 
+  ngOnInit() {
+    this.detectarUbicacionUsuario();
+  }
+
+  detectarUbicacionUsuario() {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          this.userLat = position.coords.latitude;
+          this.userLng = position.coords.longitude;
+        },
+        (error) => {
+          console.warn('Geolocalización denegada o fallida en lead de sponsor', error);
+        },
+        { timeout: 10000 }
+      );
+    }
+  }
+
   async contactarWhatsApp() {
     if (this.leadForm.invalid) {
       this.leadForm.markAllAsTouched();
@@ -55,6 +76,12 @@ export class InteresPublicidadDialogComponent {
     const telefonoAdmin = '573242380090'; 
     const mensaje = `Hola Directorio Paisa, soy *${nombreContacto}* de la empresa *${nombreEmpresa}*. Estoy interesado en ser Sponsor en el espacio "${this.data.espacio}" del directorio "${this.data.categoria}". Mi correo es: ${correoCorporativo}. ¿Me podrían dar información?`;
     
+    // Generar fecha y hora
+    const now = new Date();
+    const timeString = new Intl.DateTimeFormat('es-CO', { hour: 'numeric', minute: '2-digit', hour12: true }).format(now);
+    let dateString = new Intl.DateTimeFormat('es-CO', { weekday: 'long', day: 'numeric', month: 'long' }).format(now);
+    dateString = dateString.charAt(0).toUpperCase() + dateString.slice(1); // Capitalizar
+
     // Guardar solicitud en Firestore
     try {
       const colRef = collection(this.firestore, 'solicitudSponsor');
@@ -64,7 +91,11 @@ export class InteresPublicidadDialogComponent {
         nombreEmpresa,
         nombreContacto,
         correoCorporativo,
-        fecha: new Date().toISOString(),
+        fechaISO: now.toISOString(),
+        fechaYDia: dateString,
+        hora: timeString,
+        latitud: this.userLat,
+        longitud: this.userLng,
         estado: 'pendiente'
       });
     } catch (e) {
