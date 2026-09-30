@@ -15,21 +15,7 @@ export const categoriaData: CategoriasInterface[] = [
     // . Alimentos
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
-        ruta: 'Alimentos',
-        tarjetas: [
-            {
-                image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060',
-                patrocinador: 'Copacarnes'
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060',
-                patrocinador: ''
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380',
-                patrocinador: ''
-            }
-        ],
+        ruta: 'Alimentos',        
         seccion: [
 
             {
@@ -96,20 +82,6 @@ export const categoriaData: CategoriasInterface[] = [
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comercios',
-        tarjetas: [
-            {
-                image: 'https://img.freepik.com/foto-gratis/feliz-mujer-cajera-escaneando-articulos-supermercado_171337-2418.jpg?t=st=1740799104~exp=1740802704~hmac=11147176a4b3216d0adc70c36a0f6b0ea0f92b4796033d80f19bcd5c025a2ddf&w=1060',
-                patrocinador: 'Copacarnes'
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/mujeres-sonrientes-tiro-medio-dispositivos_23-2149081077.jpg?t=st=1740799116~exp=1740802716~hmac=be16fc93e77a18e340a390c3fcd01e9e9391a42a9c5ffa6f643d28d92264eeef&w=1060',
-                patrocinador: ''
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/peso-vendedor-productos-frescos-comprador_482257-87223.jpg?t=st=1740799123~exp=1740802723~hmac=6fb20f09ebf1688f1abe6f7738b3e236f28016f5366536352aedf420fa137cb5&w=1380',
-                patrocinador: ''
-            }
-        ],
         seccion: [
             {
                 ruta: 'Hogar',
@@ -198,20 +170,6 @@ export const categoriaData: CategoriasInterface[] = [
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Servicios',
-        tarjetas: [
-            {
-                image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740',
-                patrocinador: 'Copacarnes'
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060',
-                patrocinador: ''
-            },
-            {
-                image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060',
-                patrocinador: ''
-            }
-        ],
         seccion: [
             {
                 ruta: 'Belleza y Spa',
@@ -308,21 +266,7 @@ export const categoriaData: CategoriasInterface[] = [
     // . Entretenimiento
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
-        ruta: 'Entretenimiento',
-        tarjetas: [
-            {
-                image: 'https://img.freepik.com/foto-gratis/fajita-pollo-filete-pollo-frito-pimiento-lavash-rebanadas-pan-plato-blanco_114579-174.jpg?t=st=1740849530~exp=1740853130~hmac=53b80a6432dc0572167ad1718356747ba1afb67a8c5c6b6b5d4fc42bf06bee08&w=740',
-                patrocinador: 'Copacarnes'
-            },
-            {
-                image: 'https://img.freepik.com/foto-gratis/verduras-saludables-mesa-madera_1150-38014.jpg?t=st=1740798849~exp=1740802449~hmac=281f6bff6b7fbd90acf7142574f83ab724799fd2e5faf5b38a4f074deda76db1&w=1060',
-                patrocinador: ''
-            },
-            {
-                image: 'https://img.freepik.com/fotos-premium/flay-pone-comestibles-especias_23-2148262136.jpg?w=1060',
-                patrocinador: ''
-            }
-        ],
+        ruta: 'Entretenimiento',        
         seccion: [
 
             {
@@ -413,7 +357,7 @@ export const categoriaData: CategoriasInterface[] = [
 
     },
 
-    // . Comunidad
+    /** cominidad
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Comunidad',
@@ -440,9 +384,9 @@ export const categoriaData: CategoriasInterface[] = [
 
         ],
 
-    },
-
-    // . Oportunidades
+    },*/
+ 
+    /** . Oportunidades 
     {
         icono: 'https://i.pinimg.com/originals/70/a5/52/70a552e8e955049c8587b2d7606cd6a6.gif',
         ruta: 'Oportunidades',
@@ -460,7 +404,7 @@ export const categoriaData: CategoriasInterface[] = [
 
         ],
 
-    },
+    },*/
 
     /*. Inmuebles
     {
