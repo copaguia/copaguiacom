@@ -27,8 +27,28 @@
     </div>
     
     <p class="subtitle" style="margin-top: 20px;">
-      Comunícate ahora mismo para asegurar este espacio premium antes de que sea tomado por otro negocio de tu sector.
+      Déjanos tus datos para asegurar este espacio premium antes de que sea tomado por otro negocio.
     </p>
+
+    <form [formGroup]="leadForm" class="lead-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre de la Empresa</mat-label>
+        <input matInput formControlName="nombreEmpresa" placeholder="Ej. Lidertech S.A.S">
+        <mat-error *ngIf="leadForm.get('nombreEmpresa')?.invalid">Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Contacto</mat-label>
+        <input matInput formControlName="nombreContacto" placeholder="Ej. Juan Pérez">
+        <mat-error *ngIf="leadForm.get('nombreContacto')?.invalid">Requerido</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo Corporativo</mat-label>
+        <input matInput formControlName="correoCorporativo" type="email" placeholder="ejemplo@empresa.com">
+        <mat-error *ngIf="leadForm.get('correoCorporativo')?.invalid">Correo válido requerido</mat-error>
+      </mat-form-field>
+    </form>
   </div>
 
   <div class="dialog-actions">

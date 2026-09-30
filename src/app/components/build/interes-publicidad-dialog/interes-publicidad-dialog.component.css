@@ -116,3 +116,14 @@
   color: white !important;
   font-weight: bold !important;
 }
+
+.lead-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
