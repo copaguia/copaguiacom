@@ -1,0 +1,13 @@
+<div class="container-items-wrapper">
+  <div class="container-items">
+    @for (mun of municipios; track mun.id; let i = $index) {
+      <button
+        class="item-color"
+        [style.--bg-img]="mun.directorios['principal']?.fondoUrl ? 'url(' + mun.directorios['principal'].fondoUrl + ')' : 'none'"
+        [style.--bg-color]="'hsl(' + (i * 137.5) % 360 + ', 65%, 55%)'"
+        [attr.data-name]="mun.nombre"
+      ></button>
+    }
+  </div>
+</div>
+

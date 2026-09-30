@@ -8,9 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCardModule } from '@angular/material/card';
-import { MUNICIPIOS_ANTIOQUIA, MunicipioAntioquia } from '../../../data/municipios-antioquia';
+import { ANTIOQUIA_HUB } from '../../../data/antioquia-hub.const';
+import { MunicipioGlobal, DirectorioInterface } from '../../../interfaces/directorio-interface';
 import { httpsCallable } from 'firebase/functions';
 import { InstanciaFirebase } from '../../../core/firebase/instancias.service';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { GoogleMapsLoaderService } from '../../../core/services/google-maps-loader.service';
@@ -57,7 +59,7 @@ export class AdminMunicipiosHubComponent {
   public displayedColumns: string[] = ['nombre', 'subregion', 'dominio', 'estado', 'acciones'];
 
   public municipiosFiltrados = computed(() => {
-    let filtrados = MUNICIPIOS_ANTIOQUIA;
+    let filtrados = Object.values(ANTIOQUIA_HUB);
     const sub = this.subregionSeleccionada();
     const texto = this.busquedaTexto().toLowerCase();
 
@@ -72,56 +74,56 @@ export class AdminMunicipiosHubComponent {
     return filtrados;
   });
 
-  public async verificarDominio(municipio: MunicipioAntioquia) {
-    if (!municipio.dominioPropuesto) return;
+  public async verificarDominio(municipio: MunicipioGlobal) {
+    if (!municipio.directorios['principal'].dominio) return;
     
-    this.snackBar.open(`Verificando disponibilidad de ${municipio.dominioPropuesto}...`, 'OK', { duration: 2000 });
-    municipio.estado = 'PROVISIONANDO'; // Estado visual temporal de carga
+    this.snackBar.open(`Verificando disponibilidad de ${municipio.directorios['principal'].dominio}...`, 'OK', { duration: 2000 });
+     // Estado visual temporal de carga
 
     try {
       const checkDomain = httpsCallable(this.firebase.functions, 'checkDomainAvailability');
-      const res = await checkDomain({ dominio: municipio.dominioPropuesto }) as any;
+      const res = await checkDomain({ dominio: municipio.directorios['principal'].dominio }) as any;
       
       if (res.data.success && res.data.disponible) {
         this.snackBar.open(`¡Dominio disponible por ${res.data.precio} ${res.data.moneda}!`, 'Excelente', { duration: 4000 });
-        municipio.estado = 'PENDIENTE'; // Vuelve a pendiente para poder activar
+         // Vuelve a pendiente para poder activar
       } else {
         this.snackBar.open(`El dominio no está disponible.`, 'Cerrar', { duration: 4000 });
-        municipio.estado = 'PENDIENTE';
+        
       }
     } catch (error: any) {
       console.error(error);
       this.snackBar.open(`Error: ${error.message}`, 'Cerrar', { duration: 4000 });
-      municipio.estado = 'PENDIENTE';
+      
     }
   }
 
-  public async activarDirectorio(municipio: MunicipioAntioquia) {
-    if (!confirm(`¿Estás seguro de comprar y activar ${municipio.dominioPropuesto}? Se realizará el cobro en Cloudflare.`)) {
+  public async activarDirectorio(municipio: MunicipioGlobal) {
+    if (!confirm(`¿Estás seguro de comprar y activar ${municipio.directorios['principal'].dominio}? Se realizará el cobro en Cloudflare.`)) {
       return;
     }
 
     this.snackBar.open(`Iniciando Zero-Touch para ${municipio.nombre}...`, 'OK', { duration: 3000 });
-    municipio.estado = 'PROVISIONANDO';
+    
 
     try {
       const provisionar = httpsCallable(this.firebase.functions, 'provisionarNuevoDirectorio');
       
       const res = await provisionar({
         nombreDirectorio: municipio.nombre,
-        dominioObjetivo: municipio.dominioPropuesto,
-        limitePoligonal: municipio.limitePoligonal || {},
+        dominioObjetivo: municipio.directorios['principal'].dominio,
+        areaBusquedaApify: municipio.directorios['principal'].areaBusquedaApify || {}, logoUrl: municipio.directorios['principal'].logoUrl || '',
         modoConexion: 'SUBDOMINIO'
       }) as any;
 
       if (res.data.success) {
         this.snackBar.open(`¡Directorio Activado!`, '¡Genial!', { duration: 5000 });
-        municipio.estado = 'ACTIVO';
+        municipio.directorios['principal'].activo = true;
       }
     } catch (error: any) {
       console.error(error);
       this.snackBar.open(`Error de aprovisionamiento: ${error.message}`, 'Cerrar', { duration: 5000 });
-      municipio.estado = 'PENDIENTE';
+      
     }
   }
 
@@ -130,7 +132,7 @@ export class AdminMunicipiosHubComponent {
     try {
       this.snackBar.open('Cargando Google Maps...', '', { duration: 1500 });
       await this.mapsLoader.load();
-      municipio.mapaActivo = true;
+      municipio.directorios['principal']._mapaActivo = true;
 
       // Esperar un tick de Angular para que el div se renderice
       setTimeout(() => {
@@ -220,18 +222,30 @@ export class AdminMunicipiosHubComponent {
   }
 
   public limpiarPoligono(municipio: any) {
-    const polygon = this.currentPolygons[municipio.id];
-    if (polygon) {
-      polygon.setMap(null);
+    const circle = this.currentPolygons[municipio.id];
+    if (circle) {
+      circle.setMap(null);
       delete this.currentPolygons[municipio.id];
     }
-    
-    const drawingManager = this.drawingManagers[municipio.id];
-    if (drawingManager) {
-      drawingManager.setOptions({ drawingControl: true });
-      drawingManager.setDrawingMode(google.maps.drawing.OverlayType.POLYGON);
-    }
+    municipio.directorios['principal'].areaBusquedaApify = undefined;
+    municipio.directorios['principal']._mapaActivo = false;
+  }
 
-    municipio.limitePoligonal = {};
+  public async subirLogo(event: any, municipio: MunicipioGlobal) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.snackBar.open(`Subiendo logo para ${municipio.nombre}...`, '', { duration: 2000 });
+    try {
+      const storage = getStorage();
+      const logoRef = ref(storage, `directorios/${municipio.directorios['principal'].dominio}/logo.png`);
+      await uploadBytes(logoRef, file);
+      const url = await getDownloadURL(logoRef);
+      municipio.directorios['principal'].logoUrl = url;
+      this.snackBar.open('¡Logo subido!', 'OK', { duration: 3000 });
+    } catch (e: any) {
+      console.error(e);
+      this.snackBar.open('Error al subir logo: ' + e.message, 'OK', { duration: 3000 });
+    }
   }
 }

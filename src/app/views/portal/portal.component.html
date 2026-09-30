@@ -1,33 +1,67 @@
+<div class="bg-slider">
+  @for (bg of backgrounds(); track bg.url; let i = $index) {
+    <div class="bg-slide" 
+         [style.background-image]="'url(' + bg.url + ')'"
+         [class.active]="i === currentBgIndex()">
+    </div>
+  }
+  <div class="bg-overlay"></div>
+  
+  <!-- Indicador del municipio en la foto -->
+  @if (backgrounds().length > 0) {
+    <div class="bg-location-badge">
+      📍 {{ backgrounds()[currentBgIndex()]?.name }}
+    </div>
+  }
+</div>
+
 <div class="portal-container">
   <div class="header">
-    <h1>Directorio Paisa</h1>
-    <p>Selecciona tu directorio local para explorar los mejores negocios y servicios de tu zona.</p>
+    <img src="assets/brand/dp-logo.png" alt="Logo Directorio Paisa" class="brand-logo">
+    <h1 class="mat-headline-3">Directorio Paisa</h1>
+    <app-cards-gallery></app-cards-gallery>
+    <p class="mat-body-1">Selecciona tu directorio local para explorar los mejores negocios y servicios de tu zona.</p>
   </div>
 
   <div class="cards-grid">
-    <!-- Tarjeta Copaguia -->
-    <div class="card" (click)="irADirectorio('https://copaguia.com')">
-      <h2>Copacabana</h2>
-      <p>Entrar a Copaguia</p>
-      <div class="btn">Explorar</div>
-    </div>
-
-    <!-- Tarjeta Niquia -->
-    <div class="card" (click)="irADirectorio('https://niquia.com')">
-      <h2>Niquía</h2>
-      <p>Entrar al directorio de Niquía</p>
-      <div class="btn">Explorar</div>
-    </div>
-
-    <!-- Tarjeta El Hueco -->
-    <div class="card" (click)="irADirectorio('https://elhueco.online')">
-      <h2>El Hueco Online</h2>
-      <p>Tu comercio digital</p>
-      <div class="btn">Explorar</div>
-    </div>
+    @for (mun of listaMunicipios; track mun.id) {
+      <mat-card class="compact-card" 
+                [class.disabled-card]="!isMunicipioActivo(mun)"
+                [matRippleDisabled]="!isMunicipioActivo(mun)"
+                (click)="isMunicipioActivo(mun) ? irADirectorio(getDominioActivo(mun), $event) : null" 
+                matRipple>
+        <mat-card-header style="display:flex; justify-content:space-between; align-items:center;">
+          <mat-card-title>{{ mun.nombre }}</mat-card-title>
+          
+          <!-- Menú de Sectores Adicionales -->
+          @if (getSectoresActivos(mun).length > 0) {
+            <button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" aria-label="Sectores destacados" style="color: var(--color-corporativo);">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" class="sectores-menu-panel" xPosition="before" yPosition="below">
+              <div class="menu-header" style="padding: 8px 16px; font-size: 12px;">
+                Sectores en {{ mun.nombre }}
+              </div>
+              @for (sector of getSectoresActivos(mun); track sector.id) {
+                <button mat-menu-item (click)="irADirectorio(sector.dominio, $event)">
+                  <mat-icon>location_on</mat-icon>
+                  <span>{{ sector.nombre }}</span>
+                </button>
+              }
+            </mat-menu>
+          }
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ mun.directorios['principal']?.descripcion }}</p>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-button color="primary" [disabled]="!isMunicipioActivo(mun)">EXPLORAR</button>
+        </mat-card-actions>
+      </mat-card>
+    }
   </div>
 
   <div class="footer-actions">
-    <a href="/login" class="login-link">¿Eres dueño de un negocio? Inicia Sesión</a>
+    <a href="/login" class="login-link mat-body-2">¿Eres dueño de un negocio? Inicia Sesión</a>
   </div>
 </div>
