@@ -1,429 +1,72 @@
-/* --- Bloqueo de Scroll Horizontal --- */
-.carrusel-content {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: hidden;
-  /* Esto mata la barra de scroll abajo */
-  overflow-y: visible;
-  padding-bottom: 2px;
-  padding-top: 5px;
-}
-
-/* Forzar el bloqueo en el contenedor interno de Angular Material */
-::ng-deep .mat-mdc-tab-body-content {
-  overflow-x: hidden !important;
-}
-
-/* Animación suave para el contenido cuando la pestaña se activa (lazy loading) */
-.animacion-tab-content {
-  animation: sutil-aparecer-tab 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  will-change: transform, opacity, filter;
-}
-
+.carrusel-content                                { width: 100%; max-width: 100vw; overflow-x: hidden; overflow-y: visible; padding-bottom: 2px; padding-top: 5px; }
+::ng-deep .mat-mdc-tab-body-content              { overflow-x: hidden !important; }
+.animacion-tab-content                           { animation: sutil-aparecer-tab 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; will-change: transform, opacity, filter; }
 @keyframes sutil-aparecer-tab {
-  0% {
-    opacity: 0;
-    transform: translateY(15px) scale(0.98);
-    filter: blur(3px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+  0%  { opacity: 0; transform: translateY(15px) scale(0.98); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
-
-/* --- Estructura y Altura --- */
-mat-tab-group {
-  width: 100%;
-  min-height: calc(100vh - 64px);
-  background-color: rgb(18, 18, 19);
-  /* Espacio para que el buscador inferior no tape contenido */
-}
-
-/* --- Barra de Búsqueda Inferior --- */
-.search-fixed-bottom {
-  position: fixed !important;
-  bottom: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  background-color: #041a18 !important;
-  /* Tonalidad súper oscura basada en --corporativo (#0a413e) */
-  z-index: 999999 !important;
-  padding: 12px 15px !important;
-  display: flex !important;
-  justify-content: center !important;
-  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.8) !important;
-  box-sizing: border-box !important;
-}
-
-::ng-deep .mat-mdc-tab-body-wrapper {
-  flex-grow: 1;
-}
-
-/* --- Toolbar y Avatar (Tus originales) --- */
-.custom-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 16px;
-  background-color: rgb(18, 18, 19);
-  color: rgb(155, 71, 71);
-  height: 64px;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.avatar-button {
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.user-avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.user-avatar-menu {
-  width: 24px;
-  height: 24px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 16px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-h2 {
-  letter-spacing: 1.5px;
-  text-align: end;
-  margin-right: 40px;
-  margin-top: 15px;
-  font-size: large;
-  font-style: italic;
-  color: white;
-}
-
-.toolbar-spacer {
-  flex: 1 1 auto;
-}
-
-.global-notif-btn {
-  color: #4caf50;
-}
-
-.shake-icon {
-  animation: shake 1.5s infinite cubic-bezier(.36, .07, .19, .97) both;
-  transform-origin: top center;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
+mat-tab-group                                    { width: 100%; min-height: calc(100vh - 64px); background-color: rgb(18, 18, 19); }
+.search-fixed-bottom                             { position: fixed !important; bottom: 0 !important; left: 0 !important; width: 100% !important; background-color: #041a18 !important; z-index: 999999 !important; padding: 12px 15px !important; display: flex !important; justify-content: center !important; box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.8) !important; box-sizing: border-box !important; }
+::ng-deep .mat-mdc-tab-body-wrapper              { flex-grow: 1; }
+.custom-toolbar                                  { display: flex; justify-content: space-between; align-items: center; padding: 0 16px; background-color: rgb(18, 18, 19); color: rgb(155, 71, 71); height: 64px; position: sticky; top: 0; z-index: 1000; }
+.avatar-button                                   { width: 40px; height: 40px; padding: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.user-avatar                                     { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.user-avatar-menu                                { width: 24px; height: 24px; object-fit: cover; border-radius: 50%; margin-right: 16px; display: inline-block; vertical-align: middle; }
+h2                                               { letter-spacing: 1.5px; text-align: end; margin-right: 40px; margin-top: 15px; font-size: large; font-style: italic; color: white; }
+.toolbar-spacer                                  { flex: 1 1 auto; }
+.global-notif-btn                                { color: #4caf50; }
+.shake-icon                                      { animation: shake 1.5s infinite cubic-bezier(.36, .07, .19, .97) both; transform-origin: top center; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px; }
 @keyframes shake {
-
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0) rotate(-5deg);
-  }
-
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0) rotate(5deg);
-  }
-
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0) rotate(-10deg);
-  }
-
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0) rotate(10deg);
-  }
+  10%, 90%     { transform: translate3d(-1px, 0, 0) rotate(-5deg); }
+  20%, 80%     { transform: translate3d(2px, 0, 0) rotate(5deg); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0) rotate(-10deg); }
+  40%, 60%     { transform: translate3d(4px, 0, 0) rotate(10deg); }
 }
-
-/* Redondear las esquinas de todas las pestañas y ocultar el desbordamiento del hover */
-::ng-deep .mdc-tab,
-::ng-deep .mdc-tab__ripple,
-::ng-deep .mat-mdc-tab-ripple,
-::ng-deep .mat-ripple,
-::ng-deep .mdc-tab__ripple::before,
-::ng-deep .mdc-tab__ripple::after {
-  border-top-left-radius: 15px !important;
-  border-top-right-radius: 15px !important;
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
-}
-
-/* Desactivar el hover nativo gris cuadrado de Material para evitar que sobresalga de las curvas */
-::ng-deep .mdc-tab:hover .mdc-tab__ripple::before {
-  opacity: 0 !important;
-}
-
-::ng-deep .mdc-tab {
-  overflow: visible !important;
-  /* Permitir que las curvas inferiores salgan */
-  height: 40px !important;
-  min-height: 40px !important;
-  transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease !important;
-}
-
-/* Estilo para la pestaña activa (color verde) */
-::ng-deep .mdc-tab.mdc-tab--active {
-  background-color: var(--corporativo) !important;
-  overflow: visible !important;
-  /* Necesario para que las curvas se vean fuera de la pestaña */
-  position: relative;
-  z-index: 10 !important;
-  /* Elevar la pestaña activa para que sus curvas no se oculten bajo otras pestañas */
-}
-
-/* Efecto Fluted Tabs (Curvas hacia afuera) para la pestaña ACTIVA */
-/* Anclado directamente a .mdc-tab, pero con directivas fuertes para evitar colisiones */
-::ng-deep .mdc-tab.mdc-tab--active::before,
-::ng-deep .mdc-tab.mdc-tab--active::after {
-  content: '' !important;
-  position: absolute !important;
-  bottom: 0 !important;
-  width: 15px !important;
-  height: 15px !important;
-  background-color: transparent !important;
-  pointer-events: none !important;
-  opacity: 0;
-  animation: fade-in-curves 0.4s ease forwards;
-  z-index: 20 !important;
-  display: block !important;
-  top: auto !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border: none !important;
-  transform: none !important;
-}
-
-::ng-deep .mdc-tab.mdc-tab--active::before {
-  left: -15px !important;
-  right: auto !important;
-  width: 20px !important;
-  /* 15px para la curva + 5px de superposición sólida sobre la pestaña */
-  background: radial-gradient(circle at 0 0, transparent 15px, var(--corporativo) 15.5px) !important;
-}
-
-::ng-deep .mdc-tab.mdc-tab--active::after {
-  right: -15px !important;
-  left: auto !important;
-  width: 20px !important;
-  /* 15px para la curva + 5px de superposición sólida */
-  background: radial-gradient(circle at 100% 0, transparent 15px, var(--corporativo) 15.5px) !important;
-}
-
-/* Efecto Hover para pestañas inactivas (Curva hacia adentro / redondeada completa) */
-::ng-deep .mdc-tab:not(.mdc-tab--active):hover {
-  background-color: rgba(10, 65, 62, 0.6) !important;
-  /* Corporativo translúcido */
-  border-radius: 15px !important;
-  /* Redondea todas las esquinas (curva hacia adentro) */
-  transition: all 0.3s ease !important;
-  z-index: 9 !important;
-}
-
+::ng-deep .mdc-tab, ::ng-deep .mdc-tab__ripple, ::ng-deep .mat-mdc-tab-ripple, ::ng-deep .mat-ripple, ::ng-deep .mdc-tab__ripple::before, ::ng-deep .mdc-tab__ripple::after { border-top-left-radius: 15px !important; border-top-right-radius: 15px !important; border-bottom-left-radius: 0 !important; border-bottom-right-radius: 0 !important; }
+::ng-deep .mdc-tab:hover .mdc-tab__ripple::before { opacity: 0 !important; }
+::ng-deep .mdc-tab                               { overflow: visible !important; height: 40px !important; min-height: 40px !important; transition: background-color 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), color 0.4s ease !important; }
+::ng-deep .mdc-tab.mdc-tab--active               { background-color: var(--corporativo) !important; overflow: visible !important; position: relative; z-index: 10 !important; }
+::ng-deep .mdc-tab.mdc-tab--active::before, ::ng-deep .mdc-tab.mdc-tab--active::after { content: '' !important; position: absolute !important; bottom: 0 !important; width: 15px !important; height: 15px !important; background-color: transparent !important; pointer-events: none !important; opacity: 0; animation: fade-in-curves 0.4s ease forwards; z-index: 20 !important; display: block !important; top: auto !important; margin: 0 !important; padding: 0 !important; border: none !important; transform: none !important; }
+::ng-deep .mdc-tab.mdc-tab--active::before       { left: -15px !important; right: auto !important; width: 20px !important; background: radial-gradient(circle at 0 0, transparent 15px, var(--corporativo) 15.5px) !important; }
+::ng-deep .mdc-tab.mdc-tab--active::after        { right: -15px !important; left: auto !important; width: 20px !important; background: radial-gradient(circle at 100% 0, transparent 15px, var(--corporativo) 15.5px) !important; }
+::ng-deep .mdc-tab:not(.mdc-tab--active):hover   { background-color: rgba(10, 65, 62, 0.6) !important; border-radius: 15px !important; transition: all 0.3s ease !important; z-index: 9 !important; }
 @keyframes fade-in-curves {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to  { opacity: 1; }
 }
-
-/* --- Animación sutil y elegante para el título del Toolbar --- */
-.animacion-titulo-tab {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  animation: sutil-aparecer 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  will-change: transform, opacity, filter;
-}
-
-.categoria-toolbar-icon {
-  font-size: 25px;
-  width: 25px;
-  height: 25px;
-  color: var(--corporativo, #4CAF50);
-  /* Color vibrante para el icono */
-}
-
-.categoria-toolbar-texto {
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 1px;
-  color: rgba(255, 255, 255, 0.758);
-  /* Texto aún más tenue */
-  position: relative;
-  display: inline-block;
-}
-
-/* Efecto de subrayado animado */
-.categoria-toolbar-texto::after {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background-color: var(--corporativo, #4CAF50);
-  border-radius: 2px;
-  animation: expandir-subrayado 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
-}
-
+.animacion-titulo-tab                            { display: inline-flex; align-items: center; gap: 6px; animation: sutil-aparecer 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; will-change: transform, opacity, filter; }
+.categoria-toolbar-icon                          { font-size: 25px; width: 25px; height: 25px; color: var(--corporativo, #4CAF50); }
+.categoria-toolbar-texto                         { font-size: 0.95rem; font-weight: 500; letter-spacing: 1px; color: rgba(255, 255, 255, 0.758); position: relative; display: inline-block; }
+.categoria-toolbar-texto::after                  { content: ''; position: absolute; width: 0; height: 2px; bottom: -2px; left: 0; background-color: var(--corporativo, #4CAF50); border-radius: 2px; animation: expandir-subrayado 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards; }
 @keyframes expandir-subrayado {
-  0% {
-    width: 0;
-    opacity: 0;
-  }
-
-  100% {
-    width: 100%;
-    opacity: 1;
-  }
+  0%  { width: 0; opacity: 0; }
+  100% { width: 100%; opacity: 1; }
 }
-
 @keyframes sutil-aparecer {
-  0% {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.97);
-    filter: blur(3px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+  0%  { opacity: 0; transform: translateY(-8px) scale(0.97); filter: blur(3px); }
+  100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 }
-
-/* Botón de Oferta Central */
-.oferta-central-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  background-color: rgba(255, 215, 0, 0.05);
-  border: 1px solid rgba(255, 215, 0, 0.3);
-  border-radius: 20px;
-  padding: 4px 12px;
-  cursor: pointer;
-  outline: none;
-}
-
-.oferta-central-icon {
-  color: #FFD700;
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
-}
-
-.oferta-central-text {
-  color: #FFD700;
-  font-weight: 700;
-  font-size: 0.75rem;
-  letter-spacing: 0.5px;
-}
-
-/* Animación pulsante para el botón de Oferta Central */
-.pulse-anim {
-  animation: pulse-gold 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
-}
-
+.oferta-central-btn                              { display: inline-flex; align-items: center; gap: 4px; background-color: rgba(255, 215, 0, 0.05); border: 1px solid rgba(255, 215, 0, 0.3); border-radius: 20px; padding: 4px 12px; cursor: pointer; outline: none; }
+.oferta-central-icon                             { color: #FFD700; font-size: 16px; width: 16px; height: 16px; }
+.oferta-central-text                             { color: #FFD700; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.5px; }
+.pulse-anim                                      { animation: pulse-gold 2s infinite cubic-bezier(0.4, 0, 0.2, 1); }
 @keyframes pulse-gold {
-  0% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7);
-  }
-
-  70% {
-    box-shadow: 0 0 0 10px rgba(255, 215, 0, 0);
-  }
-
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 215, 0, 0);
-  }
+  0%  { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 215, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 215, 0, 0); }
 }
+.accesos-directos-grid                           { margin: 0px auto; max-width: 800px; }
+.mini-fab-row                                    { display: flex; gap: 24px; justify-content: center; align-items: flex-start; }
+.mini-fab-item                                   { display: flex; flex-direction: row; align-items: center; gap: 10px; }
+.mini-fab-btn                                    { display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1.5px solid var(--mat-sys-primary); cursor: pointer; color: var(--mat-sys-on-surface, #fff); font-size: 0.9rem; font-weight: 500; padding: 6px 12px; border-radius: 20px; transition: background 0.2s ease, border-color 0.2s ease; }
+.mini-fab-btn:hover                              { background: rgba(255, 255, 255, 0.12); }
+.mini-fab-btn mat-icon                           { font-size: 20px; width: 20px; height: 20px; }
+.acceso-fab                                      { width: 90% !important; max-width: 240px; font-weight: bold; font-size: 1rem; letter-spacing: 0.5px; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.acceso-fab:hover                                { transform: translateY(-2px); }
+.clasificados-fab                                { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important; color: white !important; }
+.marketplace-fab                                 { background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important; color: white !important; }
 
-/* --- Botones Clasificados y Marketplace --- */
-.accesos-directos-grid {
-  margin: 0px auto;
-  max-width: 800px;
-}
 
-.mini-fab-row {
-  display: flex;
-  gap: 24px;
-  justify-content: center;
-  align-items: flex-start;
-}
 
-.mini-fab-item {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-}
 
-.mini-fab-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: transparent;
-  border: 1.5px solid var(--mat-sys-primary);
-  cursor: pointer;
-  color: var(--mat-sys-on-surface, #fff);
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 20px;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-
-.mini-fab-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-.mini-fab-btn mat-icon {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-}
-
-.acceso-fab {
-  width: 90% !important;
-  max-width: 240px;
-  font-weight: bold;
-  font-size: 1rem;
-  letter-spacing: 0.5px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.acceso-fab:hover {
-  transform: translateY(-2px);
-}
-
-.clasificados-fab {
-  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%) !important;
-  color: white !important;
-}
-
-.marketplace-fab {
-  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%) !important;
-  color: white !important;
-}
+/* end_comment */

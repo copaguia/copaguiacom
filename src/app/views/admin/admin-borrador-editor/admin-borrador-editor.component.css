@@ -1,8 +1,15 @@
-.header-editor { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-    .form-grid { display: flex; flex-direction: column; gap: 10px; }
-    .contacto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-    .full-width { width: 100%; }
-    .acciones-container { display: flex; gap: 15px; margin-top: 20px; align-items: center; justify-content: flex-end; }
-    .btn-guardar { height: 50px; font-weight: bold; }
-    .btn-cancelar { height: 50px; }
-    @media (max-width: 600px) { .contacto-grid { grid-template-columns: 1fr; } }
+.header-editor     { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+.form-grid         { display: flex; flex-direction: column; gap: 10px; }
+.contacto-grid     { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.full-width        { width: 100%; }
+.acciones-container { display: flex; gap: 15px; margin-top: 20px; align-items: center; justify-content: flex-end; }
+.btn-guardar       { height: 50px; font-weight: bold; }
+.btn-cancelar      { height: 50px; }
+@media (max-width: 600px) {
+  .contacto-grid { grid-template-columns: 1fr; }
+}
+
+
+
+
+/* end_comment */

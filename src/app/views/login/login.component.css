@@ -1,113 +1,20 @@
-.login-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center;    /* Centra verticalmente */
-  min-height: 100vh;      /* Hace que el contenedor ocupe toda la altura de la pantalla */
-  background-color: #031e1d; /* Un fondo suave para que la tarjeta resalte */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  padding: 20px;
-  box-sizing: border-box;
-}
+.login-container      { display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; background-color: #031e1d; background-size: cover; background-position: center; background-repeat: no-repeat; background-attachment: fixed; padding: 20px; box-sizing: border-box; }
+.login-footer         { margin-top: 2rem; display: flex; flex-direction: column; align-items: center; color: #ffffff; text-shadow: 1px 1px 3px rgba(0,0,0,0.8); font-family: 'Inter', sans-serif; gap: 8px; }
+.footer-network       { display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 1rem; }
+.footer-dp-logo       { height: 30px; width: auto; border-radius: 4px; }
+.footer-creator       { font-size: 0.8rem; opacity: 0.9; }
+.card                 { width: 100%; max-width: 400px; text-align: center; }
+.header-content       { display: flex; flex-direction: column; align-items: center; width: 100%; margin-bottom: 1rem; }
+.logo                 { border-radius: 50%; width: 100px; height: 100px; margin-bottom: 1rem; }
+.error-message        { color: red; margin-top: 16px; }
+.spinner-container    { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+.dynamic-title        { font-weight: bold; font-size: 1.5rem; margin-top: 10px; }
+.dynamic-subtitle     { font-size: 0.9rem; color: #666; text-align: center; margin-top: 5px; }
+.context-panel        { display: flex; flex-direction: column; gap: 10px; background-color: #f5f5f5; padding: 15px; border-radius: 8px; margin-top: 15px; }
+.context-item         { display: flex; align-items: center; gap: 10px; color: #555; font-size: 0.9rem; }
+.context-item mat-icon { font-size: 1.2rem; height: 1.2rem; width: 1.2rem; color: #3f51b5; }
 
-.login-footer {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #ffffff;
-  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
-  font-family: 'Inter', sans-serif;
-  gap: 8px;
-}
 
-.footer-network {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-  font-size: 1rem;
-}
 
-.footer-dp-logo {
-  height: 30px;
-  width: auto;
-  border-radius: 4px;
-}
 
-.footer-creator {
-  font-size: 0.8rem;
-  opacity: 0.9;
-}
-
-.card {
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-
-.header-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-.logo {
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 1rem;
-}
-
-.error-message {
-  color: red;
-  margin-top: 16px;
-}
-
-.spinner-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-/* Context Panel Styles */
-.dynamic-title {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin-top: 10px;
-}
-.dynamic-subtitle {
-  font-size: 0.9rem;
-  color: #666;
-  text-align: center;
-  margin-top: 5px;
-}
-.context-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #f5f5f5;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 15px;
-}
-.context-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: #555;
-  font-size: 0.9rem;
-}
-.context-item mat-icon {
-  font-size: 1.2rem;
-  height: 1.2rem;
-  width: 1.2rem;
-  color: #3f51b5; /* Primary color */
-}
+/* end_comment */

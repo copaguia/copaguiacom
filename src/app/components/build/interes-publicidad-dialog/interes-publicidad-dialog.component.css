@@ -1,129 +1,24 @@
-.dialog-container {
-  padding: 24px;
-  background-color: #1e1e1e;
-  color: white;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-.dialog-header {
-  margin-bottom: 16px;
-}
-.dialog-header h2 {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 0;
-  color: #ff9800; /* Naranja vibrante */
-  font-weight: 700;
-  font-size: 1.4rem;
-}
-.dialog-content p {
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #ddd;
-  margin-bottom: 16px;
-}
+.dialog-container                 { padding: 24px; background-color: #1e1e1e; color: white; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.dialog-header                    { margin-bottom: 16px; }
+.dialog-header h2                 { display: flex; align-items: center; gap: 12px; margin: 0; color: #ff9800; font-weight: 700; font-size: 1.4rem; }
+.dialog-content p                 { font-size: 1rem; line-height: 1.5; color: #ddd; margin-bottom: 16px; }
+.mockup-ad-container              { background: #2a2a2a; border: 1px solid #444; border-radius: 12px; overflow: hidden; box-shadow: 0 8px 24px rgba(0,0,0,0.5); margin: 10px 0; }
+.mockup-header                    { background: rgba(255, 152, 0, 0.1); color: #ff9800; font-size: 0.8rem; font-weight: 600; padding: 6px 12px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid #444; }
+.mockup-header mat-icon           { font-size: 14px; width: 14px; height: 14px; }
+.mockup-image-placeholder         { background: #333; height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #777; gap: 8px; }
+.mockup-image-placeholder mat-icon { font-size: 32px; width: 32px; height: 32px; }
+.mockup-image-placeholder span    { font-size: 0.9rem; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+.mockup-body                      { padding: 16px; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+.mockup-message                   { font-style: italic; color: #bbb; font-size: 0.95rem; text-align: center; line-height: 1.4; }
+.mockup-btn                       { width: 100%; border-radius: 20px !important; font-weight: bold !important; display: flex; justify-content: center; }
+.mockup-btn mat-icon              { margin-right: 6px; }
+.subtitle                         { font-size: 0.85rem !important; color: #999 !important; font-style: italic; }
+.dialog-actions                   { display: flex; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.btn-whatsapp                     { background-color: #25d366 !important; color: white !important; font-weight: bold !important; }
+.lead-form                        { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.full-width                       { width: 100%; }
 
-/* ESTILOS DEL MOCKUP */
-.mockup-ad-container {
-  background: #2a2a2a;
-  border: 1px solid #444;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  margin: 10px 0;
-}
 
-.mockup-header {
-  background: rgba(255, 152, 0, 0.1);
-  color: #ff9800;
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding: 6px 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-bottom: 1px solid #444;
-}
-.mockup-header mat-icon {
-  font-size: 14px;
-  width: 14px;
-  height: 14px;
-}
 
-.mockup-image-placeholder {
-  background: #333;
-  height: 120px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: #777;
-  gap: 8px;
-}
-.mockup-image-placeholder mat-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
-}
-.mockup-image-placeholder span {
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
 
-.mockup-body {
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  align-items: center;
-}
-
-.mockup-message {
-  font-style: italic;
-  color: #bbb;
-  font-size: 0.95rem;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.mockup-btn {
-  width: 100%;
-  border-radius: 20px !important;
-  font-weight: bold !important;
-  display: flex;
-  justify-content: center;
-}
-.mockup-btn mat-icon {
-  margin-right: 6px;
-}
-
-.subtitle {
-  font-size: 0.85rem !important;
-  color: #999 !important;
-  font-style: italic;
-}
-
-.dialog-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
-}
-.btn-whatsapp {
-  background-color: #25d366 !important;
-  color: white !important;
-  font-weight: bold !important;
-}
-
-.lead-form {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
-}
-
-.full-width {
-  width: 100%;
-}
+/* end_comment */

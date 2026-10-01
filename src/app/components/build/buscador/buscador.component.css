@@ -1,90 +1,21 @@
-:host {
-  display: block;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
+:host                          { display: block; width: 100%; max-width: 800px; margin: 0 auto; }
 @media (max-width: 768px) {
-  :host {
-    width: 90%;
-  }
+  :host { width: 90%; }
 }
-
-.gemini-search-bar {
-  display: flex;
-  align-items: center;
-  background: linear-gradient(135deg, #041a18 0%, var(--corporativo) 100%);
-  /* Degradación exacta del corporativo */
-  border-radius: 50px;
-  padding: 8px 12px;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-  pointer-events: auto;
-  box-shadow: 0 8px 30px rgba(10, 65, 62, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-  gap: 8px;
-}
-
-.gemini-search-bar:focus-within {
-  background: linear-gradient(135deg, #072b29 0%, #0c4d49 100%);
-  /* Ligeramente más claro al enfocar */
-  border-color: var(--corporativo);
-  box-shadow: 0 10px 40px rgba(10, 65, 62, 0.6), 0 0 15px rgba(10, 65, 62, 0.3);
-}
-
-.action-btn {
-  color: #a0a0a0;
-}
-
-.send-btn {
-  background-color: #2c2c2c;
-  color: #a0a0a0;
-  transition: all 0.3s ease;
-}
-
-/* Cuando hay texto, el botón de enviar se enciende con el color solicitado */
-.has-text .send-btn {
-  background-color: #00e5ff;
-  /* Cian vibrante */
-  color: #000000;
-  /* Ícono oscuro para contrastar con el cian */
-  box-shadow: 0 0 0 1px #005748, 0 0 3px 3px rgba(0, 229, 255, 0.85);
-  /* Borde negro + glow cian intenso */
-}
-
-.gemini-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: #ffffff;
-  font-size: 16px;
-  outline: none;
-  padding: 8px;
-}
-
-.gemini-input::placeholder {
-  color: #888888;
-}
-
-/* Animación del Micrófono */
-.listening mat-icon {
-  color: #ef4444 !important;
-  /* Rojo vibrante cuando escucha */
-  animation: pulse-mic 1s infinite alternate;
-}
-
+.gemini-search-bar             { display: flex; align-items: center; background: linear-gradient(135deg, #041a18 0%, var(--corporativo) 100%); border-radius: 50px; padding: 8px 12px; width: 100%; max-width: 800px; margin: 0 auto; pointer-events: auto; box-shadow: 0 8px 30px rgba(10, 65, 62, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; box-sizing: border-box; gap: 8px; }
+.gemini-search-bar:focus-within { background: linear-gradient(135deg, #072b29 0%, #0c4d49 100%); border-color: var(--corporativo); box-shadow: 0 10px 40px rgba(10, 65, 62, 0.6), 0 0 15px rgba(10, 65, 62, 0.3); }
+.action-btn                    { color: #a0a0a0; }
+.send-btn                      { background-color: #2c2c2c; color: #a0a0a0; transition: all 0.3s ease; }
+.has-text .send-btn            { background-color: #00e5ff; color: #000000; box-shadow: 0 0 0 1px #005748, 0 0 3px 3px rgba(0, 229, 255, 0.85); }
+.gemini-input                  { flex: 1; background: transparent; border: none; color: #ffffff; font-size: 16px; outline: none; padding: 8px; }
+.gemini-input::placeholder     { color: #888888; }
+.listening mat-icon            { color: #ef4444 !important; animation: pulse-mic 1s infinite alternate; }
 @keyframes pulse-mic {
-  0% {
-    transform: scale(1);
-    opacity: 0.8;
-  }
-
-  100% {
-    transform: scale(1.3);
-    opacity: 1;
-  }
+  0%  { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 1; }
 }
+
+
+
+
+/* end_comment */
